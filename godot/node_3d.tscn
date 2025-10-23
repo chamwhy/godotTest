@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://bhqqvvp2qd4lu"]
-
-[node name="Node3D" type="Node3D"]
-
-[node name="Window" type="Window" parent="."]
-disable_3d = true
-oversampling_override = 1.0

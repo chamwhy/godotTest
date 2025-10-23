@@ -10,6 +10,10 @@ config_version=5
 
 [application]
 
-config/name="newGame"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/name="bsk"
+config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
+
+[rendering]
+
+renderer/rendering_method="mobile"
