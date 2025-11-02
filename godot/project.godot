@@ -21,6 +21,7 @@ GameManager="*res://Systems/AutoLoad/GameManager.gd"
 SaveManager="*res://Systems/AutoLoad/SaveManager.gd"
 SoundManager="*res://Systems/AutoLoad/SoundManager.gd"
 UiManager="*res://Systems/AutoLoad/UIManager.gd"
+InputManager="*res://Systems/AutoLoad/InputManager.gd"
 
 [rendering]
 

@@ -12,6 +12,10 @@ func _ready() -> void:
 func reset() -> void:
 	cur_hp = max_hp
 
+
+func move(dir: Position) -> void:
+	pass
+
 func when_player_actioned() -> void:
 	# abstract
 	pass

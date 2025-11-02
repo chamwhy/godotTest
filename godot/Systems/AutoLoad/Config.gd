@@ -1,3 +1,4 @@
+# AutoLoad
 extends Node
 
 # === 게임 전역 상수 ===
