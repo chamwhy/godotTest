@@ -14,6 +14,14 @@ config/name="bsk"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Config="*res://Systems/AutoLoad/Config.gd"
+GameManager="*res://Systems/AutoLoad/GameManager.gd"
+SaveManager="*res://Systems/AutoLoad/SaveManager.gd"
+SoundManager="*res://Systems/AutoLoad/SoundManager.gd"
+UiManager="*res://Systems/AutoLoad/UIManager.gd"
+
 [rendering]
 
 renderer/rendering_method="mobile"

@@ -7,4 +7,3 @@ class_name Element
 var is_block: bool = false  # 막힘 판정 여부
 
 # 안정성을 위하여 노드 캐싱
-@onready var $

@@ -4,5 +4,3 @@ extends Entity
 class_name Tile
 
 var preset: TilePreset  # 해당 타일 프리셋
-
-func initialize(tile_preset: TilePreset, )

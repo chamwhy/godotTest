@@ -1,0 +1,6 @@
+# Godot 공부 첫시작
+
+TODO
+- [x] godot 프로젝트 생성
+- [x] entity, element, tile, player script 구조 설계
+- [] 이동 구현
