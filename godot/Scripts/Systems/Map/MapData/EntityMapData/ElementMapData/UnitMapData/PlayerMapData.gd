@@ -1,0 +1,2 @@
+extends UnitMapData
+class_name PlayerMapData

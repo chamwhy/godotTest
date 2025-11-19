@@ -1,0 +1,2 @@
+extends ElementMapData
+class_name ComponentMapData
