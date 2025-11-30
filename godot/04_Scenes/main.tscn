@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cr5oiuml1f0up"]
 
-[ext_resource type="Script" uid="uid://ybb0yxgxcq8b" path="res://Scripts/Test/MapMakeTester.gd" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://ybb0yxgxcq8b" path="res://01_Scripts/Test/MapMakeTester.gd" id="1_6s166"]
 
 [node name="Main" type="Node"]
 
@@ -11,7 +11,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="LevelManager" type="Node" parent="."]
-script = ExtResource("1_jjgbg")
+script = ExtResource("1_6s166")
 
 [node name="Level_01" type="Node2D" parent="LevelManager"]
 

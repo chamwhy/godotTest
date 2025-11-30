@@ -17,12 +17,12 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Config="*res://Scripts/Systems/AutoLoad/Config.gd"
-GameManager="*res://Scripts/Systems/AutoLoad/GameManager.gd"
-SaveManager="*res://Scripts/Systems/AutoLoad/SaveManager.gd"
-SoundManager="*res://Scripts/Systems/AutoLoad/SoundManager.gd"
-UiManager="*res://Scripts/Systems/AutoLoad/UIManager.gd"
-InputManager="*res://Scripts/Systems/AutoLoad/InputManager.gd"
+Config="*res://01_Scripts/Systems/AutoLoad/Config.gd"
+GameManager="*res://01_Scripts/Systems/AutoLoad/GameManager.gd"
+SaveManager="*res://01_Scripts/Systems/AutoLoad/SaveManager.gd"
+SoundManager="*res://01_Scripts/Systems/AutoLoad/SoundManager.gd"
+UiManager="*res://01_Scripts/Systems/AutoLoad/UIManager.gd"
+InputManager="*res://01_Scripts/Systems/AutoLoad/InputManager.gd"
 
 [input]
 
