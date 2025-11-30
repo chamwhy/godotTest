@@ -23,6 +23,7 @@ SaveManager="*res://01_Scripts/Systems/AutoLoad/SaveManager.gd"
 SoundManager="*res://01_Scripts/Systems/AutoLoad/SoundManager.gd"
 UiManager="*res://01_Scripts/Systems/AutoLoad/UIManager.gd"
 InputManager="*res://01_Scripts/Systems/AutoLoad/InputManager.gd"
+MapDrawer="*res://01_Scripts/Systems/Map/MapDrawer.gd"
 
 [input]
 

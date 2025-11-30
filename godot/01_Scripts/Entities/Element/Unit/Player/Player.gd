@@ -10,7 +10,5 @@ func move(dir: Position) -> void:
 	super.move(dir)
 
 
-func apply_data(data: EntityMapData):
-	assert(data is PlayerMapData)
+func apply_data(data: Dictionary):
 	super.apply_data(data)
-	var d: PlayerMapData = data

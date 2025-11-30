@@ -13,8 +13,13 @@ var cur_position: Position = Position.ZERO()  # 현재 위치
 
 
 func move_to_pos(pos: Position):
+	cur_position = pos
+	# TODO: 강제 움직임 구현.
 	pass
 
 
-func apply_data(data: EntityMapData):
-	move_to_pos(Position.new(data.x, data.y))
+func apply_data(data: Dictionary):
+	move_to_pos(Position.new(
+		data.get("x", 0), 
+		data.get("y", 0)
+	))

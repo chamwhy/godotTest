@@ -1,8 +1,8 @@
-extends Node2D
-class_name MapDrawer
+extends Node
 
-# 엔티티 부모 노드
-@export var entity_parent: Node
+const MAP_DATA_HEADER: String = "res://05_Data/01_MapData/"
+
+@export var entity_parent_name := "EntityParent" 
 
 # 프리팹/씬 매핑
 @export var wall_scene: PackedScene
@@ -13,6 +13,7 @@ class_name MapDrawer
 # 타입 → 씬 매핑 (팩토리 느낌)
 var entity_scenes = {}
 
+var entity_parent: Node2D
 
 func _ready():
 	entity_scenes = {
@@ -21,31 +22,25 @@ func _ready():
 		"Monster": monster_scene,
 		"Tile": tile_scene
 	}
+	print("MapMaker 전용 초기화 로직 실행됨.")
 
-#
-func draw_map2(map_data: MapData):
-	for entity_data in map_data.entities:
-		# 1. entity 데이터 가져오rl
-		var scene: PackedScene = entity_scenes.get(entity_data.obj_type, null)
-		if scene == null:
-			push_warning("Unknown object type: %s" % entity_data.obj_type)
-			return null
 
-		# 2. Scene 인스턴스 생성 및 부모 설정
-
-		var obj: Node = scene.instantiate()
-		entity_parent.add_child(obj)
-		
-		# 3. apply_data 자동 호출 (ObjectData 타입 안전성)
-		if obj.has_method("apply_data"):
-			obj.apply_data(entity_data)
-		return obj
 
 ## JSON 파일 경로를 받아 맵 전체를 그리는 메인 함수
-func draw_map(json_path: String) -> bool:
-	# 1. JSON 유틸리티를 사용하여 데이터 로드
-	var map_data: Dictionary = JsonParser.load_json_data(json_path)
+func draw_map(world: int, stage: int) -> bool:
+	# 1. 씬 트리의 루트 노드를 기준으로 부모 노드를 동적으로 찾습니다.
+	var current_root = get_tree().current_scene # 현재 로드된 씬의 루트 노드
 	
+	entity_parent = current_root.find_child(entity_parent_name, true)
+
+	if entity_parent == null:
+		push_warning("MapMaker: 엔티티 부모 노드 '%s'를 현재 씬에서 찾을 수 없어 엔티티 로드를 건너뜁니다." % entity_parent_name)
+		# 엔티티가 없어도 타일은 로드할 수 있도록 여기서는 return false 하지 않을 수 있습니다.
+	
+	# 1. JSON 유틸리티를 사용하여 데이터 로드
+	var json_path: String = MAP_DATA_HEADER + "%02d_%02d.json" % [world, stage]
+	var map_data: Dictionary = JsonParser.load_json_data(json_path)
+	print(map_data)
 	if map_data.is_empty():
 		push_error("Failed to load map data from: %s" % json_path)
 		return false

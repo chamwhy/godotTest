@@ -5,7 +5,5 @@ class_name Element
 
 var is_block: bool = false  # 막힘 판정 여부
 
-func apply_data(data: EntityMapData):
-	assert(data is ElementMapData)
+func apply_data(data: Dictionary):
 	super.apply_data(data)
-	var d: ElementMapData = data
