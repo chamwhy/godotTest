@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ResourceExporter" load_steps=3 format=3 uid="uid://bivlth267c0h3"]
+
+[ext_resource type="Script" uid="uid://dgnyiuyqkgp26" path="res://01_Scripts/Util/ResourceExporter.gd" id="1_8ssbv"]
+[ext_resource type="PackedScene" uid="uid://dutdkiwxrnvay" path="res://04_Scenes/Entities/wall.tscn" id="1_lhdmw"]
+
+[resource]
+script = ExtResource("1_8ssbv")
+entityScenes = Dictionary[String, PackedScene]({
+"Monster": ExtResource("1_lhdmw"),
+"Player": ExtResource("1_lhdmw"),
+"Tile": ExtResource("1_lhdmw"),
+"Wall": ExtResource("1_lhdmw")
+})
+metadata/_custom_type_script = "uid://dgnyiuyqkgp26"

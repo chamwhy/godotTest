@@ -4,24 +4,11 @@ const MAP_DATA_HEADER: String = "res://05_Data/01_MapData/"
 
 @export var entity_parent_name := "EntityParent" 
 
-# 프리팹/씬 매핑
-@export var wall_scene: PackedScene
-@export var player_scene: PackedScene
-@export var monster_scene: PackedScene
-@export var tile_scene: PackedScene
 
 # 타입 → 씬 매핑 (팩토리 느낌)
-var entity_scenes = {}
-
 var entity_parent: Node2D
 
 func _ready():
-	entity_scenes = {
-		"Player": player_scene,
-		"Wall": wall_scene,
-		"Monster": monster_scene,
-		"Tile": tile_scene
-	}
 	print("MapMaker 전용 초기화 로직 실행됨.")
 
 
@@ -34,7 +21,7 @@ func draw_map(world: int, stage: int) -> bool:
 	entity_parent = current_root.find_child(entity_parent_name, true)
 
 	if entity_parent == null:
-		push_warning("MapMaker: 엔티티 부모 노드 '%s'를 현재 씬에서 찾을 수 없어 엔티티 로드를 건너뜁니다." % entity_parent_name)
+		print("MapMaker: 엔티티 부모 노드 '%s'를 현재 씬에서 찾을 수 없어 엔티티 로드를 건너뜁니다." % entity_parent_name)
 		# 엔티티가 없어도 타일은 로드할 수 있도록 여기서는 return false 하지 않을 수 있습니다.
 	
 	# 1. JSON 유틸리티를 사용하여 데이터 로드
@@ -42,7 +29,7 @@ func draw_map(world: int, stage: int) -> bool:
 	var map_data: Dictionary = JsonParser.load_json_data(json_path)
 	print(map_data)
 	if map_data.is_empty():
-		push_error("Failed to load map data from: %s" % json_path)
+		print("Failed to load map data from: %s" % json_path)
 		return false
 
 	# 2. **타일 데이터를 개별 오브젝트로 로드 및 배치**
@@ -58,20 +45,22 @@ func draw_map(world: int, stage: int) -> bool:
 ## 타일 데이터를 순회하며 개별 타일 오브젝트를 생성하는 함수
 func _spawn_tile_objects(data: Dictionary):
 	if not entity_parent:
-		push_error("Tile parent node is not assigned!")
+		print("Tile parent node is not assigned!")
 		return
 		
 	var tile_data_array: Array = data.get("tile_map", [])
-	var scene: PackedScene = entity_scenes.get("Tile", null)
+	var scene: PackedScene = Config.EXP_RES.entityScenes.get("Tile")
 	if scene == null:
-		push_warning("Unknown object type: Tile")
+		print("Unknown object type: Tile")
 		return null
-		
+	print(tile_data_array.size())
+	print(tile_data_array[0].size())
 	# 2차원 배열 순회하며 타일 오브젝트 생성
 	for y in range(tile_data_array.size()):
 		var row: Array = tile_data_array[y]
 		for x in range(row.size()):
 			var tile_id: int = row[x]
+			print("check", tile_id)
 			if tile_id == 0:
 				continue
 			
@@ -86,13 +75,12 @@ func _spawn_tile_objects(data: Dictionary):
 					"y": y
 				}
 				tile_obj.apply_data(tile_data)
-			return tile_obj
 			
 
 ## 엔티티 데이터를 순회하며 씬을 인스턴스화하고 배치하는 함수
 func _spawn_entities(data: Dictionary):
 	if not entity_parent:
-		push_error("Entity parent node is not assigned!")
+		print("Entity parent node is not assigned!")
 		return
 
 	var entities_array: Array = data.get("entities", [])
@@ -101,9 +89,9 @@ func _spawn_entities(data: Dictionary):
 		var type_name: String = entity_data.get("obj_type", "")
 		
 		# 1. ENTITY_SCENES 딕셔너리에서 타입 이름에 맞는 씬을 가져옵니다.
-		var scene: PackedScene = entity_scenes.get(type_name, null)
+		var scene: PackedScene = Config.EXP_RES.entityScenes.get(type_name)
 		if scene == null:
-			push_warning("Unknown object type: %s" % type_name)
+			print("Unknown object type: %s" % type_name)
 			continue # 다음 엔티티로 넘어감
 		
 		# 2. Scene 인스턴스 생성 및 부모 설정

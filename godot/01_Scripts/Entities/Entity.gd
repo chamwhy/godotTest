@@ -5,6 +5,7 @@ class_name Entity
 ## --- Private Variables ---
 var cur_position: Position = Position.ZERO()  # 현재 위치
 
+var size = 100
 
 ## --- Initialization ---
 #func _ready():
@@ -14,6 +15,7 @@ var cur_position: Position = Position.ZERO()  # 현재 위치
 
 func move_to_pos(pos: Position):
 	cur_position = pos
+	position = Vector2(cur_position.x * size, cur_position.y * size)
 	# TODO: 강제 움직임 구현.
 	pass
 

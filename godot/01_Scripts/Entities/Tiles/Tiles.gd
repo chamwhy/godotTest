@@ -9,6 +9,7 @@ var preset: TilePreset  # 해당 타일 프리셋
 
 func apply_data(data: Dictionary):
 	super.apply_data(data)
+	print("tile apply data")
 	tile_id = data.get("id", 1)	# tile id는 기본이 1, 0은 없음을 나타냄.
 	# TODO: id에 따라 preset 가져오기 + preset에 따라 타일 리셋
 	
