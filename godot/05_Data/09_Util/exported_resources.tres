@@ -1,14 +1,17 @@
-[gd_resource type="Resource" script_class="ResourceExporter" load_steps=3 format=3 uid="uid://bivlth267c0h3"]
+[gd_resource type="Resource" script_class="ResourceExporter" load_steps=6 format=3 uid="uid://bivlth267c0h3"]
 
 [ext_resource type="Script" uid="uid://dgnyiuyqkgp26" path="res://01_Scripts/Util/ResourceExporter.gd" id="1_8ssbv"]
 [ext_resource type="PackedScene" uid="uid://dutdkiwxrnvay" path="res://04_Scenes/Entities/wall.tscn" id="1_lhdmw"]
+[ext_resource type="PackedScene" uid="uid://dqhep7nhltvi5" path="res://04_Scenes/Entities/monster.tscn" id="1_ljuqx"]
+[ext_resource type="PackedScene" uid="uid://bdvhogbuwr7u4" path="res://04_Scenes/Entities/player.tscn" id="2_77qpq"]
+[ext_resource type="PackedScene" uid="uid://d2cywxk6y7dsc" path="res://04_Scenes/Entities/tile.tscn" id="3_2mgts"]
 
 [resource]
 script = ExtResource("1_8ssbv")
 entityScenes = Dictionary[String, PackedScene]({
-"Monster": ExtResource("1_lhdmw"),
-"Player": ExtResource("1_lhdmw"),
-"Tile": ExtResource("1_lhdmw"),
+"Monster": ExtResource("1_ljuqx"),
+"Player": ExtResource("2_77qpq"),
+"Tile": ExtResource("3_2mgts"),
 "Wall": ExtResource("1_lhdmw")
 })
 metadata/_custom_type_script = "uid://dgnyiuyqkgp26"

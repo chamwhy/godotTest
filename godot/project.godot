@@ -26,6 +26,12 @@ UiManager="*res://01_Scripts/Systems/AutoLoad/UIManager.gd"
 InputManager="*res://01_Scripts/Systems/AutoLoad/InputManager.gd"
 MapDrawer="*res://01_Scripts/Systems/Map/MapDrawer.gd"
 
+[display]
+
+window/size/viewport_width=480
+window/size/viewport_height=854
+window/stretch/mode="viewport"
+
 [input]
 
 test_x={

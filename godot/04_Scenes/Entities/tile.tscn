@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2cywxk6y7dsc"]
+
+[ext_resource type="Texture2D" uid="uid://cf8kp00y8elua" path="res://03_Resources/Test/bottom.png" id="1_vs72f"]
+
+[node name="Tile" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+texture = ExtResource("1_vs72f")
