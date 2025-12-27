@@ -41,7 +41,21 @@ func to_vector2() -> Vector2:
 static func from_vector2(vector: Vector2) -> Position:
 	return Position.new(int(vector.x), int(vector.y))
 
-## --- 4. 추가 연산 구현 ---
+## --- 4. 각종 함수 ---
+
+func copy() -> Position:
+	return Position.new(x, y)
+
+func is_zero() -> bool:
+	return x == 0 and y == 0
+# 직선 이동인지 판단하는 함수
+func is_straight() -> bool:
+	return x == 0 or y == 0
+
+func normalized() -> Position:
+	return Position.new(sign(x), sign(y))
+
+## --- 5. 추가 연산 구현 ---
 
 # 덧셈 연산 (Position + Position)
 func add(other: Position) -> Position:
@@ -52,12 +66,16 @@ func add(other: Position) -> Position:
 func subtract(other: Position) -> Position:
 	return Position.new(x - other.x, y - other.y)
 
+func multiply(multiplier: int) -> Position:
+	return Position.new(x * multiplier, y * multiplier)
+
+
 # 비교 연산 (==)
 func equals(other: Position) -> bool:
 	if other == null:
 		return false
 	return x == other.x and y == other.y
-	
+
 
 #region overloading
 # 덧셈 연산자 오버로딩 (pos1 + pos2)

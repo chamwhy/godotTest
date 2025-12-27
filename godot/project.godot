@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-ExportedResources555="*res://05_Data/09_Util/exported_resources.tres"
+ExportedResources="*res://05_Data/09_Util/exported_resources.tres"
 Config="*res://01_Scripts/Systems/AutoLoad/Config.gd"
 GameManager="*res://01_Scripts/Systems/AutoLoad/GameManager.gd"
 SaveManager="*res://01_Scripts/Systems/AutoLoad/SaveManager.gd"
@@ -25,6 +25,7 @@ SoundManager="*res://01_Scripts/Systems/AutoLoad/SoundManager.gd"
 UiManager="*res://01_Scripts/Systems/AutoLoad/UIManager.gd"
 InputManager="*res://01_Scripts/Systems/AutoLoad/InputManager.gd"
 MapDrawer="*res://01_Scripts/Systems/Map/MapDrawer.gd"
+InGameManager="*res://01_Scripts/Systems/AutoLoad/InGameManager.gd"
 
 [display]
 
