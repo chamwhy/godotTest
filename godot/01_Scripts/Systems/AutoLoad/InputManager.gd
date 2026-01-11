@@ -1,8 +1,8 @@
 # AutoLoad
 extends Node
 
-# 이동 입력 신호
-signal move_input(dir: Position)
+# 행동 입력 신호
+signal action_input(dir: Position)
 
 
 # 게임 상호작용 가능 여부
@@ -29,13 +29,13 @@ func input_main_menu() -> void:
 
 func input_playing() -> void:	
 	if Input.is_action_pressed("move_up"):
-		emit_signal("move_input", Position.UP())
+		emit_signal("action_input", Position.UP())
 	elif Input.is_action_pressed("move_down"):
-		emit_signal("move_input", Position.DOWN())
+		emit_signal("action_input", Position.DOWN())
 	elif Input.is_action_pressed("move_left"):
-		emit_signal("move_input", Position.LEFT())
+		emit_signal("action_input", Position.LEFT())
 	elif Input.is_action_pressed("move_right"):
-		emit_signal("move_input", Position.RIGHT())
+		emit_signal("action_input", Position.RIGHT())
 
 func input_gameover() -> void:
 	pass

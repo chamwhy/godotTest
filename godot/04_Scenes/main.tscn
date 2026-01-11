@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://cr5oiuml1f0up"]
+[gd_scene load_steps=9 format=3 uid="uid://cr5oiuml1f0up"]
 
+[ext_resource type="Script" uid="uid://lpdb7ca0h2ms" path="res://01_Scripts/Systems/MyCamera.gd" id="1_6grqo"]
 [ext_resource type="Script" uid="uid://ybb0yxgxcq8b" path="res://01_Scripts/Test/MapMakeTester.gd" id="1_6s166"]
 [ext_resource type="PackedScene" uid="uid://dutdkiwxrnvay" path="res://04_Scenes/Entities/wall.tscn" id="2_02eq7"]
 [ext_resource type="PackedScene" uid="uid://bdvhogbuwr7u4" path="res://04_Scenes/Entities/player.tscn" id="3_rbyvi"]
@@ -9,6 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://buj5q8hvmbqar" path="res://03_Resources/Test/hpbarCnt.png" id="7_6grqo"]
 
 [node name="Main" type="Node"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(238, 431)
+script = ExtResource("1_6grqo")
 
 [node name="UIManager" type="Control" parent="."]
 layout_mode = 3

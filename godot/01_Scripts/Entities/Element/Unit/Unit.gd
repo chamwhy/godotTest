@@ -15,64 +15,53 @@ func reset() -> void:
 	cur_hp = max_hp
 
 
-func can_move_dir(dir: Position) -> bool:
-	# 순간이동이 아닌, 과정이 존재하는 이동은 무조건 직선
-	if not dir.is_straight(): return false
-	
-	# 이동속도가 0이지만 목표가 자기 자신일 경우 = 성공
-	if move_speed == 0:
-		return dir.is_zero()
-	
-	var nor := dir.normalized()
-	var cur_check := cur_position.copy()
-	
-	# 목표 지점 전까지 이동 방향에 따른 체크
-	# 이동속도 음수이면 방향 반대로 감
-	for i in range(0, abs(move_speed)-1):
-		if sign(move_speed) > 0:
-			cur_check = cur_check.add(nor)
-		else:
-			cur_check = cur_check.subtract(nor)
-		if not InGameManager.can_through(cur_check):
-			return false
-	
-	# 목표 지점 체크
-	if sign(move_speed) > 0:
-		cur_check = cur_check.add(nor)
-	else:
-		cur_check = cur_check.subtract(nor)
-	if not InGameManager.can_placed(cur_check): return false
-	
-	return true
+func action_dir(dir: Position) -> void:
+	action(dir.normalized().multiply(move_speed))
 
-func move_dir(dir: Position) -> void:
-	move(dir.normalized().multiply(move_speed))
-
-func move(vel: Position) -> void:
+func action(vel: Position) -> void:
 	# 순간이동이 아닌, 과정이 존재하는 이동은 무조건 직선
 	if not vel.is_straight(): return
 	# 목표가 현위치인 경우
 	if vel.is_zero(): return
 	
 	var nor := vel.normalized()
-	var cur_check := cur_position.copy()
-	var goal := cur_check.add(vel)
+	var cur_check := Position.ZERO()
+	var _cur_vel := Position.ZERO()
+	var _is_blocked := false
+	var _atk_pow := atk_pow
 	
 	while(true):
+		if InGameManager.can_through(cur_check):
+			_cur_vel = cur_check	# cur_check는 다시 생성하니 copy할 필요x
+		else:
+			_is_blocked = true
+			break
+		if cur_check.equals(vel):	break
 		cur_check = cur_check.add(nor)
-		if cur_check.equals(goal):	break
-		if not InGameManager.can_through(cur_check):
-			return false
+		_atk_pow -= 1
 	
-	# 목표 지점 체크
-	cur_check = cur_check.add(nor)
-	if not InGameManager.can_placed(cur_check): return false
+	# 이동
+	move(_cur_vel)
 	
-	return true
+	# 이동이 막히고 공격력이 남았을때 -> 공격
+	if _is_blocked and _atk_pow > 0:
+		attack(_atk_pow)
+
+func move(vel: Position) -> void:
+	var target_position = InGameManager.position_to_world(cur_position.add(vel))
+	# Tween 생성 및 실행
+	var tween = create_tween()
+	# 1.0초 동안 position을 target_position으로 부드럽게 변경 (TransitionType 설정 가능)
+	tween.tween_property(self, "position", target_position, 0.6).set_trans(Tween.TRANS_SINE)
 
 # 순간이동
 func move_inst(vel: Position) -> void:
 	pass
+
+
+func attack(atk_power: int) -> void:
+	pass
+
 
 func when_player_actioned() -> void:
 	# abstract

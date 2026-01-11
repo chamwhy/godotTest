@@ -90,3 +90,9 @@ func _sub(other: Position) -> Position:
 func _eq(other: Position) -> bool:
 	return equals(other)
 #endregion
+
+
+#region util
+func to_str() -> String:
+	return "Position(%d, %d)" % [x, y]
+#endregion

@@ -4,6 +4,9 @@ const MAP_DATA_HEADER: String = "res://05_Data/01_MapData/"
 
 @export var entity_parent_name := "EntityParent" 
 
+var tile_size : int
+var map_width : int
+var map_height : int
 
 # 타입 → 씬 매핑 (팩토리 느낌)
 var entity_parent: Node2D
@@ -19,7 +22,7 @@ func draw_map(world: int, stage: int) -> bool:
 	var current_root = get_tree().current_scene # 현재 로드된 씬의 루트 노드
 	
 	entity_parent = current_root.find_child(entity_parent_name, true)
-
+	
 	if entity_parent == null:
 		print("MapMaker: 엔티티 부모 노드 '%s'를 현재 씬에서 찾을 수 없어 엔티티 로드를 건너뜁니다." % entity_parent_name)
 		# 엔티티가 없어도 타일은 로드할 수 있도록 여기서는 return false 하지 않을 수 있습니다.
@@ -31,7 +34,14 @@ func draw_map(world: int, stage: int) -> bool:
 	if map_data.is_empty():
 		print("Failed to load map data from: %s" % json_path)
 		return false
-
+	
+	tile_size = map_data.get("tile_size", 32)
+	map_width = map_data.get("map_width", 10)
+	map_height = map_data.get("map_height", 10)
+	
+	# 데이터에 맞는 카메라 위치 배치
+	MyCamera.instance.setup_map(tile_size, map_width, map_height)
+	
 	# 2. **타일 데이터를 개별 오브젝트로 로드 및 배치**
 	_spawn_tile_objects(map_data)
 	
@@ -40,7 +50,6 @@ func draw_map(world: int, stage: int) -> bool:
 	
 	print("Object-based map '%s' loaded successfully." % map_data.get("map_name", "Unnamed Map"))
 	return true
-
 
 ## 타일 데이터를 순회하며 개별 타일 오브젝트를 생성하는 함수
 func _spawn_tile_objects(data: Dictionary):
@@ -60,7 +69,6 @@ func _spawn_tile_objects(data: Dictionary):
 		var row: Array = tile_data_array[y]
 		for x in range(row.size()):
 			var tile_id: int = row[x]
-			print("check", tile_id)
 			if tile_id == 0:
 				continue
 			
@@ -75,7 +83,8 @@ func _spawn_tile_objects(data: Dictionary):
 					"y": y
 				}
 				tile_obj.apply_data(tile_data)
-			
+			else:
+				print("tile has not apply data")
 
 ## 엔티티 데이터를 순회하며 씬을 인스턴스화하고 배치하는 함수
 func _spawn_entities(data: Dictionary):

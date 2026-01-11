@@ -14,10 +14,11 @@ var size = 100
 
 
 func move_to_pos(pos: Position):
+	print("move to pos!!!!")
 	cur_position = pos
-	position = Vector2(cur_position.x * size, cur_position.y * size)
-	# TODO: 강제 움직임 구현.
-	pass
+	print("move to ", pos.to_str(), InGameManager.position_to_world(pos))
+	position = InGameManager.position_to_world(pos)
+	
 
 
 func apply_data(data: Dictionary):
