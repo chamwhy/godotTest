@@ -39,6 +39,8 @@ func draw_map(world: int, stage: int) -> bool:
 	map_width = map_data.get("map_width", 10)
 	map_height = map_data.get("map_height", 10)
 	
+	InGameManager.init(map_width, map_height)
+	
 	# 데이터에 맞는 카메라 위치 배치
 	MyCamera.instance.setup_map(tile_size, map_width, map_height)
 	
@@ -74,7 +76,7 @@ func _spawn_tile_objects(data: Dictionary):
 			
 			var tile_obj: Node2D = scene.instantiate()
 			entity_parent.add_child(tile_obj)
-		
+			
 			# 3. apply_data 자동 호출 (ObjectData 타입 안전성)
 			if tile_obj.has_method("apply_data"):
 				var tile_data = {

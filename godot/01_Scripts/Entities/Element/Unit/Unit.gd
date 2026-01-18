@@ -37,17 +37,36 @@ func action(vel: Position) -> void:
 			_is_blocked = true
 			break
 		if cur_check.equals(vel):	break
+		# TODO: 이동속도 음수일 경우
 		cur_check = cur_check.add(nor)
 		_atk_pow -= 1
 	
+	if not _is_blocked:
+		_atk_pow = 0
+	elif _cur_vel.is_zero():
+		# TODO: 현재 공격의 방향을 이동방향에 쓰였던 _cur_vel을 통하여 계산하고 있음.
+		# 따라서 아예 막힌 경우, 공격을 시행하지 못함.
+		# 임시적으로 vel을 넣어줘서 해결.
+		# 궁극적으로는 vel이 아닌 dir, move_dist, atk_power를 넘겨줘서 판단시켜야 함.
+		_cur_vel = vel.copy()
 	# 이동
-	move(_cur_vel)
+	action_process(_cur_vel, _atk_pow)
 	
-	# 이동이 막히고 공격력이 남았을때 -> 공격
-	if _is_blocked and _atk_pow > 0:
-		attack(_atk_pow)
 
-func move(vel: Position) -> void:
+func action_process(vel: Position, atk: int) -> void:
+	if vel.is_zero(): return
+	
+	InGameManager.entity_exit(cur_position, self)
+	var _now := Position.ZERO()
+	while(true):
+		_now = _now.add(vel.normalized())
+		if _now.equals(vel): break
+		InGameManager.entity_through(cur_position.add(_now), self)
+	
+	if atk > 0:
+		attack(atk, vel.normalized())
+	InGameManager.entity_placed(cur_position.add(_now), self)
+	
 	var target_position = InGameManager.position_to_world(cur_position.add(vel))
 	# Tween 생성 및 실행
 	var tween = create_tween()
@@ -59,8 +78,10 @@ func move_inst(vel: Position) -> void:
 	pass
 
 
-func attack(atk_power: int) -> void:
-	pass
+func attack(atk_power: int, pos: Position) -> void:
+	var el := InGameManager.get_element(pos, 1)
+	# TODO: from도 attack pos 인수가 아닌, 공격 방향으로 인수 받고 -1 곱해서 전달해주기
+	el.damaged(atk_pow, Position.ZERO())
 
 
 func when_player_actioned() -> void:
