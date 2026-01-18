@@ -1,0 +1,119 @@
+{
+	"world": 1,
+	"stage": 2,
+	"map_name": "임시맵",
+	"tile_size": 100,
+	"map_width": 5,
+	"map_height": 5,
+	"tile_map": [
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 0, 1],
+		[1, 1, 1, 1, 1],
+		[0, 1, 0, 1, 1],
+		[1, 1, 1, 1, 0],
+	],
+	"entities": [
+		{
+			"x": 0,
+			"y": 0,
+			"obj_type": "Trap",
+			"destroy": true,
+			"cnt": 2
+		},
+		{
+			"x": 0,
+			"y": 0,
+			"obj_type": "Trap",
+			"destroy": false,
+			"cnt": 1
+		},
+		{
+			"x": 2,
+			"y": 0,
+			"obj_type": "Player"
+		},
+		{
+			"x": 3,
+			"y": 0,
+			"obj_type": "Trap",
+			"destroy": false,
+			"cnt": 1
+		},
+		{
+			"x": 1,
+			"y": 1,
+			"obj_type": "Wall"
+		},
+		{
+			"x": 0,
+			"y": 2,
+			"obj_type": "Hp",
+			"cnt": 1
+		},
+		{
+			"x": 1,
+			"y": 2,
+			"obj_type": "DestroyWall",
+			"exact": false,
+			"cnt": 2,
+		},
+		{
+			"x": 3,
+			"y": 2,
+			"obj_type": "DestroyWall",
+			"exact": true,
+			"cnt": 1,
+		},
+		{
+			"x": 4,
+			"y": 2,
+			"obj_type": "DestroyWall",
+			"exact": true,
+			"cnt": 1,
+		},
+		{
+			"x": 0,
+			"y": 3,
+			"obj_type": "Hp",
+			"cnt": 1
+		},
+		{
+			"x": 1,
+			"y": 3,
+			"obj_type": "DestroyWall",
+			"exact": false,
+			"cnt": 2,
+		},
+		{
+			"x": 0,
+			"y": 4,
+			"obj_type": "Trap",
+			"destroy": false,
+			"cnt": 1
+		},
+		{
+			"x": 1,
+			"y": 4,
+			"obj_type": "DestroyWall",
+			"exact": false,
+			"cnt": 1,
+		},
+		{
+			"x": 2,
+			"y": 4,
+			"obj_type": "Wall"
+		},
+		{
+			"x": 3,
+			"y": 4,
+			"obj_type": "Exit"
+		},
+		{
+			"x": 4,
+			"y": 4,
+			"obj_type": "DestroyWall",
+			"exact": false,
+			"cnt": 2,
+		},
+	]
+}

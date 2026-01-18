@@ -9,9 +9,13 @@
 [resource]
 script = ExtResource("1_8ssbv")
 entityScenes = Dictionary[String, PackedScene]({
+"DestroyWall": null,
+"Exit": null,
+"Hp": null,
 "Monster": ExtResource("1_ljuqx"),
 "Player": ExtResource("2_77qpq"),
 "Tile": ExtResource("3_2mgts"),
+"Trap": null,
 "Wall": ExtResource("1_lhdmw")
 })
 metadata/_custom_type_script = "uid://dgnyiuyqkgp26"
