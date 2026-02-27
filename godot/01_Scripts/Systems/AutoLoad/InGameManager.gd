@@ -69,29 +69,29 @@ func get_element(pos: Position, filter: int) -> Element:
 
 
 ## map enter, pass, exit signal
-signal element_entered(pos: Position, elm: Element)
-signal element_passed(pos: Position, elm: Element)
-signal element_exited(pos: Position, elm: Element)
+signal element_entered(pos: Position, elm: Element, tick: int)
+signal element_passed(pos: Position, elm: Element, tick: int)
+signal element_exited(pos: Position, elm: Element, tick: int)
 
 
 # Element 넣기(register는 등록만, 해당 함수는 외부 처리까지 동시에 진행)
-func enter_element(elm: Element, pos: Position) -> bool:
+func enter_element(elm: Element, pos: Position, tick: int) -> bool:
 	if not has_tile(pos.x, pos.y): return false
 	
 	register_element(pos, elm)
-	element_entered.emit(pos, elm)
+	element_entered.emit(pos, elm, tick)
 	
 	return true
 
 
-func pass_element(elm: Element, pos: Position) -> bool:
+func pass_element(elm: Element, pos: Position, tick: int) -> bool:
 	if not has_tile(pos.x, pos.y): return false
-	element_passed.emit(pos, elm)
+	element_passed.emit(pos, elm, tick)
 	
 	return true
 
 # 일치하는 Element 꺼내기
-func exit_element(elm: Element, pos: Position) -> Element:
+func exit_element(elm: Element, pos: Position, tick: int) -> Element:
 	if not has_tile(pos.x, pos.y): return null
 	if element_map[pos.y][pos.x] == null: return null
 	
@@ -100,7 +100,7 @@ func exit_element(elm: Element, pos: Position) -> Element:
 		if not re is Element: continue
 		if re != elm: continue
 		element_map[pos.y][pos.x].remove(i)
-		element_exited.emit(pos, elm)
+		element_exited.emit(pos, elm, tick)
 		return re
 	return null
 

@@ -15,15 +15,15 @@ func reset() -> void:
 	cur_hp = max_hp
 
 
-func action_dir(dir: Position) -> void:
+func action_dir(dir: Position, tick: int) -> void:
 	var real_dir = dir.normalized()
 	if move_speed < 0:
 		real_dir = real_dir * -1
 	
 	# 음수값 구현
-	action2(real_dir, abs(move_speed))
+	action2(real_dir, abs(move_speed), tick)
 
-func action2(dir: Position, spd: int) -> void:
+func action2(dir: Position, spd: int, tick: int) -> void:
 	if not dir.is_straight(): return
 	if dir.is_zero(): return
 	
@@ -53,10 +53,11 @@ func action2(dir: Position, spd: int) -> void:
 			break
 	
 	if move_cnt > 0:
-		move_to(dir.multiply(move_cnt))
+		move_to(dir.multiply(move_cnt), tick)
+		tick += 1
 	
 	if was_blocked and remain_atk > 0:
-		attack(remain_atk, dir)
+		attack(remain_atk, dir, tick)
 #region 레거시
 #func action(vel: Position) -> void:
 	## 순간이동이 아닌, 과정이 존재하는 이동은 무조건 직선
@@ -119,28 +120,30 @@ func move_inst(pos: Position) -> void:
 	pass
 
 # 속력 이동
-func move_to(vel: Position) -> void:
+func move_to(vel: Position, tick: int) -> void:
 	if vel.is_zero(): return
 	
 	var dir: Position = vel.normalized()
 	# 어차피 처음은 무조건 exit라 미리 더해두기
 	var chk_pos: Position = dir.copy()
 	
-	var re = InGameManager.exit_element(self, cur_position)
+	var re = InGameManager.exit_element(self, cur_position, tick)
 	if self != re: print("오류임. 절대 무조건 같아야 함")
 	
 	while(true):
 		if chk_pos.equals(vel): break
-		InGameManager.pass_element(self, cur_position.add(chk_pos))
+		tick += 1
+		InGameManager.pass_element(self, cur_position.add(chk_pos), tick)
 		chk_pos = chk_pos.add(dir)
 	# TODO: 현재 애니메이션 순서 관련해서 어떻게 애니메이션 큐에 넣을 지 고민중임
 	
-	InGameManager.enter_element(self, cur_position.add(chk_pos))
+	tick += 1
+	InGameManager.enter_element(self, cur_position.add(chk_pos), tick)
 
-func attack(atk_power: int, pos: Position) -> void:
+func attack(atk_power: int, pos: Position, tick: int) -> void:
 	var el := InGameManager.get_element(pos, 1)
 	# TODO: from도 attack pos 인수가 아닌, 공격 방향으로 인수 받고 -1 곱해서 전달해주기
-	el.damaged(atk_pow, Position.ZERO())
+	el.damaged(atk_pow, Position.ZERO(), tick)
 
 
 func when_player_actioned() -> void:

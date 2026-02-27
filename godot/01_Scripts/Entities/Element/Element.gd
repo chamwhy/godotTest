@@ -7,7 +7,7 @@ var is_block: bool = false  # 막힘 판정 여부
 var hitable: bool = true
 
 
-func damaged(atk: int, from: Position) -> void:
+func damaged(atk: int, from: Position, tick: int) -> void:
 	pass
 
 func apply_data(data: Dictionary):
