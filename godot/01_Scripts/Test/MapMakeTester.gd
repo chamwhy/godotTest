@@ -10,4 +10,4 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("test_x"):
 		print("test x")
-		MapDrawer.draw_map(1,1)
+		MapDrawer.draw_map(1,2)

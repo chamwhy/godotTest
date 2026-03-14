@@ -8,8 +8,12 @@ signal action_input(dir: Position)
 # 게임 상호작용 가능 여부
 var can_interact := false
 
+# TODO: 나중에 false에서 켜주는 걸로 변경
+func _ready() -> void:
+	can_interact = true
+	GameManager.set_state(GameManager.GameState.PLAYING)
 
-func _process(_d: float) -> void:
+func _input(event: InputEvent) -> void:
 	check_input()
 
 func check_input() -> void:
@@ -28,13 +32,17 @@ func input_main_menu() -> void:
 	pass
 
 func input_playing() -> void:	
-	if Input.is_action_pressed("move_up"):
+	if Input.is_action_just_pressed("move_up"):
+		print("up누름")
 		emit_signal("action_input", Position.UP())
-	elif Input.is_action_pressed("move_down"):
+	elif Input.is_action_just_pressed("move_down"):
+		print("down누름")
 		emit_signal("action_input", Position.DOWN())
-	elif Input.is_action_pressed("move_left"):
+	elif Input.is_action_just_pressed("move_left"):
+		print("left누름")
 		emit_signal("action_input", Position.LEFT())
-	elif Input.is_action_pressed("move_right"):
+	elif Input.is_action_just_pressed("move_right"):
+		print("right누름")
 		emit_signal("action_input", Position.RIGHT())
 
 func input_gameover() -> void:
