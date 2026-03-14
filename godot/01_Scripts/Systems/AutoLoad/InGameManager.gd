@@ -6,20 +6,20 @@ const MOVE_DELAY := 0.8
 
 var player: Player = null
 
-# 현재 게임이 행동하는지 지 여부(딜레이를 주기 위하여)
-var is_act: bool = true
 
 func _ready() -> void:
 	# TODO: 나중에 지우기
-	is_act = false
 	InputManager.action_input.connect(_action_inputed)
 	
 func _action_inputed(dir: Position):
-	print("check", is_act, player == null)
-	if is_act or player == null: return
+	print("check", AnimationQueue.is_processing, player == null)
+	if AnimationQueue.is_processing or player == null: return
 	# 유저 입력을 통한 행동은 tick 0부터 시작
 	print("action!", dir.to_str())
 	player.action_dir(dir, 0)
+	# 현재 MAX에 도달했을때 false 반환값으로 인한 중간 process는 작성되지 않음.
+	print("animation test")
+	AnimationQueue.process_queue()
 	
 #region Map
 #region Mapping
@@ -56,6 +56,7 @@ func register_tile(pos: Position, tile_id: int) -> void:
 	
 func register_element(pos: Position, elm: Element) -> void:
 	if not map_size_in(pos.x, pos.y): return
+	elm.cur_position = pos
 	if element_map[pos.y][pos.x] == null:
 		element_map[pos.y][pos.x] = [elm]
 	else:
@@ -94,6 +95,7 @@ func enter_element(elm: Element, pos: Position, tick: int) -> bool:
 
 func pass_element(elm: Element, pos: Position, tick: int) -> bool:
 	if not has_tile(pos.x, pos.y): return false
+	elm.cur_position = pos
 	element_passed.emit(pos, elm, tick)
 	
 	return true

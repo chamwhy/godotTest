@@ -68,9 +68,11 @@ func move_inst(pos: Position) -> void:
 func move_to(vel: Position, tick: int) -> void:
 	if vel.is_zero(): return
 	
+	var goal: Position = vel.add(cur_position)
 	var dir: Position = vel.normalized()
 	# 어차피 처음은 무조건 exit라 미리 더해두기
-	var chk_pos: Position = dir.copy()
+	var chk_pos: Position = cur_position.add(dir)
+	var from: Position = cur_position.copy()
 	
 	var re = InGameManager.exit_element(self, cur_position, tick)
 	
@@ -78,21 +80,21 @@ func move_to(vel: Position, tick: int) -> void:
 	if self != re: print("오류임. 절대 무조건 같아야 함")
 	
 	while(true):
-		if chk_pos.equals(vel): break
-		tick += 1
-		InGameManager.pass_element(self, cur_position.add(chk_pos), tick)
-		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(self, "move", {
-			"from": cur_position.add(chk_pos),
-			"to": cur_position.add(chk_pos).add(dir)
-		}), tick)
+		if chk_pos.equals(goal): break
+		InGameManager.pass_element(self, chk_pos, tick)
 		chk_pos = chk_pos.add(dir)
-	# TODO: 현재 애니메이션 순서 관련해서 어떻게 애니메이션 큐에 넣을 지 고민중임
-	
-	tick += 1
-	
-	InGameManager.enter_element(self, cur_position.add(chk_pos), tick)
-	# TODO: 이거 enter_element 함수로 옮겨야 할듯.
-	cur_position = cur_position.add(chk_pos)
+		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(self, "move", {
+			"from": from,
+			"to": chk_pos
+		}), tick)
+		from = chk_pos.copy()
+		tick += 1
+	# TODO: 현재 애니메이션 순서 관련해서 어떻게 애니메이션 큐에 넣을 지 고민중임	
+	InGameManager.enter_element(self, chk_pos, tick)
+	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(self, "move", {
+			"from": from,
+			"to": chk_pos
+		}), tick)
 
 func attack(atk_power: int, pos: Position, tick: int) -> void:
 	var el := InGameManager.get_element(pos, 1)
@@ -110,4 +112,27 @@ func apply_data(data: Dictionary):
 	# 의도적으로 맵 시작부터 체력이 깎여있는 경우. 만약 지정을 안했다면 max_hp로 자동지정.
 	# 따라서 reset 하면 안됨.
 	cur_hp = data.get("ch", max_hp)
+
+
+
+#region animation
+
+# unit.target(예: Player) 내부의 함수
+func on_animate(action, data) -> Signal:
+	var from_val = InGameManager.position_to_world(data.get("from", cur_position))
+	var to_val = InGameManager.position_to_world(data.get("to", cur_position))
+	var time = 0.2
 	
+	
+	var tween = create_tween()
+	
+	# 애니메이션 종류에 따른 분기 처리
+	match action:
+		"move":
+			tween.tween_property(self, "position", to_val, time).from(from_val).set_trans(Tween.TRANS_SINE)
+		"fade":
+			tween.tween_property(self, "modulate:a", 1.0, time).from(0.0) # 투명도 조절
+	# 트윈이 끝날 때 발생하는 'finished' 신호를 그대로 반환
+	return tween.finished
+
+#endregion

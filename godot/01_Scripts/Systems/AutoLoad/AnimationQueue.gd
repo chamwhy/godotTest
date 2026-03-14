@@ -27,6 +27,8 @@ func _ready() -> void:
 
 
 func queue_reset():
+	print("큐 리셋")
+	cur_tick = 0
 	queue.resize(QUEUE_LIMIT)
 	for i in range(QUEUE_LIMIT):
 		queue[i] = [] # 각 칸을 빈 배열로 초기화
@@ -36,17 +38,26 @@ func queue_reset():
 func add_anim_unit(unit: AnimUnit, tick: int) -> bool:
 	if tick >= start_tick + QUEUE_LIMIT:
 		return false
+	print("애니메이션 큐 유닛 추가 - ", unit.target.get_script().get_global_name(), " : ", tick, "(", tick - start_tick, ")")
 	queue[tick - start_tick].append(unit)
 	return true
 
 ## 2. 큐 실행 및 모든 완료 대기 (await 가능)
 func process_queue():
+	
+	for i in range(QUEUE_LIMIT):
+		if queue[i].size() > 0:
+			print(i, " - ", queue[i].size())
+	
+	
+	print("애니메이션 큐 프로세싱 시작 try", is_processing, cur_tick, queue[cur_tick].is_empty())
 	if is_processing or queue[cur_tick].is_empty():
 		return
-	
+	print("애니메이션 큐 프로세싱 시작")
 	is_processing = true
 	
 	while not queue[cur_tick].is_empty():
+		print("aq: ", start_tick + cur_tick, " - ", queue[cur_tick].size())
 		var current_batch = queue[cur_tick] # 이번 스텝에 실행할 리스트
 		var tweens: Array[Signal] = []
 		
@@ -67,7 +78,8 @@ func process_queue():
 		await get_tree().process_frame 
 		
 		cur_tick += 1
-	start_tick = cur_tick
+	# start_tick의 효용성은 anim queue의 끝점이 아닌, max에 도달했을때 사용하기 위함임.
+	#start_tick = cur_tick
 	queue_reset()
 	is_processing = false
 	print("모든 큐 재생 완료")
