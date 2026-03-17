@@ -1,15 +1,44 @@
 extends Element
 class_name Unit
 
-@export var max_hp: int
-var cur_hp := 0
+#region status
+#region hp
+@export var max_hp: int = 1
+var cur_hp := 0:
+	set(v): _set_hp(v)
+	get: return _get_hp()
+
+# 자식이 오버라이드할 수 있도록 함수로 분리
+func _set_hp(v):
+	cur_hp = v
+
+func _get_hp():
+	return cur_hp
+#endregion
+
 var move_speed := 1
 var atk_pow := 1
+#endregion
+
+
+#region components
+var atk_comp: AtkComp
+var onhit_comp: OnHitComp
+var hp_comp: HpComp
+#endregion
+
 
 
 # test 용
 func _ready() -> void:
+	init()
 	reset()
+
+
+func init() -> void:
+	atk_comp = get_node("AtkComp") as AtkComp
+	onhit_comp = get_node("OnHitComp") as OnHitComp
+	hp_comp = get_node("HpComp") as HpComp
 
 func reset() -> void:
 	cur_hp = max_hp
@@ -40,8 +69,9 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 		# 모든 이동력을 다 쓴 상태
 		if remain_move <= 0:
 			break
-		
-		if remain_move > 0 and InGameManager.can_pass(chk_pos.add(dir)):
+		var checks = InGameManager.can_pass(chk_pos.add(dir))
+		print("check 222: ", checks, chk_pos.to_str(), dir.to_str())
+		if remain_move > 0 and checks:
 			remain_move -= 1
 			# 해당 게임에선 이동력을 소모하면 같이 공격력도 소모함.
 			remain_atk -= 1
@@ -58,6 +88,10 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 	
 	if was_blocked and remain_atk > 0:
 		attack(remain_atk, dir, tick)
+	
+	if not InGameManager.has_tile(cur_position.x, cur_position.y):
+		print("구멍에 빠짐")
+		# TODO: falling
 
 
 # 순간이동
@@ -67,7 +101,7 @@ func move_inst(pos: Position) -> void:
 # 속력 이동
 func move_to(vel: Position, tick: int) -> void:
 	if vel.is_zero(): return
-	
+	print("Move To: ", vel.to_str())
 	var goal: Position = vel.add(cur_position)
 	var dir: Position = vel.normalized()
 	# 어차피 처음은 무조건 exit라 미리 더해두기
@@ -96,10 +130,21 @@ func move_to(vel: Position, tick: int) -> void:
 			"to": chk_pos
 		}), tick)
 
-func attack(atk_power: int, pos: Position, tick: int) -> void:
-	var el := InGameManager.get_element(pos, 1)
-	# TODO: from도 attack pos 인수가 아닌, 공격 방향으로 인수 받고 -1 곱해서 전달해주기
-	el.damaged(atk_pow, Position.ZERO(), tick)
+func attack(atk_power: int, dir: Position, tick: int) -> void:
+	
+	if atk_comp:
+		var targets: Array[Element] = atk_comp.get_targets(self, dir)
+		for target in targets:
+			if target:
+				# TODO: 일단 하드코딩으로 1로 채워둠.
+				atk_comp.attack(self, target, 1)
+	
+	# regacy
+	#var el := InGameManager.get_element(cur_position.add(dir), 1)
+	## TODO: from도 attack pos 인수가 아닌, 공격 방향으로 인수 받고 -1 곱해서 전달해주기
+	#print("attack: ", dir.to_str(), el)
+	#if el:
+		#el.damaged(atk_pow, Position.ZERO(), tick)
 
 
 func when_player_actioned() -> void:

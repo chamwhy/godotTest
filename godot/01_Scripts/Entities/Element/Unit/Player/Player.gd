@@ -1,8 +1,6 @@
 extends Unit
 class_name Player
 
-
-
 func reset() -> void:
 	InGameManager.player = self
 	super.reset()

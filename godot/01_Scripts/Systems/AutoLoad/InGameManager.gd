@@ -55,6 +55,7 @@ func register_tile(pos: Position, tile_id: int) -> void:
 	tile_map[pos.y][pos.x] = tile_id
 	
 func register_element(pos: Position, elm: Element) -> void:
+	print("register: ", pos.to_str(), " - ", elm.get_script().get_global_name())
 	if not map_size_in(pos.x, pos.y): return
 	elm.cur_position = pos
 	if element_map[pos.y][pos.x] == null:
@@ -63,16 +64,17 @@ func register_element(pos: Position, elm: Element) -> void:
 		element_map[pos.y][pos.x].append(elm)
 
 # filter - 0: none, 1: hitable
+# TODO: 이거 솔직히 filter 무시해도 됨.
+# 로직 자체가 거기에 존재하는 object 전부 때리는 판정이라 어차피 다 가져와야 함.
 func get_element(pos: Position, filter: int) -> Element:
 	if not has_tile(pos.x, pos.y): return null
 	if element_map[pos.y][pos.x] == null: return null
 	
 	for i in range(element_map[pos.y][pos.x].size()):
-		var re = element_map[pos.y][pos.x][i]
-		if not re is Element: continue
+		var re = element_map[pos.y][pos.x][i] as Element
+		if not re: continue
 		if filter == 1:
 			if not re.hitable: continue
-		element_map[pos.y][pos.x].remove(i)
 		return re
 	return null
 
@@ -85,7 +87,7 @@ signal element_exited(pos: Position, elm: Element, tick: int)
 
 # Element 넣기(register는 등록만, 해당 함수는 외부 처리까지 동시에 진행)
 func enter_element(elm: Element, pos: Position, tick: int) -> bool:
-	if not has_tile(pos.x, pos.y): return false
+	if not map_size_in(pos.x, pos.y): return false
 	
 	register_element(pos, elm)
 	element_entered.emit(pos, elm, tick)
@@ -94,7 +96,7 @@ func enter_element(elm: Element, pos: Position, tick: int) -> bool:
 
 
 func pass_element(elm: Element, pos: Position, tick: int) -> bool:
-	if not has_tile(pos.x, pos.y): return false
+	if not map_size_in(pos.x, pos.y): return false
 	elm.cur_position = pos
 	element_passed.emit(pos, elm, tick)
 	
@@ -133,12 +135,25 @@ func entity_placed(pos: Position, ent: Entity) -> void:
 
 # 지나갈 수 있는 지 여부
 func can_pass(pos: Position) -> bool:
-	return true
+	return is_blocked(pos)
 
 # 놓일 수 있는 지 여부
 func can_placed(pos: Position) -> bool:
-	return true
+	if not has_tile(pos.x, pos.y): return false
+	return is_blocked(pos)
+	
 
+func is_blocked(pos: Position) -> bool:
+	if not map_size_in(pos.x, pos.y): return false
+	print("is block check: ", pos.x, pos.y, element_map[pos.y][pos.x].size())
+	for i in element_map[pos.y][pos.x]:
+		var el = i as Element
+		if el:
+			if el.is_block:
+				return false
+		else:
+			continue
+	return true
 
 #endregion
 

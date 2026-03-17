@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dutdkiwxrnvay"]
 
-[ext_resource type="Script" uid="uid://br3pcaiekhq" path="res://01_Scripts/Entities/Tiles/Tiles.gd" id="1_2f07e"]
+[ext_resource type="Script" uid="uid://dv0ojqewfgf4l" path="res://01_Scripts/Entities/Element/Wall/Wall.gd" id="1_2f07e"]
 [ext_resource type="Texture2D" uid="uid://ddqhlqiiy8s6j" path="res://03_Resources/Test/wall.png" id="2_2f07e"]
 
 [node name="Wall" type="Node2D" unique_id=113108078]

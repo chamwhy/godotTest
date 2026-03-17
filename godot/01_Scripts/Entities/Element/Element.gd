@@ -6,10 +6,15 @@ class_name Element
 var is_block: bool = false  # 막힘 판정 여부
 var hitable: bool = true
 
+#
+#func damaged(atk: int, from: Position, tick: int) -> bool:
+	#return false
 
-func damaged(atk: int, from: Position, tick: int) -> void:
+func died() -> void:
 	pass
+
 
 func apply_data(data: Dictionary):
 	super.apply_data(data)
+	print("apply data")
 	InGameManager.register_element(cur_position, self)
