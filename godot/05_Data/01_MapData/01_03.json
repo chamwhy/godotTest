@@ -1,0 +1,111 @@
+{
+	"world": 1,
+	"stage": 3,
+	"map_name": "테스트용 맵",
+	"tile_size": 100,
+	"map_width": 6,
+	"map_height": 6,
+	"tile_map": [
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[0, 1, 1, 1, 1, 0],
+		[1, 1, 1, 1, 1, 1],
+		[0, 1, 1, 1, 1, 1],
+	],
+	"entities": [
+		{
+			"x": 0,
+			"y": 0,
+			"obj_type": "player",
+			"mh": 6,
+			"ch": 6
+		},
+		{
+			"x": 2,
+			"y": 0,
+			"obj_type": "wall",
+			"ma": 0
+		},
+		{
+			"x": 3,
+			"y": 0,
+			"obj_type": "wall",
+			"ma": 0
+		},
+		{
+			"x": 5,
+			"y": 0,
+			"obj_type": "trap",
+			"atk": 1,
+			"once": true
+		},
+		{
+			"x": 0,
+			"y": 1,
+			"obj_type": "trap",
+			"atk": 1,
+			"once": false
+		},
+		{
+			"x": 2,
+			"y": 1,
+			"obj_type": "trap",
+			"atk": 1,
+			"once": false
+		},
+		{
+			"x": 5,
+			"y": 1,
+			"obj_type": "trap",
+			"atk": 2,
+			"once": true
+		},
+		{
+			"x": 2,
+			"y": 3,
+			"obj_type": "moveBox",
+		},
+		{
+			"x": 4,
+			"y": 3,
+			"obj_type": "wall",
+			"ma": 2
+		},
+		{
+			"x": 0,
+			"y": 4,
+			"obj_type": "wall",
+			"ma": 0
+		},
+		{
+			"x": 1,
+			"y": 4,
+			"obj_type": "wall",
+			"ma": 0
+		},
+		{
+			"x": 3,
+			"y": 4,
+			"obj_type": "healItem",
+		},
+		{
+			"x": 2,
+			"y": 5,
+			"obj_type": "wall",
+			"ma": 1
+		},
+		{
+			"x": 3,
+			"y": 5,
+			"obj_type": "healItem",
+		},
+		{
+			"x": 5,
+			"y": 5,
+			"obj_type": "trap",
+			"atk": 3,
+			"once": false
+		}
+	]
+}

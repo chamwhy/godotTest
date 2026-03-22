@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bi71to4ae5eo7"]
+
+[ext_resource type="Script" uid="uid://4rqwulj5aajf" path="res://01_Scripts/Entities/Element/MoveBox/MoveBox.gd" id="1_ogics"]
+[ext_resource type="Texture2D" uid="uid://dtfhumxrigv50" path="res://03_Resources/Test/move_box.png" id="2_kskbm"]
+
+[node name="MoveBox" type="Node2D" unique_id=1855347389]
+script = ExtResource("1_ogics")
+is_block = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1562322684]
+texture = ExtResource("2_kskbm")

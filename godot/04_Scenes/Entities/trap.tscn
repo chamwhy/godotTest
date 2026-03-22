@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b635aa1kx37m0"]
+
+[ext_resource type="Script" uid="uid://c5leyu6fv8yei" path="res://01_Scripts/Entities/Element/Trap/Trap.gd" id="1_qu4bf"]
+[ext_resource type="Texture2D" uid="uid://bu61xra6q6rno" path="res://03_Resources/Test/trap-1.png" id="2_24b8j"]
+[ext_resource type="Texture2D" uid="uid://dmwmnasvm8vep" path="res://03_Resources/Test/trap-2.png" id="3_56knl"]
+[ext_resource type="Texture2D" uid="uid://hf3e6q0ktyig" path="res://03_Resources/Test/trap3.png" id="4_7ma8i"]
+[ext_resource type="Texture2D" uid="uid://b7vphv2sutek" path="res://03_Resources/Test/once_trap-1.png" id="5_nev0m"]
+[ext_resource type="Texture2D" uid="uid://71x75p43w5mq" path="res://03_Resources/Test/once_trap-2.png" id="6_5ihdj"]
+[ext_resource type="Texture2D" uid="uid://bpd8sa5v4h6ux" path="res://03_Resources/Test/once_trap-3.png" id="7_ujg1e"]
+
+[node name="Trap" type="Node2D" unique_id=1351320918]
+script = ExtResource("1_qu4bf")
+trap_textures = Array[Texture2D]([ExtResource("2_24b8j"), ExtResource("3_56knl"), ExtResource("4_7ma8i")])
+once_trap_textures = Array[Texture2D]([ExtResource("5_nev0m"), ExtResource("6_5ihdj"), ExtResource("7_ujg1e")])
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=484609921]
+texture = ExtResource("2_24b8j")

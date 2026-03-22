@@ -2,10 +2,7 @@
 
 [ext_resource type="Script" uid="uid://lpdb7ca0h2ms" path="res://01_Scripts/Systems/MyCamera.gd" id="1_6grqo"]
 [ext_resource type="Script" uid="uid://ybb0yxgxcq8b" path="res://01_Scripts/Test/MapMakeTester.gd" id="1_6s166"]
-[ext_resource type="PackedScene" uid="uid://dutdkiwxrnvay" path="res://04_Scenes/Entities/wall.tscn" id="2_02eq7"]
-[ext_resource type="PackedScene" uid="uid://bdvhogbuwr7u4" path="res://04_Scenes/Entities/player.tscn" id="3_rbyvi"]
-[ext_resource type="PackedScene" uid="uid://dqhep7nhltvi5" path="res://04_Scenes/Entities/monster.tscn" id="4_xfwcn"]
-[ext_resource type="PackedScene" uid="uid://d2cywxk6y7dsc" path="res://04_Scenes/Entities/tile.tscn" id="5_ibv6u"]
+[ext_resource type="Script" uid="uid://cb6q0b6vlkvlu" path="res://01_Scripts/UI/PlayerHpBar.gd" id="4_rbyvi"]
 [ext_resource type="Texture2D" uid="uid://c136eykec6roi" path="res://03_Resources/Test/hpbar.png" id="6_ibv6u"]
 [ext_resource type="Texture2D" uid="uid://buj5q8hvmbqar" path="res://03_Resources/Test/hpbarCnt.png" id="7_6grqo"]
 
@@ -28,18 +25,6 @@ script = ExtResource("1_6s166")
 
 [node name="EntityParent" type="Node2D" parent="LevelManager/Level_01" unique_id=1024235109]
 
-[node name="Wall" parent="LevelManager/Level_01/EntityParent" unique_id=253514736 instance=ExtResource("2_02eq7")]
-visible = false
-
-[node name="Player" parent="LevelManager/Level_01/EntityParent" unique_id=1944346250 instance=ExtResource("3_rbyvi")]
-visible = false
-
-[node name="Monster" parent="LevelManager/Level_01/EntityParent" unique_id=55629221 instance=ExtResource("4_xfwcn")]
-visible = false
-
-[node name="Tile" parent="LevelManager/Level_01/EntityParent" unique_id=657021564 instance=ExtResource("5_ibv6u")]
-visible = false
-
 [node name="Control" type="Control" parent="." unique_id=525649622]
 layout_mode = 3
 anchors_preset = 15
@@ -48,7 +33,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control" unique_id=364060476]
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=364060476 node_paths=PackedStringArray("heart_icons")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -63,6 +48,8 @@ grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.53, 0.53)
 texture = ExtResource("6_ibv6u")
+script = ExtResource("4_rbyvi")
+heart_icons = [NodePath("TextureRect"), NodePath("TextureRect2"), NodePath("TextureRect3"), NodePath("TextureRect4"), NodePath("TextureRect5"), NodePath("TextureRect6")]
 
 [node name="TextureRect" type="TextureRect" parent="Control/TextureRect" unique_id=1381806128]
 modulate = Color(0.64159393, 1.2535593e-06, 7.917217e-07, 0.9098039)

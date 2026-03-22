@@ -1,0 +1,30 @@
+블록 리스트업
+
+[o] - tile
+[o] - player
+[o] - wall
+[o] - destroyablewall - 1, 2
+[o] - trap - int, singleuse
+[o] - healitem
+[o] - movebox
+
+
+tile
+- id: 1부터 다른 유형의 타일을 나타냄. 0은 tile 없음.
+
+player
+- mh: max hp
+- ch: cur hp
+
+wall
+- ma: min_atk, 최소로 때려야 파괴되는 공격력 크기. 만약 0이라면 파괴되지 않는 벽
+
+trap
+- atk: 밟을 시, 공격력
+- once: 일회용 여부
+
+healItem
+- 없음.
+
+moveBox
+- 없음.

@@ -60,7 +60,7 @@ func _spawn_tile_objects(data: Dictionary):
 		return
 		
 	var tile_data_array: Array = data.get("tile_map", [])
-	var scene: PackedScene = Config.EXP_RES.entityScenes.get("Tile")
+	var scene: PackedScene = Config.EXP_RES.entityScenes.get("tile")
 	if scene == null:
 		print("Unknown object type: Tile")
 		return null

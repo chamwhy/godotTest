@@ -1,30 +1,30 @@
 extends Element
 class_name Unit
 
-#region status
-#region hp
+
+#region element 별 특성
+#@export var is_block: bool = false  # 막힘 판정 여부
+#@export var hitable: bool = true
+
+@export var move_speed := 1
+@export var atk_pow := 1
 @export var max_hp: int = 1
-var cur_hp := 0:
+
+#endregion
+
+#region hp
+
+var _cur_hp: int
+var cur_hp := max_hp:
 	set(v): _set_hp(v)
 	get: return _get_hp()
 
 # 자식이 오버라이드할 수 있도록 함수로 분리
 func _set_hp(v):
-	cur_hp = v
+	_cur_hp = clamp(v, 0, max_hp)
 
 func _get_hp():
-	return cur_hp
-#endregion
-
-var move_speed := 1
-var atk_pow := 1
-#endregion
-
-
-#region components
-var atk_comp: AtkComp
-var onhit_comp: OnHitComp
-var hp_comp: HpComp
+	return _cur_hp
 #endregion
 
 
@@ -36,9 +36,7 @@ func _ready() -> void:
 
 
 func init() -> void:
-	atk_comp = get_node("AtkComp") as AtkComp
-	onhit_comp = get_node("OnHitComp") as OnHitComp
-	hp_comp = get_node("HpComp") as HpComp
+	pass
 
 func reset() -> void:
 	cur_hp = max_hp
@@ -131,21 +129,24 @@ func move_to(vel: Position, tick: int) -> void:
 		}), tick)
 
 func attack(atk_power: int, dir: Position, tick: int) -> void:
-	
-	if atk_comp:
-		var targets: Array[Element] = atk_comp.get_targets(self, dir)
-		for target in targets:
-			if target:
-				# TODO: 일단 하드코딩으로 1로 채워둠.
-				atk_comp.attack(self, target, 1)
-	
-	# regacy
-	#var el := InGameManager.get_element(cur_position.add(dir), 1)
-	## TODO: from도 attack pos 인수가 아닌, 공격 방향으로 인수 받고 -1 곱해서 전달해주기
-	#print("attack: ", dir.to_str(), el)
-	#if el:
-		#el.damaged(atk_pow, Position.ZERO(), tick)
+	var targets: Array[Element] = InGameManager.get_elements(cur_position.add(dir))
+	for target in targets:
+		if target:
+			# TODO: 일단 하드코딩으로 1로 채워둠.
+			apply_on_hit(target, atk_power, tick)
 
+func apply_on_hit(target: Element, atk_power: int, tick: int) -> void:
+	var new_atk_data = AtkData.new(
+		atk_power,
+		cur_position,
+		tick
+	)
+	
+	if is_instance_valid(target) and target.hitable:
+		target.on_hit(new_atk_data)
+
+func on_heal(heal_data: HealData) -> void:
+	cur_hp = cur_hp + heal_data.heal
 
 func when_player_actioned() -> void:
 	# abstract

@@ -3,15 +3,16 @@
 extends Entity
 class_name Element
 
-var is_block: bool = false  # 막힘 판정 여부
-var hitable: bool = true
+#region element 별 특성
+@export var is_block: bool = false  # 막힘 판정 여부
+@export var hitable: bool = true
 
-#
-#func damaged(atk: int, from: Position, tick: int) -> bool:
-	#return false
+#endregion
 
-func died() -> void:
-	pass
+
+func on_hit(atk_data: AtkData) -> bool:
+	return false
+
 
 
 func apply_data(data: Dictionary):

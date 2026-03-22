@@ -3,20 +3,43 @@ extends Node
 
 const MOVE_DELAY := 0.8
 
+#region player
+var _player: Player = null
 
-var player: Player = null
+# 플레이어가 없을 때 들어온 요청들을 저장할 배열 (함수 담기)
+var _pending_callbacks: Array[Callable] = []
 
+# 외부에서 "플레이어 생기면 이 함수 실행해줘"라고 요청할 때 쓰는 함수
+func run_when_player_ready(callback: Callable):
+	if _player:
+		# 이미 플레이어가 있다면 즉시 실행
+		callback.call(_player)
+	else:
+		# 아직 없다면 대기열에 추가
+		_pending_callbacks.append(callback)
+
+# 플레이어가 생성된 직후 매니저에게 자신을 등록할 때 호출
+func register_player(player_node: Player):
+	_player = player_node
+	
+	# 대기 중이던 모든 함수 실행
+	for callback in _pending_callbacks:
+		callback.call(_player)
+	
+	# 실행 완료 후 대기열 비우기
+	_pending_callbacks.clear()
+#endregion
 
 func _ready() -> void:
 	# TODO: 나중에 지우기
 	InputManager.action_input.connect(_action_inputed)
 	
 func _action_inputed(dir: Position):
-	print("check", AnimationQueue.is_processing, player == null)
-	if AnimationQueue.is_processing or player == null: return
+	print("check", AnimationQueue.is_processing, _player == null)
+	if AnimationQueue.is_processing or _player == null: return
 	# 유저 입력을 통한 행동은 tick 0부터 시작
 	print("action!", dir.to_str())
-	player.action_dir(dir, 0)
+	_player.action_dir(dir, 0)
 	# 현재 MAX에 도달했을때 false 반환값으로 인한 중간 process는 작성되지 않음.
 	print("animation test")
 	AnimationQueue.process_queue()
@@ -77,6 +100,17 @@ func get_element(pos: Position, filter: int) -> Element:
 			if not re.hitable: continue
 		return re
 	return null
+
+func get_elements(pos: Position) -> Array[Element]:
+	if not has_tile(pos.x, pos.y): return []
+	if element_map[pos.y][pos.x] == null: return []
+	
+	var answer: Array[Element] = []
+	for i in range(element_map[pos.y][pos.x].size()):
+		var re = element_map[pos.y][pos.x][i] as Element
+		if not re: continue
+		answer.append(re)
+	return answer
 
 
 ## map enter, pass, exit signal
