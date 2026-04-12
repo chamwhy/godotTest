@@ -43,12 +43,14 @@ func reset() -> void:
 
 
 func action_dir(dir: Position, tick: int) -> void:
-	var real_dir = dir.normalized()
-	if move_speed < 0:
-		real_dir = real_dir * -1
-	
-	# 음수값 구현
-	action2(real_dir, abs(move_speed), tick)
+	if dir.equals(Position.ZERO()):
+		InGameManager.interact_element(self, cur_position, 0)
+	else:
+		var real_dir = dir.normalized()
+		if move_speed < 0:
+			real_dir = real_dir * -1
+		# 음수값 구현
+		action2(real_dir, abs(move_speed), tick)
 
 func action2(dir: Position, spd: int, tick: int) -> void:
 	if not dir.is_straight(): return

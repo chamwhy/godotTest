@@ -1,0 +1,46 @@
+{
+	"world": 0,
+	"stage": 0,
+	"map_name": "메인 월드",
+	"tile_size": 100,
+	"map_width": 4,
+	"map_height": 6,
+	"tile_map": [
+		[1, 1, 1, 1],
+		[0, 0, 1, 1],
+		[1, 1, 1, 1],
+		[0, 0, 1, 1],
+		[1, 1, 1, 1],
+		[0, 0, 0, 1],
+	],
+	"entities": [
+		{
+			"x": 3,
+			"y": 5,
+			"obj_type": "player",
+			"mh": 6,
+			"ch": 6
+		},
+		{
+			"x": 0,
+			"y": 4,
+			"obj_type": "mapPortal",
+			"world": 1,
+			"stage": 0
+		},
+		{
+			"x": 0,
+			"y": 2,
+			"obj_type": "mapPortal",
+			"world": 2,
+			"stage": 0
+		},
+		{
+			"x": 0,
+			"y": 0,
+			"obj_type": "mapPortal",
+			"world": 3,
+			"stage": 0
+		},
+	]
+}

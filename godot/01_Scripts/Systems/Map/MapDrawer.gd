@@ -112,3 +112,19 @@ func _spawn_entities(data: Dictionary):
 		# 3. apply_data 자동 호출
 		if obj.has_method("apply_data"):
 			obj.apply_data(entity_data)
+
+
+func erase_map() -> void:
+	# 1. 씬 트리의 루트 노드를 기준으로 부모 노드를 동적으로 찾습니다.
+	var current_root = get_tree().current_scene # 현재 로드된 씬의 루트 노드
+	
+	entity_parent = current_root.find_child(entity_parent_name, true)
+	
+	if entity_parent == null:
+		print("MapMaker: 엔티티 부모 노드 '%s'를 현재 씬에서 찾을 수 없어 엔티티 로드를 건너뜁니다." % entity_parent_name)
+		# 엔티티가 없어도 타일은 로드할 수 있도록 여기서는 return false 하지 않을 수 있습니다.
+	
+	for n in entity_parent.get_children():
+		entity_parent.remove_child(n)
+		n.queue_free()
+	InGameManager.clear()

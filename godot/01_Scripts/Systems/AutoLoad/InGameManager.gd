@@ -35,13 +35,10 @@ func _ready() -> void:
 	InputManager.action_input.connect(_action_inputed)
 	
 func _action_inputed(dir: Position):
-	print("check", AnimationQueue.is_processing, _player == null)
 	if AnimationQueue.is_processing or _player == null: return
 	# 유저 입력을 통한 행동은 tick 0부터 시작
-	print("action!", dir.to_str())
 	_player.action_dir(dir, 0)
 	# 현재 MAX에 도달했을때 false 반환값으로 인한 중간 process는 작성되지 않음.
-	print("animation test")
 	AnimationQueue.process_queue()
 	
 #region Map
@@ -64,13 +61,18 @@ func init(width, height):
 			tile_map[y].append(0)
 			element_map[y].append([])
 
+func clear():
+	map_width = 0
+	map_height = 0
+	tile_map = []
+	element_map = []
+
+
 func map_size_in(x:int, y:int) -> bool:
 	return 0 <= x and x < map_width and 0 <= y and y < map_height
 
 func has_tile(x:int, y:int) -> bool:
-	print("11")
 	if not map_size_in(x, y): return false
-	print("12")
 	return tile_map[y][x] != 0
 
 func register_tile(pos: Position, tile_id: int) -> void:
@@ -117,7 +119,7 @@ func get_elements(pos: Position) -> Array[Element]:
 signal element_entered(pos: Position, elm: Element, tick: int)
 signal element_passed(pos: Position, elm: Element, tick: int)
 signal element_exited(pos: Position, elm: Element, tick: int)
-
+signal element_interacted(pos: Position, elm: Element, tick: int)
 
 # Element 넣기(register는 등록만, 해당 함수는 외부 처리까지 동시에 진행)
 func enter_element(elm: Element, pos: Position, tick: int) -> bool:
@@ -138,11 +140,8 @@ func pass_element(elm: Element, pos: Position, tick: int) -> bool:
 
 # 일치하는 Element 꺼내기
 func exit_element(elm: Element, pos: Position, tick: int) -> Element:
-	print("1")
 	if not has_tile(pos.x, pos.y): return null
-	print("2")
 	if element_map[pos.y][pos.x] == null: return null
-	print("3")
 	for i in range(element_map[pos.y][pos.x].size()):
 		var re = element_map[pos.y][pos.x][i]
 		if not re is Element: continue
@@ -151,21 +150,17 @@ func exit_element(elm: Element, pos: Position, tick: int) -> Element:
 		element_map[pos.y][pos.x].remove_at(i)
 		element_exited.emit(pos, elm, tick)
 		return re
-	print("4")
 	return null
+
+func interact_element(elm: Element, pos: Position, tick: int) -> bool:
+	if not map_size_in(pos.x, pos.y): return false
+	element_interacted.emit(pos, elm, tick)
+	return true
 
 
 #endregion
 
 
-func entity_exit(pos: Position, ent: Entity) -> void:
-	pass
-
-func entity_pass(pos: Position, ent: Entity) -> void:
-	pass
-
-func entity_placed(pos: Position, ent: Entity) -> void:
-	pass
 
 # 지나갈 수 있는 지 여부
 func can_pass(pos: Position) -> bool:
@@ -193,6 +188,7 @@ func is_blocked(pos: Position) -> bool:
 
 #region MapPosition
 func position_to_world(pos: Position) -> Vector2:
+	# TODO: 나중에 카메라 관련 기획짜서 고치기?
 	return Vector2(pos.x + 0.5, pos.y + 0.5) * MapDrawer.tile_size
 
 #endregion

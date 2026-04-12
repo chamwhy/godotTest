@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bk8u1y1oy40g1"]
+
+[ext_resource type="Script" uid="uid://dm3didxm223aq" path="res://01_Scripts/Entities/Element/Exit/MapPortal.gd" id="1_vr2du"]
+[ext_resource type="Texture2D" uid="uid://os4vfwivs52a" path="res://03_Resources/Test/map_portal.png" id="2_uoq1a"]
+
+[node name="MapPortal" type="Node2D" unique_id=1180122851]
+script = ExtResource("1_vr2du")
+hitable = false
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=260130908]
+texture = ExtResource("2_uoq1a")

@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bpsj5ontcsxcx"]
+
+[ext_resource type="Shader" uid="uid://7mofg0ivb0uj" path="res://02_Material/Shader/cam_dissolve.gdshader" id="1_5hv0u"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5hv0u"]
+
+[resource]
+shader = ExtResource("1_5hv0u")
+shader_parameter/value = 0.0
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_5hv0u")

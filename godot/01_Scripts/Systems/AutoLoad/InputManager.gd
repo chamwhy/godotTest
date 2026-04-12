@@ -44,6 +44,9 @@ func input_playing() -> void:
 	elif Input.is_action_just_pressed("move_right"):
 		print("right누름")
 		emit_signal("action_input", Position.RIGHT())
+	elif Input.is_action_just_pressed("interaction"):
+		print("상호작용누름")
+		emit_signal("action_input", Position.ZERO())
 
 func input_gameover() -> void:
 	pass
