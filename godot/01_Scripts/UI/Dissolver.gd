@@ -10,9 +10,12 @@ func _ready():
 func dissolve_out(duration: float):
 	# 지정된 시간 동안 value를 0에서 1로 (사라지기)
 	var tween = create_tween()
-	tween.tween_property(material, "shader_parameter/progress", 1.0, 1.5).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-
+	print("dissolve out", mat)
+	tween.tween_property(mat, "shader_parameter/progress", 1.0, 1.5)
+	tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	
 func dissolve_in(duration: float):
 	# 지정된 시간 동안 value를 1에서 0으로 (나타나기)
 	var tween = create_tween()
-	tween.tween_property(material, "shader_parameter/progress", 0.0, 1.5).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)
+	tween.tween_property(mat, "shader_parameter/progress", 0.0, 1.5)
+	tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)

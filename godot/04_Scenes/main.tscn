@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://lpdb7ca0h2ms" path="res://01_Scripts/Systems/MyCamera.gd" id="1_6grqo"]
 [ext_resource type="Script" uid="uid://ybb0yxgxcq8b" path="res://01_Scripts/Test/MapMakeTester.gd" id="1_6s166"]
 [ext_resource type="Script" uid="uid://cb6q0b6vlkvlu" path="res://01_Scripts/UI/PlayerHpBar.gd" id="4_rbyvi"]
-[ext_resource type="Material" uid="uid://bpsj5ontcsxcx" path="res://02_Material/Shader/cam_dissolve.tres" id="6_6grqo"]
+[ext_resource type="Material" uid="uid://bpsj5ontcsxcx" path="res://02_Material/Shader/PixelTransition.tres" id="6_6grqo"]
 [ext_resource type="Texture2D" uid="uid://c136eykec6roi" path="res://03_Resources/Test/hpbar.png" id="6_ibv6u"]
 [ext_resource type="Script" uid="uid://bknp4kqn5q4sl" path="res://01_Scripts/UI/Dissolver.gd" id="6_xfwcn"]
 [ext_resource type="Texture2D" uid="uid://buj5q8hvmbqar" path="res://03_Resources/Test/hpbarCnt.png" id="7_6grqo"]

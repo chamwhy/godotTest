@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dc3c2ayr4ampo"]
+
+[ext_resource type="Script" uid="uid://bw2uwghm615ht" path="res://01_Scripts/Systems/AutoLoad/SceneTransition.gd" id="1_5nm3k"]
+[ext_resource type="Material" uid="uid://bpsj5ontcsxcx" path="res://02_Material/Shader/PixelTransition.tres" id="2_6hrpv"]
+
+[node name="Transitioner" type="CanvasLayer" unique_id=309742025]
+script = ExtResource("1_5nm3k")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=157207070]
+material = ExtResource("2_6hrpv")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

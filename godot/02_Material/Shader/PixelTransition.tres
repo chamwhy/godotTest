@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bpsj5ontcsxcx"]
+
+[ext_resource type="Shader" uid="uid://7mofg0ivb0uj" path="res://02_Material/Shader/PixelTransition.gdshader" id="1_5hv0u"]
+
+[resource]
+shader = ExtResource("1_5hv0u")
+shader_parameter/pixel_size = 32.0
+shader_parameter/fade_amount = 0.0
