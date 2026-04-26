@@ -34,9 +34,10 @@ SceneTransition="*uid://dc3c2ayr4ampo"
 
 [display]
 
-window/size/viewport_width=480
-window/size/viewport_height=854
-window/stretch/mode="viewport"
+window/size/viewport_width=240
+window/size/viewport_height=426
+window/stretch/mode="canvas_items"
+window/stretch/scale_mode="integer"
 
 [input]
 
@@ -78,4 +79,5 @@ interaction={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"

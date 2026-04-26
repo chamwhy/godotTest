@@ -2,19 +2,104 @@
 
 [ext_resource type="Script" uid="uid://lpdb7ca0h2ms" path="res://01_Scripts/Systems/MyCamera.gd" id="1_6grqo"]
 [ext_resource type="Script" uid="uid://ybb0yxgxcq8b" path="res://01_Scripts/Test/MapMakeTester.gd" id="1_6s166"]
+[ext_resource type="Texture2D" uid="uid://di50e4dwludxv" path="res://03_Resources/Test/title.png" id="2_4p43j"]
+[ext_resource type="Texture2D" uid="uid://f8l1wjapnnup" path="res://03_Resources/dummy/background.png" id="4_4p43j"]
 [ext_resource type="Script" uid="uid://cb6q0b6vlkvlu" path="res://01_Scripts/UI/PlayerHpBar.gd" id="4_rbyvi"]
+[ext_resource type="Texture2D" uid="uid://2y0vkb8yelpt" path="res://03_Resources/dummy/hpBarCnt.png" id="5_vpxpd"]
 [ext_resource type="Material" uid="uid://bpsj5ontcsxcx" path="res://02_Material/Shader/PixelTransition.tres" id="6_6grqo"]
-[ext_resource type="Texture2D" uid="uid://c136eykec6roi" path="res://03_Resources/Test/hpbar.png" id="6_ibv6u"]
 [ext_resource type="Script" uid="uid://bknp4kqn5q4sl" path="res://01_Scripts/UI/Dissolver.gd" id="6_xfwcn"]
-[ext_resource type="Texture2D" uid="uid://buj5q8hvmbqar" path="res://03_Resources/Test/hpbarCnt.png" id="7_6grqo"]
 [ext_resource type="Texture2D" uid="uid://6sa64x3qs22d" path="res://03_Resources/Test/black.png" id="7_epy18"]
 [ext_resource type="Script" uid="uid://bodtelrykebsi" path="res://01_Scripts/Test/DissolverTester.gd" id="9_epy18"]
 
 [node name="Main" type="Node" unique_id=1358099324]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=572875809]
-position = Vector2(238, 431)
+anchor_mode = 0
 script = ExtResource("1_6grqo")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=461768127]
+follow_viewport_scale = 0.001
+
+[node name="Title" type="TextureRect" parent="UI" unique_id=959238889]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.25
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("2_4p43j")
+
+[node name="HpBar" type="Control" parent="UI" unique_id=1899198871 node_paths=PackedStringArray("heart_icons")]
+layout_mode = 3
+anchor_top = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 1)
+size_flags_vertical = 8
+script = ExtResource("4_rbyvi")
+heart_icons = [NodePath("HBoxContainer/hp1"), NodePath("HBoxContainer/hp2"), NodePath("HBoxContainer/hp3"), NodePath("HBoxContainer/hp4"), NodePath("HBoxContainer/hp5"), NodePath("HBoxContainer/hp6")]
+
+[node name="Background" type="TextureRect" parent="UI/HpBar" unique_id=1334399186]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.5
+offset_top = -9.0
+offset_right = 52.5
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_4p43j")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HpBar" unique_id=1533470684]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.5
+offset_top = -5.0
+offset_right = 49.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 1
+
+[node name="hp1" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=1377631004]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+texture = ExtResource("5_vpxpd")
+
+[node name="hp2" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=1454798019]
+modulate = Color(0.84164107, 0.380184, 0, 1)
+layout_mode = 2
+texture = ExtResource("5_vpxpd")
+
+[node name="hp3" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=605878149]
+modulate = Color(0.84164107, 0.380184, 0, 1)
+layout_mode = 2
+texture = ExtResource("5_vpxpd")
+
+[node name="hp4" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=731020401]
+layout_mode = 2
+texture = ExtResource("5_vpxpd")
+
+[node name="hp5" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=1910281301]
+layout_mode = 2
+texture = ExtResource("5_vpxpd")
+
+[node name="hp6" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=459650422]
+layout_mode = 2
+texture = ExtResource("5_vpxpd")
 
 [node name="UIManager" type="Control" parent="." unique_id=2072504385]
 layout_mode = 3
@@ -29,114 +114,11 @@ script = ExtResource("1_6s166")
 
 [node name="EntityParent" type="Node2D" parent="LevelManager/Level_01" unique_id=1024235109]
 
-[node name="Control" type="Control" parent="." unique_id=525649622]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="Control" unique_id=364060476 node_paths=PackedStringArray("heart_icons")]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -195.0
-offset_top = -215.0
-offset_right = 547.0
-offset_bottom = -118.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.53, 0.53)
-texture = ExtResource("6_ibv6u")
-script = ExtResource("4_rbyvi")
-heart_icons = [NodePath("TextureRect"), NodePath("TextureRect2"), NodePath("TextureRect3"), NodePath("TextureRect4"), NodePath("TextureRect5"), NodePath("TextureRect6")]
-
-[node name="TextureRect" type="TextureRect" parent="Control/TextureRect" unique_id=1381806128]
-modulate = Color(0.64159393, 1.2535593e-06, 7.917217e-07, 0.9098039)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 100.00001
-offset_top = -20.198166
-offset_right = 187.0
-offset_bottom = 24.801834
-grow_vertical = 2
-texture = ExtResource("7_6grqo")
-
-[node name="TextureRect2" type="TextureRect" parent="Control/TextureRect" unique_id=823898306]
-modulate = Color(0.7287403, 0.26208425, 0, 0.9098039)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 200.0
-offset_top = -20.19812
-offset_right = 287.0
-offset_bottom = 24.80188
-grow_vertical = 2
-texture = ExtResource("7_6grqo")
-
-[node name="TextureRect3" type="TextureRect" parent="Control/TextureRect" unique_id=304065106]
-modulate = Color(0.7287403, 0.26208425, 0, 0.9098039)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 300.0
-offset_top = -18.31128
-offset_right = 387.0
-offset_bottom = 26.68872
-grow_vertical = 2
-texture = ExtResource("7_6grqo")
-
-[node name="TextureRect4" type="TextureRect" parent="Control/TextureRect" unique_id=440905917]
-modulate = Color(1, 1, 1, 0.9098039)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 400.0
-offset_top = -16.0094
-offset_right = 487.0
-offset_bottom = 28.9906
-grow_vertical = 2
-texture = ExtResource("7_6grqo")
-
-[node name="TextureRect5" type="TextureRect" parent="Control/TextureRect" unique_id=1898197048]
-modulate = Color(1, 1, 1, 0.9098039)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 499.99997
-offset_top = -16.0094
-offset_right = 587.0
-offset_bottom = 28.9906
-grow_vertical = 2
-texture = ExtResource("7_6grqo")
-
-[node name="TextureRect6" type="TextureRect" parent="Control/TextureRect" unique_id=148064204]
-modulate = Color(1, 1, 1, 0.9098039)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 594.33966
-offset_top = -20.19809
-offset_right = 681.33966
-offset_bottom = 24.80191
-grow_vertical = 2
-texture = ExtResource("7_6grqo")
-
 [node name="DissolveSprite" type="Sprite2D" parent="." unique_id=1625890105]
+visible = false
 material = ExtResource("6_6grqo")
-position = Vector2(242.99998, 430)
-scale = Vector2(4.93, 8.77)
+position = Vector2(415.00003, 422.49997)
+scale = Vector2(8.96, 8.95)
 texture = ExtResource("7_epy18")
 script = ExtResource("6_xfwcn")
 
