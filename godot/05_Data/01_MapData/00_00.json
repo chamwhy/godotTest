@@ -5,6 +5,7 @@
 	"tile_size": 100,
 	"map_width": 4,
 	"map_height": 6,
+	"zoom": 0.3,
 	"tile_map": [
 		[1, 1, 1, 1],
 		[0, 0, 1, 1],

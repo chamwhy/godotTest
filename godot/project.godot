@@ -36,6 +36,8 @@ SceneTransition="*uid://dc3c2ayr4ampo"
 
 window/size/viewport_width=240
 window/size/viewport_height=426
+window/size/window_width_override=480
+window/size/window_height_override=852
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 
@@ -81,3 +83,4 @@ interaction={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
