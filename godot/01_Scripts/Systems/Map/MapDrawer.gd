@@ -7,6 +7,7 @@ const MAP_DATA_HEADER: String = "res://05_Data/01_MapData/"
 var tile_size : int
 var map_width : int
 var map_height : int
+var zoom_data : float
 
 # 타입 → 씬 매핑 (팩토리 느낌)
 var entity_parent: Node2D
@@ -38,11 +39,12 @@ func draw_map(world: int, stage: int) -> bool:
 	tile_size = map_data.get("tile_size", 32)
 	map_width = map_data.get("map_width", 10)
 	map_height = map_data.get("map_height", 10)
+	zoom_data = map_data.get("zoom", 0)
 	
 	InGameManager.init(map_width, map_height)
 	
 	# 데이터에 맞는 카메라 위치 배치
-	MyCamera.instance.setup_map(tile_size, map_width, map_height)
+	MyCamera.instance.setup_map(tile_size, map_width, map_height, zoom_data)
 	
 	# 2. **타일 데이터를 개별 오브젝트로 로드 및 배치**
 	_spawn_tile_objects(map_data)
