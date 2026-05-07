@@ -187,8 +187,8 @@ func is_blocked(pos: Position) -> bool:
 #endregion
 
 #region MapPosition
-func position_to_world(pos: Position) -> Vector2:
-	# TODO: 나중에 카메라 관련 기획짜서 고치기?
-	return Vector2(pos.x + 0.5, pos.y + 0.5) * MapDrawer.tile_size
+#func position_to_world(pos: Position) -> Vector2:
+	## TODO: 나중에 카메라 관련 기획짜서 고치기?
+	#return Position.to_vector2f(pos.x + 0.5, pos.y + 0.5) * MapDrawer.tile_size
 
 #endregion

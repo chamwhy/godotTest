@@ -8,4 +8,5 @@ script = ExtResource("1_vr2du")
 hitable = false
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=260130908]
+scale = Vector2(0.33, 0.33)
 texture = ExtResource("2_uoq1a")

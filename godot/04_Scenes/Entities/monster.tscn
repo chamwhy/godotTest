@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqhep7nhltvi5"]
+[gd_scene format=3 uid="uid://dqhep7nhltvi5"]
 
 [ext_resource type="Texture2D" uid="uid://b57ff3jpmydsd" path="res://03_Resources/Test/monster.png" id="1_5t34h"]
 
-[node name="Monster" type="Node2D"]
+[node name="Monster" type="Node2D" unique_id=2071241237]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=63401205]
+scale = Vector2(0.33, 0.33)
 texture = ExtResource("1_5t34h")

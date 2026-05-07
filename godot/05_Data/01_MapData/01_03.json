@@ -2,7 +2,8 @@
 	"world": 1,
 	"stage": 3,
 	"map_name": "테스트용 맵",
-	"tile_size": 100,
+	"tile_size_x": 32,
+	"tile_size_y": 24,
 	"map_width": 6,
 	"map_height": 6,
 	"tile_map": [

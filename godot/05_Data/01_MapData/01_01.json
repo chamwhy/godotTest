@@ -2,7 +2,8 @@
 	"world": 1,
 	"stage": 1,
 	"map_name": "첫 번째 스테이지",
-	"tile_size": 100,
+	"tile_size_x": 32,
+	"tile_size_y": 24,
 	"map_width": 3,
 	"map_height": 3,
 	"tile_map": [

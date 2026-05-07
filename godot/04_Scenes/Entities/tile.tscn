@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://d2cywxk6y7dsc"]
 
 [ext_resource type="Script" uid="uid://br3pcaiekhq" path="res://01_Scripts/Entities/Tiles/Tiles.gd" id="1_g1qca"]
-[ext_resource type="Texture2D" uid="uid://cf8kp00y8elua" path="res://03_Resources/Test/bottom.png" id="1_vs72f"]
+[ext_resource type="Texture2D" uid="uid://c3g16rjykrh4t" path="res://03_Resources/dummy/tile.png" id="2_g1qca"]
 
 [node name="Tile" type="Node2D" unique_id=161660379]
 script = ExtResource("1_g1qca")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1541515074]
 z_index = -1
-texture = ExtResource("1_vs72f")
+texture = ExtResource("2_g1qca")
+offset = Vector2(0, 4)

@@ -14,4 +14,5 @@ trap_textures = Array[Texture2D]([ExtResource("2_24b8j"), ExtResource("3_56knl")
 once_trap_textures = Array[Texture2D]([ExtResource("5_nev0m"), ExtResource("6_5ihdj"), ExtResource("7_ujg1e")])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=484609921]
+scale = Vector2(0.33, 0.33)
 texture = ExtResource("2_24b8j")

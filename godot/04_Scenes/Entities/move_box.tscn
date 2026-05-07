@@ -8,4 +8,5 @@ script = ExtResource("1_ogics")
 is_block = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1562322684]
+scale = Vector2(0.33, 0.33)
 texture = ExtResource("2_kskbm")

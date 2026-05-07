@@ -2,6 +2,8 @@
 extends Node2D
 class_name Entity
 
+
+
 @onready var sprite2D = get_child(0) as Sprite2D
 
 ## --- Private Variables ---
@@ -18,8 +20,8 @@ var size = 100
 func move_to_pos(pos: Position):
 	print("move to pos!!!!")
 	cur_position = pos
-	print("move to ", pos.to_str(), InGameManager.position_to_world(pos))
-	position = InGameManager.position_to_world(pos)
+	print("move to ", pos.to_str(), Position.position_to_world(pos))
+	position = Position.position_to_world(pos)
 	
 
 
@@ -28,3 +30,16 @@ func apply_data(data: Dictionary):
 		data.get("x", 0), 
 		data.get("y", 0)
 	))
+	
+
+
+
+
+enum SortLayer { TILE = 0, Element = 1000 }
+const LAYER_SIZE = 1000
+const MAX_MAP_HEIGHT = 5000.0
+
+
+func _set_z_index(sort_layer: SortLayer):
+	var y_offset = int((global_position.y / MAX_MAP_HEIGHT) * (LAYER_SIZE - 1))
+	sprite2D.z_index = int(sort_layer) + clamp(y_offset, 0, LAYER_SIZE - 1)

@@ -2,6 +2,13 @@
 extends Resource
 class_name Position # 전역에서 'Position' 타입으로 인식되도록 설정
 
+
+# y 픽셀 비율
+const px = 32
+const py = 24
+const pypx = 0.75
+
+
 # 기본 데이터: x, y
 var x: int = 0
 var y: int = 0
@@ -35,11 +42,15 @@ func _init(new_x: int = 0, new_y: int = 0):
 ## --- 3. Vector2와의 상호 운용성 ---
 # Vector2 타입으로 변환하는 함수 (Godot 내장 기능과의 호환성 확보)
 func to_vector2() -> Vector2:
-	return Vector2(x, y)
+	return Vector2(x, y * py / px)
+
+static func position_to_world(pos: Position) -> Vector2:
+	# TODO: 나중에 카메라 관련 기획짜서 고치기?
+	return Vector2((pos.x + 0.5) * MapDrawer.tile_size_x, (pos.y + 0.5) * MapDrawer.tile_size_y) 
 
 # Vector2에서 Position을 생성하는 static 함수
 static func from_vector2(vector: Vector2) -> Position:
-	return Position.new(int(vector.x), int(vector.y))
+	return Position.new(int(vector.x), int(vector.y * px / py))
 
 ## --- 4. 각종 함수 ---
 

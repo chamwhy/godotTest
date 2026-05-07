@@ -4,7 +4,9 @@ const MAP_DATA_HEADER: String = "res://05_Data/01_MapData/"
 
 @export var entity_parent_name := "EntityParent" 
 
-var tile_size : int
+#var tile_size : int
+var tile_size_x : int
+var tile_size_y : int
 var map_width : int
 var map_height : int
 var zoom_data : float
@@ -36,7 +38,8 @@ func draw_map(world: int, stage: int) -> bool:
 		print("Failed to load map data from: %s" % json_path)
 		return false
 	
-	tile_size = map_data.get("tile_size", 32)
+	tile_size_x = map_data.get("tile_size_x", 32)
+	tile_size_y = map_data.get("tile_size_y", 24)
 	map_width = map_data.get("map_width", 10)
 	map_height = map_data.get("map_height", 10)
 	zoom_data = map_data.get("zoom", 0)
@@ -44,7 +47,7 @@ func draw_map(world: int, stage: int) -> bool:
 	InGameManager.init(map_width, map_height)
 	
 	# 데이터에 맞는 카메라 위치 배치
-	MyCamera.instance.setup_map(tile_size, map_width, map_height, zoom_data)
+	MyCamera.instance.setup_map(tile_size_x, tile_size_y, map_width, map_height, zoom_data)
 	
 	# 2. **타일 데이터를 개별 오브젝트로 로드 및 배치**
 	_spawn_tile_objects(map_data)

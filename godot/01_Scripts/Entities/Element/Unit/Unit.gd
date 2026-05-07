@@ -167,8 +167,8 @@ func apply_data(data: Dictionary):
 
 # unit.target(예: Player) 내부의 함수
 func on_animate(action, data) -> Signal:
-	var from_val = InGameManager.position_to_world(data.get("from", cur_position))
-	var to_val = InGameManager.position_to_world(data.get("to", cur_position))
+	var from_val = Position.position_to_world(data.get("from", cur_position))
+	var to_val = Position.position_to_world(data.get("to", cur_position))
 	var time = 0.2
 	
 	

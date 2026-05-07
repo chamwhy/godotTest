@@ -2,10 +2,11 @@
 	"world": 0,
 	"stage": 0,
 	"map_name": "메인 월드",
-	"tile_size": 100,
+	"tile_size_x": 32,
+	"tile_size_y": 24,
 	"map_width": 4,
 	"map_height": 6,
-	"zoom": 0.3,
+	"zoom": 1,
 	"tile_map": [
 		[1, 1, 1, 1],
 		[0, 0, 1, 1],

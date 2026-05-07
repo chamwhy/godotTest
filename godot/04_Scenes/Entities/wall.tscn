@@ -12,4 +12,5 @@ destroyable_wall_textures = Array[Texture2D]([ExtResource("3_j53pu"), ExtResourc
 is_block = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1298427388]
+scale = Vector2(0.33, 0.33)
 texture = ExtResource("2_2f07e")
