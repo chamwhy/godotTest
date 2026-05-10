@@ -33,14 +33,21 @@ func register_player(player_node: Player):
 func _ready() -> void:
 	# TODO: 나중에 지우기
 	InputManager.action_input.connect(_action_inputed)
+	InputManager.back_input.connect(_back_inputed)
 	
 func _action_inputed(dir: Position):
 	if AnimationQueue.is_processing or _player == null: return
+	# 죽었거나 떨어졌으면 입력 x
+	if _player.is_dead or _player.is_fallen: return
+	
 	# 유저 입력을 통한 행동은 tick 0부터 시작
 	_player.action_dir(dir, 0)
 	# 현재 MAX에 도달했을때 false 반환값으로 인한 중간 process는 작성되지 않음.
 	AnimationQueue.process_queue()
-	
+
+func _back_inputed():
+	if AnimationQueue.is_processing or _player == null: return
+	RedoManager.undo()
 #region Map
 #region Mapping
 var tile_map: Array = []

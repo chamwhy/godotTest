@@ -27,6 +27,10 @@ func _get_hp():
 	return _cur_hp
 #endregion
 
+#region state
+var is_dead := false
+var is_fallen := false
+#endregion
 
 
 # test 용
@@ -91,6 +95,7 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 	
 	if not InGameManager.has_tile(cur_position.x, cur_position.y):
 		print("구멍에 빠짐")
+		is_fallen = true
 		# TODO: falling
 
 
@@ -178,6 +183,11 @@ func on_animate(action, data) -> Signal:
 	match action:
 		"move":
 			tween.tween_property(self, "position", to_val, time).from(from_val).set_trans(Tween.TRANS_SINE)
+		"move_reverse":
+			tween.tween_property(self, "position", to_val, time)\
+				.from(from_val)\
+				.set_trans(Tween.TRANS_SINE)\
+				.set_ease(Tween.EASE_OUT)   # 앞으로 갈 때와 반대 이징
 		"fade":
 			tween.tween_property(self, "modulate:a", 1.0, time).from(0.0) # 투명도 조절
 	# 트윈이 끝날 때 발생하는 'finished' 신호를 그대로 반환

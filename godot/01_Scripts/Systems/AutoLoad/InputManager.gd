@@ -3,6 +3,7 @@ extends Node
 
 # 행동 입력 신호
 signal action_input(dir: Position)
+signal back_input() 
 signal start_game()
 
 # 게임 상호작용 가능 여부
@@ -35,7 +36,9 @@ func input_main_menu(event: InputEvent) -> void:
 			GameManager.set_state(GameManager.GameState.PLAYING)
 
 func input_playing() -> void:	
-	if Input.is_action_just_pressed("move_up"):
+	if Input.is_action_just_pressed("back"):       # ← 추가 (프로젝트 InputMap에 "back" 등록 필요)
+		emit_signal("back_input")
+	elif Input.is_action_just_pressed("move_up"):
 		print("up누름")
 		emit_signal("action_input", Position.UP())
 	elif Input.is_action_just_pressed("move_down"):
