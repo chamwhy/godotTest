@@ -35,11 +35,48 @@ func update_sprite() -> void:
 func on_hit(atk_data: AtkData) -> bool:
 	if not destroyable: return false
 	
-	if min_atk > atk_data.dmg: return false
+	if min_atk > atk_data.dmg: 
+		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
+			self,
+			"on_hit",   # 파괴 이펙트 (on_animate에서 구현)
+			{},
+			"",          # ← Undo 시 역산 애니메이션 없음 (재생성 이펙트는 apply_undo에서)
+			{}
+		), atk_data.tick)
+		return false
 	destroy_wall(atk_data.tick)
 	return true
 	
 
+# [변경] queue_free → hide_for_undo
 func destroy_wall(tick: int) -> void:
-	InGameManager.exit_element(self, cur_position, tick)
-	queue_free()
+	# 파괴 애니메이션이 있다면 AnimUnit(undo_action="") 으로 등록
+	# undo_action="" → Undo 시 역산 애니메이션 없음
+	# 대신 apply_undo 에서 show() 를 호출하면 "펑" 같은 재생성 이펙트를 넣을 수 있음
+	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
+		self,
+		"destroy",   # 파괴 이펙트 (on_animate에서 구현)
+		{},
+		"",          # ← Undo 시 역산 애니메이션 없음 (재생성 이펙트는 apply_undo에서)
+		{}
+	), tick)
+	hide_for_undo(tick)
+ 
+ 
+# ─────────────────────────────────────────────
+# Undo 상태 저장/복원
+# ─────────────────────────────────────────────
+func save_undo_state() -> Dictionary:
+	var state := super.save_undo_state()
+	state.merge({
+		"destroyable": destroyable,
+		"min_atk":     min_atk,
+	})
+	return state
+ 
+func apply_undo(state: Dictionary) -> void:
+	super.apply_undo(state)  # position, visible, is_block, hitable 복원
+	destroyable = state["destroyable"]
+	min_atk     = state["min_atk"]
+	update_sprite()
+	# TODO: 재생성 이펙트 (예: "펑" 파티클) 여기서 재생

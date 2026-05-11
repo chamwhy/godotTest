@@ -1,12 +1,11 @@
 [gd_scene format=3 uid="uid://tqdeqigdhtn"]
 
 [ext_resource type="Script" uid="uid://dw7dt43kn7fcd" path="res://01_Scripts/Entities/Element/HealItem/HealItem.gd" id="1_r8fft"]
-[ext_resource type="Texture2D" uid="uid://ihs30dlu6aj0" path="res://03_Resources/Test/heal_item.png" id="2_kxvwg"]
+[ext_resource type="Texture2D" uid="uid://btui1emexvti5" path="res://03_Resources/dummy/apple.png" id="2_kxvwg"]
 
 [node name="HealItem" type="Node2D" unique_id=630704450]
 script = ExtResource("1_r8fft")
 hitable = false
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=749955335]
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_kxvwg")

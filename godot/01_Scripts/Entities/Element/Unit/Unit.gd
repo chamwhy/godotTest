@@ -108,32 +108,39 @@ func move_to(vel: Position, tick: int) -> void:
 	if vel.is_zero(): return
 	print("Move To: ", vel.to_str())
 	var goal: Position = vel.add(cur_position)
-	var dir: Position = vel.normalized()
-	# 어차피 처음은 무조건 exit라 미리 더해두기
+	var dir: Position  = vel.normalized()
 	var chk_pos: Position = cur_position.add(dir)
 	var from: Position = cur_position.copy()
-	
+ 
 	var re = InGameManager.exit_element(self, cur_position, tick)
-	
 	print(re, cur_position.to_str(), tick)
 	if self != re: print("오류임. 절대 무조건 같아야 함")
-	
-	while(true):
+ 
+	while true:
 		if chk_pos.equals(goal): break
 		InGameManager.pass_element(self, chk_pos, tick)
 		chk_pos = chk_pos.add(dir)
-		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(self, "move", {
-			"from": from,
-			"to": chk_pos
-		}), tick)
+ 
+		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
+			self,
+			"move",           # 정방향 액션
+			{"from": from, "to": chk_pos},
+			"move_reverse",   # ← Undo 역산 액션
+			{"from": chk_pos, "to": from}  # ← Undo 시 from/to 반전
+		), tick)
+ 
 		from = chk_pos.copy()
 		tick += 1
-	# TODO: 현재 애니메이션 순서 관련해서 어떻게 애니메이션 큐에 넣을 지 고민중임	
+ 
 	InGameManager.enter_element(self, chk_pos, tick)
-	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(self, "move", {
-			"from": from,
-			"to": chk_pos
-		}), tick)
+	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
+		self,
+		"move",
+		{"from": from, "to": chk_pos},
+		"move_reverse",
+		{"from": chk_pos, "to": from}
+	), tick)
+
 
 func attack(atk_power: int, dir: Position, tick: int) -> void:
 	var targets: Array[Element] = InGameManager.get_elements(cur_position.add(dir))
@@ -168,29 +175,50 @@ func apply_data(data: Dictionary):
 
 
 
+func save_undo_state() -> Dictionary:
+	var state := super.save_undo_state()
+	state.merge({
+		"cur_hp":    cur_hp,
+		"is_dead":   is_dead,
+		"is_fallen": is_fallen,
+	})
+	return state
+ 
+func apply_undo(state: Dictionary) -> void:
+	super.apply_undo(state)
+	_cur_hp    = state["cur_hp"]
+	is_dead    = state["is_dead"]
+	is_fallen  = state["is_fallen"]
+ 
+ 
+
+
 #region animation
 
 # unit.target(예: Player) 내부의 함수
 func on_animate(action, data) -> Signal:
 	var from_val = Position.position_to_world(data.get("from", cur_position))
-	var to_val = Position.position_to_world(data.get("to", cur_position))
-	var time = 0.2
-	
-	
+	var to_val   = Position.position_to_world(data.get("to",   cur_position))
+	var time := 0.2
+ 
 	var tween = create_tween()
-	
-	# 애니메이션 종류에 따른 분기 처리
+ 
 	match action:
 		"move":
-			tween.tween_property(self, "position", to_val, time).from(from_val).set_trans(Tween.TRANS_SINE)
+			tween.tween_property(self, "position", to_val, time) \
+				.from(from_val).set_trans(Tween.TRANS_SINE)
+ 
+		# Undo 전용: 이전 위치로 역이동
+		# from = 현재(되돌리기 전) 위치, to = 이전 위치
 		"move_reverse":
-			tween.tween_property(self, "position", to_val, time)\
-				.from(from_val)\
-				.set_trans(Tween.TRANS_SINE)\
-				.set_ease(Tween.EASE_OUT)   # 앞으로 갈 때와 반대 이징
+			tween.tween_property(self, "position", to_val, time) \
+				.from(from_val) \
+				.set_trans(Tween.TRANS_SINE) \
+				.set_ease(Tween.EASE_OUT)
+ 
 		"fade":
-			tween.tween_property(self, "modulate:a", 1.0, time).from(0.0) # 투명도 조절
-	# 트윈이 끝날 때 발생하는 'finished' 신호를 그대로 반환
+			tween.tween_property(self, "modulate:a", 1.0, time).from(0.0)
+ 
 	return tween.finished
 
 #endregion

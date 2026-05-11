@@ -31,23 +31,29 @@ func register_player(player_node: Player):
 #endregion
 
 func _ready() -> void:
-	# TODO: 나중에 지우기
 	InputManager.action_input.connect(_action_inputed)
-	InputManager.back_input.connect(_back_inputed)
+	InputManager.back_input.connect(_back_inputed)   # ← 추가
 	
-func _action_inputed(dir: Position):
+func _action_inputed(dir: Position) -> void:
 	if AnimationQueue.is_processing or _player == null: return
-	# 죽었거나 떨어졌으면 입력 x
 	if _player.is_dead or _player.is_fallen: return
-	
-	# 유저 입력을 통한 행동은 tick 0부터 시작
+ 
+	# ① 입력 직전 상태 스냅샷 준비
+	var record = UndoManager.pre_action()
+ 
+	# ② 게임 로직 실행 (AnimUnit 들이 AnimationQueue 에 등록됨)
 	_player.action_dir(dir, 0)
-	# 현재 MAX에 도달했을때 false 반환값으로 인한 중간 process는 작성되지 않음.
-	AnimationQueue.process_queue()
+ 
+	# ③ 애니메이션 재생 — await 로 완료까지 대기
+	await AnimationQueue.process_queue()
+ 
+	# ④ 완료 후 턴 로그를 히스토리에 적재
+	UndoManager.commit_turn(record)
 
-func _back_inputed():
+func _back_inputed() -> void:
 	if AnimationQueue.is_processing or _player == null: return
-	RedoManager.undo()
+	await UndoManager.undo()
+
 #region Map
 #region Mapping
 var tile_map: Array = []

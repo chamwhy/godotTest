@@ -31,7 +31,7 @@ MapDrawer="*res://01_Scripts/Systems/Map/MapDrawer.gd"
 InGameManager="*res://01_Scripts/Systems/AutoLoad/InGameManager.gd"
 AnimationQueue="*uid://b4cm2c6ncvs4r"
 SceneTransition="*uid://dc3c2ayr4ampo"
-RedoManager="*uid://caohqm1owhdlq"
+UndoManager="*uid://caohqm1owhdlq"
 
 [display]
 
