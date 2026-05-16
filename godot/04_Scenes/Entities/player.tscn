@@ -1,7 +1,48 @@
 [gd_scene format=3 uid="uid://bdvhogbuwr7u4"]
 
 [ext_resource type="Script" uid="uid://b1wjbxsawa4s7" path="res://01_Scripts/Entities/Element/Unit/Player/Player.gd" id="1_x07mf"]
-[ext_resource type="Texture2D" uid="uid://b626d0ubo3kx8" path="res://03_Resources/Test/player_idle.png" id="1_xlkh0"]
+[ext_resource type="Texture2D" uid="uid://cjhisqslg4475" path="res://03_Resources/dummy/berserker.png" id="2_c5bpi"]
+[ext_resource type="Texture2D" uid="uid://d1ei63jud1lla" path="res://03_Resources/dummy/berserker_walk2.png" id="3_3iv1l"]
+[ext_resource type="Texture2D" uid="uid://74677xkea6wt" path="res://03_Resources/dummy/berserker_walk1.png" id="4_y85o2"]
+[ext_resource type="Script" uid="uid://copepgvcvivm5" path="res://01_Scripts/Animation/PlayerAnimator.gd" id="5_3iv1l"]
+[ext_resource type="Texture2D" uid="uid://camhsiq8po4in" path="res://03_Resources/dummy/shadow.png" id="6_y85o2"]
+
+[sub_resource type="Animation" id="Animation_cievx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerIdle:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_c5bpi")]
+}
+
+[sub_resource type="Animation" id="Animation_hp3vd"]
+resource_name = "walk"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerIdle:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10000001, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_3iv1l"), ExtResource("2_c5bpi"), ExtResource("4_y85o2"), ExtResource("2_c5bpi")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7ekso"]
+_data = {
+&"RESET": SubResource("Animation_cievx"),
+&"walk": SubResource("Animation_hp3vd")
+}
 
 [node name="Player" type="Node2D" unique_id=1469313890]
 script = ExtResource("1_x07mf")
@@ -9,6 +50,20 @@ max_hp = 6
 is_block = true
 
 [node name="PlayerIdle" type="Sprite2D" parent="." unique_id=1873674535]
-position = Vector2(0, 1)
-scale = Vector2(0.26, 0.26)
-texture = ExtResource("1_xlkh0")
+visibility_layer = 4
+z_index = 101
+z_as_relative = false
+position = Vector2(0, -9)
+texture = ExtResource("2_c5bpi")
+
+[node name="Shadow" type="Sprite2D" parent="PlayerIdle" unique_id=753039455]
+self_modulate = Color(1, 1, 1, 0.6745098)
+visibility_layer = 2
+z_index = 100
+z_as_relative = false
+position = Vector2(0, 7)
+texture = ExtResource("6_y85o2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1987093975]
+libraries/ = SubResource("AnimationLibrary_7ekso")
+script = ExtResource("5_3iv1l")

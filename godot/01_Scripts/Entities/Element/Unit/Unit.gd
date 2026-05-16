@@ -195,13 +195,17 @@ func apply_undo(state: Dictionary) -> void:
 
 #region animation
 
+signal animated(anim_name: String, data: Dictionary)
+
 # unit.target(예: Player) 내부의 함수
-func on_animate(action, data) -> Signal:
+func on_animate(action: String, data: Dictionary) -> Signal:
 	var from_val = Position.position_to_world(data.get("from", cur_position))
 	var to_val   = Position.position_to_world(data.get("to",   cur_position))
 	var time := 0.2
  
 	var tween = create_tween()
+	
+	animated.emit(action, data)
  
 	match action:
 		"move":

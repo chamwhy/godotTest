@@ -35,8 +35,8 @@ func apply_data(data: Dictionary):
 
 
 
-enum SortLayer { TILE = 0, Element = 1000 }
-const LAYER_SIZE = 1000
+enum SortLayer { TILE = 0, Element = 200 }
+const LAYER_SIZE = 100
 const MAX_MAP_HEIGHT = 5000.0
 
 
