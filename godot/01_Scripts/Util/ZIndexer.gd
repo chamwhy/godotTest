@@ -10,4 +10,4 @@ const ZID_EFFECT = 2
 const Y_STRIDE = 10
 
 static func calc(y: int, zid: int) -> int:
-	return y * Y_STRIDE + zid
+	return y * Y_STRIDE

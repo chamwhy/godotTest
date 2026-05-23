@@ -71,14 +71,3 @@ func _anim_fade(tween: Tween, data: Dictionary) -> void:
 
 
 #endregion
-
-
-
-enum SortLayer { TILE = 0, Element = 200 }
-const LAYER_SIZE = 100
-const MAX_MAP_HEIGHT = 5000.0
-
-
-func _set_z_index(sort_layer: SortLayer):
-	var y_offset = int((global_position.y / MAX_MAP_HEIGHT) * (LAYER_SIZE - 1))
-	sprite2D.z_index = int(sort_layer) + clamp(y_offset, 0, LAYER_SIZE - 1)

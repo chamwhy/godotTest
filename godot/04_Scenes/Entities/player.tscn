@@ -51,16 +51,13 @@ is_block = true
 
 [node name="PlayerIdle" type="Sprite2D" parent="." unique_id=1873674535]
 visibility_layer = 4
-z_index = 101
-z_as_relative = false
 position = Vector2(0, -9)
 texture = ExtResource("2_c5bpi")
 
 [node name="Shadow" type="Sprite2D" parent="PlayerIdle" unique_id=753039455]
 self_modulate = Color(1, 1, 1, 0.6745098)
 visibility_layer = 2
-z_index = 100
-z_as_relative = false
+z_index = -1
 position = Vector2(0, 7)
 texture = ExtResource("6_y85o2")
 

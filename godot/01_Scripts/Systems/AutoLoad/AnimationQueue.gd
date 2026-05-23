@@ -127,13 +127,15 @@ func process_undo_queue(batches: Array) -> void:
 		return
 
 	is_processing = true
+	
+	
 	print("Undo 애니메이션 역재생 시작")
 
 	# tick 역순으로 배치를 순회
 	for i in range(batches.size() - 1, -1, -1):
 		var batch: Array = batches[i]
-		var tweens: Array[Signal] = []
-
+		var tweens: Array[Tween] = []
+		print("UndoQ: ", i, "틱 - ", batch.size(), "개")
 		for unit in batch:
 			# undo_action 이 비어 있으면 역산 애니메이션 없음
 			if unit.undo_action == "":
@@ -143,12 +145,12 @@ func process_undo_queue(batches: Array) -> void:
 			if not unit.target.has_method("on_animate"):
 				continue
 
-			var task_finished = unit.target.on_animate(unit.undo_action, unit.undo_data)
-			if task_finished is Signal:
-				tweens.append(task_finished)
+			var tw = unit.target.on_animate(unit.undo_action, unit.undo_data)
+			if tw is Tween:
+				tweens.append(tw)
 
-		for finished_signal in tweens:
-			await finished_signal
+		for tw in tweens:
+			await tw.finished
 
 		await get_tree().process_frame
 

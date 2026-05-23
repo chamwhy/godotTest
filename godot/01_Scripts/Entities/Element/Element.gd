@@ -28,6 +28,8 @@ func _register_animations() -> void:
 	super._register_animations()          # 부모 것 먼저 등록
 	_anim_handlers["on_damaged"] = _anim_on_damaged
 	_anim_handlers["on_parryed"] = _anim_on_parryed
+	_anim_handlers["falling"]    = _anim_falling
+	_anim_handlers["undo_falling"]    = _anim_undo_falling
 
 func _anim_on_damaged(tween: Tween, data: Dictionary) -> void:
 	hit_effect.play_hit()
@@ -37,6 +39,19 @@ func _anim_on_parryed(tween: Tween, data: Dictionary) -> void:
 	hit_effect.play_parry()
 	tween.tween_interval(0.0)
 
+func _anim_falling(tween: Tween, data: Dictionary) -> void:
+	tween.set_parallel(true)
+	tween.tween_property(self, "position:y", position.y + 120, 1) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.tween_property(self, "modulate:a", 0.0, 1) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+func _anim_undo_falling(tween: Tween, data: Dictionary) -> void:
+	tween.set_parallel(true)
+	tween.tween_property(self, "position:y", position.y - 120, 1) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "modulate:a", 1.0, 1) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
 #endregion

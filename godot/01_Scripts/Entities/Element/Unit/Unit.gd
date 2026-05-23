@@ -86,7 +86,10 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 	if not InGameManager.has_tile(cur_position.x, cur_position.y):
 		print("구멍에 빠짐")
 		is_fallen = true
-		# TODO: falling
+		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
+			self,
+			"falling",{},"undo_falling",{}
+		), tick)
 
 
 # 순간이동
@@ -200,25 +203,22 @@ func _register_animations() -> void:
 	_anim_handlers["move_reverse"] = _anim_move_reverse
 	_anim_handlers["attack"]       = _anim_attack
 
-func _anim_move(tween: Tween, data: Dictionary) -> void:
+func _anim_move_base(tween: Tween, data: Dictionary, ease: Tween.EaseType) -> void:
 	var from_val = Position.position_to_world(data.get("from", cur_position))
-	var to_val   = Position.position_to_world(data.get("to",   cur_position))
-	var to_z_index = ZIndexer.calc(to_val.y, ZIndexer.ZID_ELEMENT)
+	var to_pos = data.get("to", cur_position)
+	var to_val = Position.position_to_world(to_pos)
+	var to_z_index = ZIndexer.calc(to_pos.y, ZIndexer.ZID_ELEMENT)
 	if to_z_index > z_index:
 		z_index = to_z_index
 	tween.tween_property(self, "position", to_val, 0.2) \
-		.from(from_val).set_trans(Tween.TRANS_SINE)
+		.from(from_val).set_trans(Tween.TRANS_SINE).set_ease(ease)
 	tween.tween_callback(func(): z_index = to_z_index)
 
+func _anim_move(tween: Tween, data: Dictionary) -> void:
+	_anim_move_base(tween, data, Tween.EASE_IN)
+
 func _anim_move_reverse(tween: Tween, data: Dictionary) -> void:
-	var from_val = Position.position_to_world(data.get("from", cur_position))
-	var to_val   = Position.position_to_world(data.get("to",   cur_position))
-	var to_z_index = ZIndexer.calc(to_val.y, ZIndexer.ZID_ELEMENT)
-	if to_z_index > z_index:
-		z_index = to_z_index
-	tween.tween_property(self, "position", to_val, 0.2) \
-		.from(from_val).set_trans(Tween.TRANS_SINE)
-	tween.tween_callback(func(): z_index = to_z_index)
+	_anim_move_base(tween, data, Tween.EASE_OUT)
 
 func _anim_attack(tween: Tween, data: Dictionary) -> void:
 	var pos: Position = data.get("pos", cur_position)
