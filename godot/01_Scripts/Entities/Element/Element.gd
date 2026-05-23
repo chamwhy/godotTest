@@ -18,7 +18,7 @@ func on_hit(atk_data: AtkData) -> bool:
 
 func apply_data(data: Dictionary):
 	super.apply_data(data)
-	_set_z_index(SortLayer.Element)
+	z_index = ZIndexer.calc(cur_position.y, ZIndexer.ZID_ELEMENT)
 	print("apply data")
 	InGameManager.register_element(cur_position, self)
 

@@ -9,7 +9,7 @@ var preset: TilePreset  # 해당 타일 프리셋
 
 func apply_data(data: Dictionary):
 	super.apply_data(data)
-	_set_z_index(SortLayer.TILE)
+	z_index = ZIndexer.calc(cur_position.y, ZIndexer.ZID_TILE)
 	print("tile apply data")
 	tile_id = data.get("id", 1)	# tile id는 기본이 1, 0은 없음을 나타냄.
 	InGameManager.register_tile(cur_position, tile_id)

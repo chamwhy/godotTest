@@ -1,2 +1,0 @@
-extends EntityMapData
-class_name ElementMapData

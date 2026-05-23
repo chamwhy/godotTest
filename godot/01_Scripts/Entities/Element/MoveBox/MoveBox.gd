@@ -28,5 +28,5 @@ func on_hit(atk_data: AtkData) -> bool:
 	
 	var dir: Position = cur_position.subtract(atk_data.from).normalized()
 	if not dir.is_zero() and dir.is_straight():
-		action_dir(dir, 0)
+		action_dir(dir, atk_data.tick)
 	return true

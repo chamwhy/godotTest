@@ -5,6 +5,7 @@ const MAP_DATA_HEADER: String = "res://05_Data/01_MapData/"
 @export var entity_parent_name := "EntityParent" 
 
 #var tile_size : int
+var padding: int
 var tile_size_x : int
 var tile_size_y : int
 var map_width : int
@@ -38,10 +39,12 @@ func draw_map(world: int, stage: int) -> bool:
 		print("Failed to load map data from: %s" % json_path)
 		return false
 	
+	
 	tile_size_x = map_data.get("tile_size_x", 32)
 	tile_size_y = map_data.get("tile_size_y", 24)
-	map_width = map_data.get("map_width", 10)
-	map_height = map_data.get("map_height", 10)
+	padding = map_data.get("padding", 0)
+	map_width = map_data.get("map_width", 10) + padding * 2
+	map_height = map_data.get("map_height", 10) + padding * 2
 	zoom_data = map_data.get("zoom", 0)
 	
 	InGameManager.init(map_width, map_height)
@@ -69,8 +72,6 @@ func _spawn_tile_objects(data: Dictionary):
 	if scene == null:
 		print("Unknown object type: Tile")
 		return null
-	print(tile_data_array.size())
-	print(tile_data_array[0].size())
 	# 2차원 배열 순회하며 타일 오브젝트 생성
 	for y in range(tile_data_array.size()):
 		var row: Array = tile_data_array[y]
@@ -86,8 +87,8 @@ func _spawn_tile_objects(data: Dictionary):
 			if tile_obj.has_method("apply_data"):
 				var tile_data = {
 					"id": tile_id,
-					"x": x,
-					"y": y
+					"x": x+padding,
+					"y": y+padding
 				}
 				tile_obj.apply_data(tile_data)
 			else:
@@ -113,7 +114,11 @@ func _spawn_entities(data: Dictionary):
 		# 2. Scene 인스턴스 생성 및 부모 설정
 		var obj: Node2D = scene.instantiate()
 		entity_parent.add_child(obj)
-
+		
+		if entity_data.has("x"):
+			entity_data["x"] += padding
+		if entity_data.has("y"):
+			entity_data["y"] += padding
 		# 3. apply_data 자동 호출
 		if obj.has_method("apply_data"):
 			obj.apply_data(entity_data)

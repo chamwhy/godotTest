@@ -54,7 +54,7 @@ func _register_animations() -> void:
 	_anim_handlers["fade"] = _anim_fade
 
 func on_animate(action: String, data: Dictionary) -> Tween:
-	print("    - [", Time.get_ticks_msec() / 1000.0,"] on_animate 호출됨: ", self.get_script().get_global_name(), " - ", action)
+	print("    - [", Time.get_ticks_msec() / 1000.0,"s] on_animate 호출됨: ", self.get_script().get_global_name(), " - ", action)
 	var tween = create_tween()
 	tween.pause()
 	animated.emit(action, data)

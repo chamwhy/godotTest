@@ -9,8 +9,6 @@
 [ext_resource type="Material" uid="uid://bpsj5ontcsxcx" path="res://02_Material/Shader/PixelTransition.tres" id="6_6grqo"]
 [ext_resource type="Script" uid="uid://bknp4kqn5q4sl" path="res://01_Scripts/UI/Dissolver.gd" id="6_xfwcn"]
 [ext_resource type="Texture2D" uid="uid://6sa64x3qs22d" path="res://03_Resources/Test/black.png" id="7_epy18"]
-[ext_resource type="Script" uid="uid://bodtelrykebsi" path="res://01_Scripts/Test/DissolverTester.gd" id="9_epy18"]
-[ext_resource type="Texture2D" uid="uid://btvvh85cg1mpp" path="res://03_Resources/dummy/chop2.png" id="11_vpxpd"]
 
 [node name="Main" type="Node" unique_id=1358099324]
 
@@ -151,10 +149,3 @@ position = Vector2(415.00003, 422.49997)
 scale = Vector2(8.96, 8.95)
 texture = ExtResource("7_epy18")
 script = ExtResource("6_xfwcn")
-
-[node name="Node" type="Node" parent="." unique_id=1709739146]
-script = ExtResource("9_epy18")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=982754608]
-position = Vector2(80, 12)
-texture = ExtResource("11_vpxpd")

@@ -106,8 +106,7 @@ func process_queue() -> void:
 					tweens.append(tw)
 
 		for tw in tweens:
-			if not tw.is_running():
-				await tw.finished
+			await tw.finished
 
 		await get_tree().process_frame
 		cur_tick += 1

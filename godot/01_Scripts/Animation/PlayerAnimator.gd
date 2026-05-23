@@ -16,9 +16,16 @@ func _on_animate(anim_name: String, data: Dictionary) -> void:
 			var to: Position = data.get("to", Position.ZERO())
 			var vel = to.subtract(from)
 			move(1, vel)
+		"attack":
+			var dir: Position = data.get("dir", Position.ZERO())
+			if not dir.is_zero():
+				attack(dir)
 
 func move(cnt: int, dir: Position) -> void:
 	if dir.x != 0:
 		sprite.flip_h = dir.x < 0
 	AnimUtil.play_times(anim_player, "walk", cnt)
-	
+
+func attack(dir: Position) -> void:
+	if dir.x != 0:
+		sprite.flip_h = dir.x < 0
