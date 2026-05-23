@@ -6,6 +6,8 @@ class_name Element
 #region element 별 특성
 @export var is_block: bool = false  # 막힘 판정 여부
 @export var hitable: bool = true
+
+@onready var hit_effect: HitEffect = $Sprite2D/HitEffect
 #endregion
 
 
@@ -13,11 +15,31 @@ func on_hit(atk_data: AtkData) -> bool:
 	return false
 
 
+
 func apply_data(data: Dictionary):
 	super.apply_data(data)
 	_set_z_index(SortLayer.Element)
 	print("apply data")
 	InGameManager.register_element(cur_position, self)
+
+
+#region Anim
+func _register_animations() -> void:
+	super._register_animations()          # 부모 것 먼저 등록
+	_anim_handlers["on_damaged"] = _anim_on_damaged
+	_anim_handlers["on_parryed"] = _anim_on_parryed
+
+func _anim_on_damaged(tween: Tween, data: Dictionary) -> void:
+	hit_effect.play_hit()
+	tween.tween_interval(0.0)
+
+func _anim_on_parryed(tween: Tween, data: Dictionary) -> void:
+	hit_effect.play_parry()
+	tween.tween_interval(0.0)
+
+
+
+#endregion
 
 
 # ─────────────────────────────────────────────

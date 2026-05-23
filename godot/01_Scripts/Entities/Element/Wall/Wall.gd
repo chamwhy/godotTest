@@ -33,17 +33,16 @@ func update_sprite() -> void:
 
 
 func on_hit(atk_data: AtkData) -> bool:
-	if not destroyable: return false
-	
-	if min_atk > atk_data.dmg: 
+	if not destroyable or min_atk > atk_data.dmg: 
 		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
 			self,
-			"on_hit",   # 파괴 이펙트 (on_animate에서 구현)
-			{},
-			"",          # ← Undo 시 역산 애니메이션 없음 (재생성 이펙트는 apply_undo에서)
-			{}
+			"on_parryed",{},"",{}
 		), atk_data.tick)
 		return false
+	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
+		self,
+		"on_damaged",{},"",{}
+	), atk_data.tick)
 	destroy_wall(atk_data.tick)
 	return true
 	

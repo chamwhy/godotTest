@@ -32,17 +32,8 @@ var is_dead := false
 var is_fallen := false
 #endregion
 
-
-# test 용
-func _ready() -> void:
-	init()
-	reset()
-
-
-func init() -> void:
-	pass
-
 func reset() -> void:
+	super.reset()
 	cur_hp = max_hp
 
 
@@ -148,6 +139,13 @@ func attack(atk_power: int, dir: Position, tick: int) -> void:
 		if target:
 			# TODO: 일단 하드코딩으로 1로 채워둠.
 			apply_on_hit(target, atk_power, tick)
+	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
+		self,
+		"attack",
+		{"pos": cur_position, "dir": dir},
+		"",
+		{}
+	), tick)
 
 func apply_on_hit(target: Element, atk_power: int, tick: int) -> void:
 	var new_atk_data = AtkData.new(
@@ -195,34 +193,34 @@ func apply_undo(state: Dictionary) -> void:
 
 #region animation
 
-signal animated(anim_name: String, data: Dictionary)
+func _register_animations() -> void:
+	super._register_animations()          # 부모 것 먼저 등록
+	_anim_handlers["move"]         = _anim_move
+	_anim_handlers["move_reverse"] = _anim_move_reverse
+	_anim_handlers["attack"]       = _anim_attack
 
-# unit.target(예: Player) 내부의 함수
-func on_animate(action: String, data: Dictionary) -> Signal:
+func _anim_move(tween: Tween, data: Dictionary) -> void:
 	var from_val = Position.position_to_world(data.get("from", cur_position))
 	var to_val   = Position.position_to_world(data.get("to",   cur_position))
-	var time := 0.2
- 
-	var tween = create_tween()
-	
-	animated.emit(action, data)
- 
-	match action:
-		"move":
-			tween.tween_property(self, "position", to_val, time) \
-				.from(from_val).set_trans(Tween.TRANS_SINE)
- 
-		# Undo 전용: 이전 위치로 역이동
-		# from = 현재(되돌리기 전) 위치, to = 이전 위치
-		"move_reverse":
-			tween.tween_property(self, "position", to_val, time) \
-				.from(from_val) \
-				.set_trans(Tween.TRANS_SINE) \
-				.set_ease(Tween.EASE_OUT)
- 
-		"fade":
-			tween.tween_property(self, "modulate:a", 1.0, time).from(0.0)
- 
-	return tween.finished
+	print("_anim_move: ", from_val, to_val)
+	tween.tween_property(self, "position", to_val, 0.2) \
+		.from(from_val).set_trans(Tween.TRANS_SINE)
+
+func _anim_move_reverse(tween: Tween, data: Dictionary) -> void:
+	var from_val = Position.position_to_world(data.get("from", cur_position))
+	var to_val   = Position.position_to_world(data.get("to",   cur_position))
+	tween.tween_property(self, "position", to_val, 0.2) \
+		.from(from_val).set_trans(Tween.TRANS_SINE)
+
+func _anim_attack(tween: Tween, data: Dictionary) -> void:
+	var pos: Position = data.get("pos", cur_position)
+	var dir: Position = data.get("dir", Position.ZERO())
+	print("attack anim: pos=", pos.to_str(), ", dir=", dir.to_str())
+	if not dir.is_zero():
+		EffectUtil.spawn_chop(
+			get_tree(), 
+			pos.add(dir), 
+			dir)
+	tween.tween_interval(0.2)
 
 #endregion

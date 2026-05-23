@@ -35,6 +35,7 @@ func _ready() -> void:
 	InputManager.back_input.connect(_back_inputed)   # ← 추가
 	
 func _action_inputed(dir: Position) -> void:
+	print("check: aq ispocessing=", AnimationQueue.is_processing, ", player=", _player, _player.is_dead, _player.is_fallen)
 	if AnimationQueue.is_processing or _player == null: return
 	if _player.is_dead or _player.is_fallen: return
  

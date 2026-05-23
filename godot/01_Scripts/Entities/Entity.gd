@@ -16,6 +16,16 @@ var size = 100
 	# 모든 엔티티는 준비될 때 씬 트리에 따라 자신의 격자 위치를 시각적 위치로 설정합니다.
 	#update_visual_position()
 
+# test 용
+func _ready() -> void:
+	init()
+	reset()
+
+func init() -> void:
+	_register_animations()
+
+func reset() -> void:
+	pass
 
 func move_to_pos(pos: Position):
 	print("move to pos!!!!")
@@ -32,6 +42,36 @@ func apply_data(data: Dictionary):
 	))
 	
 
+
+#region Anim
+signal animated(anim_name: String, data: Dictionary)
+
+# action 이름 → Callable 등록소
+var _anim_handlers: Dictionary = {}
+
+# 자식이 override해서 자기 action 등록
+func _register_animations() -> void:
+	_anim_handlers["fade"] = _anim_fade
+
+func on_animate(action: String, data: Dictionary) -> Signal:
+	print("on_animate 호출됨: ", action)
+	print("handlers: ", _anim_handlers.keys())  # ← 등록된 키 목록
+	var tween = create_tween()
+	tween.pause()
+	animated.emit(action, data)
+	if _anim_handlers.has(action):
+		_anim_handlers[action].call(tween, data)
+	else:
+		push_warning("animation: 등록되지 않은 action → %s" % action)
+		tween.tween_interval(0.0)
+	tween.play()
+	return tween.finished
+
+func _anim_fade(tween: Tween, data: Dictionary) -> void:
+	tween.tween_property(self, "modulate:a", 1.0, 0.2).from(0.0)
+
+
+#endregion
 
 
 
