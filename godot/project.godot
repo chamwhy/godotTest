@@ -42,6 +42,10 @@ window/size/window_height_override=852
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 
+[editor]
+
+movie_writer/movie_file="/Users/CKIRUser/Documents/godot-test-main/03_Resources"
+
 [input]
 
 test_x={

@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bgrcxgtju86gj"]
+
+[ext_resource type="Shader" uid="uid://cv3pib28c6g3y" path="res://02_Material/Shader/hit_effect.gdshader" id="1_l2t46"]
+
+[resource]
+shader = ExtResource("1_l2t46")
+shader_parameter/hit_color = Color(0.6210616, 0.00033547133, 0.6348347, 1)
+shader_parameter/intensity = 0.0
