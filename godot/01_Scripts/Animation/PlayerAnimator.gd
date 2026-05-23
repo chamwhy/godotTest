@@ -18,7 +18,6 @@ func _on_animate(anim_name: String, data: Dictionary) -> void:
 			move(1, vel)
 
 func move(cnt: int, dir: Position) -> void:
-	print(cnt, dir.to_str(), sprite, anim_player)
 	if dir.x != 0:
 		sprite.flip_h = dir.x < 0
 	AnimUtil.play_times(anim_player, "walk", cnt)

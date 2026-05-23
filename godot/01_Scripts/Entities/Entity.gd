@@ -53,9 +53,8 @@ var _anim_handlers: Dictionary = {}
 func _register_animations() -> void:
 	_anim_handlers["fade"] = _anim_fade
 
-func on_animate(action: String, data: Dictionary) -> Signal:
-	print("on_animate 호출됨: ", action)
-	print("handlers: ", _anim_handlers.keys())  # ← 등록된 키 목록
+func on_animate(action: String, data: Dictionary) -> Tween:
+	print("    - [", Time.get_ticks_msec() / 1000.0,"] on_animate 호출됨: ", self.get_script().get_global_name(), " - ", action)
 	var tween = create_tween()
 	tween.pause()
 	animated.emit(action, data)
@@ -65,7 +64,7 @@ func on_animate(action: String, data: Dictionary) -> Signal:
 		push_warning("animation: 등록되지 않은 action → %s" % action)
 		tween.tween_interval(0.0)
 	tween.play()
-	return tween.finished
+	return tween
 
 func _anim_fade(tween: Tween, data: Dictionary) -> void:
 	tween.tween_property(self, "modulate:a", 1.0, 0.2).from(0.0)

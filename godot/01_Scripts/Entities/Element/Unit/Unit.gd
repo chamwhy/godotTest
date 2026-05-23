@@ -65,7 +65,6 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 		if remain_move <= 0:
 			break
 		var checks = InGameManager.can_pass(chk_pos.add(dir))
-		print("check 222: ", checks, chk_pos.to_str(), dir.to_str())
 		if remain_move > 0 and checks:
 			remain_move -= 1
 			# 해당 게임에선 이동력을 소모하면 같이 공격력도 소모함.
@@ -78,7 +77,7 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 			break
 	
 	if move_cnt > 0:
-		move_to(dir.multiply(move_cnt), tick)
+		tick = move_to(dir.multiply(move_cnt), tick)
 		tick += 1
 	
 	if was_blocked and remain_atk > 0:
@@ -95,16 +94,15 @@ func move_inst(pos: Position) -> void:
 	pass
 
 # 속력 이동
-func move_to(vel: Position, tick: int) -> void:
-	if vel.is_zero(): return
-	print("Move To: ", vel.to_str())
+func move_to(vel: Position, tick: int) -> int:
+	if vel.is_zero(): return tick
+	
 	var goal: Position = vel.add(cur_position)
 	var dir: Position  = vel.normalized()
 	var chk_pos: Position = cur_position.add(dir)
 	var from: Position = cur_position.copy()
- 
+	print("이동: ", from.to_str(), " -> ", goal.to_str())
 	var re = InGameManager.exit_element(self, cur_position, tick)
-	print(re, cur_position.to_str(), tick)
 	if self != re: print("오류임. 절대 무조건 같아야 함")
  
 	while true:
@@ -131,9 +129,12 @@ func move_to(vel: Position, tick: int) -> void:
 		"move_reverse",
 		{"from": chk_pos, "to": from}
 	), tick)
+	
+	return tick
 
 
 func attack(atk_power: int, dir: Position, tick: int) -> void:
+	print("공격: ", cur_position.to_str(), " > ", dir.to_str())
 	var targets: Array[Element] = InGameManager.get_elements(cur_position.add(dir))
 	for target in targets:
 		if target:
@@ -202,7 +203,6 @@ func _register_animations() -> void:
 func _anim_move(tween: Tween, data: Dictionary) -> void:
 	var from_val = Position.position_to_world(data.get("from", cur_position))
 	var to_val   = Position.position_to_world(data.get("to",   cur_position))
-	print("_anim_move: ", from_val, to_val)
 	tween.tween_property(self, "position", to_val, 0.2) \
 		.from(from_val).set_trans(Tween.TRANS_SINE)
 

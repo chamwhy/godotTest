@@ -57,7 +57,7 @@ func _ready() -> void:
 
 
 func queue_reset() -> void:
-	print("큐 리셋")
+	print("AnimQ - 리셋")
 	cur_tick = 0
 	queue.resize(QUEUE_LIMIT)
 	for i in range(QUEUE_LIMIT):
@@ -67,9 +67,9 @@ func queue_reset() -> void:
 func add_anim_unit(unit: AnimUnit, tick: int) -> bool:
 	if tick >= start_tick + QUEUE_LIMIT:
 		return false
-	print("애니메이션 큐 유닛 추가 - ",
+	print("AnimQ - 유닛 추가 - ",
 		unit.target.get_script().get_global_name(),
-		" : ", tick, "(", tick - start_tick, ")")
+		" : ", tick, "틱(", tick - start_tick, "개)")
 	queue[tick - start_tick].append(unit)
 	return true
 
@@ -80,40 +80,41 @@ func add_anim_unit(unit: AnimUnit, tick: int) -> bool:
 func process_queue() -> void:
 	for i in range(QUEUE_LIMIT):
 		if queue[i].size() > 0:
-			print(i, " - ", queue[i].size())
-
-	print("애니메이션 큐 프로세싱 시작 try", is_processing, cur_tick, queue[cur_tick].is_empty())
+			print("    ", i, "틱 - ", queue[i].size(), "개")
+	print("AnimQ - 프로세싱 시작")
 	if is_processing or queue[cur_tick].is_empty():
+		print("    ====> 실패")
 		return
-	print("애니메이션 큐 프로세싱 시작")
+	
 	is_processing = true
 
 	_turn_log.clear()
 
 	while not queue[cur_tick].is_empty():
-		print("aq: ", start_tick + cur_tick, " - ", queue[cur_tick].size())
+		print("AnimQ: ", start_tick + cur_tick, "틱 - ", queue[cur_tick].size(), "개")
 		var current_batch: Array = queue[cur_tick]
 
 		# 이번 배치를 턴 로그에 기록
 		_turn_log.append(current_batch.duplicate())
 
-		var tweens: Array[Signal] = []
+		var tweens: Array[Tween] = []
 
 		for unit in current_batch:
 			if is_instance_valid(unit.target) and unit.target.has_method("on_animate"):
-				var task_finished = unit.target.on_animate(unit.action, unit.data)
-				if task_finished is Signal:
-					tweens.append(task_finished)
+				var tw = unit.target.on_animate(unit.action, unit.data)
+				if tw is Tween:
+					tweens.append(tw)
 
-		for finished_signal in tweens:
-			await finished_signal
+		for tw in tweens:
+			if not tw.is_running():
+				await tw.finished
 
 		await get_tree().process_frame
 		cur_tick += 1
 
 	queue_reset()
 	is_processing = false
-	print("모든 큐 재생 완료")
+	print("AnimQ - 모든 큐 재생 완료")
 
 
 # ─────────────────────────────────────────────

@@ -35,7 +35,10 @@ func _ready() -> void:
 	InputManager.back_input.connect(_back_inputed)   # ← 추가
 	
 func _action_inputed(dir: Position) -> void:
-	print("check: aq ispocessing=", AnimationQueue.is_processing, ", player=", _player, _player.is_dead, _player.is_fallen)
+	print("실행 check: \n	aq ispocessing = ", AnimationQueue.is_processing, \
+		"\n    player = ", _player, \
+		"\n    죽음? = ", _player.is_dead, \
+		"\n    떨어짐? = ", _player.is_fallen)
 	if AnimationQueue.is_processing or _player == null: return
 	if _player.is_dead or _player.is_fallen: return
  
@@ -94,7 +97,6 @@ func register_tile(pos: Position, tile_id: int) -> void:
 	tile_map[pos.y][pos.x] = tile_id
 	
 func register_element(pos: Position, elm: Element) -> void:
-	print("register: ", pos.to_str(), " - ", elm.get_script().get_global_name())
 	if not map_size_in(pos.x, pos.y): return
 	elm.cur_position = pos
 	if element_map[pos.y][pos.x] == null:
@@ -160,7 +162,6 @@ func exit_element(elm: Element, pos: Position, tick: int) -> Element:
 		var re = element_map[pos.y][pos.x][i]
 		if not re is Element: continue
 		if re != elm: continue
-		print(pos.to_str(), i)
 		element_map[pos.y][pos.x].remove_at(i)
 		element_exited.emit(pos, elm, tick)
 		return re
@@ -188,7 +189,6 @@ func can_placed(pos: Position) -> bool:
 
 func is_blocked(pos: Position) -> bool:
 	if not map_size_in(pos.x, pos.y): return false
-	print("is block check: ", pos.x, pos.y, element_map[pos.y][pos.x].size())
 	for i in element_map[pos.y][pos.x]:
 		var el = i as Element
 		if el:

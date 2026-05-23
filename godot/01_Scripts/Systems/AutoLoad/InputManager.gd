@@ -36,21 +36,29 @@ func input_main_menu(event: InputEvent) -> void:
 			GameManager.set_state(GameManager.GameState.PLAYING)
 
 func input_playing() -> void:	
+	
 	if Input.is_action_just_pressed("back"):       # ← 추가 (프로젝트 InputMap에 "back" 등록 필요)
+		print("--------------------------------------------------------")
+		print("back 누름")
 		emit_signal("back_input")
 	elif Input.is_action_just_pressed("move_up"):
+		print("--------------------------------------------------------")
 		print("up누름")
 		emit_signal("action_input", Position.UP())
 	elif Input.is_action_just_pressed("move_down"):
+		print("--------------------------------------------------------")
 		print("down누름")
 		emit_signal("action_input", Position.DOWN())
 	elif Input.is_action_just_pressed("move_left"):
+		print("--------------------------------------------------------")
 		print("left누름")
 		emit_signal("action_input", Position.LEFT())
 	elif Input.is_action_just_pressed("move_right"):
+		print("--------------------------------------------------------")
 		print("right누름")
 		emit_signal("action_input", Position.RIGHT())
 	elif Input.is_action_just_pressed("interaction"):
+		print("--------------------------------------------------------")
 		print("상호작용누름")
 		emit_signal("action_input", Position.ZERO())
 
