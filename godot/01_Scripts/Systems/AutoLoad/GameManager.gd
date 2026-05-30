@@ -1,4 +1,4 @@
-# AutoLoad
+# AutoLoad - GameManager.gd
 extends Node
 
 # 게임 상태 enum

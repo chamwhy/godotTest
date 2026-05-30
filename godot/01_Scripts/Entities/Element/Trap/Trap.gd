@@ -6,6 +6,7 @@ class_name Trap
 #@export var hitable: bool = true
 var atk_pow := 0
 var is_once := false
+var traped := false
 #endregion
 
 #region sprite2ds
@@ -40,7 +41,7 @@ func update_sprite() -> void:
 
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:
-	if pos.equals(cur_position):
+	if not traped and pos.equals(cur_position):
 		attack(elm, tick)
 		if is_once:
 			destroy_trap(tick)
@@ -63,4 +64,17 @@ func on_hit(atk_data: AtkData) -> bool:
 
 func destroy_trap(tick: int) -> void:
 	InGameManager.exit_element(self, cur_position, tick)
-	queue_free()
+	traped = true
+	visible = false
+
+
+func save_undo_state() -> Dictionary:
+	var dict = super.save_undo_state()
+	dict["traped"] = traped
+	return dict
+
+## save_undo_state()가 반환한 Dictionary로 논리 상태를 복원한다.
+## 서브클래스는 super.apply_undo(state)를 먼저 호출한 뒤 추가 처리한다.
+func apply_undo(state: Dictionary) -> void:
+	super.apply_undo(state)
+	traped = state.get("traped", false)

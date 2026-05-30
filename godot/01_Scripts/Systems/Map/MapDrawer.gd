@@ -1,3 +1,4 @@
+#MapDrawer.gd
 extends Node
 
 const MAP_DATA_HEADER: String = "res://05_Data/01_MapData/"

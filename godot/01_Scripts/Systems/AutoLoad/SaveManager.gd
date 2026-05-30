@@ -1,4 +1,4 @@
-# AutoLoad
+# AutoLoad - SaveManager.gd
 extends Node
 
 

@@ -1,4 +1,4 @@
-# AutoLoad (GlobalDissolve.gd)
+# AutoLoad (UIManager.gd)
 extends Node
 
 # 씬에 배치된 Dissolver 객체를 여기에 등록해야 합니다.

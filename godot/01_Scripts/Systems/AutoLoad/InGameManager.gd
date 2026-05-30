@@ -1,4 +1,4 @@
-# AutoLoad
+# AutoLoad - IngameManager.gd
 extends Node
 
 const MOVE_DELAY := 0.8

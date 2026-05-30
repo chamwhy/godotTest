@@ -188,7 +188,7 @@ func save_undo_state() -> Dictionary:
  
 func apply_undo(state: Dictionary) -> void:
 	super.apply_undo(state)
-	_cur_hp    = state["cur_hp"]
+	cur_hp    = state["cur_hp"]
 	is_dead    = state["is_dead"]
 	is_fallen  = state["is_fallen"]
  

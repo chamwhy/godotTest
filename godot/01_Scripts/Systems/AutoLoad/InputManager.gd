@@ -1,4 +1,4 @@
-# AutoLoad
+# AutoLoad - InputManager.gd
 extends Node
 
 # 행동 입력 신호

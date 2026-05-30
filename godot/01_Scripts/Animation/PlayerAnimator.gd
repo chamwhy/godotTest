@@ -1,3 +1,4 @@
+#PlayerAnimator.gd
 extends Node
 
 @onready var anim_player: AnimationPlayer = $"."
