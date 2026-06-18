@@ -3,7 +3,7 @@
 	"stage": 4,
 	"map_name": "2로 이동.",
 	"tile_size_x": 32,
-	"tile_size_y": 24,
+	"tile_size_y": 32,
 	"map_width": 8,
 	"map_height": 8,
 	"zoom": 0.8,

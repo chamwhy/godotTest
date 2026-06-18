@@ -3,7 +3,7 @@
 	"stage": 0,
 	"map_name": "메인 월드",
 	"tile_size_x": 32,
-	"tile_size_y": 24,
+	"tile_size_y": 32,
 	"map_width": 4,
 	"map_height": 6,
 	"zoom": 1,

@@ -3,7 +3,7 @@
 	"stage": 1,
 	"map_name": "첫 번째 스테이지",
 	"tile_size_x": 32,
-	"tile_size_y": 24,
+	"tile_size_y": 32,
 	"map_width": 3,
 	"map_height": 3,
 	"zoom": 1,

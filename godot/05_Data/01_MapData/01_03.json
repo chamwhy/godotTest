@@ -3,7 +3,7 @@
 	"stage": 3,
 	"map_name": "테스트용 맵",
 	"tile_size_x": 32,
-	"tile_size_y": 24,
+	"tile_size_y": 32,
 	"map_width": 6,
 	"map_height": 6,
 	"zoom": 1,

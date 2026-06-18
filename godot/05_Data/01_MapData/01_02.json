@@ -3,7 +3,7 @@
 	"stage": 2,
 	"map_name": "임시맵",
 	"tile_size_x": 32,
-	"tile_size_y": 24,
+	"tile_size_y": 32,
 	"map_width": 5,
 	"map_height": 5,
 	"zoom": 1,
