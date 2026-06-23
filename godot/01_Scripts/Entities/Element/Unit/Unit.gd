@@ -123,8 +123,7 @@ func move_to(vel: Position, tick: int) -> int:
  
 		from = chk_pos.copy()
 		tick += 1
- 
-	InGameManager.enter_element(self, chk_pos, tick)
+	
 	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
 		self,
 		"move",
@@ -132,7 +131,8 @@ func move_to(vel: Position, tick: int) -> int:
 		"move_reverse",
 		{"from": chk_pos, "to": from}
 	), tick)
-	
+	# 도착을 기준으로 하니 tick에 1 추가
+	InGameManager.enter_element(self, chk_pos, tick+1)
 	return tick
 
 

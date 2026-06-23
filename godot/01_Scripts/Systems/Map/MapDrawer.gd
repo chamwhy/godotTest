@@ -23,6 +23,7 @@ func _ready():
 
 ## JSON 파일 경로를 받아 맵 전체를 그리는 메인 함수
 func draw_map(world: int, stage: int) -> bool:
+	erase_map()
 	# 1. 씬 트리의 루트 노드를 기준으로 부모 노드를 동적으로 찾습니다.
 	var current_root = get_tree().current_scene # 현재 로드된 씬의 루트 노드
 	
@@ -40,6 +41,9 @@ func draw_map(world: int, stage: int) -> bool:
 		print("Failed to load map data from: %s" % json_path)
 		return false
 	
+	InGameManager.world = map_data.get("world", 0)
+	InGameManager.stage = map_data.get("stage", 0)
+	InGameManager.map_name = map_data.get("map_name", "")
 	
 	tile_size_x = map_data.get("tile_size_x", 32)
 	tile_size_y = map_data.get("tile_size_y", 24)

@@ -78,12 +78,27 @@ func init(width, height):
 			tile_map[y].append(0)
 			element_map[y].append([])
 
+
 func clear():
 	map_width = 0
 	map_height = 0
 	tile_map = []
 	element_map = []
 
+# 큐가 끝난 뒤 처리할 맵 전환 예약 (비어있으면 없음)
+var _pending_map_change: Dictionary = {}
+
+func request_map_change(world: int, stage: int) -> void:
+	_pending_map_change = {"world": world, "stage": stage}
+
+func has_pending_map_change() -> bool:
+	return not _pending_map_change.is_empty()
+
+func consume_map_change() -> Dictionary:
+	var mc = _pending_map_change
+	_pending_map_change = {}
+	return mc
+	
 
 func map_size_in(x:int, y:int) -> bool:
 	return 0 <= x and x < map_width and 0 <= y and y < map_height
@@ -176,6 +191,13 @@ func interact_element(elm: Element, pos: Position, tick: int) -> bool:
 #endregion
 
 
+var world := 0
+var stage := 0
+var map_name := ""
+
+
+func complete_stage():
+	StageManager.clear_stage(world, stage)
 
 # 지나갈 수 있는 지 여부
 func can_pass(pos: Position) -> bool:

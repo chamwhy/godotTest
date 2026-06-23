@@ -114,6 +114,8 @@ func process_queue() -> void:
 	queue_reset()
 	is_processing = false
 	print("AnimQ - 모든 큐 재생 완료")
+	
+	_flush_pending_map_change()   # ← 추가
 
 
 # ─────────────────────────────────────────────
@@ -156,3 +158,13 @@ func process_undo_queue(batches: Array) -> void:
 
 	is_processing = false
 	print("Undo 애니메이션 역재생 완료")
+
+
+
+
+func _flush_pending_map_change() -> void:
+	if InGameManager.has_pending_map_change():
+		var mc = InGameManager.consume_map_change()
+		print("AnimQ - 맵 전환 실행: ", mc.world, "-", mc.stage)
+		MapDrawer.draw_map(mc.world, mc.stage)
+		UndoManager.clear_history()
