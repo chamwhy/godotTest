@@ -6,6 +6,7 @@ class_name MapPortal
 #@export var hitable: bool = true
 var world := 0
 var stage := 0
+var completing := false
 #endregion
 
 
@@ -15,15 +16,39 @@ func apply_data(data: Dictionary) -> void:
 	hitable = false
 	world = data.get("world", 0)
 	stage = data.get("stage", 0)
+	completing = data.get("completing", false)
 	
-	InGameManager.element_interacted.connect(_check_pos)
+	InGameManager.element_entered.connect(_check_pos)
 	# TODO: 상태에 따른 이미지 업데이트
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:
-	print("map portal 발동.", cur_position.to_str(), pos.to_str())
 	# 일단은 elm 상관없이 발동. 나중에 player 넣거나 아니면 몬스터가 밟는 거 자체를 기믹으로 할 수도?
 	if pos.equals(cur_position):
-		move_map()
+		print("map portal 발동.", cur_position.to_str(), pos.to_str())
+		move_map(tick)
 
-func move_map() -> void:
-	MapDrawer.draw_map(world,stage)
+func move_map(tick: int) -> void:
+	if completing:
+		InGameManager.complete_stage()
+	InGameManager.request_map_change(world, stage)
+	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
+		self,
+		"move_map",
+		{},
+		"",
+		{}
+	), tick)
+	
+
+
+#region animation
+
+func _register_animations() -> void:
+	super._register_animations()          # 부모 것 먼저 등록
+	_anim_handlers["move_map"] = _anim_move_map
+
+func _anim_move_map(tween: Tween, data: Dictionary) -> void:
+	tween.tween_interval(0.0)
+	# 실제 동작이 아닌 액션적인 무빙만 보여주는 섹션. 말그대로 애니메이션
+
+#endregion

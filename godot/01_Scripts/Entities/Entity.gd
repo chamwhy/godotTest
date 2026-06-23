@@ -28,9 +28,7 @@ func reset() -> void:
 	pass
 
 func move_to_pos(pos: Position):
-	print("move to pos!!!!")
 	cur_position = pos
-	print("move to ", pos.to_str(), Position.position_to_world(pos))
 	position = Position.position_to_world(pos)
 	
 
