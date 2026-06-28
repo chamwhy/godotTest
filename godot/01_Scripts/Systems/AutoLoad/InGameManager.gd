@@ -13,21 +13,26 @@ var _pending_callbacks: Array[Callable] = []
 func run_when_player_ready(callback: Callable):
 	if _player:
 		# 이미 플레이어가 있다면 즉시 실행
+		print("이미 있")
 		callback.call(_player)
 	else:
 		# 아직 없다면 대기열에 추가
 		_pending_callbacks.append(callback)
 
+signal player_registered(player: Player)
+
 # 플레이어가 생성된 직후 매니저에게 자신을 등록할 때 호출
 func register_player(player_node: Player):
 	_player = player_node
-	
+	print("플레이어 등록")
 	# 대기 중이던 모든 함수 실행
 	for callback in _pending_callbacks:
+		print("callback")
 		callback.call(_player)
 	
 	# 실행 완료 후 대기열 비우기
 	_pending_callbacks.clear()
+	player_registered.emit(player_node)
 #endregion
 
 func _ready() -> void:

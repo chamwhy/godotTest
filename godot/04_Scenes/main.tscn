@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cr5oiuml1f0up"]
 
 [ext_resource type="Script" uid="uid://lpdb7ca0h2ms" path="res://01_Scripts/Systems/MyCamera.gd" id="1_6grqo"]
-[ext_resource type="Texture2D" uid="uid://di50e4dwludxv" path="res://03_Resources/Test/title.png" id="2_4p43j"]
+[ext_resource type="Texture2D" uid="uid://ru3hev0gr4j6" path="res://03_Resources/mino/TITLE.png" id="2_epy18"]
 [ext_resource type="Texture2D" uid="uid://f8l1wjapnnup" path="res://03_Resources/dummy/background.png" id="4_4p43j"]
 [ext_resource type="Script" uid="uid://cb6q0b6vlkvlu" path="res://01_Scripts/UI/PlayerHpBar.gd" id="4_rbyvi"]
 [ext_resource type="Texture2D" uid="uid://2y0vkb8yelpt" path="res://03_Resources/dummy/hpBarCnt.png" id="5_vpxpd"]
@@ -29,15 +29,16 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 37.0
-offset_top = 35.0
-offset_right = 163.0
-offset_bottom = 77.0
+offset_left = -87.0
+offset_top = 33.56
+offset_right = 287.0
+offset_bottom = 139.56
 grow_horizontal = 2
+scale = Vector2(0.485, 0.485)
 pivot_offset_ratio = Vector2(0.5, 0)
 size_flags_horizontal = 4
 size_flags_vertical = 0
-texture = ExtResource("2_4p43j")
+texture = ExtResource("2_epy18")
 
 [node name="Label" type="Label" parent="UI/StartMenu" unique_id=142008082]
 layout_mode = 1
