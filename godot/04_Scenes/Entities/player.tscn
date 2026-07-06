@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bdvhogbuwr7u4"]
 
 [ext_resource type="Script" uid="uid://b1wjbxsawa4s7" path="res://01_Scripts/Entities/Element/Unit/Player/Player.gd" id="1_x07mf"]
-[ext_resource type="Texture2D" uid="uid://bf1srna51lwy" path="res://03_Resources/mino/mino6.png" id="2_cievx"]
+[ext_resource type="Texture2D" uid="uid://bnh4uvm8juf0m" path="res://03_Resources/mino2/obj/sprite-1-1.png" id="2_3iv1l"]
 [ext_resource type="Script" uid="uid://copepgvcvivm5" path="res://01_Scripts/Animation/PlayerAnimator.gd" id="5_3iv1l"]
 [ext_resource type="Texture2D" uid="uid://camhsiq8po4in" path="res://03_Resources/dummy/shadow.png" id="6_y85o2"]
 
@@ -17,7 +17,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("2_cievx")]
+"values": [ExtResource("2_3iv1l")]
 }
 
 [sub_resource type="Animation" id="Animation_hp3vd"]
@@ -30,10 +30,10 @@ tracks/0/path = NodePath("PlayerIdle:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.10000001, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.10000001, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("2_cievx"), ExtResource("2_cievx"), ExtResource("2_cievx"), ExtResource("2_cievx")]
+"values": [ExtResource("2_3iv1l"), ExtResource("2_3iv1l"), ExtResource("2_3iv1l"), ExtResource("2_3iv1l"), ExtResource("2_3iv1l")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7ekso"]
@@ -50,7 +50,7 @@ is_block = true
 [node name="PlayerIdle" type="Sprite2D" parent="." unique_id=1873674535]
 visibility_layer = 4
 position = Vector2(0, -9)
-texture = ExtResource("2_cievx")
+texture = ExtResource("2_3iv1l")
 
 [node name="Shadow" type="Sprite2D" parent="PlayerIdle" unique_id=753039455]
 self_modulate = Color(1, 1, 1, 0.6745098)

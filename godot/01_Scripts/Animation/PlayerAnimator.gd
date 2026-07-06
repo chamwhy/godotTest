@@ -24,9 +24,9 @@ func _on_animate(anim_name: String, data: Dictionary) -> void:
 
 func move(cnt: int, dir: Position) -> void:
 	if dir.x != 0:
-		sprite.flip_h = dir.x < 0
+		sprite.flip_h = dir.x > 0
 	AnimUtil.play_times(anim_player, "walk", cnt)
 
 func attack(dir: Position) -> void:
 	if dir.x != 0:
-		sprite.flip_h = dir.x < 0
+		sprite.flip_h = dir.x > 0

@@ -1,12 +1,11 @@
 [gd_scene format=3 uid="uid://bk8u1y1oy40g1"]
 
 [ext_resource type="Script" uid="uid://dm3didxm223aq" path="res://01_Scripts/Entities/Element/Exit/MapPortal.gd" id="1_vr2du"]
-[ext_resource type="Texture2D" uid="uid://os4vfwivs52a" path="res://03_Resources/Test/map_portal.png" id="2_uoq1a"]
+[ext_resource type="Texture2D" uid="uid://cgclc8253ltln" path="res://03_Resources/mino2/obj/sprite-4-3.png" id="2_vr2du"]
 
 [node name="MapPortal" type="Node2D" unique_id=1180122851]
 script = ExtResource("1_vr2du")
 hitable = false
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=260130908]
-scale = Vector2(0.33, 0.33)
-texture = ExtResource("2_uoq1a")
+texture = ExtResource("2_vr2du")

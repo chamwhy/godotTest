@@ -1,17 +1,15 @@
 [gd_scene format=3 uid="uid://b635aa1kx37m0"]
 
 [ext_resource type="Script" uid="uid://c5leyu6fv8yei" path="res://01_Scripts/Entities/Element/Trap/Trap.gd" id="1_qu4bf"]
-[ext_resource type="Texture2D" uid="uid://5juuuntndw63" path="res://03_Resources/mino/g1.png" id="2_56knl"]
-[ext_resource type="Texture2D" uid="uid://bpggasxigsy3f" path="res://03_Resources/mino/g2.png" id="3_7ma8i"]
-[ext_resource type="Texture2D" uid="uid://bdr2lgng6jg2v" path="res://03_Resources/mino/g3.png" id="4_nev0m"]
-[ext_resource type="Texture2D" uid="uid://b3ftci0ykwic7" path="res://03_Resources/dummy/chilli.png" id="5_56knl"]
-[ext_resource type="Texture2D" uid="uid://bcs36ywf2a7lp" path="res://03_Resources/dummy/chilli2.png" id="6_7ma8i"]
-[ext_resource type="Texture2D" uid="uid://dkx8om01bq7k4" path="res://03_Resources/dummy/chilli3.png" id="7_nev0m"]
+[ext_resource type="Texture2D" uid="uid://cpvqpe3y4u1hd" path="res://03_Resources/mino2/obj/sprite-2-1.png" id="2_3fma3"]
+[ext_resource type="Texture2D" uid="uid://bsdietw0v4rvp" path="res://03_Resources/mino2/obj/sprite-3-1.png" id="3_65bpo"]
+[ext_resource type="Texture2D" uid="uid://bv8458sbec0ss" path="res://03_Resources/mino2/obj/sprite-2-2.png" id="4_56knl"]
+[ext_resource type="Texture2D" uid="uid://bo0gwieyapfyd" path="res://03_Resources/mino2/obj/sprite-3-3.png" id="8_7ma8i"]
 
 [node name="Trap" type="Node2D" unique_id=1351320918]
 script = ExtResource("1_qu4bf")
-trap_textures = Array[Texture2D]([ExtResource("2_56knl"), ExtResource("3_7ma8i"), ExtResource("4_nev0m")])
-once_trap_textures = Array[Texture2D]([ExtResource("5_56knl"), ExtResource("6_7ma8i"), ExtResource("7_nev0m")])
+trap_textures = Array[Texture2D]([ExtResource("2_3fma3"), ExtResource("3_65bpo"), ExtResource("4_56knl")])
+once_trap_textures = Array[Texture2D]([ExtResource("8_7ma8i"), ExtResource("8_7ma8i"), ExtResource("8_7ma8i")])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=484609921]
-texture = ExtResource("5_56knl")
+texture = ExtResource("8_7ma8i")

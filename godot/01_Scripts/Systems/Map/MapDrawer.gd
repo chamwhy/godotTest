@@ -88,6 +88,12 @@ func _spawn_tile_objects(data: Dictionary):
 			var tile_obj: Node2D = scene.instantiate()
 			entity_parent.add_child(tile_obj)
 			
+			if tile_obj.has_method("set_surround"):
+				var surr = [
+					[]
+				]
+				
+			
 			# 3. apply_data 자동 호출 (ObjectData 타입 안전성)
 			if tile_obj.has_method("apply_data"):
 				var tile_data = {

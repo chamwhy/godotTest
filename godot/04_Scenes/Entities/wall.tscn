@@ -1,22 +1,21 @@
 [gd_scene format=3 uid="uid://dutdkiwxrnvay"]
 
 [ext_resource type="Script" uid="uid://dv0ojqewfgf4l" path="res://01_Scripts/Entities/Element/Wall/Wall.gd" id="1_2f07e"]
-[ext_resource type="Texture2D" uid="uid://bobjifil47yt2" path="res://03_Resources/mino/wall.png" id="2_2p4cy"]
-[ext_resource type="Texture2D" uid="uid://c1gidfvjx27su" path="res://03_Resources/dummy/jar.png" id="3_pyone"]
-[ext_resource type="Texture2D" uid="uid://5wsp7tfsttng" path="res://03_Resources/mino/2.png" id="4_pyone"]
+[ext_resource type="Texture2D" uid="uid://b6xvg1jpqmst" path="res://03_Resources/mino2/obj/sprite-4-2.png" id="3_2p4cy"]
+[ext_resource type="Texture2D" uid="uid://ccqt8r3jlufmo" path="res://03_Resources/mino2/obj/sprite-1-4.png" id="4_pyone"]
 [ext_resource type="Material" uid="uid://bgrcxgtju86gj" path="res://02_Material/Shader/HitEffect.tres" id="5_2p4cy"]
 [ext_resource type="Script" uid="uid://dg87ive2nxwm2" path="res://01_Scripts/Animation/Effect/HitEffect.gd" id="5_jaieu"]
+[ext_resource type="Texture2D" uid="uid://doc1y8vsqjdj8" path="res://03_Resources/mino2/obj/sprite-1-5.png" id="6_pyone"]
 
 [node name="Wall" type="Node2D" unique_id=113108078]
 script = ExtResource("1_2f07e")
-wall_texture = ExtResource("2_2p4cy")
-destroyable_wall_textures = Array[Texture2D]([ExtResource("3_pyone"), ExtResource("4_pyone")])
+wall_texture = ExtResource("6_pyone")
+destroyable_wall_textures = Array[Texture2D]([ExtResource("3_2p4cy"), ExtResource("4_pyone")])
 is_block = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1298427388]
 material = ExtResource("5_2p4cy")
-texture = ExtResource("2_2p4cy")
-offset = Vector2(0, -2)
+texture = ExtResource("6_pyone")
 
 [node name="HitEffect" type="Node" parent="Sprite2D" unique_id=324425107]
 script = ExtResource("5_jaieu")

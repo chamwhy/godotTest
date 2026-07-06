@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://tqdeqigdhtn"]
 
 [ext_resource type="Script" uid="uid://dw7dt43kn7fcd" path="res://01_Scripts/Entities/Element/HealItem/HealItem.gd" id="1_r8fft"]
-[ext_resource type="Texture2D" uid="uid://btui1emexvti5" path="res://03_Resources/dummy/apple.png" id="2_kxvwg"]
+[ext_resource type="Texture2D" uid="uid://7cgayqkumb15" path="res://03_Resources/mino2/obj/sprite-2-3.png" id="2_kxvwg"]
 
 [node name="HealItem" type="Node2D" unique_id=630704450]
 script = ExtResource("1_r8fft")
