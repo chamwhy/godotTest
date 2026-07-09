@@ -92,4 +92,4 @@ back={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
-environment/defaults/default_clear_color=Color(0.7539839, 0.75398386, 0.75398386, 1)
+environment/defaults/default_clear_color=Color(0.68307745, 0.68307734, 0.6830771, 1)

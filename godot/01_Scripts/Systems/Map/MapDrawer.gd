@@ -52,6 +52,8 @@ func draw_map(world: int, stage: int) -> bool:
 	map_height = map_data.get("map_height", 10) + padding * 2
 	zoom_data = map_data.get("zoom", 0)
 	
+	
+	
 	InGameManager.init(map_width, map_height)
 	
 	# 데이터에 맞는 카메라 위치 배치
@@ -89,10 +91,17 @@ func _spawn_tile_objects(data: Dictionary):
 			entity_parent.add_child(tile_obj)
 			
 			if tile_obj.has_method("set_surround"):
+				var get_surr = func(sy:int, sx:int) -> int:
+					var rv = 0
+					if 0 <= sy and sy < tile_data_array.size() and 0 <= sx and sx < row.size():
+						rv = tile_data_array[sy][sx]
+					return rv
 				var surr = [
-					[]
+					[get_surr.call(y-1, x-1), get_surr.call(y-1, x), get_surr.call(y-1, x+1)],
+					[get_surr.call(y  , x-1), get_surr.call(y  , x), get_surr.call(y  , x+1)],
+					[get_surr.call(y+1, x-1), get_surr.call(y+1, x), get_surr.call(y+1, x+1)]
 				]
-				
+				tile_obj.set_surround(surr)
 			
 			# 3. apply_data 자동 호출 (ObjectData 타입 안전성)
 			if tile_obj.has_method("apply_data"):

@@ -23,8 +23,8 @@ down_left = NodePath("Sprite2D3")
 down_right = NodePath("Sprite2D4")
 up_left_texture = Array[Texture2D]([ExtResource("2_ly5hs"), ExtResource("3_38mx0"), ExtResource("2_ly5hs"), ExtResource("3_38mx0"), ExtResource("4_yvyjj"), ExtResource("5_ablej"), ExtResource("4_yvyjj"), ExtResource("6_45ibi")])
 up_right_texture = Array[Texture2D]([ExtResource("3_w78yq"), ExtResource("8_11hkl"), ExtResource("3_w78yq"), ExtResource("8_11hkl"), ExtResource("3_38mx0"), ExtResource("9_d7c2p"), ExtResource("3_38mx0"), ExtResource("6_45ibi")])
-down_left_texture = Array[Texture2D]([ExtResource("5_fl5wl"), ExtResource("11_6b1i5"), ExtResource("5_fl5wl"), ExtResource("11_6b1i5"), ExtResource("8_11hkl"), ExtResource("12_uphdg"), ExtResource("8_11hkl"), ExtResource("6_45ibi")])
-down_right_texture = Array[Texture2D]([ExtResource("4_wwvnv"), ExtResource("4_yvyjj"), ExtResource("4_wwvnv"), ExtResource("4_yvyjj"), ExtResource("11_6b1i5"), ExtResource("14_klgjt"), ExtResource("11_6b1i5"), ExtResource("6_45ibi")])
+down_left_texture = Array[Texture2D]([ExtResource("4_wwvnv"), ExtResource("4_yvyjj"), ExtResource("4_wwvnv"), ExtResource("4_yvyjj"), ExtResource("11_6b1i5"), ExtResource("14_klgjt"), ExtResource("11_6b1i5"), ExtResource("6_45ibi")])
+down_right_texture = Array[Texture2D]([ExtResource("5_fl5wl"), ExtResource("11_6b1i5"), ExtResource("5_fl5wl"), ExtResource("11_6b1i5"), ExtResource("8_11hkl"), ExtResource("12_uphdg"), ExtResource("8_11hkl"), ExtResource("6_45ibi")])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1541515074]
 z_index = -1
