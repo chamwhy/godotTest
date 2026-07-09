@@ -4,46 +4,146 @@
 	"map_name": "1스테 메인 월드",
 	"tile_size_x": 256,
 	"tile_size_y": 256,
-	"map_width": 4,
-	"map_height": 6,
+	"map_width": 5,
+	"map_height": 8,
 	"zoom": 0.4,
 	"padding": 2,
 	"tile_map": [
-		[1, 1, 1, 1],
-		[0, 0, 1, 1],
-		[1, 1, 1, 1],
-		[0, 0, 1, 1],
-		[1, 1, 1, 1],
-		[0, 0, 0, 1],
+		[1, 1, 1, 1, 1],
+		[0, 0, 1, 0, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 0],
+		[1, 1, 1, 1, 0],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 0, 1],
+		[0, 1, 1, 1, 1],
 	],
 	"entities": [
 		{
-			"x": 3,
-			"y": 5,
+			"x": 4,
+			"y": 7,
 			"obj_type": "player",
 			"mh": 6,
 			"ch": 6
 		},
 		{
-			"x": 0,
-			"y": 4,
+			"x": 3,
+			"y": 7,
 			"obj_type": "mapPortal",
 			"world": 1,
 			"stage": 1
+		},
+		{
+			"x": 2,
+			"y": 7,
+			"obj_type": "mapPortal",
+			"world": 1,
+			"stage": 2
+		},
+		{
+			"x": 1,
+			"y": 6,
+			"obj_type": "mapPortal",
+			"world": 1,
+			"stage": 3
+		},
+		{
+			"x": 1,
+			"y": 5,
+			"obj_type": "mapPortal",
+			"world": 1,
+			"stage": 4
+		},
+		{
+			"x": 1,
+			"y": 3,
+			"obj_type": "mapPortal",
+			"world": 1,
+			"stage": 5
+		},
+		{
+			"x": 3,
+			"y": 3,
+			"obj_type": "mapPortal",
+			"world": 1,
+			"stage": 6
 		},
 		{
 			"x": 0,
 			"y": 2,
 			"obj_type": "mapPortal",
 			"world": 1,
-			"stage": 2
+			"stage": 7
+		},
+		{
+			"x": 2,
+			"y": 1,
+			"obj_type": "mapPortal",
+			"world": 1,
+			"stage": 8
 		},
 		{
 			"x": 0,
 			"y": 0,
 			"obj_type": "mapPortal",
 			"world": 1,
-			"stage": 3
+			"stage": 9
+		},
+		{
+			"x": 4,
+			"y": 1,
+			"obj_type": "mapPortal",
+			"world": 1,
+			"stage": 10
+		},
+		{
+			"x": 3,
+			"y": 0,
+			"obj_type": "wall"
+		},	
+		{
+			"x": 3,
+			"y": 2,
+			"obj_type": "wall"
+		},
+		{
+			"x": 0,
+			"y": 5,
+			"obj_type": "wall"
+		},
+		{
+			"x": 2,
+			"y": 6,
+			"obj_type": "wall"
+		},
+		{
+			"x": 4,
+			"y": 6,
+			"obj_type": "wall"
+		},
+		{
+			"x": 3,
+			"y": 0,
+			"obj_type": "wall",
+			"ma": 1
+		},
+		{
+			"x": 1,
+			"y": 7,
+			"obj_type": "wall",
+			"ma": 1
+		},
+		{
+			"x": 1,
+			"y": 0,
+			"obj_type": "healItem"
+		},
+		{
+			"x": 2,
+			"y": 5,
+			"obj_type": "trap",
+			"once": true,
+			"atk": 1
 		},
 	]
 }
