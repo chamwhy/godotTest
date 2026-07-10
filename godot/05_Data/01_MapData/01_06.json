@@ -1,0 +1,79 @@
+{
+	"world": 1,
+	"stage": 6,
+	"map_name": "2로 이동.",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 7,
+	"map_height": 5,
+	"zoom": 0.4,
+	"padding": 2,
+	"tile_map": [
+		[0, 0, 0, 0, 1, 1, 1],
+		[1, 1, 1, 1, 1, 0, 1],
+		[0, 1, 1, 0, 1, 1, 1],
+		[1, 1, 0, 1, 1, 1, 0],
+		[1, 1, 1, 1, 1, 1, 0],
+	],
+	"entities": [
+		{
+			"x": 1,
+			"y": 2,
+			"obj_type": "player",
+			"mh": 6,
+			"ch": 6
+		},
+		{
+			"x": 4,
+			"y": 0,
+			"obj_type": "wall"
+		},
+		{
+			"x": 4,
+			"y": 1,
+			"obj_type": "wall"
+		},
+		{
+			"x": 4,
+			"y": 2,
+			"obj_type": "wall",
+			"ma": 2
+		},
+		{
+			"x": 4,
+			"y": 3,
+			"obj_type": "wall"
+		},
+		{
+			"x": 0,
+			"y": 1,
+			"obj_type": "wall"
+		},
+		{
+			"x": 6,
+			"y": 2,
+			"obj_type": "wall"
+		},
+		{
+			"x": 2,
+			"y": 2,
+			"obj_type": "trap",
+			"atk": 1,
+		},
+		{
+			"x": 1,
+			"y": 2,
+			"obj_type": "trap",
+			"atk": 1,
+			"once": true
+		},
+		{
+			"x": 5,
+			"y": 0,
+			"obj_type": "mapPortal",
+			"world": 1,
+			"stage": 0,
+			"completing": true
+		},
+	]
+}
