@@ -10,11 +10,12 @@ var min_atk := 0
 
 #region sprites
 
-@export var wall_texture: Texture2D
-@export var destroyable_wall_textures: Array[Texture2D]
+@export var random_wall_frames: Array[SpriteFrames]
+@export var destroyable_wall_frames: Array[SpriteFrames]
 
 #endregion
 
+const Wall_Ratio := 0.4
 
 func apply_data(data: Dictionary) -> void:
 	super.apply_data(data)
@@ -27,9 +28,11 @@ func apply_data(data: Dictionary) -> void:
 
 func update_sprite() -> void:
 	if not destroyable:
-		sprite2D.texture = wall_texture
+		if randf() < Wall_Ratio:
+			var rand_frame: SpriteFrames = random_wall_frames[randi() % random_wall_frames.size()]
+			animSprite2D.sprite_frames = rand_frame
 	else:
-		sprite2D.texture = destroyable_wall_textures[min(min_atk-1, destroyable_wall_textures.size()-1)]
+		animSprite2D.texture = destroyable_wall_textures[min(min_atk-1, destroyable_wall_textures.size()-1)]
 
 
 func on_hit(atk_data: AtkData) -> bool:

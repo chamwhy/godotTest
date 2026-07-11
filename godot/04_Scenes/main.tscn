@@ -1,14 +1,17 @@
 [gd_scene format=3 uid="uid://cr5oiuml1f0up"]
 
 [ext_resource type="Script" uid="uid://lpdb7ca0h2ms" path="res://01_Scripts/Systems/MyCamera.gd" id="1_6grqo"]
-[ext_resource type="Texture2D" uid="uid://ru3hev0gr4j6" path="res://03_Resources/mino/TITLE.png" id="2_epy18"]
+[ext_resource type="Texture2D" uid="uid://c8lcdux2r8k54" path="res://03_Resources/mino2/Title.png" id="2_6grqo"]
+[ext_resource type="Texture2D" uid="uid://bwp2jdphtv2ks" path="res://03_Resources/mino2/startBtnW.png" id="3_epy18"]
 [ext_resource type="Texture2D" uid="uid://f8l1wjapnnup" path="res://03_Resources/dummy/background.png" id="4_4p43j"]
 [ext_resource type="Script" uid="uid://cb6q0b6vlkvlu" path="res://01_Scripts/UI/PlayerHpBar.gd" id="4_rbyvi"]
 [ext_resource type="Texture2D" uid="uid://2y0vkb8yelpt" path="res://03_Resources/dummy/hpBarCnt.png" id="5_vpxpd"]
 [ext_resource type="Script" uid="uid://cs8uc0j4a6283" path="res://01_Scripts/Initializer/GameStarter.gd" id="6_4p43j"]
 [ext_resource type="Material" uid="uid://bpsj5ontcsxcx" path="res://02_Material/Shader/PixelTransition.tres" id="6_6grqo"]
 [ext_resource type="Script" uid="uid://bknp4kqn5q4sl" path="res://01_Scripts/UI/Dissolver.gd" id="6_xfwcn"]
-[ext_resource type="Texture2D" uid="uid://6sa64x3qs22d" path="res://03_Resources/Test/black.png" id="7_epy18"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_epy18"]
+load_path = "res://.godot/imported/black.png-8f54d6f52de4a324929b65357db19ad5.ctex"
 
 [node name="Main" type="Node" unique_id=1358099324]
 
@@ -27,39 +30,38 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Title" type="TextureRect" parent="UI/StartMenu" unique_id=959238889]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -647.989
-offset_top = 100.0
-offset_right = 647.989
-offset_bottom = 467.30933
+offset_left = -512.0
+offset_top = 230.0
+offset_right = 512.0
+offset_bottom = 830.0
 grow_horizontal = 2
-scale = Vector2(0.485, 0.485)
+scale = Vector2(0.425, 0.425)
 pivot_offset_ratio = Vector2(0.5, 0)
 size_flags_horizontal = 4
 size_flags_vertical = 0
-texture = ExtResource("2_epy18")
+texture = ExtResource("2_6grqo")
 
-[node name="Label" type="Label" parent="UI/StartMenu" unique_id=142008082]
+[node name="TextureRect" type="TextureRect" parent="UI/StartMenu" unique_id=363904985]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -24.0
-offset_top = -124.0
-offset_right = 24.0
-offset_bottom = -101.0
+offset_left = -128.0
+offset_top = -360.0
+offset_right = 128.0
+offset_bottom = -232.0
 grow_horizontal = 2
 grow_vertical = 0
-scale = Vector2(6.87, 6.87)
-pivot_offset_ratio = Vector2(0.5, 0.5)
-text = "Touch"
-horizontal_alignment = 1
-vertical_alignment = 1
+scale = Vector2(0.775, 0.775)
+pivot_offset_ratio = Vector2(0.5, 1)
+texture = ExtResource("3_epy18")
 
 [node name="HpBar" type="Control" parent="UI" unique_id=1899198871 node_paths=PackedStringArray("heart_icons")]
 modulate = Color(1, 1, 1, 0)
@@ -151,5 +153,5 @@ visible = false
 material = ExtResource("6_6grqo")
 position = Vector2(415.00003, 422.49997)
 scale = Vector2(8.96, 8.95)
-texture = ExtResource("7_epy18")
+texture = SubResource("CompressedTexture2D_epy18")
 script = ExtResource("6_xfwcn")

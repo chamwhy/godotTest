@@ -1,0 +1,25 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://cft7mnmvgm7cx"]
+
+[ext_resource type="Texture2D" uid="uid://du4dpvd6ju31r" path="res://03_Resources/mino2/obj/sprite-4-4.png" id="1_t6eq5"]
+[ext_resource type="Texture2D" uid="uid://cj7ynxl8fnd22" path="res://03_Resources/mino2/obj/sprite-4-5.png" id="2_ahnjy"]
+[ext_resource type="Texture2D" uid="uid://bn5ooalkdx16k" path="res://03_Resources/mino2/obj/sprite-4-6.png" id="3_2hs1y"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t6eq5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ahnjy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_2hs1y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ahnjy")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

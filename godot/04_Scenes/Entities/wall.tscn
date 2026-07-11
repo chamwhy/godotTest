@@ -1,22 +1,23 @@
 [gd_scene format=3 uid="uid://dutdkiwxrnvay"]
 
 [ext_resource type="Script" uid="uid://dv0ojqewfgf4l" path="res://01_Scripts/Entities/Element/Wall/Wall.gd" id="1_2f07e"]
-[ext_resource type="Texture2D" uid="uid://b6xvg1jpqmst" path="res://03_Resources/mino2/obj/sprite-4-2.png" id="3_2p4cy"]
+[ext_resource type="Texture2D" uid="uid://d3f6lwpyx881e" path="res://03_Resources/mino2/obj/sprite-5-1.png" id="3_pyone"]
 [ext_resource type="Texture2D" uid="uid://ccqt8r3jlufmo" path="res://03_Resources/mino2/obj/sprite-1-4.png" id="4_pyone"]
 [ext_resource type="Material" uid="uid://bgrcxgtju86gj" path="res://02_Material/Shader/HitEffect.tres" id="5_2p4cy"]
 [ext_resource type="Script" uid="uid://dg87ive2nxwm2" path="res://01_Scripts/Animation/Effect/HitEffect.gd" id="5_jaieu"]
-[ext_resource type="Texture2D" uid="uid://c23ropfhxmvoi" path="res://03_Resources/mino2/obj2/wall1.png" id="6_16s1b"]
 [ext_resource type="Texture2D" uid="uid://doc1y8vsqjdj8" path="res://03_Resources/mino2/obj/sprite-1-5.png" id="6_pyone"]
+[ext_resource type="SpriteFrames" uid="uid://d1h7x41l2eawq" path="res://06_Animation/SpriteFrames/Wall/wall-1.tres" id="8_16s1b"]
 
 [node name="Wall" type="Node2D" unique_id=113108078]
 script = ExtResource("1_2f07e")
 wall_texture = ExtResource("6_pyone")
-destroyable_wall_textures = Array[Texture2D]([ExtResource("3_2p4cy"), ExtResource("4_pyone")])
+destroyable_wall_textures = Array[Texture2D]([ExtResource("3_pyone"), ExtResource("4_pyone")])
 is_block = true
+hitable = null
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1298427388]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1655593114]
 material = ExtResource("5_2p4cy")
-texture = ExtResource("6_16s1b")
+sprite_frames = ExtResource("8_16s1b")
 
-[node name="HitEffect" type="Node" parent="Sprite2D" unique_id=324425107]
+[node name="HitEffect" type="Node" parent="AnimatedSprite2D" unique_id=324425107]
 script = ExtResource("5_jaieu")

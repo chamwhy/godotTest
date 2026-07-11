@@ -1,47 +1,58 @@
 [gd_scene format=3 uid="uid://d2cywxk6y7dsc"]
 
 [ext_resource type="Script" uid="uid://br3pcaiekhq" path="res://01_Scripts/Entities/Tiles/Tiles.gd" id="1_g1qca"]
-[ext_resource type="Texture2D" uid="uid://cyu4wsfdpkoqg" path="res://03_Resources/mino2/tiles/sprite-1-3.png" id="2_ly5hs"]
-[ext_resource type="Texture2D" uid="uid://da3vkupgym2xs" path="res://03_Resources/mino2/tiles/sprite-3-1.png" id="3_38mx0"]
-[ext_resource type="Texture2D" uid="uid://cng34kw28qnl3" path="res://03_Resources/mino2/tiles/sprite-1-4.png" id="3_w78yq"]
-[ext_resource type="Texture2D" uid="uid://drn6hs0vgeb77" path="res://03_Resources/mino2/tiles/sprite-2-3.png" id="4_wwvnv"]
-[ext_resource type="Texture2D" uid="uid://bi7genooui45u" path="res://03_Resources/mino2/tiles/sprite-4-1.png" id="4_yvyjj"]
-[ext_resource type="Texture2D" uid="uid://cu5j6rwqbh1gc" path="res://03_Resources/mino2/tiles/sprite-1-1.png" id="5_ablej"]
-[ext_resource type="Texture2D" uid="uid://cdhaj6n3k4s05" path="res://03_Resources/mino2/tiles/sprite-2-4.png" id="5_fl5wl"]
+[ext_resource type="Texture2D" uid="uid://cqr0pg37babhq" path="res://03_Resources/mino2/tiles2/sprite-1-3.png" id="2_11hkl"]
+[ext_resource type="Texture2D" uid="uid://dxsr1gcoc0sne" path="res://03_Resources/mino2/tiles/dust-1.png" id="2_uphdg"]
+[ext_resource type="Texture2D" uid="uid://dvxisg4hm4dy2" path="res://03_Resources/mino2/tiles2/sprite-3-1.png" id="3_d7c2p"]
+[ext_resource type="Texture2D" uid="uid://cth0fydktv6pm" path="res://03_Resources/mino2/tiles/dust-2.png" id="3_klgjt"]
+[ext_resource type="Texture2D" uid="uid://bvg8lhr5fqjjc" path="res://03_Resources/mino2/tiles2/sprite-4-1.png" id="4_6b1i5"]
+[ext_resource type="Texture2D" uid="uid://ce0feda165g75" path="res://03_Resources/mino2/tiles/dust-3.png" id="4_ebfwp"]
+[ext_resource type="Texture2D" uid="uid://c5bgiyuxd6qhp" path="res://03_Resources/mino2/tiles/dust-4.png" id="5_mxfya"]
+[ext_resource type="Texture2D" uid="uid://ddgi5eeyav68g" path="res://03_Resources/mino2/tiles2/sprite-1-1.png" id="5_uphdg"]
 [ext_resource type="Texture2D" uid="uid://b3unrdocfcnen" path="res://03_Resources/mino2/tiles/white.png" id="6_45ibi"]
-[ext_resource type="Texture2D" uid="uid://b27m3fcmm8krq" path="res://03_Resources/mino2/tiles/sprite-4-2.png" id="8_11hkl"]
-[ext_resource type="Texture2D" uid="uid://b3ydjhaxbexg5" path="res://03_Resources/mino2/tiles/sprite-1-2.png" id="9_d7c2p"]
-[ext_resource type="Texture2D" uid="uid://djs5dhqjmogv5" path="res://03_Resources/mino2/tiles/sprite-4-3.png" id="11_6b1i5"]
-[ext_resource type="Texture2D" uid="uid://h5cucfnqn85b" path="res://03_Resources/mino2/tiles/sprite-2-2.png" id="12_uphdg"]
-[ext_resource type="Texture2D" uid="uid://chayt1bg6dc4b" path="res://03_Resources/mino2/tiles/sprite-2-1.png" id="14_klgjt"]
+[ext_resource type="Texture2D" uid="uid://djg2cdtg0b0is" path="res://03_Resources/mino2/tiles/dust-5.png" id="6_wcbrc"]
+[ext_resource type="Texture2D" uid="uid://cxn8fababmnuk" path="res://03_Resources/mino2/tiles2/sprite-1-4.png" id="7_klgjt"]
+[ext_resource type="Texture2D" uid="uid://wlh22112iujh" path="res://03_Resources/mino2/tiles/dust-6.png" id="7_xmynd"]
+[ext_resource type="Texture2D" uid="uid://c816a886meqv0" path="res://03_Resources/mino2/tiles2/sprite-4-2.png" id="8_ebfwp"]
+[ext_resource type="Texture2D" uid="uid://dw38sqdpclxyd" path="res://03_Resources/mino2/tiles/dust-7.png" id="8_iaaua"]
+[ext_resource type="Texture2D" uid="uid://blqyaqroumb4g" path="res://03_Resources/mino2/tiles2/sprite-1-2.png" id="9_mxfya"]
+[ext_resource type="Texture2D" uid="uid://b8geyskb50wm7" path="res://03_Resources/mino2/tiles2/sprite-2-3.png" id="10_wcbrc"]
+[ext_resource type="Texture2D" uid="uid://di3v6xftnd5ab" path="res://03_Resources/mino2/tiles2/sprite-4-3.png" id="11_xmynd"]
+[ext_resource type="Texture2D" uid="uid://ckooi3eb3sdnm" path="res://03_Resources/mino2/tiles2/sprite-2-1.png" id="12_iaaua"]
+[ext_resource type="Texture2D" uid="uid://dpbjtorpfqq3y" path="res://03_Resources/mino2/tiles2/sprite-2-4.png" id="13_60g8f"]
+[ext_resource type="Texture2D" uid="uid://cunb3480vg2ep" path="res://03_Resources/mino2/tiles2/sprite-2-2.png" id="14_pguxi"]
 
-[node name="Tile" type="Node2D" unique_id=161660379 node_paths=PackedStringArray("up_left", "up_right", "down_left", "down_right")]
+[node name="Tile" type="Node2D" unique_id=161660379 node_paths=PackedStringArray("dust", "up_left", "up_right", "down_left", "down_right")]
 script = ExtResource("1_g1qca")
-up_left = NodePath("Sprite2D")
-up_right = NodePath("Sprite2D2")
-down_left = NodePath("Sprite2D3")
-down_right = NodePath("Sprite2D4")
-up_left_texture = Array[Texture2D]([ExtResource("2_ly5hs"), ExtResource("3_38mx0"), ExtResource("2_ly5hs"), ExtResource("3_38mx0"), ExtResource("4_yvyjj"), ExtResource("5_ablej"), ExtResource("4_yvyjj"), ExtResource("6_45ibi")])
-up_right_texture = Array[Texture2D]([ExtResource("3_w78yq"), ExtResource("8_11hkl"), ExtResource("3_w78yq"), ExtResource("8_11hkl"), ExtResource("3_38mx0"), ExtResource("9_d7c2p"), ExtResource("3_38mx0"), ExtResource("6_45ibi")])
-down_left_texture = Array[Texture2D]([ExtResource("4_wwvnv"), ExtResource("4_yvyjj"), ExtResource("4_wwvnv"), ExtResource("4_yvyjj"), ExtResource("11_6b1i5"), ExtResource("14_klgjt"), ExtResource("11_6b1i5"), ExtResource("6_45ibi")])
-down_right_texture = Array[Texture2D]([ExtResource("5_fl5wl"), ExtResource("11_6b1i5"), ExtResource("5_fl5wl"), ExtResource("11_6b1i5"), ExtResource("8_11hkl"), ExtResource("12_uphdg"), ExtResource("8_11hkl"), ExtResource("6_45ibi")])
+dust = NodePath("Dust")
+up_left = NodePath("SpriteUL")
+up_right = NodePath("SpriteUR")
+down_left = NodePath("SpriteDL")
+down_right = NodePath("SpriteDR")
+dust_texture = Array[Texture2D]([ExtResource("2_uphdg"), ExtResource("3_klgjt"), ExtResource("4_ebfwp"), ExtResource("5_mxfya"), ExtResource("6_wcbrc"), ExtResource("7_xmynd"), ExtResource("8_iaaua")])
+up_left_texture = Array[Texture2D]([ExtResource("2_11hkl"), ExtResource("3_d7c2p"), ExtResource("2_11hkl"), ExtResource("3_d7c2p"), ExtResource("4_6b1i5"), ExtResource("5_uphdg"), ExtResource("4_6b1i5"), ExtResource("6_45ibi")])
+up_right_texture = Array[Texture2D]([ExtResource("7_klgjt"), ExtResource("8_ebfwp"), ExtResource("7_klgjt"), ExtResource("8_ebfwp"), ExtResource("3_d7c2p"), ExtResource("9_mxfya"), ExtResource("3_d7c2p"), ExtResource("6_45ibi")])
+down_left_texture = Array[Texture2D]([ExtResource("10_wcbrc"), ExtResource("4_6b1i5"), ExtResource("10_wcbrc"), ExtResource("4_6b1i5"), ExtResource("11_xmynd"), ExtResource("12_iaaua"), ExtResource("11_xmynd"), ExtResource("6_45ibi")])
+down_right_texture = Array[Texture2D]([ExtResource("13_60g8f"), ExtResource("11_xmynd"), ExtResource("13_60g8f"), ExtResource("11_xmynd"), ExtResource("8_ebfwp"), ExtResource("14_pguxi"), ExtResource("8_ebfwp"), ExtResource("6_45ibi")])
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1541515074]
+[node name="SpriteUL" type="Sprite2D" parent="." unique_id=1541515074]
 z_index = -1
 position = Vector2(-64, -64)
-texture = ExtResource("2_ly5hs")
+texture = ExtResource("2_11hkl")
 
-[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1809097536]
+[node name="SpriteUR" type="Sprite2D" parent="." unique_id=1809097536]
 z_index = -1
 position = Vector2(64, -64)
-texture = ExtResource("3_w78yq")
+texture = ExtResource("7_klgjt")
 
-[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=694989790]
+[node name="SpriteDL" type="Sprite2D" parent="." unique_id=694989790]
 z_index = -1
 position = Vector2(-64, 64)
-texture = ExtResource("4_wwvnv")
+texture = ExtResource("10_wcbrc")
 
-[node name="Sprite2D4" type="Sprite2D" parent="." unique_id=80627065]
+[node name="SpriteDR" type="Sprite2D" parent="." unique_id=80627065]
 z_index = -1
 position = Vector2(64, 64)
-texture = ExtResource("5_fl5wl")
+texture = ExtResource("13_60g8f")
+
+[node name="Dust" type="Sprite2D" parent="." unique_id=194631402]

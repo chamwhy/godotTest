@@ -7,7 +7,7 @@ class_name Element
 @export var is_block: bool = false  # 막힘 판정 여부
 @export var hitable: bool = true
 
-@onready var hit_effect: HitEffect = $Sprite2D/HitEffect
+@onready var hit_effect: HitEffect = $AnimatedSprite2D/HitEffect
 #endregion
 
 

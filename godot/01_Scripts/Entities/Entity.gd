@@ -4,7 +4,7 @@ class_name Entity
 
 
 
-@onready var sprite2D = get_child(0) as Sprite2D
+@onready var animSprite2D = get_child(0) as AnimatedSprite2D
 
 ## --- Private Variables ---
 var cur_position: Position = Position.ZERO()  # 현재 위치

@@ -3,12 +3,15 @@
 extends Entity
 class_name Tile
 
+const ShowRatio := 0.5
+
+@export var dust: Sprite2D
 @export var up_left: Sprite2D
 @export var up_right: Sprite2D
 @export var down_left: Sprite2D
 @export var down_right: Sprite2D
 
-
+@export var dust_texture: Array[Texture2D]
 @export var up_left_texture: Array[Texture2D]
 @export var up_right_texture: Array[Texture2D]
 @export var down_left_texture: Array[Texture2D]
@@ -21,6 +24,7 @@ var surround: Array
 func set_surround(tile_data: Array) -> void:
 	surround = tile_data
 	update_tile_sprites()
+	set_random_dust()
 	
 func update_tile_sprites() -> void:
 	# 배치 규칙.
@@ -57,6 +61,10 @@ func update_tile_sprites() -> void:
 		surround[1][2]
 	down_right.texture = down_right_texture[dr_index]
 	
+func set_random_dust() -> void:
+	if randf() < ShowRatio:
+		var random_texture: Texture2D = dust_texture[randi() % dust_texture.size()]
+		dust.texture = random_texture
 
 func apply_data(data: Dictionary):
 	super.apply_data(data)
