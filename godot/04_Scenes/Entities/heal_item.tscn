@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://tqdeqigdhtn"]
 
 [ext_resource type="Script" uid="uid://dw7dt43kn7fcd" path="res://01_Scripts/Entities/Element/HealItem/HealItem.gd" id="1_r8fft"]
-[ext_resource type="Texture2D" uid="uid://7cgayqkumb15" path="res://03_Resources/mino2/obj/sprite-2-3.png" id="2_kxvwg"]
+[ext_resource type="SpriteFrames" uid="uid://cft7mnmvgm7cx" path="res://06_Animation/HealItem/healItemFrames.tres" id="2_kxvwg"]
 
 [node name="HealItem" type="Node2D" unique_id=630704450]
 script = ExtResource("1_r8fft")
 hitable = false
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=749955335]
-z_index = 1
-texture = ExtResource("2_kxvwg")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=709087385]
+sprite_frames = ExtResource("2_kxvwg")
+autoplay = "default"
+frame_progress = 0.05410469
+speed_scale = 1.5

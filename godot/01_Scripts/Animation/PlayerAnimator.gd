@@ -1,14 +1,17 @@
-#PlayerAnimator.gd
-extends Node
+# PlayerAnimator.gd
+extends AnimatedSprite2D
 
-@onready var anim_player: AnimationPlayer = $"."
-@onready var sprite: Sprite2D = $"../PlayerIdle"
 @onready var player = get_parent() as Player
+
+@export var frame1: SpriteFrames
+@export var frame2: SpriteFrames
+@export var frame3: SpriteFrames
 
 
 func _ready() -> void:
 	if player:
 		player.animated.connect(_on_animate)
+		player.player_emotion_changed.connect(_on_emotion_changed)
 
 func _on_animate(anim_name: String, data: Dictionary) -> void:
 	match anim_name:
@@ -22,11 +25,20 @@ func _on_animate(anim_name: String, data: Dictionary) -> void:
 			if not dir.is_zero():
 				attack(dir)
 
+func _on_emotion_changed(emotion: Player.PlayerEmotion) -> void:
+	if emotion == Player.PlayerEmotion.CALM:
+		sprite_frames = frame1
+	elif emotion == Player.PlayerEmotion.ANGRY:
+		sprite_frames = frame2
+	elif emotion == Player.PlayerEmotion.RAGE:
+		sprite_frames = frame3
+
+
 func move(cnt: int, dir: Position) -> void:
 	if dir.x != 0:
-		sprite.flip_h = dir.x > 0
-	AnimUtil.play_times(anim_player, "walk", cnt)
+		flip_h = dir.x < 0
 
 func attack(dir: Position) -> void:
 	if dir.x != 0:
-		sprite.flip_h = dir.x > 0
+		flip_h = dir.x < 0
+	# 공격 애니메이션이 있다면: _play_times("attack", 1)

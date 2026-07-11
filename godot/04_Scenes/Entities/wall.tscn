@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://ccqt8r3jlufmo" path="res://03_Resources/mino2/obj/sprite-1-4.png" id="4_pyone"]
 [ext_resource type="Material" uid="uid://bgrcxgtju86gj" path="res://02_Material/Shader/HitEffect.tres" id="5_2p4cy"]
 [ext_resource type="Script" uid="uid://dg87ive2nxwm2" path="res://01_Scripts/Animation/Effect/HitEffect.gd" id="5_jaieu"]
+[ext_resource type="Texture2D" uid="uid://c23ropfhxmvoi" path="res://03_Resources/mino2/obj2/wall1.png" id="6_16s1b"]
 [ext_resource type="Texture2D" uid="uid://doc1y8vsqjdj8" path="res://03_Resources/mino2/obj/sprite-1-5.png" id="6_pyone"]
 
 [node name="Wall" type="Node2D" unique_id=113108078]
@@ -15,7 +16,7 @@ is_block = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1298427388]
 material = ExtResource("5_2p4cy")
-texture = ExtResource("6_pyone")
+texture = ExtResource("6_16s1b")
 
 [node name="HitEffect" type="Node" parent="Sprite2D" unique_id=324425107]
 script = ExtResource("5_jaieu")

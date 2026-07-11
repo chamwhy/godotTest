@@ -44,6 +44,7 @@ func apply_data(data: Dictionary):
 #region Anim
 signal animated(anim_name: String, data: Dictionary)
 
+
 # action 이름 → Callable 등록소
 var _anim_handlers: Dictionary = {}
 

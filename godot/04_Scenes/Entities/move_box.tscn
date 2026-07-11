@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bi71to4ae5eo7"]
 
 [ext_resource type="Script" uid="uid://4rqwulj5aajf" path="res://01_Scripts/Entities/Element/MoveBox/MoveBox.gd" id="1_ogics"]
-[ext_resource type="Texture2D" uid="uid://bml0fufn8vns8" path="res://03_Resources/mino2/obj/sprite-3-2.png" id="2_kskbm"]
+[ext_resource type="SpriteFrames" uid="uid://buxhat6iimxyu" path="res://06_Animation/moveBox/moveBoxFrames.tres" id="2_kskbm"]
 
 [node name="MoveBox" type="Node2D" unique_id=1855347389]
 script = ExtResource("1_ogics")
 is_block = true
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1562322684]
-z_index = 2
-scale = Vector2(0.33, 0.33)
-texture = ExtResource("2_kskbm")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1744908284]
+sprite_frames = ExtResource("2_kskbm")
+autoplay = "default"
+speed_scale = 1.5
