@@ -10,17 +10,20 @@ func apply_data(data: Dictionary):
 	super.apply_data(data)
 
 #region Emotion
+
 enum PlayerEmotion {
 	CALM,   # 평온 (기본 상태)
 	ANGRY,  # 화남 (중간 단계: 불만이나 짜증이 섞인 상태)
 	RAGE    # 격노 (최종 단계: 폭발하거나 통제 불능인 상태)
 }
 
+signal player_emotion_changed(emotion: PlayerEmotion)
 var cur_emotion: PlayerEmotion = PlayerEmotion.CALM
 
 func set_player_emotion(emotion: PlayerEmotion) -> void:
 	if emotion != cur_emotion:
 		cur_emotion = emotion
+		player_emotion_changed.emit(cur_emotion)
 
 func get_player_emotion(hp: int) -> PlayerEmotion:
 	if 4 <= hp:
