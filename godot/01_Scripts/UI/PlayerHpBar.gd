@@ -1,6 +1,6 @@
 extends Node
 
-@export var heart_icons: Array[TextureRect] = []
+@export var heart_icons: Array[AnimatedTextureRect] = []
 
 
 # Called when the node enters the scene tree for the first time.

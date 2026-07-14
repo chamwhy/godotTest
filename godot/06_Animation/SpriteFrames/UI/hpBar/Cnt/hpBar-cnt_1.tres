@@ -1,0 +1,22 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bg8gn2ujwgw1w"]
+
+[ext_resource type="Texture2D" uid="uid://rwsjd0mxk5bv" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-1_1.png" id="1_m0gra"]
+[ext_resource type="Texture2D" uid="uid://t36n4yr4kt6b" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-1_2.png" id="2_v7flb"]
+[ext_resource type="Texture2D" uid="uid://bnurgf3jur6mw" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-1_3.png" id="3_ovjsr"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_m0gra")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_v7flb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ovjsr")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
