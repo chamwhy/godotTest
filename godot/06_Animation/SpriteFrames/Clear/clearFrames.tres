@@ -1,8 +1,8 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://bt2kh2dqdq4qw"]
 
-[ext_resource type="Texture2D" uid="uid://dqdwak2gfg6kn" path="res://03_Resources/mino2/obj/sprite-6-4.png" id="1_gd2u1"]
-[ext_resource type="Texture2D" uid="uid://pu2etjmvndcc" path="res://03_Resources/mino2/obj/sprite-6-5.png" id="2_bbxx0"]
-[ext_resource type="Texture2D" uid="uid://djdnr7h4qdt7h" path="res://03_Resources/mino2/obj/sprite-6-6.png" id="3_f6ig7"]
+[ext_resource type="Texture2D" uid="uid://dqdwak2gfg6kn" path="res://03_Resources/Element/Clear/wool_1.png" id="1_gd2u1"]
+[ext_resource type="Texture2D" uid="uid://pu2etjmvndcc" path="res://03_Resources/Element/Clear/wool_2.png" id="2_bbxx0"]
+[ext_resource type="Texture2D" uid="uid://djdnr7h4qdt7h" path="res://03_Resources/Element/Clear/wool_3.png" id="3_f6ig7"]
 
 [resource]
 animations = [{

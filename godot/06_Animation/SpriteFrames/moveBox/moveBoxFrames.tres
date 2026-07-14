@@ -1,8 +1,8 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://buxhat6iimxyu"]
 
-[ext_resource type="Texture2D" uid="uid://dblw8hqqxllaq" path="res://03_Resources/mino2/obj/sprite-4-1.png" id="1_smj8g"]
-[ext_resource type="Texture2D" uid="uid://b6xvg1jpqmst" path="res://03_Resources/mino2/obj/sprite-4-2.png" id="2_b1tfl"]
-[ext_resource type="Texture2D" uid="uid://cgclc8253ltln" path="res://03_Resources/mino2/obj/sprite-4-3.png" id="3_pp0wn"]
+[ext_resource type="Texture2D" uid="uid://dblw8hqqxllaq" path="res://03_Resources/Element/Stone/stone_1.png" id="1_smj8g"]
+[ext_resource type="Texture2D" uid="uid://b6xvg1jpqmst" path="res://03_Resources/Element/Stone/stone_2.png" id="2_b1tfl"]
+[ext_resource type="Texture2D" uid="uid://cgclc8253ltln" path="res://03_Resources/Element/Stone/stone_3.png" id="3_pp0wn"]
 
 [resource]
 animations = [{

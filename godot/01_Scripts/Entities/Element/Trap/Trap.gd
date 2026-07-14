@@ -11,8 +11,8 @@ var traped := false
 
 #region sprite2ds
 
-@export var trap_textures: Array[Texture2D]
-@export var once_trap_textures: Array[Texture2D]
+@export var trap_frames: Array[SpriteFrames]
+@export var once_trap_frames: Array[SpriteFrames]
 
 #endregion
 
@@ -33,11 +33,11 @@ func apply_data(data: Dictionary) -> void:
 func update_sprite() -> void:
 	var cnt: int = atk_pow-1
 	if is_once:
-		cnt = min(cnt, once_trap_textures.size()-1)
-		sprite2D.texture = once_trap_textures[cnt]
+		cnt = min(cnt, once_trap_frames.size()-1)
+		animSprite2D.sprite_frames = once_trap_frames[cnt]
 	else:
-		cnt = min(cnt, trap_textures.size()-1)
-		sprite2D.texture = trap_textures[cnt]
+		cnt = min(cnt, trap_frames.size()-1)
+		animSprite2D.sprite_frames = trap_frames[cnt]
 
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:

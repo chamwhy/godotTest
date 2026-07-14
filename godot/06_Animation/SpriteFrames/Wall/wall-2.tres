@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://cnl5vwlhnr2nt"]
 
-[ext_resource type="Texture2D" uid="uid://c2gprexpyf1li" path="res://03_Resources/mino2/obj/sprite-1-6.png" id="1_dq2ti"]
+[ext_resource type="Texture2D" uid="uid://c2gprexpyf1li" path="res://03_Resources/Element/Wall/wall-2.png" id="1_dq2ti"]
 
 [resource]
 animations = [{

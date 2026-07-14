@@ -32,7 +32,7 @@ func update_sprite() -> void:
 			var rand_frame: SpriteFrames = random_wall_frames[randi() % random_wall_frames.size()]
 			animSprite2D.sprite_frames = rand_frame
 	else:
-		animSprite2D.texture = destroyable_wall_textures[min(min_atk-1, destroyable_wall_textures.size()-1)]
+		animSprite2D.sprite_frames = destroyable_wall_frames[min(min_atk-1, destroyable_wall_frames.size()-1)]
 
 
 func on_hit(atk_data: AtkData) -> bool:
