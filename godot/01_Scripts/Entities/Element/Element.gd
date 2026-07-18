@@ -78,10 +78,8 @@ func _anim_respawn(tween: Tween, data: Dictionary) -> void:
 ## 소멸 처리: 논리는 즉시 exit, 시각은 큐 타이밍에 맞춰 vanish
 ## Undo 시엔 자동으로 respawn이 역산 재생됨
 func hide_for_undo(tick: int) -> void:
-	InGameManager.exit_element(self, cur_position, tick)  # in_map=false 처리됨
-	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
-		self, "vanish", {}, "respawn", {}
-	), tick)
+	InGameManager.exit_element(self, cur_position, tick)
+	ActionManager.record_new(self, tick, "vanish", {}, "respawn", {})
 
 
 func apply_undo(state: Dictionary) -> void:
@@ -89,8 +87,7 @@ func apply_undo(state: Dictionary) -> void:
 	in_map       = state["in_map"]
 	is_block     = state["is_block"]
 	hitable      = state["hitable"]
-	# visible/픽셀 position은 애니메이션(vanish/respawn/move_reverse)과
-	# UndoManager._sync_visuals()가 담당
+	# visible/픽셀 위치는 애니메이션 + sync_visuals 담당
 
 
 #endregion

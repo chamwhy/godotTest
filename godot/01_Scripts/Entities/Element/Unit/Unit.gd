@@ -86,10 +86,7 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 	if not InGameManager.has_tile(cur_position.x, cur_position.y):
 		print("구멍에 빠짐")
 		is_fallen = true
-		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
-			self,
-			"falling",{},"undo_falling",{}
-		), tick)
+		ActionManager.record_new(self, tick, "falling", {}, "undo_falling", {})
 
 
 # 순간이동
@@ -113,24 +110,16 @@ func move_to(vel: Position, tick: int) -> int:
 		InGameManager.pass_element(self, chk_pos, tick)
 		chk_pos = chk_pos.add(dir)
  
-		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
-			self,
-			"move",           # 정방향 액션
-			{"from": from, "to": chk_pos},
-			"move_reverse",   # ← Undo 역산 액션
-			{"from": chk_pos, "to": from}  # ← Undo 시 from/to 반전
-		), tick)
+		ActionManager.record_new(self, tick,
+			"move",         {"from": from, "to": chk_pos},
+			"move_reverse", {"from": chk_pos, "to": from})
  
 		from = chk_pos.copy()
 		tick += 1
 	
-	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
-		self,
-		"move",
-		{"from": from, "to": chk_pos},
-		"move_reverse",
-		{"from": chk_pos, "to": from}
-	), tick)
+	ActionManager.record_new(self, tick,
+			"move",         {"from": from, "to": chk_pos},
+			"move_reverse", {"from": chk_pos, "to": from})
 	# 도착을 기준으로 하니 tick에 1 추가
 	InGameManager.enter_element(self, chk_pos, tick+1)
 	return tick
@@ -143,13 +132,8 @@ func attack(atk_power: int, dir: Position, tick: int) -> void:
 		if target:
 			# TODO: 일단 하드코딩으로 1로 채워둠.
 			apply_on_hit(target, atk_power, tick)
-	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
-		self,
-		"attack",
-		{"pos": cur_position, "dir": dir},
-		"",
-		{}
-	), tick)
+	ActionManager.record_new(self, tick,
+		"attack", {"pos": cur_position, "dir": dir})
 
 func apply_on_hit(target: Element, atk_power: int, tick: int) -> void:
 	var new_atk_data = AtkData.new(

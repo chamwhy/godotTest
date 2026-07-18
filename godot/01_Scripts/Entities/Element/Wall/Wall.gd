@@ -38,22 +38,15 @@ func update_sprite() -> void:
 
 func on_hit(atk_data: AtkData) -> bool:
 	if not destroyable or min_atk > atk_data.dmg: 
-		AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
-			self,
-			"on_parryed",{},"",{}
-		), atk_data.tick)
+		ActionManager.record_new(self, atk_data.tick, "on_parryed")
 		return false
-	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
-		self,
-		"on_damaged",{},"",{}
-	), atk_data.tick)
+	ActionManager.record_new(self, atk_data.tick, "on_damaged")
 	destroy_wall(atk_data.tick)
 	return true
 
-# Wall.gd
+# Wall.gd — destroy_wall: hide_for_undo만 남김 (vanish가 소멸 연출 담당)
 func destroy_wall(tick: int) -> void:
-	# on_damaged 이펙트는 on_hit에서 이미 등록됨
-	hide_for_undo(tick)   # exit + vanish 등록, undo 시 respawn 자동 재생
+	hide_for_undo(tick)
 
 func apply_undo(state: Dictionary) -> void:
 	super.apply_undo(state)

@@ -28,11 +28,14 @@ StageManager="*uid://b7erbpotfnm0l"
 SoundManager="*res://01_Scripts/Systems/AutoLoad/SoundManager.gd"
 UiManager="*res://01_Scripts/Systems/AutoLoad/UIManager.gd"
 InputManager="*res://01_Scripts/Systems/AutoLoad/InputManager.gd"
-MapDrawer="*res://01_Scripts/Systems/Map/MapDrawer.gd"
-InGameManager="*res://01_Scripts/Systems/AutoLoad/InGameManager.gd"
 AnimationQueue="*uid://b4cm2c6ncvs4r"
-SceneTransition="*uid://dc3c2ayr4ampo"
 UndoManager="*uid://caohqm1owhdlq"
+GridManager="*uid://c10fsew768of5"
+StageContext="*uid://d4iunxcpextam"
+PlayerRegistry="*uid://ctqckf68g32wh"
+ActionManager="*uid://csx6vi4qdpjn1"
+StageDirector="*uid://dhkhxe6ska1h7"
+SceneTransition="*uid://dc3c2ayr4ampo"
 
 [display]
 
