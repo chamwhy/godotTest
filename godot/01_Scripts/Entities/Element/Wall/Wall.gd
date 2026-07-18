@@ -33,7 +33,8 @@ func update_sprite() -> void:
 			animSprite2D.sprite_frames = rand_frame
 	else:
 		animSprite2D.sprite_frames = destroyable_wall_frames[min(min_atk-1, destroyable_wall_frames.size()-1)]
-
+	animSprite2D.animation = "default"
+	animSprite2D.play()
 
 func on_hit(atk_data: AtkData) -> bool:
 	if not destroyable or min_atk > atk_data.dmg: 

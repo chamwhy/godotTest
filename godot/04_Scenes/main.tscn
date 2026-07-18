@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://lpdb7ca0h2ms" path="res://01_Scripts/Systems/MyCamera.gd" id="1_6grqo"]
 [ext_resource type="Texture2D" uid="uid://6jgpuhs6474v" path="res://03_Resources/UI/Logo/ui-logo_1.png" id="2_4p43j"]
+[ext_resource type="Texture2D" uid="uid://b3unrdocfcnen" path="res://03_Resources/Tile/Floor/white.png" id="2_6r57t"]
 [ext_resource type="Texture2D" uid="uid://bh6l1wqw52kia" path="res://03_Resources/UI/Touch/ui-touch_1.png" id="2_xfwcn"]
 [ext_resource type="SpriteFrames" uid="uid://qdmpy0ife218" path="res://06_Animation/SpriteFrames/UI/logo_frames.tres" id="3_6grqo"]
 [ext_resource type="Script" uid="uid://byxsyi0li4ryo" path="res://01_Scripts/UI/AnimatedTextureRect.gd" id="3_ibv6u"]
@@ -44,6 +45,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Bg" type="TextureRect" parent="UI/StartMenu" unique_id=1870461431]
+modulate = Color(0.9098039, 0.9098039, 0.9098039, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_6r57t")
 
 [node name="Title" type="TextureRect" parent="UI/StartMenu" unique_id=943426003]
 layout_mode = 1
@@ -93,9 +104,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -444.52002
-offset_top = -210.0
+offset_top = -160.0
 offset_right = 504.47998
-offset_bottom = -110.0
+offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.3, 0.3)

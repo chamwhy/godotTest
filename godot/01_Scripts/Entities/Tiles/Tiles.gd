@@ -41,6 +41,8 @@ func update_tile_sprites() -> void:
 		surround[0][0] * 2 + \
 		surround[1][0]
 	ul_animSprite.sprite_frames = ul_frames[ul_index]
+	ul_animSprite.animation = "default"
+	ul_animSprite.play()
 	
 	# 우상
 	var ur_index = \
@@ -48,6 +50,8 @@ func update_tile_sprites() -> void:
 		surround[0][2] * 2 + \
 		surround[0][1]
 	ur_animSprite.sprite_frames = ur_frames[ur_index]
+	ur_animSprite.animation = "default"
+	ur_animSprite.play()
 	
 	# 좌하
 	var dl_index = \
@@ -55,6 +59,8 @@ func update_tile_sprites() -> void:
 		surround[2][0] * 2 + \
 		surround[2][1]
 	dl_animSprite.sprite_frames = dl_frames[dl_index]
+	dl_animSprite.animation = "default"
+	dl_animSprite.play()
 	
 	# 우하
 	var dr_index = \
@@ -62,6 +68,8 @@ func update_tile_sprites() -> void:
 		surround[2][2] * 2 + \
 		surround[1][2]
 	dr_animSprite.sprite_frames = dr_frames[dr_index]
+	dr_animSprite.animation = "default"
+	dr_animSprite.play()
 	
 func set_random_dust() -> void:
 	if randf() < ShowRatio:

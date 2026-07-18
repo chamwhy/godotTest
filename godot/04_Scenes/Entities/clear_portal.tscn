@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bk8u1y1oy40g1"]
 
-[ext_resource type="Script" uid="uid://dm3didxm223aq" path="res://01_Scripts/Entities/Element/Exit/MapPortal.gd" id="1_vr2du"]
+[ext_resource type="Script" uid="uid://b1w78ro5ylouf" path="res://01_Scripts/Entities/Element/Exit/ClearPortal.gd" id="1_ake66"]
 [ext_resource type="SpriteFrames" uid="uid://bt2kh2dqdq4qw" path="res://06_Animation/SpriteFrames/Clear/clearFrames.tres" id="2_vr2du"]
 
-[node name="MapPortal" type="Node2D" unique_id=1180122851]
-script = ExtResource("1_vr2du")
+[node name="ClearPortal" type="Node2D" unique_id=1180122851]
+script = ExtResource("1_ake66")
 hitable = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1750488561]

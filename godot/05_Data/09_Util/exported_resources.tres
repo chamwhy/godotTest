@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b635aa1kx37m0" path="res://04_Scenes/Entities/trap.tscn" id="4_bgbi1"]
 [ext_resource type="PackedScene" uid="uid://tqdeqigdhtn" path="res://04_Scenes/Entities/heal_item.tscn" id="5_k3ru8"]
 [ext_resource type="PackedScene" uid="uid://bi71to4ae5eo7" path="res://04_Scenes/Entities/move_box.tscn" id="6_dpfcg"]
-[ext_resource type="PackedScene" uid="uid://bk8u1y1oy40g1" path="res://04_Scenes/Entities/map_portal.tscn" id="7_k3ru8"]
+[ext_resource type="PackedScene" uid="uid://bk8u1y1oy40g1" path="res://04_Scenes/Entities/clear_portal.tscn" id="7_k3ru8"]
 
 [resource]
 script = ExtResource("1_8ssbv")

@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://wkahtc28q0lh"]
+
+[ext_resource type="Texture2D" uid="uid://b2qosxgnfp2gx" path="res://03_Resources/Element/Trap/trap_2.png" id="1_vs8p1"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_vs8p1")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

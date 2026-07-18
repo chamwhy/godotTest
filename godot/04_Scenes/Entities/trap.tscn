@@ -1,10 +1,15 @@
 [gd_scene format=3 uid="uid://b635aa1kx37m0"]
 
 [ext_resource type="Script" uid="uid://c5leyu6fv8yei" path="res://01_Scripts/Entities/Element/Trap/Trap.gd" id="1_qu4bf"]
-[ext_resource type="Texture2D" uid="uid://b5qutxgwv16fj" path="res://03_Resources/Element/Trap/trap_1.png" id="2_3fma3"]
+[ext_resource type="SpriteFrames" uid="uid://dxfsaqewyqdml" path="res://06_Animation/SpriteFrames/Trap/trap-1_frames.tres" id="2_24b8j"]
+[ext_resource type="SpriteFrames" uid="uid://wkahtc28q0lh" path="res://06_Animation/SpriteFrames/Trap/trap-2_frames.tres" id="3_3fma3"]
+[ext_resource type="SpriteFrames" uid="uid://cw8qhxheeiaq7" path="res://06_Animation/SpriteFrames/Trap/trap-3_frames.tres" id="4_65bpo"]
+[ext_resource type="SpriteFrames" uid="uid://20uu2qjgbg3e" path="res://06_Animation/SpriteFrames/OnceTrap/onceTrapFrames.tres" id="5_56knl"]
 
 [node name="Trap" type="Node2D" unique_id=1351320918]
 script = ExtResource("1_qu4bf")
+trap_frames = Array[SpriteFrames]([ExtResource("2_24b8j"), ExtResource("3_3fma3"), ExtResource("4_65bpo")])
+once_trap_frames = Array[SpriteFrames]([ExtResource("5_56knl")])
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=484609921]
-texture = ExtResource("2_3fma3")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1560495773]
+sprite_frames = ExtResource("2_24b8j")

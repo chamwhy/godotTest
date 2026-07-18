@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dxfsaqewyqdml"]
+
+[ext_resource type="Texture2D" uid="uid://b5qutxgwv16fj" path="res://03_Resources/Element/Trap/trap_1.png" id="1_racdg"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_racdg")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

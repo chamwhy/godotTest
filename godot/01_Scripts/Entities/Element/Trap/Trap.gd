@@ -38,6 +38,8 @@ func update_sprite() -> void:
 	else:
 		cnt = min(cnt, trap_frames.size()-1)
 		animSprite2D.sprite_frames = trap_frames[cnt]
+	animSprite2D.animation = "default"
+	animSprite2D.play()
 
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:

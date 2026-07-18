@@ -1,12 +1,11 @@
 extends Element
-class_name MapPortal
+class_name Portal
 
 #region element 별 특성
 #@export var is_block: bool = false  # 막힘 판정 여부
 #@export var hitable: bool = true
-var world := 0
-var stage := 0
-var completing := false
+var to_world := 0
+var to_stage := 0
 #endregion
 
 
@@ -14,9 +13,8 @@ func apply_data(data: Dictionary) -> void:
 	super.apply_data(data)
 	is_block = false
 	hitable = false
-	world = data.get("world", 0)
-	stage = data.get("stage", 0)
-	completing = data.get("completing", false)
+	to_world = data.get("to_w", 0)
+	to_stage = data.get("to_s", 0)
 	
 	InGameManager.element_entered.connect(_check_pos)
 	# TODO: 상태에 따른 이미지 업데이트
@@ -24,13 +22,11 @@ func apply_data(data: Dictionary) -> void:
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:
 	# 일단은 elm 상관없이 발동. 나중에 player 넣거나 아니면 몬스터가 밟는 거 자체를 기믹으로 할 수도?
 	if pos.equals(cur_position):
-		print("map portal 발동.", cur_position.to_str(), pos.to_str())
+		print("portal 발동.", cur_position.to_str(), pos.to_str())
 		move_map(tick)
 
 func move_map(tick: int) -> void:
-	if completing:
-		InGameManager.complete_stage()
-	InGameManager.request_map_change(world, stage)
+	InGameManager.request_map_change(to_world, to_stage)
 	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
 		self,
 		"move_map",
