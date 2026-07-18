@@ -32,6 +32,8 @@ func _on_emotion_changed(emotion: Player.PlayerEmotion) -> void:
 		sprite_frames = frame2
 	elif emotion == Player.PlayerEmotion.RAGE:
 		sprite_frames = frame3
+	self.animation = "default"
+	self.play()
 
 
 func move(cnt: int, dir: Position) -> void:

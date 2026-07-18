@@ -26,7 +26,11 @@ func _check_pos(pos: Position, elm: Element, tick: int) -> void:
 		move_map(tick)
 
 func move_map(tick: int) -> void:
-	InGameManager.request_map_change(to_world, to_stage)
+	InGameManager.request_map_change(
+		{
+			"world": to_world,
+			"stage": to_stage
+		})
 	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
 		self,
 		"move_map",

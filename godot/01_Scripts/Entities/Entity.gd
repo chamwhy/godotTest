@@ -18,6 +18,7 @@ var size = 100
 
 # test 용
 func _ready() -> void:
+	print("ready entity")
 	init()
 	reset()
 

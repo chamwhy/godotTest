@@ -134,9 +134,11 @@ func _spawn_entities(data: Dictionary, is_unit: bool):
 		
 		# 2. Scene 인스턴스 생성 및 부모 설정
 		var obj: Node2D = scene.instantiate()
+		entity_parent.add_child(obj)
 		
-		if obj.is_class("Unit") != is_unit:
+		if obj is Unit != is_unit:
 			obj.queue_free()
+			print("unit invaild", obj is Unit, is_unit)
 			continue
 		
 		if entity_data.has("x"):
@@ -145,11 +147,13 @@ func _spawn_entities(data: Dictionary, is_unit: bool):
 			entity_data["y"] += padding
 		# 3. apply_data 자동 호출
 		if obj.has_method("apply_data"):
+			print("apply check")
 			obj.apply_data(entity_data)
 
 
 func erase_map() -> void:
 	# 1. 씬 트리의 루트 노드를 기준으로 부모 노드를 동적으로 찾습니다.
+	print("erase map")
 	var current_root = get_tree().current_scene # 현재 로드된 씬의 루트 노드
 	
 	entity_parent = current_root.find_child(entity_parent_name, true)

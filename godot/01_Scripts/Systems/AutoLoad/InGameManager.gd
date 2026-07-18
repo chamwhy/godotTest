@@ -2,6 +2,7 @@
 extends Node
 
 const MOVE_DELAY := 0.8
+const WORLD_ID_MULTIPLY := 100
 
 #region player
 var _player: Player = null
@@ -34,6 +35,8 @@ func register_player(player_node: Player):
 	_pending_callbacks.clear()
 	player_registered.emit(player_node)
 #endregion
+
+
 
 func _ready() -> void:
 	InputManager.action_input.connect(_action_inputed)
@@ -69,12 +72,14 @@ var tile_map: Array = []
 var element_map: Array = []
 var map_width: int
 var map_height: int
+var worldPortals: Dictionary[int, Position] = {}
 
 func init(width, height):
 	map_width = width
 	map_height = height
 	tile_map.resize(height)
 	element_map.resize(height)
+	worldPortals = {}
 	
 	for y in range(height):
 		tile_map[y] = []
@@ -89,20 +94,32 @@ func clear():
 	map_height = 0
 	tile_map = []
 	element_map = []
+	worldPortals = {}
 
 # 큐가 끝난 뒤 처리할 맵 전환 예약 (비어있으면 없음)
 var _pending_map_change: Dictionary = {}
 
-func request_map_change(world: int, stage: int) -> void:
-	_pending_map_change = {"world": world, "stage": stage}
+func request_map_change(changeDict: Dictionary) -> void:
+	_pending_map_change = changeDict
 
 func has_pending_map_change() -> bool:
 	return not _pending_map_change.is_empty()
 
-func consume_map_change() -> Dictionary:
-	var mc = _pending_map_change
-	_pending_map_change = {}
-	return mc
+func register_worldPortal_position(stageID: int, pos: Position) -> void:
+	worldPortals[stageID] = pos
+
+func flush_pending_map_change() -> void:
+	if InGameManager.has_pending_map_change():
+		var mc = _pending_map_change
+		_pending_map_change = {}
+		print("AnimQ - 맵 전환 실행: ", mc.world, "-", mc.stage)
+		MapDrawer.draw_map(mc.world, mc.stage)
+		if mc.get("out_of", false):
+			var out_of_world = mc.get("out_of_w", 0)
+			var out_of_stage = mc.get("out_of_s", 0)
+			var worldPortal: Position = worldPortals.get(out_of_world * WORLD_ID_MULTIPLY + out_of_stage, _player.cur_position)
+			_player.move_to_pos(worldPortal)
+		UndoManager.clear_history()
 	
 
 func map_size_in(x:int, y:int) -> bool:

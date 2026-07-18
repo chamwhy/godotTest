@@ -18,8 +18,9 @@
 [ext_resource type="Texture2D" uid="uid://ctt6tth3bu1jh" path="res://03_Resources/Element/Portal/Number/n_14.png" id="15_dhhj2"]
 [ext_resource type="Texture2D" uid="uid://c7hxwsa7r0o15" path="res://03_Resources/Element/Portal/Number/n_15.png" id="16_q5403"]
 
-[node name="WorldPortal" type="Node2D" unique_id=482602134]
+[node name="WorldPortal" type="Node2D" unique_id=482602134 node_paths=PackedStringArray("number_sprite")]
 script = ExtResource("1_awtle")
+number_sprite = NodePath("Number")
 number_textures = Array[Texture2D]([null, ExtResource("3_v0puv"), ExtResource("3_xxrl3"), ExtResource("4_0iowa"), ExtResource("5_5fboa"), ExtResource("6_7604i"), ExtResource("7_wws6u"), ExtResource("8_e8gfh"), ExtResource("9_iye0g"), ExtResource("10_sr67u"), ExtResource("11_1olgb"), ExtResource("12_qdm7n"), ExtResource("13_jsm5i"), ExtResource("14_i8qgk"), ExtResource("15_dhhj2"), ExtResource("16_q5403")])
 hitable = false
 

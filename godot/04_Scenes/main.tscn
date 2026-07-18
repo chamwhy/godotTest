@@ -150,16 +150,13 @@ metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/HpBar" unique_id=1533470684]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -34.5
-offset_top = -5.0
-offset_right = 49.0
-offset_bottom = 5.0
-grow_horizontal = 2
+offset_left = 88.0
+offset_top = -64.0
+offset_right = 861.0
+offset_bottom = 64.0
 grow_vertical = 2
 theme_override_constants/separation = 1
 
@@ -218,6 +215,8 @@ offset_bottom = 40.0
 script = ExtResource("6_4p43j")
 start_menu = NodePath("../UI/StartMenu")
 hp_bar = NodePath("../UI/HpBar")
+start_world = 1
+start_stage = 4
 
 [node name="Level_01" type="Node2D" parent="LevelManager" unique_id=581685276]
 

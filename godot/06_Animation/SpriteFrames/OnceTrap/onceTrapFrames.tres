@@ -1,20 +1,20 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://20uu2qjgbg3e"]
 
-[ext_resource type="Texture2D" uid="uid://cu1hxd6rl3k51" path="res://03_Resources/mino2/obj/sprite-5-4.png" id="1_0nqwb"]
-[ext_resource type="Texture2D" uid="uid://ctkpvxsqdab8m" path="res://03_Resources/mino2/obj/sprite-5-5.png" id="2_tx7r3"]
-[ext_resource type="Texture2D" uid="uid://dl6gc0xy2xumd" path="res://03_Resources/mino2/obj/sprite-5-6.png" id="3_wof64"]
+[ext_resource type="Texture2D" uid="uid://d2uy1my7f5riv" path="res://03_Resources/Element/Chili/chili_1.png" id="1_np8i5"]
+[ext_resource type="Texture2D" uid="uid://dmykf25gts2sf" path="res://03_Resources/Element/Chili/chili_2.png" id="2_dtbqt"]
+[ext_resource type="Texture2D" uid="uid://drjf03448id83" path="res://03_Resources/Element/Chili/chili_3.png" id="3_q2udb"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_0nqwb")
+"texture": ExtResource("1_np8i5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_tx7r3")
+"texture": ExtResource("2_dtbqt")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_wof64")
+"texture": ExtResource("3_q2udb")
 }],
 "loop": 1,
 "name": &"default",

@@ -6,7 +6,7 @@
 	"tile_size_y": 256,
 	"map_width": 8,
 	"map_height": 8,
-	"zoom": 0.4,
+	"zoom": 0.2,
 	"padding": 2,
 	"tile_map": [
 		[0, 0, 0, 0, 0, 1, 1, 1],
@@ -152,6 +152,13 @@
 			"y": 5,
 			"obj_type": "wall",
 		},
+		{
+			"x": 1,
+			"y": 4,
+			"obj_type": "clear",
+			"to_w": 1,
+			"to_s": 0
+		}
 		
 		
 		

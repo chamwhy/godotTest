@@ -18,6 +18,7 @@ func on_hit(atk_data: AtkData) -> bool:
 
 func apply_data(data: Dictionary):
 	super.apply_data(data)
+	print("unit apply")
 	z_index = ZIndexer.calc(cur_position.y, ZIndexer.ZID_ELEMENT)
 	InGameManager.register_element(cur_position, self)
 
