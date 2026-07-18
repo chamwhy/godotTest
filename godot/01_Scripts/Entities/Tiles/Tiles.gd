@@ -6,16 +6,18 @@ class_name Tile
 const ShowRatio := 0.5
 
 @export var dust: Sprite2D
-@export var up_left: Sprite2D
-@export var up_right: Sprite2D
-@export var down_left: Sprite2D
-@export var down_right: Sprite2D
-
 @export var dust_texture: Array[Texture2D]
-@export var up_left_texture: Array[Texture2D]
-@export var up_right_texture: Array[Texture2D]
-@export var down_left_texture: Array[Texture2D]
-@export var down_right_texture: Array[Texture2D]
+
+@export var ul_animSprite: AnimatedSprite2D
+@export var ur_animSprite: AnimatedSprite2D
+@export var dl_animSprite: AnimatedSprite2D
+@export var dr_animSprite: AnimatedSprite2D
+
+
+@export var ul_frames: Array[SpriteFrames]
+@export var ur_frames: Array[SpriteFrames]
+@export var dl_frames: Array[SpriteFrames]
+@export var dr_frames: Array[SpriteFrames]
 
 var tile_id: int	# 해당 타일 id
 var preset: TilePreset  # 해당 타일 프리셋
@@ -38,28 +40,28 @@ func update_tile_sprites() -> void:
 		surround[0][1] * 4 + \
 		surround[0][0] * 2 + \
 		surround[1][0]
-	up_left.texture = up_left_texture[ul_index]
+	ul_animSprite.sprite_frames = ul_frames[ul_index]
 	
 	# 우상
 	var ur_index = \
 		surround[1][2] * 4 + \
 		surround[0][2] * 2 + \
 		surround[0][1]
-	up_right.texture = up_right_texture[ur_index]
+	ur_animSprite.sprite_frames = ur_frames[ur_index]
 	
 	# 좌하
 	var dl_index = \
 		surround[1][0] * 4 + \
 		surround[2][0] * 2 + \
 		surround[2][1]
-	down_left.texture = down_left_texture[dl_index]
+	dl_animSprite.sprite_frames = dl_frames[dl_index]
 	
 	# 우하
 	var dr_index = \
 		surround[2][1] * 4 + \
 		surround[2][2] * 2 + \
 		surround[1][2]
-	down_right.texture = down_right_texture[dr_index]
+	dr_animSprite.sprite_frames = dr_frames[dr_index]
 	
 func set_random_dust() -> void:
 	if randf() < ShowRatio:

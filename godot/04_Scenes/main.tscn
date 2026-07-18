@@ -28,7 +28,6 @@
 [ext_resource type="SpriteFrames" uid="uid://dt6qaucu2h74a" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_6.tres" id="19_nrxsk"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_epy18"]
-load_path = "res://.godot/imported/black.png-8f54d6f52de4a324929b65357db19ad5.ctex"
 
 [node name="Main" type="Node" unique_id=1358099324]
 
