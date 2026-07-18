@@ -88,7 +88,7 @@ func run_turn(player: Player, dir: Position) -> void:
 	is_turn_running = true
 
 	# ① 턴 시작 시점 state 스냅샷
-	var turn_record := UndoManager.pre_action()
+	var turn_record = UndoManager.pre_action()
 	_turn_actions.clear()
 
 	# ② 게임 로직 실행 → record()로 ActionUnit들이 쌓임

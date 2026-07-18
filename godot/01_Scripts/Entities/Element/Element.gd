@@ -9,7 +9,7 @@ class_name Element
 
 @onready var hit_effect: HitEffect = $AnimatedSprite2D/HitEffect
 
-var in_map := false   # 맵에 존재하는지 여부 (InGameManager가 관리)
+var in_map := false   # 맵에 존재하는지 여부 (GridManager가 관리)
 
 #endregion
 
@@ -23,7 +23,7 @@ func apply_data(data: Dictionary):
 	super.apply_data(data)
 	print("unit apply")
 	z_index = ZIndexer.calc(cur_position.y, ZIndexer.ZID_ELEMENT)
-	InGameManager.register_element(cur_position, self)
+	GridManager.register_element(cur_position, self)
 
 
 #region Anim
@@ -78,7 +78,7 @@ func _anim_respawn(tween: Tween, data: Dictionary) -> void:
 ## 소멸 처리: 논리는 즉시 exit, 시각은 큐 타이밍에 맞춰 vanish
 ## Undo 시엔 자동으로 respawn이 역산 재생됨
 func hide_for_undo(tick: int) -> void:
-	InGameManager.exit_element(self, cur_position, tick)
+	GridManager.exit_element(self, cur_position, tick)
 	ActionManager.record_new(self, tick, "vanish", {}, "respawn", {})
 
 

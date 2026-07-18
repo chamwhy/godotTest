@@ -2,7 +2,7 @@ extends Unit
 class_name Player
 
 func reset() -> void:
-	InGameManager.register_player(self)
+	PlayerRegistry.register_player(self)
 	super.reset()
 
 

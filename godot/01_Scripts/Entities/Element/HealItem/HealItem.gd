@@ -14,8 +14,8 @@ func apply_data(data: Dictionary) -> void:
 	hitable = false
 	heal_pow = data.get("heal", 1)
 	
-	InGameManager.element_passed.connect(_check_pos)
-	InGameManager.element_entered.connect(_check_pos)
+	GridManager.element_passed.connect(_check_pos)
+	GridManager.element_entered.connect(_check_pos)
 	
 	# TODO: 상태에 따른 이미지 업데이트
 
@@ -33,5 +33,5 @@ func heal(target: Element, tick: int) -> void:
 		target.on_heal(new_heal_data)
 
 func destroy_heal_item(tick: int) -> void:
-	InGameManager.exit_element(self, cur_position, tick)
+	GridManager.exit_element(self, cur_position, tick)
 	queue_free()

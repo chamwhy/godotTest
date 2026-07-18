@@ -65,7 +65,7 @@ func pop_record() -> TurnRecord:
 func restore_states(record: TurnRecord) -> void:
 	# 턴 도중 동적 생성된 Element 제거 (턴 시작 명단에 없는 것)
 	var to_remove: Array[Element] = []
-	for elm in InGameManager.all_elements:
+	for elm in GridManager.all_elements:
 		if elm not in record.state_before:
 			to_remove.append(elm)
 	for elm in to_remove:

@@ -24,8 +24,8 @@ func apply_data(data: Dictionary) -> void:
 	atk_pow = data.get("atk", 0)
 	is_once = data.get("once", false)
 	
-	InGameManager.element_passed.connect(_check_pos)
-	InGameManager.element_entered.connect(_check_pos)
+	GridManager.element_passed.connect(_check_pos)
+	GridManager.element_entered.connect(_check_pos)
 	
 	# TODO: 상태에 따른 이미지 업데이트
 	update_sprite()

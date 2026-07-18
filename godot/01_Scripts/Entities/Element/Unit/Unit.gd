@@ -39,7 +39,7 @@ func reset() -> void:
 
 func action_dir(dir: Position, tick: int) -> void:
 	if dir.equals(Position.ZERO()):
-		InGameManager.interact_element(self, cur_position, 0)
+		GridManager.interact_element(self, cur_position, 0)
 	else:
 		var real_dir = dir.normalized()
 		if move_speed < 0:
@@ -64,7 +64,7 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 		# 모든 이동력을 다 쓴 상태
 		if remain_move <= 0:
 			break
-		var checks = InGameManager.can_pass(chk_pos.add(dir))
+		var checks = GridManager.can_pass(chk_pos.add(dir))
 		if remain_move > 0 and checks:
 			remain_move -= 1
 			# 해당 게임에선 이동력을 소모하면 같이 공격력도 소모함.
@@ -83,7 +83,7 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 	if was_blocked and remain_atk > 0:
 		attack(remain_atk, dir, tick)
 	
-	if not InGameManager.has_tile(cur_position.x, cur_position.y):
+	if not GridManager.has_tile(cur_position.x, cur_position.y):
 		print("구멍에 빠짐")
 		is_fallen = true
 		ActionManager.record_new(self, tick, "falling", {}, "undo_falling", {})
@@ -102,12 +102,12 @@ func move_to(vel: Position, tick: int) -> int:
 	var chk_pos: Position = cur_position.add(dir)
 	var from: Position = cur_position.copy()
 	print("이동: ", from.to_str(), " -> ", goal.to_str())
-	var re = InGameManager.exit_element(self, cur_position, tick)
+	var re = GridManager.exit_element(self, cur_position, tick)
 	if self != re: print("오류임. 절대 무조건 같아야 함")
  
 	while true:
 		if chk_pos.equals(goal): break
-		InGameManager.pass_element(self, chk_pos, tick)
+		GridManager.pass_element(self, chk_pos, tick)
 		chk_pos = chk_pos.add(dir)
  
 		ActionManager.record_new(self, tick,
@@ -121,13 +121,13 @@ func move_to(vel: Position, tick: int) -> int:
 			"move",         {"from": from, "to": chk_pos},
 			"move_reverse", {"from": chk_pos, "to": from})
 	# 도착을 기준으로 하니 tick에 1 추가
-	InGameManager.enter_element(self, chk_pos, tick+1)
+	GridManager.enter_element(self, chk_pos, tick+1)
 	return tick
 
 
 func attack(atk_power: int, dir: Position, tick: int) -> void:
 	print("공격: ", cur_position.to_str(), " > ", dir.to_str())
-	var targets: Array[Element] = InGameManager.get_elements(cur_position.add(dir))
+	var targets: Array[Element] = GridManager.get_elements(cur_position.add(dir))
 	for target in targets:
 		if target:
 			# TODO: 일단 하드코딩으로 1로 채워둠.
