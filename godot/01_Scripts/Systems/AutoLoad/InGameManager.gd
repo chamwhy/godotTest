@@ -87,6 +87,7 @@ func init(width, height):
 		for x in range(width):
 			tile_map[y].append(0)
 			element_map[y].append([])
+	all_elements.clear()  
 
 
 func clear():
@@ -95,6 +96,7 @@ func clear():
 	tile_map = []
 	element_map = []
 	worldPortals = {}
+	all_elements.clear()  
 
 # 큐가 끝난 뒤 처리할 맵 전환 예약 (비어있으면 없음)
 var _pending_map_change: Dictionary = {}
@@ -136,6 +138,8 @@ func register_tile(pos: Position, tile_id: int) -> void:
 func register_element(pos: Position, elm: Element) -> void:
 	if not map_size_in(pos.x, pos.y): return
 	elm.cur_position = pos
+	elm.in_map = true            # ← 추가
+	_registry_add(elm)           # ← 추가
 	if element_map[pos.y][pos.x] == null:
 		element_map[pos.y][pos.x] = [elm]
 	else:
@@ -200,6 +204,7 @@ func exit_element(elm: Element, pos: Position, tick: int) -> Element:
 		if not re is Element: continue
 		if re != elm: continue
 		element_map[pos.y][pos.x].remove_at(i)
+		elm.in_map = false
 		element_exited.emit(pos, elm, tick)
 		return re
 	return null
@@ -241,6 +246,31 @@ func is_blocked(pos: Position) -> bool:
 		else:
 			continue
 	return true
+
+
+
+#region Element Registry
+# 씬에 존재하는 모든 Element의 명단 (map과 무관하게 유지)
+var all_elements: Array[Element] = []
+
+func _registry_add(elm: Element) -> void:
+	if elm not in all_elements:
+		all_elements.append(elm)
+
+func _registry_remove(elm: Element) -> void:
+	all_elements.erase(elm)
+
+# element_map을 각 Element의 state(cur_position, in_map)로부터 재구성
+func rebuild_element_map() -> void:
+	for y in range(map_height):
+		for x in range(map_width):
+			element_map[y][x].clear()
+	for elm in all_elements:
+		if not is_instance_valid(elm): continue
+		if not elm.in_map: continue
+		element_map[elm.cur_position.y][elm.cur_position.x].append(elm)
+#endregion
+
 
 #endregion
 

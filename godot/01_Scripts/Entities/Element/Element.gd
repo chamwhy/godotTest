@@ -8,6 +8,9 @@ class_name Element
 @export var hitable: bool = true
 
 @onready var hit_effect: HitEffect = $AnimatedSprite2D/HitEffect
+
+var in_map := false   # 맵에 존재하는지 여부 (InGameManager가 관리)
+
 #endregion
 
 
@@ -24,12 +27,17 @@ func apply_data(data: Dictionary):
 
 
 #region Anim
+# Element.gd
+
 func _register_animations() -> void:
-	super._register_animations()          # 부모 것 먼저 등록
-	_anim_handlers["on_damaged"] = _anim_on_damaged
-	_anim_handlers["on_parryed"] = _anim_on_parryed
-	_anim_handlers["falling"]    = _anim_falling
-	_anim_handlers["undo_falling"]    = _anim_undo_falling
+	super._register_animations()
+	_anim_handlers["on_damaged"]   = _anim_on_damaged
+	_anim_handlers["on_parryed"]   = _anim_on_parryed
+	_anim_handlers["falling"]      = _anim_falling
+	_anim_handlers["undo_falling"] = _anim_undo_falling
+	_anim_handlers["vanish"]       = _anim_vanish     # ← 추가
+	_anim_handlers["respawn"]      = _anim_respawn    # ← 추가
+
 
 func _anim_on_damaged(tween: Tween, data: Dictionary) -> void:
 	hit_effect.play_hit()
@@ -54,6 +62,37 @@ func _anim_undo_falling(tween: Tween, data: Dictionary) -> void:
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
+func _anim_vanish(tween: Tween, data: Dictionary) -> void:
+	tween.tween_property(self, "modulate:a", 0.0, 0.15)
+	tween.tween_callback(func():
+		hide()
+		modulate.a = 1.0   # 알파는 원복해두고 visible로만 제어
+	)
+
+func _anim_respawn(tween: Tween, data: Dictionary) -> void:
+	show()
+	tween.tween_property(self, "modulate:a", 1.0, 0.15).from(0.0)
+	# TODO: "펑" 재생성 파티클은 여기서 재생
+
+
+## 소멸 처리: 논리는 즉시 exit, 시각은 큐 타이밍에 맞춰 vanish
+## Undo 시엔 자동으로 respawn이 역산 재생됨
+func hide_for_undo(tick: int) -> void:
+	InGameManager.exit_element(self, cur_position, tick)  # in_map=false 처리됨
+	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
+		self, "vanish", {}, "respawn", {}
+	), tick)
+
+
+func apply_undo(state: Dictionary) -> void:
+	cur_position = state["position"]
+	in_map       = state["in_map"]
+	is_block     = state["is_block"]
+	hitable      = state["hitable"]
+	# visible/픽셀 position은 애니메이션(vanish/respawn/move_reverse)과
+	# UndoManager._sync_visuals()가 담당
+
+
 #endregion
 
 
@@ -66,25 +105,8 @@ func _anim_undo_falling(tween: Tween, data: Dictionary) -> void:
 func save_undo_state() -> Dictionary:
 	return {
 		"position": cur_position.copy(),
+		"in_map":   in_map,
 		"is_block": is_block,
 		"hitable":  hitable,
 		"visible":  visible,
 	}
-
-## save_undo_state()가 반환한 Dictionary로 논리 상태를 복원한다.
-## 서브클래스는 super.apply_undo(state)를 먼저 호출한 뒤 추가 처리한다.
-func apply_undo(state: Dictionary) -> void:
-	cur_position = state["position"]
-	is_block     = state["is_block"]
-	hitable      = state["hitable"]
-	# 시각 위치는 애니메이션이 끝난 뒤 최종적으로 맞춰짐.
-	# Undo 애니메이션의 undo_data.to 가 최종 위치이므로,
-	# 여기선 논리값만 복원하고 position(픽셀)은 on_animate가 담당한다.
-	if state.get("visible", true):
-		show()
-
-## 소멸 처리: queue_free 대신 숨김으로 처리한다.
-## element_map 에서도 제거한다.
-func hide_for_undo(tick: int) -> void:
-	InGameManager.exit_element(self, cur_position, tick)
-	hide()

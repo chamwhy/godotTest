@@ -64,10 +64,15 @@ func on_hit(atk_data: AtkData) -> bool:
 	return true
 
 
+# Trap.gd
 func destroy_trap(tick: int) -> void:
-	InGameManager.exit_element(self, cur_position, tick)
 	traped = true
-	visible = false
+	hide_for_undo(tick)   # visible = false 직접 조작 삭제
+
+#func destroy_trap(tick: int) -> void:
+	#InGameManager.exit_element(self, cur_position, tick)
+	#traped = true
+	#visible = false
 
 
 func save_undo_state() -> Dictionary:

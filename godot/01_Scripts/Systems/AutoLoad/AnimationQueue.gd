@@ -55,10 +55,14 @@ func get_and_clear_turn_log() -> Array:
 func _ready() -> void:
 	queue_reset()
 
+# AnimationQueue.gd
+var max_used_tick := -1   # ← 추가: 실제로 사용된 최대 틱
+
 
 func queue_reset() -> void:
 	print("AnimQ - 리셋")
 	cur_tick = 0
+	max_used_tick = -1
 	queue.resize(QUEUE_LIMIT)
 	for i in range(QUEUE_LIMIT):
 		queue[i] = []
@@ -67,94 +71,54 @@ func queue_reset() -> void:
 func add_anim_unit(unit: AnimUnit, tick: int) -> bool:
 	if tick >= start_tick + QUEUE_LIMIT:
 		return false
-	print("AnimQ - 유닛 추가 - ",
-		unit.target.get_script().get_global_name(),
-		" : ", tick, "틱(", tick - start_tick, "개)")
 	queue[tick - start_tick].append(unit)
+	max_used_tick = max(max_used_tick, tick - start_tick)  # ← 추가
 	return true
 
 
 # ─────────────────────────────────────────────
-# 정방향 큐 실행
+# 통합 큐 실행 (정방향 / Undo 공용)
+#   is_undo == true 이면:
+#     · 턴 로그를 기록하지 않음 (undo가 또 undo되면 안 되니까)
+#     · 맵 전환 flush를 하지 않음
 # ─────────────────────────────────────────────
-func process_queue() -> void:
-	for i in range(QUEUE_LIMIT):
-		if queue[i].size() > 0:
-			print("    ", i, "틱 - ", queue[i].size(), "개")
-	print("AnimQ - 프로세싱 시작")
-	if is_processing or queue[cur_tick].is_empty():
-		print("    ====> 실패")
-		return
-	
-	is_processing = true
-
-	_turn_log.clear()
-
-	while not queue[cur_tick].is_empty():
-		print("AnimQ: ", start_tick + cur_tick, "틱 - ", queue[cur_tick].size(), "개")
-		var current_batch: Array = queue[cur_tick]
-
-		# 이번 배치를 턴 로그에 기록
-		_turn_log.append(current_batch.duplicate())
-
-		var tweens: Array[Tween] = []
-
-		for unit in current_batch:
-			if is_instance_valid(unit.target) and unit.target.has_method("on_animate"):
-				var tw = unit.target.on_animate(unit.action, unit.data)
-				if tw is Tween:
-					tweens.append(tw)
-
-		for tw in tweens:
-			await tw.finished
-
-		await get_tree().process_frame
-		cur_tick += 1
-
-	queue_reset()
-	is_processing = false
-	print("AnimQ - 모든 큐 재생 완료")
-	
-	InGameManager.flush_pending_map_change()   # ← 추가
-
-
-# ─────────────────────────────────────────────
-# 역방향 큐 실행 (UndoManager 전용)
-# batches: [ [AnimUnit,...], ... ]  tick 오름차순 → 역순으로 처리
-# ─────────────────────────────────────────────
-func process_undo_queue(batches: Array) -> void:
-	if is_processing:
-		return
-	if batches.is_empty():
+func process_queue(is_undo := false) -> void:
+	if is_processing or max_used_tick < 0:
 		return
 
 	is_processing = true
-	
-	
-	print("Undo 애니메이션 역재생 시작")
+	if not is_undo:
+		_turn_log.clear()
 
-	# tick 역순으로 배치를 순회
-	for i in range(batches.size() - 1, -1, -1):
-		var batch: Array = batches[i]
+	while cur_tick <= max_used_tick:
+		var batch: Array = queue[cur_tick]
+
+		# 빈 틱은 건너뜀 (undo 역산 시 gap 발생 가능)
+		if batch.is_empty():
+			cur_tick += 1
+			continue
+
+		print("AnimQ%s: %d틱 - %d개" % [" (undo)" if is_undo else "", cur_tick, batch.size()])
+
+		if not is_undo:
+			_turn_log.append(batch.duplicate())
+
 		var tweens: Array[Tween] = []
-		print("UndoQ: ", i, "틱 - ", batch.size(), "개")
 		for unit in batch:
-			# undo_action 이 비어 있으면 역산 애니메이션 없음
-			if unit.undo_action == "":
-				continue
-			if not is_instance_valid(unit.target):
-				continue
-			if not unit.target.has_method("on_animate"):
-				continue
-
-			var tw = unit.target.on_animate(unit.undo_action, unit.undo_data)
+			if not is_instance_valid(unit.target): continue
+			if unit.target.is_queued_for_deletion(): continue
+			if not unit.target.has_method("on_animate"): continue
+			var tw = unit.target.on_animate(unit.action, unit.data)
 			if tw is Tween:
 				tweens.append(tw)
 
 		for tw in tweens:
 			await tw.finished
-
 		await get_tree().process_frame
+		cur_tick += 1
 
+	queue_reset()
 	is_processing = false
-	print("Undo 애니메이션 역재생 완료")
+
+	if not is_undo:
+		InGameManager.flush_pending_map_change()
