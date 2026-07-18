@@ -7,17 +7,19 @@
 [ext_resource type="PackedScene" uid="uid://b635aa1kx37m0" path="res://04_Scenes/Entities/trap.tscn" id="4_bgbi1"]
 [ext_resource type="PackedScene" uid="uid://tqdeqigdhtn" path="res://04_Scenes/Entities/heal_item.tscn" id="5_k3ru8"]
 [ext_resource type="PackedScene" uid="uid://bi71to4ae5eo7" path="res://04_Scenes/Entities/move_box.tscn" id="6_dpfcg"]
+[ext_resource type="PackedScene" uid="uid://bxs31ycpbamfa" path="res://04_Scenes/Entities/world_portal.tscn" id="7_dpfcg"]
 [ext_resource type="PackedScene" uid="uid://bk8u1y1oy40g1" path="res://04_Scenes/Entities/clear_portal.tscn" id="7_k3ru8"]
 
 [resource]
 script = ExtResource("1_8ssbv")
 entityScenes = Dictionary[String, PackedScene]({
+"clear": ExtResource("7_k3ru8"),
 "healItem": ExtResource("5_k3ru8"),
-"mapPortal": ExtResource("7_k3ru8"),
 "moveBox": ExtResource("6_dpfcg"),
 "player": ExtResource("2_77qpq"),
 "tile": ExtResource("3_2mgts"),
 "trap": ExtResource("4_bgbi1"),
-"wall": ExtResource("1_lhdmw")
+"wall": ExtResource("1_lhdmw"),
+"worldPortal": ExtResource("7_dpfcg")
 })
 metadata/_custom_type_script = "uid://dgnyiuyqkgp26"

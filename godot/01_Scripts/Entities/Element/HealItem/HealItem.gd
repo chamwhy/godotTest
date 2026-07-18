@@ -12,6 +12,7 @@ func apply_data(data: Dictionary) -> void:
 	super.apply_data(data)
 	is_block = false
 	hitable = false
+	heal_pow = data.get("heal", 1)
 	
 	InGameManager.element_passed.connect(_check_pos)
 	InGameManager.element_entered.connect(_check_pos)

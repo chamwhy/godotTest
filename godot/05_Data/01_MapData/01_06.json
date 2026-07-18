@@ -70,10 +70,9 @@
 		{
 			"x": 5,
 			"y": 0,
-			"obj_type": "mapPortal",
-			"world": 1,
-			"stage": 0,
-			"completing": true
+			"obj_type": "clear",
+			"to_w": 1,
+			"to_s": 0,
 		},
 	]
 }

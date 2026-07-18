@@ -27,23 +27,26 @@
 		{
 			"x": 0,
 			"y": 4,
-			"obj_type": "mapPortal",
-			"world": 1,
-			"stage": 0
+			"obj_type": "worldPortal",
+			"to_w": 1,
+			"to_s": 0,
+			"num": 1
 		},
 		{
 			"x": 0,
 			"y": 2,
-			"obj_type": "mapPortal",
-			"world": 2,
-			"stage": 0
+			"obj_type": "worldPortal",
+			"to_w": 2,
+			"to_s": 0,
+			"num": 2
 		},
 		{
 			"x": 0,
 			"y": 0,
-			"obj_type": "mapPortal",
-			"world": 3,
-			"stage": 0
+			"obj_type": "worldPortal",
+			"to_w": 3,
+			"to_s": 0,
+			"num": 3
 		},
 	]
 }

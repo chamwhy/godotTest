@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bxs31ycpbamfa"]
+
+[ext_resource type="Script" uid="uid://biftf41muquq1" path="res://01_Scripts/Entities/Element/Portal/WorldPortal.gd" id="1_awtle"]
+[ext_resource type="SpriteFrames" uid="uid://dr3e0fvigj1ul" path="res://06_Animation/SpriteFrames/Portal/worldPortal_frames.tres" id="2_u452a"]
+[ext_resource type="Texture2D" uid="uid://dx2hlsr08pu7u" path="res://03_Resources/Element/Portal/Number/n_1.png" id="3_v0puv"]
+[ext_resource type="Texture2D" uid="uid://c1tb65plee7rs" path="res://03_Resources/Element/Portal/Number/n_2.png" id="3_xxrl3"]
+[ext_resource type="Texture2D" uid="uid://srb1usbybi6" path="res://03_Resources/Element/Portal/Number/n_3.png" id="4_0iowa"]
+[ext_resource type="Texture2D" uid="uid://dnywkrjfwthy2" path="res://03_Resources/Element/Portal/Number/n_4.png" id="5_5fboa"]
+[ext_resource type="Texture2D" uid="uid://cfy8sv04yhhy6" path="res://03_Resources/Element/Portal/Number/n_5.png" id="6_7604i"]
+[ext_resource type="Texture2D" uid="uid://d2ihcvu3bg02r" path="res://03_Resources/Element/Portal/Number/n_6.png" id="7_wws6u"]
+[ext_resource type="Texture2D" uid="uid://dwehoqo1nr0uq" path="res://03_Resources/Element/Portal/Number/n_7.png" id="8_e8gfh"]
+[ext_resource type="Texture2D" uid="uid://of8xpxc2eqry" path="res://03_Resources/Element/Portal/Number/n_8.png" id="9_iye0g"]
+[ext_resource type="Texture2D" uid="uid://p67aenmtbtkt" path="res://03_Resources/Element/Portal/Number/n_9.png" id="10_sr67u"]
+[ext_resource type="Texture2D" uid="uid://demb3aa5ye4df" path="res://03_Resources/Element/Portal/Number/n_10.png" id="11_1olgb"]
+[ext_resource type="Texture2D" uid="uid://du6wy75tjg4kt" path="res://03_Resources/Element/Portal/Number/n_11.png" id="12_qdm7n"]
+[ext_resource type="Texture2D" uid="uid://dujx8qven371p" path="res://03_Resources/Element/Portal/Number/n_12.png" id="13_jsm5i"]
+[ext_resource type="Texture2D" uid="uid://brprxlprxrch6" path="res://03_Resources/Element/Portal/Number/n_13.png" id="14_i8qgk"]
+[ext_resource type="Texture2D" uid="uid://ctt6tth3bu1jh" path="res://03_Resources/Element/Portal/Number/n_14.png" id="15_dhhj2"]
+[ext_resource type="Texture2D" uid="uid://c7hxwsa7r0o15" path="res://03_Resources/Element/Portal/Number/n_15.png" id="16_q5403"]
+
+[node name="WorldPortal" type="Node2D" unique_id=482602134]
+script = ExtResource("1_awtle")
+number_textures = Array[Texture2D]([null, ExtResource("3_v0puv"), ExtResource("3_xxrl3"), ExtResource("4_0iowa"), ExtResource("5_5fboa"), ExtResource("6_7604i"), ExtResource("7_wws6u"), ExtResource("8_e8gfh"), ExtResource("9_iye0g"), ExtResource("10_sr67u"), ExtResource("11_1olgb"), ExtResource("12_qdm7n"), ExtResource("13_jsm5i"), ExtResource("14_i8qgk"), ExtResource("15_dhhj2"), ExtResource("16_q5403")])
+hitable = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1756931199]
+modulate = Color(0.5524733, 0.79, 0.46610004, 1)
+sprite_frames = ExtResource("2_u452a")
+autoplay = "default"
+
+[node name="Number" type="Sprite2D" parent="." unique_id=334919852]
+texture = ExtResource("3_v0puv")

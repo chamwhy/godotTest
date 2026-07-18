@@ -63,7 +63,8 @@ func draw_map(world: int, stage: int) -> bool:
 	_spawn_tile_objects(map_data)
 	
 	# 3. 엔티티 데이터 로드 및 배치 (로직 동일)
-	_spawn_entities(map_data)
+	_spawn_entities(map_data, false)
+	_spawn_entities(map_data, true)
 	
 	print("Object-based map '%s' loaded successfully." % map_data.get("map_name", "Unnamed Map"))
 	return true
@@ -115,7 +116,7 @@ func _spawn_tile_objects(data: Dictionary):
 				print("tile has not apply data")
 
 ## 엔티티 데이터를 순회하며 씬을 인스턴스화하고 배치하는 함수
-func _spawn_entities(data: Dictionary):
+func _spawn_entities(data: Dictionary, is_unit: bool):
 	if not entity_parent:
 		print("Entity parent node is not assigned!")
 		return
@@ -133,7 +134,10 @@ func _spawn_entities(data: Dictionary):
 		
 		# 2. Scene 인스턴스 생성 및 부모 설정
 		var obj: Node2D = scene.instantiate()
-		entity_parent.add_child(obj)
+		
+		if obj.is_class("Unit") != is_unit:
+			obj.queue_free()
+			continue
 		
 		if entity_data.has("x"):
 			entity_data["x"] += padding

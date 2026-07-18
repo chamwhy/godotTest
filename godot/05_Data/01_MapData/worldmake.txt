@@ -1,0 +1,19 @@
+player
+	- mh <int>: max hp
+	- ch <int>: cur hp
+wall
+	- ma <int>: min attack power(최소 파괴 공격력)
+		- if 0 => normal wall
+trap
+	- atk <int>: attack power
+	- once <bool>: is it once attack?(일회용 공격 개체 여부) 
+worldPortal
+	- to_w <int>: 밟을 시 이동할 world값
+	- to_s <int>: 밟을 시 이동할 stage값
+	- num <int>: 보여줄 숫자값
+clear
+	- to_w <int>: 밟을 시 이동할 world값
+	- to_s <int>: 밟을 시 이동할 stage값
+moveBox
+healItem
+	- heal <int>: 힐 양(기본 1)
