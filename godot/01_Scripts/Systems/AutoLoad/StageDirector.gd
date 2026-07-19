@@ -60,6 +60,8 @@ func unload_stage() -> void:
 		n.queue_free()
 	GridManager.clear()
 	PlayerRegistry.clear()
+	StageContext.reset()
+	# TODO: 일단 worldPortals도 초기화 해야됨. 있는 이유가 player 생성 위치 기록으로 하기 위함이라
 	# worldPortals는 유지 — 맵을 넘나들며 쌓이는 월드 데이터
 
 
