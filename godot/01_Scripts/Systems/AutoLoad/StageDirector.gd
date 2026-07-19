@@ -12,6 +12,7 @@ extends Node
 
 @export var entity_parent_name := "EntityParent"
 
+var mapData: MapData
 var _entity_parent: Node2D = null
 
 
@@ -20,8 +21,8 @@ var _entity_parent: Node2D = null
 # ─────────────────────────────────────────────
 func load_stage(world: int, stage: int) -> bool:
 	# ① 파싱 (실패 시 기존 스테이지 유지한 채 중단)
-	var data := MapLoader.load_map(world, stage)
-	if data == null or not data.is_valid():
+	mapData = MapLoader.load_map(world, stage)
+	if mapData == null or not mapData.is_valid():
 		return false
 
 	# ② 기존 스테이지 해체
@@ -32,23 +33,23 @@ func load_stage(world: int, stage: int) -> bool:
 		return false
 
 	# ③ 매니저 초기화
-	GridManager.init(data.map_width, data.map_height)
-	StageContext.world    = data.world
-	StageContext.stage    = data.stage
-	StageContext.map_name = data.map_name
+	GridManager.init(mapData.map_width, mapData.map_height)
+	StageContext.world    = mapData.world
+	StageContext.stage    = mapData.stage
+	StageContext.map_name = mapData.map_name
 
 	# ④ 카메라
 	MyCamera.instance.setup_map(
-		data.tile_size_x, data.tile_size_y,
-		data.map_width, data.map_height, data.zoom)
+		mapData.tile_size_x, mapData.tile_size_y,
+		mapData.map_width, mapData.map_height, mapData.zoom)
 
 	# ⑤ 스폰
-	EntitySpawner.spawn_all(data, _entity_parent)
+	EntitySpawner.spawn_all(mapData, _entity_parent)
 
 	# ⑥ 새 판이니 undo 히스토리 초기화
 	UndoManager.clear_history()
 
-	print("StageDirector: '%s' 로드 완료" % data.map_name)
+	print("StageDirector: '%s' 로드 완료" % mapData.map_name)
 	return true
 
 
@@ -61,8 +62,8 @@ func unload_stage() -> void:
 	GridManager.clear()
 	PlayerRegistry.clear()
 	StageContext.reset()
-	# TODO: 일단 worldPortals도 초기화 해야됨. 있는 이유가 player 생성 위치 기록으로 하기 위함이라
 	# worldPortals는 유지 — 맵을 넘나들며 쌓이는 월드 데이터
+	# 생각해보면 리셋해야 됨. 일단 TODO
 
 
 func _find_entity_parent() -> Node2D:
@@ -85,7 +86,7 @@ func flush_pending_map_change() -> void:
 	if mc.get("out_of", false):
 		var key: int = mc.get("out_of_w", 0) * StageContext.WORLD_ID_MULTIPLY \
 			+ mc.get("out_of_s", 0)
-		var player := PlayerRegistry.get_player()
+		var player: Player = PlayerRegistry.get_player()
 		if player:
 			var portal: Position = StageContext.worldPortals.get(key, player.cur_position)
 			player.move_to_pos(portal)

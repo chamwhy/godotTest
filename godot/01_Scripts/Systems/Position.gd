@@ -46,7 +46,7 @@ func to_vector2() -> Vector2:
 
 static func position_to_world(pos: Position) -> Vector2:
 	# TODO: 나중에 카메라 관련 기획짜서 고치기?
-	return Vector2((pos.x + 0.5) * MapDrawer.tile_size_x, (pos.y + 0.5) * MapDrawer.tile_size_y) 
+	return Vector2((pos.x + 0.5) * StageDirector.mapData.tile_size_x, (pos.y + 0.5) * StageDirector.mapData.tile_size_y) 
 
 # Vector2에서 Position을 생성하는 static 함수
 static func from_vector2(vector: Vector2) -> Position:
