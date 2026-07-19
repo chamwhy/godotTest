@@ -1,5 +1,6 @@
 # PlayerAnimator.gd
 extends AnimatedSprite2D
+class_name PlayerAnimator
 
 @onready var player = get_parent() as Player
 
@@ -7,6 +8,7 @@ extends AnimatedSprite2D
 @export var frame2: SpriteFrames
 @export var frame3: SpriteFrames
 
+var look_r := true
 
 func _ready() -> void:
 	if player:
@@ -36,11 +38,15 @@ func _on_emotion_changed(emotion: Player.PlayerEmotion) -> void:
 	self.play()
 
 
+func set_look(look_right: bool) -> void:
+	look_r = look_right
+	flip_h = not look_r
+
 func move(cnt: int, dir: Position) -> void:
 	if dir.x != 0:
-		flip_h = dir.x < 0
+		set_look(dir.x > 0)
 
 func attack(dir: Position) -> void:
 	if dir.x != 0:
-		flip_h = dir.x < 0
+		set_look(dir.x > 0)
 	# 공격 애니메이션이 있다면: _play_times("attack", 1)

@@ -30,6 +30,8 @@ func _get_hp():
 #region state
 var is_dead := false
 var is_fallen := false
+#TODO: look을 player로 옮겨야 하는 리팩토링 필
+var look_right := true
 #endregion
 
 func reset() -> void:
@@ -101,6 +103,9 @@ func move_to(vel: Position, tick: int) -> int:
 	var dir: Position  = vel.normalized()
 	var chk_pos: Position = cur_position.add(dir)
 	var from: Position = cur_position.copy()
+	
+	
+	
 	print("이동: ", from.to_str(), " -> ", goal.to_str())
 	var re = GridManager.exit_element(self, cur_position, tick)
 	if self != re: print("오류임. 절대 무조건 같아야 함")
@@ -111,15 +116,20 @@ func move_to(vel: Position, tick: int) -> int:
 		chk_pos = chk_pos.add(dir)
  
 		ActionManager.record_new(self, tick,
-			"move",         {"from": from, "to": chk_pos},
-			"move_reverse", {"from": chk_pos, "to": from})
- 
+			"move",         {"from": from.copy(), "to": chk_pos.copy()},
+			"move_reverse", {"pre_look": look_right, "from": chk_pos.copy(), "to": from.copy()})
+		if dir.x != 0:
+			look_right = dir.x > 0
 		from = chk_pos.copy()
 		tick += 1
 	
 	ActionManager.record_new(self, tick,
-			"move",         {"from": from, "to": chk_pos},
-			"move_reverse", {"from": chk_pos, "to": from})
+			"move",         {"from": from.copy(), "to": chk_pos.copy()},
+			"move_reverse", {"pre_look": look_right, "from": chk_pos.copy(), "to": from.copy()})
+	
+	# while 들어가기 전에 한 번 이동은 무조건 하니, look_right 수정
+	if dir.x != 0:
+		look_right = dir.x > 0
 	# 도착을 기준으로 하니 tick에 1 추가
 	GridManager.enter_element(self, chk_pos, tick+1)
 	return tick
@@ -133,7 +143,10 @@ func attack(atk_power: int, dir: Position, tick: int) -> void:
 			# TODO: 일단 하드코딩으로 1로 채워둠.
 			apply_on_hit(target, atk_power, tick)
 	ActionManager.record_new(self, tick,
-		"attack", {"pos": cur_position, "dir": dir})
+		"attack", {"pos": cur_position.copy(), "dir": dir.copy()},
+		"undo_attack", {"pre_look": look_right, "pos": cur_position.copy(), "dir": dir.copy()})
+	if dir.x != 0:
+		look_right = dir.x > 0
 
 func apply_on_hit(target: Element, atk_power: int, tick: int) -> void:
 	var new_atk_data = AtkData.new(
@@ -175,6 +188,7 @@ func apply_undo(state: Dictionary) -> void:
 	cur_hp    = state["cur_hp"]
 	is_dead    = state["is_dead"]
 	is_fallen  = state["is_fallen"]
+	
  
  
 
@@ -186,6 +200,7 @@ func _register_animations() -> void:
 	_anim_handlers["move"]         = _anim_move
 	_anim_handlers["move_reverse"] = _anim_move_reverse
 	_anim_handlers["attack"]       = _anim_attack
+	_anim_handlers["undo_attack"]       = _undo_anim_attack
 
 func _anim_move_base(tween: Tween, data: Dictionary, ease: Tween.EaseType) -> void:
 	var from_val = Position.position_to_world(data.get("from", cur_position))
@@ -214,5 +229,8 @@ func _anim_attack(tween: Tween, data: Dictionary) -> void:
 			pos.add(dir), 
 			dir)
 	tween.tween_interval(0.2)
+
+func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
+	pass
 
 #endregion

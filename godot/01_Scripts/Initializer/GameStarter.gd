@@ -8,7 +8,7 @@ const tween_dur: float = 0.3
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	MapDrawer.draw_map(start_world,start_stage)
+	StageDirector.load_stage(start_world,start_stage)
 	InputManager.start_game.connect(_start_game)
 
 func _start_game() -> void:

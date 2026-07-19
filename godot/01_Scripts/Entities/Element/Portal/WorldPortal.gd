@@ -15,8 +15,8 @@ func apply_data(data: Dictionary) -> void:
 	super.apply_data(data)
 	num = data.get("num", to_stage)
 	print("world-portal", number_textures[1])
-	InGameManager.register_worldPortal_position(
-		to_world * InGameManager.WORLD_ID_MULTIPLY + to_stage,
+	StageContext.register_worldPortal_position(
+		to_world * StageContext.WORLD_ID_MULTIPLY + to_stage,
 		cur_position
 	)
 	update_sprite()

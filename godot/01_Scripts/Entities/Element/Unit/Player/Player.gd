@@ -54,3 +54,36 @@ func _set_hp(v):
 func on_hit(atk_data: AtkData) -> bool:
 	cur_hp = cur_hp - atk_data.dmg
 	return super.on_hit(atk_data)
+
+
+#region animation
+
+func _register_animations() -> void:
+	super._register_animations()
+	
+
+
+func _set_look(vel: Position) -> void:
+	if vel.x != 0:
+		animSprite2D.flip_h = vel.x < 0
+
+
+func _anim_move(tween: Tween, data: Dictionary) -> void:
+	var from: Position = data.get("from", Position.ZERO())
+	var to: Position = data.get("to", Position.ZERO())
+	var vel = to.subtract(from)
+	_set_look(vel)
+	_anim_move_base(tween, data, Tween.EASE_IN)
+
+
+func _anim_move_reverse(tween: Tween, data: Dictionary) -> void:
+	_anim_move_base(tween, data, Tween.EASE_OUT)
+	animSprite2D.flip_h = not data.get("pre_look", look_right)
+
+func _anim_attack(tween: Tween, data: Dictionary) -> void:
+	_set_look(data["dir"])
+	super._anim_attack(tween, data)
+
+func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
+	animSprite2D.flip_h = not data.get("pre_look", look_right)
+#endregion
