@@ -53,8 +53,15 @@ func _anim_falling(tween: Tween, data: Dictionary) -> void:
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tween.tween_property(self, "modulate:a", 0.0, 1) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.set_parallel(false)  # ← 이후 추가되는 스텝은 다시 순차 실행
+	tween.tween_callback(func():
+		hide()
+		modulate.a = 1.0   # 알파는 원복해두고 visible로만 제어
+	)
 
 func _anim_undo_falling(tween: Tween, data: Dictionary) -> void:
+	modulate.a = 0.0	# 기존에 알파 원복 후 hide로 숨겨놔서 show하기 전, 다시 알파 0으로
+	show()
 	tween.set_parallel(true)
 	tween.tween_property(self, "position:y", position.y - 120, 1) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
