@@ -15,9 +15,11 @@
 [ext_resource type="Texture2D" uid="uid://c8r7gv55wqakr" path="res://03_Resources/UI/HpBar/Bg/ui-hpbarbg_1.png" id="8_6c0kf"]
 [ext_resource type="Texture2D" uid="uid://bxvn0gw10g4gt" path="res://03_Resources/UI/HpBar/Profile/ui-profile-1_1.png" id="8_fq4bp"]
 [ext_resource type="SpriteFrames" uid="uid://chyk3xocw12wj" path="res://06_Animation/SpriteFrames/UI/hpBar/Profile/hpBar-profile_1.tres" id="9_6r57t"]
+[ext_resource type="SpriteFrames" uid="uid://ckbx17g3saf47" path="res://06_Animation/SpriteFrames/UI/hpBar/Profile/hpBar-profile_3.tres" id="9_c17ro"]
 [ext_resource type="SpriteFrames" uid="uid://e4nhmevmt22x" path="res://06_Animation/SpriteFrames/UI/hpBar/hpBar-Bg_frames.tres" id="9_entge"]
 [ext_resource type="SpriteFrames" uid="uid://bg8gn2ujwgw1w" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_1.tres" id="9_j7lds"]
 [ext_resource type="Texture2D" uid="uid://bvkcck4fninwo" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-2_1.png" id="10_6c0kf"]
+[ext_resource type="SpriteFrames" uid="uid://b0t02bsj6igxw" path="res://06_Animation/SpriteFrames/UI/hpBar/Profile/hpBar-profile_2.tres" id="10_o67ku"]
 [ext_resource type="SpriteFrames" uid="uid://boste5sy3imt3" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_2.tres" id="11_entge"]
 [ext_resource type="Texture2D" uid="uid://bwp64idkp2bi8" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-3_1.png" id="12_fq4bp"]
 [ext_resource type="SpriteFrames" uid="uid://dacxvy70o0a7t" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_3.tres" id="13_6r57t"]
@@ -95,7 +97,7 @@ script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("5_epy18")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
-[node name="HpBar" type="Control" parent="UI" unique_id=1899198871]
+[node name="HpBar" type="Control" parent="UI" unique_id=1899198871 node_paths=PackedStringArray("heart_icons", "profile")]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 7
@@ -113,6 +115,9 @@ scale = Vector2(0.3, 0.3)
 pivot_offset_ratio = Vector2(0.5, 1)
 size_flags_vertical = 8
 script = ExtResource("4_rbyvi")
+heart_icons = [NodePath("HBoxContainer/hp1"), NodePath("HBoxContainer/hp2"), NodePath("HBoxContainer/hp3"), NodePath("HBoxContainer/hp4"), NodePath("HBoxContainer/hp5"), NodePath("HBoxContainer/hp6")]
+profile = NodePath("Profile")
+profile_frames = Array[SpriteFrames]([ExtResource("9_c17ro"), ExtResource("10_o67ku"), ExtResource("10_o67ku"), ExtResource("9_6r57t"), ExtResource("9_6r57t"), ExtResource("9_6r57t")])
 
 [node name="Profile" type="TextureRect" parent="UI/HpBar" unique_id=86039053]
 layout_mode = 1
@@ -215,7 +220,7 @@ script = ExtResource("6_4p43j")
 start_menu = NodePath("../UI/StartMenu")
 hp_bar = NodePath("../UI/HpBar")
 start_world = 1
-start_stage = 4
+start_stage = 3
 
 [node name="Level_01" type="Node2D" parent="LevelManager" unique_id=581685276]
 
