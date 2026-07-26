@@ -7,7 +7,7 @@ func _enter_tree():
 	instance = self
 
 # 맵 크기에 맞춰 위치와 줌을 "즉시" 설정
-func setup_map(tile_size_x: int, tile_size_y: int, width: int, height: int, zoom_f: float = 0, margin: float = 1.2):
+func setup_map(tile_size_x: int, tile_size_y: int, width: int, height: int, zoom_f: float = 0, margin: float = 1):
 	var map_pixel_size = Vector2(width * tile_size_x, height * tile_size_y)
 	
 	# 계산된 중앙값으로 즉시 이동
