@@ -86,4 +86,5 @@ func _anim_attack(tween: Tween, data: Dictionary) -> void:
 
 func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
 	animSprite2D.flip_h = not data.get("pre_look", look_right)
+	super._undo_anim_attack(tween, data)
 #endregion
