@@ -57,17 +57,17 @@ func input_main_menu(event: InputEvent) -> void:
 
 func input_playing() -> void:
 	if Input.is_action_just_pressed("back"):
-		emit_signal("back_input")
+		InputBuffer.push_back()
 	elif Input.is_action_just_pressed("move_up"):
-		emit_signal("action_input", Position.UP())
+		InputBuffer.push_action(Position.UP())
 	elif Input.is_action_just_pressed("move_down"):
-		emit_signal("action_input", Position.DOWN())
+		InputBuffer.push_action(Position.DOWN())
 	elif Input.is_action_just_pressed("move_left"):
-		emit_signal("action_input", Position.LEFT())
+		InputBuffer.push_action(Position.LEFT())
 	elif Input.is_action_just_pressed("move_right"):
-		emit_signal("action_input", Position.RIGHT())
+		InputBuffer.push_action(Position.RIGHT())
 	elif Input.is_action_just_pressed("interaction"):
-		emit_signal("action_input", Position.ZERO())
+		InputBuffer.push_action(Position.ZERO())
 
 func input_playing_touch(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:

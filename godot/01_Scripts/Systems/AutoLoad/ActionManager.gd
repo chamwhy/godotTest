@@ -46,8 +46,8 @@ var is_turn_running := false
 
 
 func _ready() -> void:
-	InputManager.action_input.connect(_on_action_input)
-	InputManager.back_input.connect(_on_back_input)
+	InputBuffer.action_input.connect(_on_action_input)
+	InputBuffer.back_input.connect(_on_back_input)
 
 
 # ─────────────────────────────────────────────
@@ -70,10 +70,12 @@ func record_new(
 # 입력 핸들러
 # ─────────────────────────────────────────────
 func _on_action_input(dir: Position) -> void:
+	InputBuffer.lock()
 	var player = PlayerRegistry.get_player()
 	if is_turn_running or AnimationQueue.is_playing: return
 	if player == null or player.is_dead or player.is_fallen: return
 	await run_turn(player, dir)
+	InputBuffer.unlock()
 
 
 func _on_back_input() -> void:
