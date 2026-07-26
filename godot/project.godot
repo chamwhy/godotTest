@@ -19,13 +19,17 @@ run/main_scene="uid://cr5oiuml1f0up"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://cbgxpkp5acyng"
+
 [autoload]
 
 Config="*res://01_Scripts/Systems/AutoLoad/Config.gd"
 GameManager="*res://01_Scripts/Systems/AutoLoad/GameManager.gd"
 SaveManager="*res://01_Scripts/Systems/AutoLoad/SaveManager.gd"
 StageManager="*uid://b7erbpotfnm0l"
-SoundManager="*res://01_Scripts/Systems/AutoLoad/SoundManager.gd"
+AudioManager="*res://01_Scripts/Systems/AutoLoad/AudioManager.gd"
 UiManager="*res://01_Scripts/Systems/AutoLoad/UIManager.gd"
 InputBuffer="*uid://bt21aqe0p6j0r"
 InputManager="*res://01_Scripts/Systems/AutoLoad/InputManager.gd"

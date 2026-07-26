@@ -1,8 +1,6 @@
 # AutoLoad - InputManager.gd
 extends Node
 
-signal action_input(dir: Position)
-signal back_input()
 signal start_game()
 
 var can_interact := false
@@ -100,21 +98,21 @@ func _process_swipe(end_pos: Vector2) -> void:
 	
 	if abs(delta.x) > abs(delta.y):
 		if delta.x > 0:
-			emit_signal("action_input", Position.RIGHT())
+			InputBuffer.push_action(Position.RIGHT())
 		else:
-			emit_signal("action_input", Position.LEFT())
+			InputBuffer.push_action(Position.LEFT())
 	else:
 		if delta.y > 0:
-			emit_signal("action_input", Position.DOWN())
+			InputBuffer.push_action(Position.DOWN())
 		else:
-			emit_signal("action_input", Position.UP())
+			InputBuffer.push_action(Position.UP())
 
 
 func _handle_tap(pos: Vector2) -> void:
 	if _pending_tap and pos.distance_to(_last_tap_pos) < DOUBLE_TAP_DISTANCE:
 		# 더블 탭 → 되돌리기
 		_cancel_pending_tap()
-		emit_signal("back_input")
+		InputBuffer.push_back()
 	else:
 		# 첫 탭 → 더블 탭 대기 시작
 		_pending_tap = true
@@ -126,7 +124,7 @@ func _on_tap_timer_timeout() -> void:
 	if _pending_tap:
 		# 시간 내에 두 번째 탭이 안 옴 → 싱글 탭(상호작용) 확정
 		_pending_tap = false
-		emit_signal("action_input", Position.ZERO())
+		InputBuffer.push_action(Position.ZERO())
 
 
 func _cancel_pending_tap() -> void:
