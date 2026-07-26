@@ -21,7 +21,6 @@ func register_player(player_node: Player) -> void:
 	print("플레이어 등록")
 	for callback in _pending_callbacks:
 		callback.call(_player)
-	_pending_callbacks.clear()
 	player_registered.emit(player_node)
 
 
@@ -34,4 +33,3 @@ func run_when_player_ready(callback: Callable) -> void:
 
 func clear() -> void:
 	_player = null
-	_pending_callbacks.clear()
