@@ -15,7 +15,6 @@ var min_atk := 0
 
 #endregion
 
-const Wall_Ratio := 0.4
 
 func apply_data(data: Dictionary) -> void:
 	super.apply_data(data)
@@ -28,9 +27,8 @@ func apply_data(data: Dictionary) -> void:
 
 func update_sprite() -> void:
 	if not destroyable:
-		if randf() < Wall_Ratio:
-			var rand_frame: SpriteFrames = random_wall_frames[randi() % random_wall_frames.size()]
-			animSprite2D.sprite_frames = rand_frame
+		var rand_frame: SpriteFrames = random_wall_frames[randi() % random_wall_frames.size()]
+		animSprite2D.sprite_frames = rand_frame
 	else:
 		animSprite2D.sprite_frames = destroyable_wall_frames[min(min_atk-1, destroyable_wall_frames.size()-1)]
 	animSprite2D.animation = "default"
