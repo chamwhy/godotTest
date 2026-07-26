@@ -15,22 +15,17 @@ class_name ClearPortal
 
 
 func move_map(tick: int) -> void:
-	GridManager.complete_stage()
-	GridManager.request_map_change(
+	StageContext.complete_stage()
+	StageContext.request_map_change(
 		{
 			"world": to_world,
 			"stage": to_stage,
 			"out_of": true,
-			"out_of_w": GridManager.world,
-			"out_of_s": GridManager.stage
+			"out_of_w": StageContext.world,
+			"out_of_s": StageContext.stage
 		})
-	AnimationQueue.add_anim_unit(AnimationQueue.AnimUnit.new(
-		self,
-		"move_map",
-		{},
-		"",
-		{}
-	), tick)
+	ActionManager.record_new(self, tick,
+		"move_map", {})
 
 
 #region animation
