@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://copepgvcvivm5" path="res://01_Scripts/Animation/PlayerAnimator.gd" id="5_3iv1l"]
 [ext_resource type="SpriteFrames" uid="uid://d30qcw8ut5gdv" path="res://06_Animation/SpriteFrames/Player/playerFrames-1.tres" id="5_y85o2"]
 [ext_resource type="SpriteFrames" uid="uid://fqv0up2oiyvu" path="res://06_Animation/SpriteFrames/Player/playerFrames-2.tres" id="6_cievx"]
+[ext_resource type="Script" uid="uid://dg87ive2nxwm2" path="res://01_Scripts/Animation/Effect/HitEffect.gd" id="6_y85o2"]
 [ext_resource type="SpriteFrames" uid="uid://bjf4x7qjcw6du" path="res://06_Animation/SpriteFrames/Player/playerFrames-3.tres" id="7_hp3vd"]
 
 [node name="Player" type="Node2D" unique_id=1469313890]
@@ -18,3 +19,6 @@ script = ExtResource("5_3iv1l")
 frame1 = ExtResource("5_y85o2")
 frame2 = ExtResource("6_cievx")
 frame3 = ExtResource("7_hp3vd")
+
+[node name="HitEffect" type="Node" parent="AnimatedSprite2D" unique_id=2035831547]
+script = ExtResource("6_y85o2")

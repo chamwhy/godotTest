@@ -1,25 +1,29 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://b05fdvlcdmbl2"]
 
-[ext_resource type="Texture2D" uid="uid://btvvh85cg1mpp" path="res://03_Resources/Effect/chop2.png" id="2_05771"]
-[ext_resource type="Texture2D" uid="uid://b18xijuskehrr" path="res://03_Resources/Effect/chop4.png" id="4_8vuc7"]
-[ext_resource type="Texture2D" uid="uid://ci60sjy43buvk" path="res://03_Resources/Effect/chop5.png" id="5_hvxdl"]
+[ext_resource type="Texture2D" uid="uid://bhbxk0ilmtf72" path="res://03_Resources/Effect/Chop_big/chop-b_1.png" id="1_lvkrp"]
+[ext_resource type="Texture2D" uid="uid://bhwu58fafdvk" path="res://03_Resources/Effect/Chop_big/chop-b_2.png" id="2_5d5xv"]
+[ext_resource type="Texture2D" uid="uid://ejgfnahg5ger" path="res://03_Resources/Effect/Chop_big/chop-b_3.png" id="3_qpusm"]
+[ext_resource type="Texture2D" uid="uid://bjj6b7y8kkd2v" path="res://03_Resources/Effect/Chop_big/chop-b_4.png" id="4_lmvly"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_05771")
+"texture": ExtResource("1_lvkrp")
 }, {
-"duration": 0.5,
-"texture": ExtResource("4_8vuc7")
+"duration": 1.0,
+"texture": ExtResource("2_5d5xv")
 }, {
-"duration": 0.5,
-"texture": ExtResource("5_hvxdl")
+"duration": 1.0,
+"texture": ExtResource("3_qpusm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_lmvly")
 }, {
 "duration": 1.0,
 "texture": null
 }],
-"loop": false,
+"loop": 0,
 "name": &"chop",
 "speed": 8.0
 }]

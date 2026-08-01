@@ -154,7 +154,6 @@ func apply_on_hit(target: Element, atk_power: int, tick: int) -> void:
 		cur_position,
 		tick
 	)
-	
 	if is_instance_valid(target) and target.hitable:
 		target.on_hit(new_atk_data)
 

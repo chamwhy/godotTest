@@ -2,22 +2,16 @@
 
 [ext_resource type="SpriteFrames" uid="uid://b05fdvlcdmbl2" path="res://06_Animation/SpriteFrames/chop_effect.tres" id="1_2nxgy"]
 [ext_resource type="Script" uid="uid://bsvdl1hnspwyw" path="res://01_Scripts/Animation/Effect/ChopEffect.gd" id="1_iuqy8"]
-[ext_resource type="Texture2D" uid="uid://btvvh85cg1mpp" path="res://03_Resources/Effect/chop2.png" id="3_2nqtd"]
 
 [node name="ChopEffect" type="Node2D" unique_id=2054868477]
 z_as_relative = false
 script = ExtResource("1_iuqy8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1832985675]
+modulate = Color(0.72, 0.10799999, 0.10799999, 1)
 z_index = 500
 z_as_relative = false
 sprite_frames = ExtResource("1_2nxgy")
 animation = &"chop"
-frame = 3
+frame = 4
 frame_progress = 1.0
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1033628020]
-visible = false
-z_index = 900
-z_as_relative = false
-texture = ExtResource("3_2nqtd")

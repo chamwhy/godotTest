@@ -6,10 +6,10 @@ extends Node
 class_name HitEffect
 
 # ── 설정값 ─────────────────────────────────────────
-@export var duration: float = 0.25          # 이펙트 지속 시간 (초)
+@export var duration: float = 0.5          # 이펙트 지속 시간 (초)
 @export var parry_color: Color = Color.WHITE
 @export var hit_color:   Color = Color(1, 0.1, 0.1)   # 빨간색
-@export var max_intensity: float = 0.6
+@export var max_intensity: float = 1
 
 # ── 내부 변수 ───────────────────────────────────────
 var _shader_material: ShaderMaterial

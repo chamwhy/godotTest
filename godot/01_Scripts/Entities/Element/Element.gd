@@ -40,7 +40,8 @@ func _register_animations() -> void:
 
 
 func _anim_on_damaged(tween: Tween, data: Dictionary) -> void:
-	hit_effect.play_hit()
+	if hit_effect:
+		hit_effect.play_hit()
 	tween.tween_interval(0.0)
 
 func _anim_on_parryed(tween: Tween, data: Dictionary) -> void:

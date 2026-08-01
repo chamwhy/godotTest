@@ -7,10 +7,10 @@ const CHOP_EFFECT_SCENE = preload("res://04_Scenes/Effect/ChopEffect.tscn")
 ## Position → rotation/flip 매핑
 ## 기본 스프라이트 방향: 아래→위 (UP)
 const DIR_CONFIG = {
-	"up":    { "rot": 0,   "flip_h": false, "flip_v": false },
-	"down":  { "rot": 0,   "flip_h": false, "flip_v": true  },
-	"left":  { "rot": -90, "flip_h": false, "flip_v": false },
-	"right": { "rot": 90,  "flip_h": true, "flip_v": false },
+	"up":    { "rot": -90,   "flip_h": true, "flip_v": false },
+	"down":  { "rot": 90,   "flip_h": true, "flip_v": false  },
+	"left":  { "rot": 0, "flip_h": false, "flip_v": false },
+	"right": { "rot": 0,  "flip_h": true, "flip_v": false },
 }
 
 static func spawn_chop(tree: SceneTree, target_position: Position, dir: Position) -> void:
