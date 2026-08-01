@@ -143,7 +143,7 @@ func attack(atk_power: int, dir: Position, tick: int) -> void:
 			# TODO: 일단 하드코딩으로 1로 채워둠.
 			apply_on_hit(target, atk_power, tick)
 	ActionManager.record_new(self, tick,
-		"attack", {"pos": cur_position.copy(), "dir": dir.copy()},
+		"attack", {"pos": cur_position.copy(), "dir": dir.copy(), "pow": atk_power},
 		"undo_attack", {"pre_look": look_right, "pos": cur_position.copy(), "dir": dir.copy()})
 	if dir.x != 0:
 		look_right = dir.x > 0
@@ -226,7 +226,8 @@ func _anim_attack(tween: Tween, data: Dictionary) -> void:
 		EffectUtil.spawn_chop(
 			get_tree(), 
 			pos.add(dir), 
-			dir)
+			dir, 
+			data.get("pow", 1))
 	tween.tween_interval(0.2)
 
 func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:

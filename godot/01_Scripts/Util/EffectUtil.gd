@@ -13,7 +13,7 @@ const DIR_CONFIG = {
 	"right": { "rot": 0,  "flip_h": true, "flip_v": false },
 }
 
-static func spawn_chop(tree: SceneTree, target_position: Position, dir: Position) -> void:
+static func spawn_chop(tree: SceneTree, target_position: Position, dir: Position, power: int) -> void:
 	var world_pos: Vector2 = Position.position_to_world(target_position)
 	var dir_key: String    = _dir_to_key(dir)
 	
@@ -28,7 +28,7 @@ static func spawn_chop(tree: SceneTree, target_position: Position, dir: Position
 	sprite.flip_h = cfg["flip_h"]
 	sprite.flip_v = cfg["flip_v"]
 	
-	fx.play()
+	fx.play(power)
 
 ## Position → "up" / "down" / "left" / "right"
 static func _dir_to_key(dir: Position) -> String:

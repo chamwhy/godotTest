@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://bhwu58fafdvk" path="res://03_Resources/Effect/Chop_big/chop-b_2.png" id="2_5d5xv"]
 [ext_resource type="Texture2D" uid="uid://ejgfnahg5ger" path="res://03_Resources/Effect/Chop_big/chop-b_3.png" id="3_qpusm"]
 [ext_resource type="Texture2D" uid="uid://bjj6b7y8kkd2v" path="res://03_Resources/Effect/Chop_big/chop-b_4.png" id="4_lmvly"]
+[ext_resource type="Texture2D" uid="uid://b6l17u4nxq6qy" path="res://03_Resources/Effect/Chop_small/chop-s_1.png" id="5_lmvly"]
+[ext_resource type="Texture2D" uid="uid://be2xrbpv3c34b" path="res://03_Resources/Effect/Chop_small/chop-s_2.png" id="6_hwdxp"]
+[ext_resource type="Texture2D" uid="uid://cw6ocdnqei1pa" path="res://03_Resources/Effect/Chop_small/chop-s_3.png" id="7_fvhyq"]
 
 [resource]
 animations = [{
@@ -24,6 +27,23 @@ animations = [{
 "texture": null
 }],
 "loop": 0,
-"name": &"chop",
-"speed": 8.0
+"name": &"chop_big",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_lmvly")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_hwdxp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_fvhyq")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"chop_small",
+"speed": 10.0
 }]
