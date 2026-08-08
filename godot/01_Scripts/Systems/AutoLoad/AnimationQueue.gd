@@ -67,8 +67,16 @@ func play_all() -> void:
 			if tw is Tween:
 				tweens.append(tw)
 
+		var pending := [0]
 		for tw in tweens:
-			await tw.finished
+			if not tw.is_valid():
+				continue
+			pending[0] += 1
+			tw.finished.connect(func(): pending[0] -= 1, CONNECT_ONE_SHOT)
+		
+		while pending[0] > 0:
+			await get_tree().process_frame
+		
 		await get_tree().process_frame
 		tick += 1
 
