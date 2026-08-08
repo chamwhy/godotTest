@@ -231,6 +231,7 @@ func _anim_attack(tween: Tween, data: Dictionary) -> void:
 	tween.tween_interval(0.2)
 
 func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
+	print("_undo_anim_attack")
 	tween.tween_interval(0.0)
 
 #endregion
