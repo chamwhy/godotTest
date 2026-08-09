@@ -74,6 +74,12 @@ func _anim_move(tween: Tween, data: Dictionary) -> void:
 	var to: Position = data.get("to", Position.ZERO())
 	var vel = to.subtract(from)
 	_set_look(vel)
+	var spd = data.get("spd", 1)
+	print("move!!!!!!!!!!!!")
+	if spd > 1:
+		AudioManager.play_sfx("move-2")
+	else:
+		AudioManager.play_sfx("move-1")
 	_anim_move_base(tween, data, Tween.EASE_IN)
 
 

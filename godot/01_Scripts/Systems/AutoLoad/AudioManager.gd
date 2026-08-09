@@ -509,8 +509,8 @@ func _scan_bgm() -> void:
 
 
 ## 파일명 규칙
-##   rock_break.ogg                       -> "rock_break"
-##   rock_break_1.ogg / rock_break_2.ogg  -> "rock_break" (랜덤 선택)
+##   rock_break.wav                       -> "rock_break"
+##   rock_break_1.wav / rock_break_2.wav  -> "rock_break" (랜덤 선택)
 func _scan_sfx() -> void:
 	for path: String in _list_audio_files(SFX_DIR):
 		var stream := load(path) as AudioStream

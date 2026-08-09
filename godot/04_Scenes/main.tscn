@@ -224,8 +224,9 @@ tips = {
 "move": NodePath("Move")
 }
 
-[node name="Move" type="Control" parent="UI/Tip" unique_id=1809676886]
+[node name="Move" type="ColorRect" parent="UI/Tip" unique_id=67812621]
 modulate = Color(1, 1, 1, 0)
+self_modulate = Color(0.29586652, 0.2958665, 0.2958665, 0.43529412)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -234,7 +235,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Bg" type="TextureRect" parent="UI/Tip/Move" unique_id=1931700657]
-self_modulate = Color(0.62152386, 0.62152386, 0.6215238, 1)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

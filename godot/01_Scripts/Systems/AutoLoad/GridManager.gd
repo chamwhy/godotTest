@@ -25,11 +25,6 @@ var map_height: int
 var all_elements: Array[Element] = []
 
 
-## map enter, pass, exit signal
-signal element_entered(pos: Position, elm: Element, tick: int)
-signal element_passed(pos: Position, elm: Element, tick: int)
-signal element_exited(pos: Position, elm: Element, tick: int)
-signal element_interacted(pos: Position, elm: Element, tick: int)
 
 
 # ─────────────────────────────────────────────
@@ -78,13 +73,23 @@ func register_tile(pos: Position, tile_id: int) -> void:
 # ─────────────────────────────────────────────
 # Element 등록/조회
 # ─────────────────────────────────────────────
+
+## map enter, pass, exit signal
+signal element_entered(pos: Position, elm: Element, tick: int)
+signal element_exited(pos: Position, elm: Element, tick: int)
+signal element_settled(pos: Position, elm: Element, tick: int)
+signal element_interacted(pos: Position, elm: Element, tick: int)
+
+
 func register_element(pos: Position, elm: Element) -> void:
 	if not map_size_in(pos.x, pos.y): return
-	elm.cur_position = pos
+	elm.cur_position = pos.copy()   # 참조 공유 방지
 	elm.in_map = true
 	if elm not in all_elements:
 		all_elements.append(elm)
-	element_map[pos.y][pos.x].append(elm)
+	var cell: Array = element_map[pos.y][pos.x]
+	if elm not in cell:             # 중복 등록 방지
+		cell.append(elm)
 
 
 func unregister_from_registry(elm: Element) -> void:
@@ -104,7 +109,7 @@ func rebuild_element_map() -> void:
 
 # filter - 0: none, 1: hitable
 func get_element(pos: Position, filter: int) -> Element:
-	if not has_tile(pos.x, pos.y): return null
+	if not map_size_in(pos.x, pos.y): return null
 	for i in range(element_map[pos.y][pos.x].size()):
 		var re = element_map[pos.y][pos.x][i] as Element
 		if not re: continue
@@ -114,7 +119,7 @@ func get_element(pos: Position, filter: int) -> Element:
 
 
 func get_elements(pos: Position) -> Array[Element]:
-	if not has_tile(pos.x, pos.y): return []
+	if not map_size_in(pos.x, pos.y): return []
 	var answer: Array[Element] = []
 	for i in range(element_map[pos.y][pos.x].size()):
 		var re = element_map[pos.y][pos.x][i] as Element
@@ -126,32 +131,39 @@ func get_elements(pos: Position) -> Array[Element]:
 # ─────────────────────────────────────────────
 # 진입 / 통과 / 이탈 / 상호작용
 # ─────────────────────────────────────────────
+
 func enter_element(elm: Element, pos: Position, tick: int) -> bool:
 	if not map_size_in(pos.x, pos.y): return false
 	register_element(pos, elm)
-	element_entered.emit(pos, elm, tick)
+	element_entered.emit(elm.cur_position, elm, tick)
 	return true
 
 
-func pass_element(elm: Element, pos: Position, tick: int) -> bool:
-	if not map_size_in(pos.x, pos.y): return false
-	elm.cur_position = pos
-	element_passed.emit(pos, elm, tick)
-	return true
-
-
+## 점유 해제는 타일 유무와 무관하다. (구멍 위에 떠 있는 개체도 이탈 가능해야 함)
 func exit_element(elm: Element, pos: Position, tick: int) -> Element:
-	if not has_tile(pos.x, pos.y): return null
-	for i in range(element_map[pos.y][pos.x].size()):
-		var re = element_map[pos.y][pos.x][i]
-		if not re is Element: continue
-		if re != elm: continue
-		element_map[pos.y][pos.x].remove_at(i)
-		elm.in_map = false   # 레지스트리에선 유지 (여전히 존재하는 개체)
-		element_exited.emit(pos, elm, tick)
-		return re
-	return null
+	if not map_size_in(pos.x, pos.y): return null
+	var cell: Array = element_map[pos.y][pos.x]
+	var idx := cell.find(elm)
+	if idx == -1: return null
+	cell.remove_at(idx)
+	elm.in_map = false
+	element_exited.emit(pos, elm, tick)
+	return elm
 
+## 한 칸 전진. 이전 칸 이탈 + 새 칸 진입을 한 번에 처리한다.
+## 이동 루프는 이 함수만 사용한다 → 어느 시점에도 element_map에서 누락되지 않음.
+func step_element(elm: Element, to_pos: Position, tick: int) -> bool:
+	if not map_size_in(to_pos.x, to_pos.y): return false
+	if elm.in_map:
+		exit_element(elm, elm.cur_position, tick)
+	return enter_element(elm, to_pos, tick)
+
+## 이동이 끝나 그 칸에 멈췄음을 알린다. 위치는 바꾸지 않는다.
+## 쿠키/클리어처럼 "지나가는 건 안 되고 멈춰야 발동"하는 것들이 구독한다.
+func settle_element(elm: Element, tick: int) -> bool:
+	if not elm.in_map: return false
+	element_settled.emit(elm.cur_position, elm, tick)
+	return true
 
 func interact_element(elm: Element, pos: Position, tick: int) -> bool:
 	if not map_size_in(pos.x, pos.y): return false

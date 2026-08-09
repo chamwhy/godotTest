@@ -41,115 +41,217 @@ func reset() -> void:
 	super.reset()
 	cur_hp = max_hp
 
-
 func action_dir(dir: Position, tick: int) -> void:
 	if dir.equals(Position.ZERO()):
 		GridManager.interact_element(self, cur_position, 0)
-	else:
-		var real_dir = dir.normalized()
-		if move_speed < 0:
-			real_dir = real_dir * -1
-		# 음수값 구현
-		action2(real_dir, abs(move_speed), tick)
+		return
+
+	var real_dir = dir.normalized()
+	if move_speed < 0:
+		real_dir = real_dir * -1
+	action2(real_dir, abs(move_speed), tick)
+
 
 func action2(dir: Position, spd: int, tick: int) -> void:
 	if not dir.is_straight(): return
 	if dir.is_zero(): return
-	
-	var chk_pos: Position = cur_position.copy()
-	
-	
-	var move_cnt := 0
-	var remain_move: int = spd
-	var remain_atk: int = atk_pow
-	var was_blocked := false
-	
-	# 이동 체크
-	while(true):
-		# 모든 이동력을 다 쓴 상태
-		if remain_move <= 0:
-			break
-		var checks = GridManager.can_pass(chk_pos.add(dir))
-		if remain_move > 0 and checks:
-			remain_move -= 1
-			# 해당 게임에선 이동력을 소모하면 같이 공격력도 소모함.
-			remain_atk -= 1
-			move_cnt += 1
-			chk_pos = chk_pos.add(dir)
-		else:
-			if remain_move > 0:
-				was_blocked = true
-			break
-	
-	if move_cnt > 0:
-		tick = move_to(dir.multiply(move_cnt), tick)
+
+	# 사전 시뮬레이션 루프 제거. 이동하면서 매 칸 라이브로 판정한다.
+	var res := move_to(dir, spd, tick)
+	tick = res["tick"]
+
+	# 이동한 만큼 공격력 소모
+	var remain_atk: int = atk_pow - res["moved"]
+	if res["blocked"] and remain_atk > 0:
+		attack(remain_atk, res["dir"], tick, res["pos"])
 		tick += 1
-	
-	if was_blocked and remain_atk > 0:
-		attack(remain_atk, dir, tick)
-	
+
+	# 낙하는 최종 착지 지점 기준 (A2: 죽어도 관성 유지)
 	if not GridManager.has_tile(cur_position.x, cur_position.y):
-		print("구멍에 빠짐")
 		is_fallen = true
 		ActionManager.record_new(self, tick, "falling", {}, "undo_falling", {})
 
 
-# 순간이동
-func move_inst(pos: Position) -> void:
-	pass
+## 운동량(방향 + 남은 이동력)은 로컬 보존, 위치는 매 스텝 라이브 조회.
+## 외부가 cur_position을 바꾸면 그 지점에서 원래 벡터로 이어서 진행한다. (벡터 합성)
+func move_to(dir: Position, spd: int, tick: int) -> Dictionary:
+	var cur_dir: Position = dir.copy()
+	var remain: int = spd
+	var moved := 0
+	var blocked := false
 
-# 속력 이동
-func move_to(vel: Position, tick: int) -> int:
-	if vel.is_zero(): return tick
-	
-	var goal: Position = vel.add(cur_position)
-	var dir: Position  = vel.normalized()
-	var chk_pos: Position = cur_position.add(dir)
-	var from: Position = cur_position.copy()
-	
-	
-	
-	print("이동: ", from.to_str(), " -> ", goal.to_str())
-	var re = GridManager.exit_element(self, cur_position, tick)
-	if self != re: print("오류임. 절대 무조건 같아야 함")
- 
-	while true:
-		if chk_pos.equals(goal): break
-		GridManager.pass_element(self, chk_pos, tick)
-		chk_pos = chk_pos.add(dir)
- 
+	while remain > 0:
+		if cur_dir.is_zero(): break
+
+		# 핵심: 로컬 커서가 아니라 라이브 위치에 벡터를 더한다
+		var from_pos: Position = cur_position.copy()
+		var to_pos: Position = from_pos.add(cur_dir)
+
+		if not GridManager.can_pass(to_pos):
+			blocked = true
+			break
+
+		var pre_look := look_right
+
+		GridManager.step_element(self, to_pos, tick)
+
+		if cur_dir.x != 0:
+			look_right = cur_dir.x > 0
+
+		# 칸마다 1 record → undo가 역순 재생하면 그대로 되감긴다
 		ActionManager.record_new(self, tick,
-			"move",         {"from": from.copy(), "to": chk_pos.copy()},
-			"move_reverse", {"pre_look": look_right, "from": chk_pos.copy(), "to": from.copy()})
-		if dir.x != 0:
-			look_right = dir.x > 0
-		from = chk_pos.copy()
+			"move",         {"from": from_pos.copy(), "to": to_pos.copy()},
+			"move_reverse", {"pre_look": pre_look, "from": to_pos.copy(), "to": from_pos.copy()})
+
+		moved += 1
+		remain -= 1
 		tick += 1
-	
-	ActionManager.record_new(self, tick,
-			"move",         {"from": from.copy(), "to": chk_pos.copy()},
-			"move_reverse", {"pre_look": look_right, "from": chk_pos.copy(), "to": from.copy()})
-	
-	# while 들어가기 전에 한 번 이동은 무조건 하니, look_right 수정
-	if dir.x != 0:
-		look_right = dir.x > 0
-	# 도착을 기준으로 하니 tick에 1 추가
-	GridManager.enter_element(self, chk_pos, tick+1)
-	return tick
+
+		cur_dir = _redirect(cur_dir, to_pos)
+
+	# 0칸이면 정착 이벤트 없음
+	if moved > 0:
+		GridManager.settle_element(self, tick)
+
+	return {
+		"tick": tick,
+		"moved": moved,
+		"blocked": blocked,
+		"dir": cur_dir,
+		"pos": cur_position.copy(),
+	}
 
 
-func attack(atk_power: int, dir: Position, tick: int) -> void:
-	print("공격: ", cur_position.to_str(), " > ", dir.to_str())
-	var targets: Array[Element] = GridManager.get_elements(cur_position.add(dir))
+## 범퍼/컨베이어/반사판 등이 추가되면 여기서 방향을 꺾는다.
+func _redirect(cur_dir: Position, _at_pos: Position) -> Position:
+	return cur_dir
+
+
+func attack(atk_power: int, dir: Position, tick: int, from_pos = null) -> void:
+	var origin: Position = from_pos if from_pos != null else cur_position
+	var targets: Array[Element] = GridManager.get_elements(origin.add(dir))
 	for target in targets:
 		if target:
-			# TODO: 일단 하드코딩으로 1로 채워둠.
 			apply_on_hit(target, atk_power, tick)
+
+	var pre_look := look_right
 	ActionManager.record_new(self, tick,
-		"attack", {"pos": cur_position.copy(), "dir": dir.copy(), "pow": atk_power},
-		"undo_attack", {"pre_look": look_right, "pos": cur_position.copy(), "dir": dir.copy()})
+		"attack", {"pos": origin.copy(), "dir": dir.copy(), "pow": atk_power},
+		"undo_attack", {"pre_look": pre_look, "pos": origin.copy(), "dir": dir.copy()})
+
 	if dir.x != 0:
 		look_right = dir.x > 0
+
+#region regacy
+#func action_dir(dir: Position, tick: int) -> void:
+	#if dir.equals(Position.ZERO()):
+		#GridManager.interact_element(self, cur_position, 0)
+	#else:
+		#var real_dir = dir.normalized()
+		#if move_speed < 0:
+			#real_dir = real_dir * -1
+		## 음수값 구현
+		#action2(real_dir, abs(move_speed), tick)
+#
+#func action2(dir: Position, spd: int, tick: int) -> void:
+	#if not dir.is_straight(): return
+	#if dir.is_zero(): return
+	#
+	#var chk_pos: Position = cur_position.copy()
+	#
+	#
+	#var move_cnt := 0
+	#var remain_move: int = spd
+	#var remain_atk: int = atk_pow
+	#var was_blocked := false
+	#
+	## 이동 체크
+	#while(true):
+		## 모든 이동력을 다 쓴 상태
+		#if remain_move <= 0:
+			#break
+		#var checks = GridManager.can_pass(chk_pos.add(dir))
+		#if remain_move > 0 and checks:
+			#remain_move -= 1
+			## 해당 게임에선 이동력을 소모하면 같이 공격력도 소모함.
+			#remain_atk -= 1
+			#move_cnt += 1
+			#chk_pos = chk_pos.add(dir)
+		#else:
+			#if remain_move > 0:
+				#was_blocked = true
+			#break
+	#
+	#if move_cnt > 0:
+		#tick = move_to(dir, move_cnt, tick)
+		#tick += 1
+	#
+	#if was_blocked and remain_atk > 0:
+		#attack(remain_atk, dir, tick)
+	#
+	#if not GridManager.has_tile(cur_position.x, cur_position.y):
+		#print("구멍에 빠짐")
+		#is_fallen = true
+		#ActionManager.record_new(self, tick, "falling", {}, "undo_falling", {})
+#
+#
+## 순간이동
+#func move_inst(pos: Position) -> void:
+	#pass
+#
+## 속력 이동
+#func move_to(dir: Position, spd: int, tick: int) -> int:
+	#if dir.is_zero(): return tick
+	#
+	#var vel = dir.multiply(spd)
+	#var goal: Position = vel.add(cur_position)
+	#var chk_pos: Position = cur_position.add(dir)
+	#var from: Position = cur_position.copy()
+	#
+	#
+	#print("이동: ", from.to_str(), " -> ", goal.to_str())
+	#var re = GridManager.exit_element(self, cur_position, tick)
+	#if self != re: print("오류임. 절대 무조건 같아야 함")
+ #
+	#while true:
+		#if chk_pos.equals(goal): break
+		#GridManager.pass_element(self, chk_pos, tick)
+		#chk_pos = chk_pos.add(dir)
+		#print("====inside", from.to_str(), chk_pos.to_str(), spd)
+		##ActionManager.record_new(self, tick,
+			##"move",         {"from": from.copy(), "to": chk_pos.copy(), "spd": spd},
+			##"move_reverse", {"pre_look": look_right, "from": chk_pos.copy(), "to": from.copy()})
+		#if dir.x != 0:
+			#look_right = dir.x > 0
+		#from = chk_pos.copy()
+		#tick += 1
+	#print("====outside", from.to_str(), chk_pos.to_str(), spd)
+	#ActionManager.record_new(self, tick,
+			#"move",         {"from": from.copy(), "to": chk_pos.copy(), "spd": spd},
+			#"move_reverse", {"pre_look": look_right, "from": chk_pos.copy(), "to": from.copy()})
+	#
+	## while 들어가기 전에 한 번 이동은 무조건 하니, look_right 수정
+	#if dir.x != 0:
+		#look_right = dir.x > 0
+	## 도착을 기준으로 하니 tick에 1 추가
+	#GridManager.enter_element(self, chk_pos, tick+1)
+	#return tick
+#
+#
+#func attack(atk_power: int, dir: Position, tick: int) -> void:
+	#print("공격: ", cur_position.to_str(), " > ", dir.to_str())
+	#var targets: Array[Element] = GridManager.get_elements(cur_position.add(dir))
+	#for target in targets:
+		#if target:
+			## TODO: 일단 하드코딩으로 1로 채워둠.
+			#apply_on_hit(target, atk_power, tick)
+	#ActionManager.record_new(self, tick,
+		#"attack", {"pos": cur_position.copy(), "dir": dir.copy(), "pow": atk_power},
+		#"undo_attack", {"pre_look": look_right, "pos": cur_position.copy(), "dir": dir.copy()})
+	#if dir.x != 0:
+		#look_right = dir.x > 0
+
+#endregion
 
 func apply_on_hit(target: Element, atk_power: int, tick: int) -> void:
 	var new_atk_data = AtkData.new(
@@ -205,8 +307,10 @@ func _register_animations() -> void:
 	_anim_handlers["undo_attack"]       = _undo_anim_attack
 
 func _anim_move_base(tween: Tween, data: Dictionary, ease: Tween.EaseType) -> void:
-	var from_val = Position.position_to_world(data.get("from", cur_position))
-	var to_pos = data.get("to", cur_position)
+	var from_pos: Position = data.get("from", cur_position)
+	var to_pos: Position = data.get("to", cur_position)
+	
+	var from_val = Position.position_to_world(from_pos)
 	var to_val = Position.position_to_world(to_pos)
 	var to_z_index = ZIndexer.calc(to_pos.y, ZIndexer.ZID_ELEMENT)
 	if to_z_index > z_index:

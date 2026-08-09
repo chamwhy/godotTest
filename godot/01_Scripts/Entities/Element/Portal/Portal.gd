@@ -16,7 +16,7 @@ func apply_data(data: Dictionary) -> void:
 	to_world = data.get("to_w", 0)
 	to_stage = data.get("to_s", 0)
 	
-	GridManager.element_entered.connect(_check_pos)
+	GridManager.element_settled.connect(_check_pos)
 	# TODO: 상태에 따른 이미지 업데이트
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:

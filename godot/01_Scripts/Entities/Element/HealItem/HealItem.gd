@@ -15,7 +15,6 @@ func apply_data(data: Dictionary) -> void:
 	hitable = false
 	heal_pow = data.get("heal", 1)
 	
-	GridManager.element_passed.connect(_check_pos)
 	GridManager.element_entered.connect(_check_pos)
 	
 	# TODO: 상태에 따른 이미지 업데이트
