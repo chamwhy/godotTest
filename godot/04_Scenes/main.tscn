@@ -29,7 +29,9 @@
 [ext_resource type="SpriteFrames" uid="uid://dk0updubttb0d" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_5.tres" id="17_ij0ij"]
 [ext_resource type="Texture2D" uid="uid://d1w50s3xvlrta" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-6_1.png" id="18_ijhma"]
 [ext_resource type="SpriteFrames" uid="uid://dt6qaucu2h74a" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_6.tres" id="19_nrxsk"]
+[ext_resource type="Script" uid="uid://d20y0vonc0vnw" path="res://01_Scripts/Systems/Tip/TipContent.gd" id="27_ij0ij"]
 [ext_resource type="Texture2D" uid="uid://dq8ecwvbwbvb2" path="res://03_Resources/UI/Tip/tip_move.png" id="27_o67ku"]
+[ext_resource type="Script" uid="uid://beed035a7w1ca" path="res://01_Scripts/Systems/Tip/TipShower.gd" id="29_ijhma"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_epy18"]
 
@@ -210,15 +212,20 @@ script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("19_nrxsk")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
-[node name="Tip" type="Control" parent="UI" unique_id=447444347]
+[node name="Tip" type="Control" parent="UI" unique_id=447444347 node_paths=PackedStringArray("tips")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("27_ij0ij")
+tips = {
+"move": NodePath("Move")
+}
 
 [node name="Move" type="Control" parent="UI/Tip" unique_id=1809676886]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -226,7 +233,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Bg" type="TextureRect" parent="UI/Tip/Move" unique_id=183500475]
+[node name="Bg" type="TextureRect" parent="UI/Tip/Move" unique_id=1931700657]
 self_modulate = Color(0.62152386, 0.62152386, 0.6215238, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -241,10 +248,8 @@ offset_bottom = 94.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_6r57t")
-script = ExtResource("3_ibv6u")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
-[node name="AnimatedTextureRect" type="TextureRect" parent="UI/Tip/Move/Bg" unique_id=1566052888]
+[node name="AnimatedTextureRect" type="TextureRect" parent="UI/Tip/Move/Bg" unique_id=650175002]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -259,14 +264,18 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("27_o67ku")
 expand_mode = 1
-script = ExtResource("3_ibv6u")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="UIManager" type="Control" parent="." unique_id=2072504385]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="TipShower" type="Control" parent="UIManager" unique_id=2019146696]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("29_ijhma")
 
 [node name="LevelManager" type="Node" parent="." unique_id=631256379 node_paths=PackedStringArray("start_menu", "hp_bar")]
 script = ExtResource("6_4p43j")

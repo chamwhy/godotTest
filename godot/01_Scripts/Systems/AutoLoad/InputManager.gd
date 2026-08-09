@@ -40,6 +40,8 @@ func check_input(event: InputEvent) -> void:
 		if GameManager.cur_state == GameManager.GameState.PLAYING:
 			input_playing()
 			input_playing_touch(event)   # ← 터치 처리 추가
+		elif GameManager.cur_state == GameManager.GameState.TIP:
+			input_tip(event)
 		elif GameManager.cur_state == GameManager.GameState.MAIN_MENU:
 			input_main_menu(event)
 		elif GameManager.cur_state == GameManager.GameState.GAME_OVER:
@@ -51,6 +53,13 @@ func input_main_menu(event: InputEvent) -> void:
 	or event is InputEventJoypadButton or event is InputEventScreenTouch:  # ← 터치도 시작 가능
 		if event.pressed:
 			emit_signal("start_game")
+			GameManager.set_state(GameManager.GameState.PLAYING)
+
+func input_tip(event: InputEvent) -> void:
+	if event is InputEventKey or event is InputEventMouseButton \
+	or event is InputEventJoypadButton or event is InputEventScreenTouch:  # ← 터치도 시작 가능
+		if event.pressed:
+			TipContent.instance.close_all_tips()
 			GameManager.set_state(GameManager.GameState.PLAYING)
 
 func input_playing() -> void:
