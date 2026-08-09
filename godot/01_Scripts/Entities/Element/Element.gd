@@ -14,6 +14,10 @@ var in_map := false   # 맵에 존재하는지 여부 (GridManager가 관리)
 #endregion
 
 
+func blocking() -> bool:
+	return is_block
+
+
 func on_hit(atk_data: AtkData) -> bool:
 	return false
 

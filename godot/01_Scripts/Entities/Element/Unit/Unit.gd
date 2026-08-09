@@ -34,6 +34,9 @@ var is_fallen := false
 var look_right := true
 #endregion
 
+func blocking() -> bool:
+	return is_block and not is_dead and not is_fallen
+
 func reset() -> void:
 	super.reset()
 	cur_hp = max_hp

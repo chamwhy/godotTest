@@ -175,6 +175,6 @@ func _is_blocked(pos: Position) -> bool:
 	if not map_size_in(pos.x, pos.y): return true
 	for i in element_map[pos.y][pos.x]:
 		var el = i as Element
-		if el and el.is_block:
+		if el and el.blocking():
 			return true
 	return false
