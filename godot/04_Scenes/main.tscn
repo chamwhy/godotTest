@@ -30,8 +30,10 @@
 [ext_resource type="Texture2D" uid="uid://d1w50s3xvlrta" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-6_1.png" id="18_ijhma"]
 [ext_resource type="SpriteFrames" uid="uid://dt6qaucu2h74a" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_6.tres" id="19_nrxsk"]
 [ext_resource type="Script" uid="uid://d20y0vonc0vnw" path="res://01_Scripts/Systems/Tip/TipContent.gd" id="27_ij0ij"]
+[ext_resource type="Texture2D" uid="uid://r0t5ty0gmba4" path="res://03_Resources/UI/Menu/ui_menuBtn.png" id="27_nrxsk"]
 [ext_resource type="Texture2D" uid="uid://dq8ecwvbwbvb2" path="res://03_Resources/UI/Tip/tip_move.png" id="27_o67ku"]
 [ext_resource type="Script" uid="uid://beed035a7w1ca" path="res://01_Scripts/Systems/Tip/TipShower.gd" id="29_ijhma"]
+[ext_resource type="Texture2D" uid="uid://b55g4sfqgneug" path="res://03_Resources/UI/Menu/ui_panel.png" id="29_pd2t5"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_epy18"]
 
@@ -41,7 +43,143 @@
 script = ExtResource("1_6grqo")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=461768127]
-follow_viewport_scale = 0.001
+
+[node name="InGame" type="Control" parent="UI" unique_id=1568238516]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HpBar" type="Control" parent="UI/InGame" unique_id=1899198871 node_paths=PackedStringArray("heart_icons", "profile")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -177.58997
+offset_right = 589.0
+offset_bottom = -88.88977
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.7, 0.7)
+pivot_offset_ratio = Vector2(0.5, 1)
+size_flags_vertical = 8
+script = ExtResource("4_rbyvi")
+heart_icons = [NodePath("HBoxContainer/hp1"), NodePath("HBoxContainer/hp2"), NodePath("HBoxContainer/hp3"), NodePath("HBoxContainer/hp4"), NodePath("HBoxContainer/hp5"), NodePath("HBoxContainer/hp6")]
+profile = NodePath("Profile")
+profile_frames = Array[SpriteFrames]([ExtResource("9_c17ro"), ExtResource("10_o67ku"), ExtResource("10_o67ku"), ExtResource("9_6r57t"), ExtResource("9_6r57t"), ExtResource("9_6r57t")])
+
+[node name="Profile" type="TextureRect" parent="UI/InGame/HpBar" unique_id=86039053]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -110.0
+offset_right = 134.0
+offset_bottom = 146.0
+grow_vertical = 2
+texture = ExtResource("8_fq4bp")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("9_6r57t")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="Background" type="TextureRect" parent="UI/InGame/HpBar" unique_id=1475839048]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.5
+offset_top = -9.0
+offset_right = 52.5
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_6c0kf")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("9_entge")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/InGame/HpBar" unique_id=1533470684]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 88.0
+offset_top = -64.0
+offset_right = 861.0
+offset_bottom = 64.0
+grow_vertical = 2
+theme_override_constants/separation = 1
+
+[node name="hp1" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=867415720]
+modulate = Color(1, 0.15134397, 0.10833255, 1)
+layout_mode = 2
+texture = ExtResource("8_5vhlw")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("9_j7lds")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="hp2" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=1711114427]
+modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
+layout_mode = 2
+texture = ExtResource("10_6c0kf")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("11_entge")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="hp3" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=829211099]
+modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
+layout_mode = 2
+texture = ExtResource("12_fq4bp")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("13_6r57t")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="hp4" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=1589783154]
+layout_mode = 2
+texture = ExtResource("14_4134g")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("15_c17ro")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="hp5" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=805341900]
+layout_mode = 2
+texture = ExtResource("16_o67ku")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("17_ij0ij")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="hp6" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=1159319867]
+layout_mode = 2
+texture = ExtResource("18_ijhma")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("19_nrxsk")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="Btns" type="Control" parent="UI/InGame" unique_id=564628221]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/InGame/Btns" unique_id=445473040]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_bottom = 120.0
+grow_horizontal = 0
+texture = ExtResource("27_nrxsk")
+expand_mode = 1
 
 [node name="StartMenu" type="Control" parent="UI" unique_id=1049836382]
 layout_mode = 3
@@ -67,11 +205,11 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -704.0
-offset_top = 200.0
+offset_top = 400.0
 offset_right = 704.0
-offset_bottom = 840.0
+offset_bottom = 1040.0
 grow_horizontal = 2
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.8, 0.8)
 pivot_offset_ratio = Vector2(0.5, 0)
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -88,128 +226,15 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -128.0
-offset_top = -360.0
+offset_top = -420.0
 offset_right = 128.0
-offset_bottom = -232.0
+offset_bottom = -292.0
 grow_horizontal = 2
 grow_vertical = 0
-scale = Vector2(0.4, 0.4)
 pivot_offset_ratio = Vector2(0.5, 1)
 texture = ExtResource("2_xfwcn")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("5_epy18")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
-[node name="HpBar" type="Control" parent="UI" unique_id=1899198871 node_paths=PackedStringArray("heart_icons", "profile")]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 3
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -444.52002
-offset_top = -160.0
-offset_right = 504.47998
-offset_bottom = -60.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.3, 0.3)
-pivot_offset_ratio = Vector2(0.5, 1)
-size_flags_vertical = 8
-script = ExtResource("4_rbyvi")
-heart_icons = [NodePath("HBoxContainer/hp1"), NodePath("HBoxContainer/hp2"), NodePath("HBoxContainer/hp3"), NodePath("HBoxContainer/hp4"), NodePath("HBoxContainer/hp5"), NodePath("HBoxContainer/hp6")]
-profile = NodePath("Profile")
-profile_frames = Array[SpriteFrames]([ExtResource("9_c17ro"), ExtResource("10_o67ku"), ExtResource("10_o67ku"), ExtResource("9_6r57t"), ExtResource("9_6r57t"), ExtResource("9_6r57t")])
-
-[node name="Profile" type="TextureRect" parent="UI/HpBar" unique_id=86039053]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -110.0
-offset_right = 134.0
-offset_bottom = 146.0
-grow_vertical = 2
-texture = ExtResource("8_fq4bp")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_6r57t")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
-[node name="Background" type="TextureRect" parent="UI/HpBar" unique_id=1475839048]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -52.5
-offset_top = -9.0
-offset_right = 52.5
-offset_bottom = 9.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("8_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_entge")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/HpBar" unique_id=1533470684]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 88.0
-offset_top = -64.0
-offset_right = 861.0
-offset_bottom = 64.0
-grow_vertical = 2
-theme_override_constants/separation = 1
-
-[node name="hp1" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=867415720]
-modulate = Color(1, 0.15134397, 0.10833255, 1)
-layout_mode = 2
-texture = ExtResource("8_5vhlw")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_j7lds")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
-[node name="hp2" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=1711114427]
-modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
-layout_mode = 2
-texture = ExtResource("10_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("11_entge")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
-[node name="hp3" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=829211099]
-modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
-layout_mode = 2
-texture = ExtResource("12_fq4bp")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("13_6r57t")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
-[node name="hp4" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=1589783154]
-layout_mode = 2
-texture = ExtResource("14_4134g")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("15_c17ro")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
-[node name="hp5" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=805341900]
-layout_mode = 2
-texture = ExtResource("16_o67ku")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("17_ij0ij")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
-[node name="hp6" type="TextureRect" parent="UI/HpBar/HBoxContainer" unique_id=1159319867]
-layout_mode = 2
-texture = ExtResource("18_ijhma")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("19_nrxsk")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="Tip" type="Control" parent="UI" unique_id=447444347 node_paths=PackedStringArray("tips")]
@@ -241,27 +266,21 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -133.0
-offset_top = -94.5
-offset_right = 133.0
-offset_bottom = 94.5
+offset_left = -295.25
+offset_top = -391.75
+offset_right = 295.25
+offset_bottom = 391.75
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_6r57t")
+texture = ExtResource("29_pd2t5")
+expand_mode = 1
 
-[node name="AnimatedTextureRect" type="TextureRect" parent="UI/Tip/Move/Bg" unique_id=650175002]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -112.125
-offset_top = -78.0
-offset_right = 112.125
-offset_bottom = 78.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="TextureRect" type="TextureRect" parent="UI/Tip/Move" unique_id=1126544351]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 690.0
+offset_right = 800.0
+offset_bottom = 1210.8616
 texture = ExtResource("27_o67ku")
 expand_mode = 1
 
@@ -280,7 +299,7 @@ script = ExtResource("29_ijhma")
 [node name="LevelManager" type="Node" parent="." unique_id=631256379 node_paths=PackedStringArray("start_menu", "hp_bar")]
 script = ExtResource("6_4p43j")
 start_menu = NodePath("../UI/StartMenu")
-hp_bar = NodePath("../UI/HpBar")
+hp_bar = NodePath("../UI/InGame")
 start_world = 1
 start_stage = 4
 
