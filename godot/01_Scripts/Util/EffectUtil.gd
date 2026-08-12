@@ -2,6 +2,7 @@ class_name EffectUtil
 
 #region chopEffect
 const CHOP_EFFECT_SCENE = preload("res://04_Scenes/Effect/ChopEffect.tscn")
+const GHOST_EFFECT_SCENE = preload("res://04_Scenes/Effect/GhostEffect.tscn")
 
 ## 방향별 설정: rotation_degrees, flip_h, flip_v
 ## Position → rotation/flip 매핑
@@ -29,6 +30,12 @@ static func spawn_chop(tree: SceneTree, target_position: Position, dir: Position
 	sprite.flip_v = cfg["flip_v"]
 	
 	fx.play(power)
+
+static func spawn_ghost(tree: SceneTree, target_position: Position) -> void:
+	var fx: Node2D = GHOST_EFFECT_SCENE.instantiate()
+	tree.current_scene.add_child(fx)
+	fx.global_position = Position.position_to_world(target_position)
+	fx.play()
 
 ## Position → "up" / "down" / "left" / "right"
 static func _dir_to_key(dir: Position) -> String:

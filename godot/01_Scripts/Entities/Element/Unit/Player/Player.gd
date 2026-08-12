@@ -52,7 +52,7 @@ func _set_hp(v):
 	player_hp_changed.emit(_cur_hp)
 
 func on_hit(atk_data: AtkData) -> bool:
-	cur_hp = cur_hp - atk_data.dmg
+	
 	ActionManager.record_new(self, atk_data.tick, "on_damaged")
 	return super.on_hit(atk_data)
 

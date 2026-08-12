@@ -1,0 +1,22 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bfdjv5iymt2a2"]
+
+[ext_resource type="Texture2D" uid="uid://bdepllnw1bcxq" path="res://03_Resources/Effect/ghost/ghost_1.png" id="1_87wxq"]
+[ext_resource type="Texture2D" uid="uid://8jnfjtl8byh0" path="res://03_Resources/Effect/ghost/ghost_2.png" id="2_wyvey"]
+[ext_resource type="Texture2D" uid="uid://lp2bepoxf6o1" path="res://03_Resources/Effect/ghost/ghost_3.png" id="3_clvhg"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_87wxq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_wyvey")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_clvhg")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

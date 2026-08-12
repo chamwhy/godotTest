@@ -25,6 +25,12 @@ func _set_hp(v):
 
 func _get_hp():
 	return _cur_hp
+
+func on_hit(atk_data: AtkData) -> bool:
+	cur_hp = cur_hp - atk_data.dmg
+	if cur_hp <= 0:
+		died(atk_data.tick)
+	return super.on_hit(atk_data)
 #endregion
 
 #region state
@@ -33,6 +39,11 @@ var is_fallen := false
 #TODO: look을 player로 옮겨야 하는 리팩토링 필
 var look_right := true
 #endregion
+
+func died(tick: int) -> void:
+	is_dead = true
+	ActionManager.record_new(self, tick, "died")
+	print("dead 등록...")
 
 func blocking() -> bool:
 	return is_block and not is_dead and not is_fallen
@@ -304,7 +315,9 @@ func _register_animations() -> void:
 	_anim_handlers["move"]         = _anim_move
 	_anim_handlers["move_reverse"] = _anim_move_reverse
 	_anim_handlers["attack"]       = _anim_attack
-	_anim_handlers["undo_attack"]       = _undo_anim_attack
+	_anim_handlers["undo_attack"]  = _undo_anim_attack
+	_anim_handlers["died"]         = _anim_died
+	_anim_handlers["undo_died"]    = _undo_anim_died
 
 func _anim_move_base(tween: Tween, data: Dictionary, ease: Tween.EaseType) -> void:
 	var from_pos: Position = data.get("from", cur_position)
@@ -341,4 +354,13 @@ func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
 	print("_undo_anim_attack")
 	tween.tween_interval(0.0)
 
+func _anim_died(tween: Tween, data: Dictionary) -> void:
+	EffectUtil.spawn_ghost(
+			get_tree(), 
+			data.get("pos", cur_position))
+	tween.tween_interval(0.0)
+
+func _undo_anim_died(tween: Tween, data: Dictionary) -> void:
+	tween.tween_interval(0.0)
+	
 #endregion

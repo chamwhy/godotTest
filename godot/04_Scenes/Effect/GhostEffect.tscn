@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://b8pkyn4rixwd8"]
+
+[ext_resource type="Script" uid="uid://785bn7g4cnmf" path="res://01_Scripts/Animation/Effect/GhostEffect.gd" id="1_3t1om"]
+[ext_resource type="SpriteFrames" uid="uid://bfdjv5iymt2a2" path="res://06_Animation/SpriteFrames/Effect/ghost_effect.tres" id="1_7pjk2"]
+
+[node name="GhostEffect" type="Node2D" unique_id=1279379006]
+script = ExtResource("1_3t1om")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1813094541]
+z_index = 499
+z_as_relative = false
+position = Vector2(0, -220)
+sprite_frames = ExtResource("1_7pjk2")
+autoplay = "default"
+frame_progress = 0.39369488
