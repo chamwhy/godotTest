@@ -15,6 +15,7 @@ const DOUBLE_TAP_DISTANCE := 100.0  # 두 탭 위치가 이 거리 안이어야 
 var _touch_start_pos := Vector2.ZERO
 var _touch_start_time := 0.0
 var _touching := false
+var _touch_blocked := false
 
 var _last_tap_pos := Vector2.ZERO
 var _pending_tap := false           # 싱글 탭 확정 대기 중인지
@@ -31,6 +32,19 @@ func _ready() -> void:
 	_tap_timer.wait_time = DOUBLE_TAP_TIME
 	_tap_timer.timeout.connect(_on_tap_timer_timeout)
 	add_child(_tap_timer)
+
+const UI_BLOCK_GROUP := "ui_blocker"
+
+func _is_over_ui(pos: Vector2) -> bool:
+	for node in get_tree().get_nodes_in_group(UI_BLOCK_GROUP):
+		var c := node as Control
+		if c == null or not c.is_visible_in_tree():
+			continue
+		# CanvasLayer / 뷰포트 스케일까지 반영된 실제 화면상 사각형
+		var rect: Rect2 = c.get_global_transform_with_canvas() * Rect2(Vector2.ZERO, c.size)
+		if rect.has_point(pos):
+			return true
+	return false
 
 func _input(event: InputEvent) -> void:
 	check_input(event)
@@ -79,15 +93,32 @@ func input_playing() -> void:
 func input_playing_touch(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed:
-			# 첫 손가락만 추적 (멀티터치 무시)
 			if event.index == 0:
+				# 시작 지점이 UI 위 → 이번 제스처 전체 무시
+				if _is_over_ui(event.position):
+					_touching = false
+					_touch_blocked = true
+					_cancel_pending_tap()   # 메뉴 열면서 이전 탭이 상호작용으로 확정되는 것 방지
+					return
+				_touch_blocked = false
 				_touching = true
 				_touch_start_pos = event.position
 				_touch_start_time = Time.get_ticks_msec() / 1000.0
 		else:
-			if event.index == 0 and _touching:
+			if event.index != 0:
+				return
+			if _touch_blocked:
+				_touch_blocked = false
 				_touching = false
+				return
+			if _touching:
+				_touching = false
+				# 뗀 지점이 UI 위 → 행동 처리 안 함
+				if _is_over_ui(event.position):
+					_cancel_pending_tap()
+					return
 				_process_swipe(event.position)
+
 
 func _process_swipe(end_pos: Vector2) -> void:
 	var delta: Vector2 = end_pos - _touch_start_pos
