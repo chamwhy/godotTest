@@ -1,0 +1,33 @@
+{
+	"world": 2,
+	"stage": 0,
+	"map_name": "2월드 메인 월드",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 3,
+	"map_height": 3,
+	"zoom": 0.9,
+	"padding": 2,
+	"tile_map": [
+		[1, 1, 0],
+		[0, 1, 1],
+		[1, 1, 1],
+	],
+	"entities": [
+		{
+			"x": 2,
+			"y": 2,
+			"obj_type": "player",
+			"mh": 6,
+			"ch": 6
+		},
+		{
+			"x": 0,
+			"y": 2,
+			"obj_type": "worldPortal",
+			"to_w": 2,
+			"to_s": 1,
+			"num": 1
+		},
+	]
+}
