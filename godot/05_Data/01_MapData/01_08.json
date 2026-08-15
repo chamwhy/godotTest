@@ -1,0 +1,37 @@
+{
+	"world": 1,
+	"stage": 8,
+	"map_name": "멈출 수 없다",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 7,
+	"map_height": 3,
+	"zoom": 0.6,
+	"padding": 2,
+	"tile_map": [
+		[0, 0, 0, 0, 0, 0, 0],
+		[1, 1, 1, 1, 1, 1, 1],
+		[0, 0, 0, 0, 0, 0, 0],
+	],
+	"entities": [
+		{
+			"x": 0,
+			"y": 1,
+			"obj_type": "player",
+			"mh": 6,
+			"ch": 1
+		},
+		{
+			"x": 6,
+			"y": 1,
+			"obj_type": "healItem"
+		},
+		{
+			"x": 5,
+			"y": 1,
+			"obj_type": "clear",
+			"to_w": 1,
+			"to_s": 0
+		},
+	]
+}

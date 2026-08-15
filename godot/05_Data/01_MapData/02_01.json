@@ -1,0 +1,38 @@
+{
+	"world": 2,
+	"stage": 1,
+	"map_name": "건너뛰기",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 8,
+	"map_height": 3,
+	"zoom": 0.55,
+	"padding": 2,
+	"tile_map": [
+		[0, 0, 0, 0, 0, 0, 0, 0],
+		[1, 1, 1, 0, 1, 0, 1, 1],
+		[0, 0, 0, 0, 0, 0, 0, 0],
+	],
+	"entities": [
+		{
+			"x": 0,
+			"y": 1,
+			"obj_type": "player",
+			"mh": 6,
+			"ch": 6
+		},
+		{
+			"x": 2,
+			"y": 1,
+			"obj_type": "trap",
+			"atk": 5
+		},
+		{
+			"x": 7,
+			"y": 1,
+			"obj_type": "clear",
+			"to_w": 2,
+			"to_s": 0
+		},
+	]
+}
