@@ -1,0 +1,89 @@
+{
+	"world": 3,
+	"stage": 2,
+	"map_name": "대신 보내기",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 7,
+	"map_height": 5,
+	"zoom": 0.55,
+	"padding": 2,
+	"tile_map": [
+		[1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 0, 1],
+		[1, 1, 1, 1, 1, 1, 0],
+	],
+	"entities": [
+		{
+			"x": 0,
+			"y": 2,
+			"obj_type": "player",
+			"mh": 6,
+			"ch": 6
+		},
+		{
+			"x": 0,
+			"y": 0,
+			"obj_type": "trap",
+			"atk": 2
+		},
+		{
+			"x": 3,
+			"y": 2,
+			"obj_type": "trap",
+			"atk": 6,
+			"once": true
+		},
+		{
+			"x": 6,
+			"y": 1,
+			"obj_type": "trap",
+			"atk": 1
+		},
+		{
+			"x": 5,
+			"y": 2,
+			"obj_type": "healItem"
+		},
+		{
+			"x": 2,
+			"y": 2,
+			"obj_type": "moveBox"
+		},
+		{
+			"x": 4,
+			"y": 2,
+			"obj_type": "wall",
+			"ma": 2
+		},
+		{
+			"x": 4,
+			"y": 0,
+			"obj_type": "wall"
+		},
+		{
+			"x": 4,
+			"y": 1,
+			"obj_type": "wall"
+		},
+		{
+			"x": 4,
+			"y": 3,
+			"obj_type": "wall"
+		},
+		{
+			"x": 4,
+			"y": 4,
+			"obj_type": "wall"
+		},
+		{
+			"x": 5,
+			"y": 4,
+			"obj_type": "clear",
+			"to_w": 3,
+			"to_s": 0
+		},
+	]
+}
