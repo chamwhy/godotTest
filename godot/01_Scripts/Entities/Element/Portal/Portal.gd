@@ -16,8 +16,12 @@ func apply_data(data: Dictionary) -> void:
 	to_world = data.get("to_w", 0)
 	to_stage = data.get("to_s", 0)
 	
-	GridManager.element_settled.connect(_check_pos)
+	_connect_check_pos()
 	# TODO: 상태에 따른 이미지 업데이트
+
+func _connect_check_pos():
+	GridManager.element_settled.connect(_check_pos)
+
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:
 	# 일단은 elm 상관없이 발동. 나중에 player 넣거나 아니면 몬스터가 밟는 거 자체를 기믹으로 할 수도?

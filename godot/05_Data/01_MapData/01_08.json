@@ -52,8 +52,8 @@
 			"obj_type": "wall"
 		},
 		{
-			"x": 3,
-			"y": 3,
+			"x": 2,
+			"y": 2,
 			"obj_type": "wall",
 			"ma": 1
 		},

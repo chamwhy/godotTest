@@ -991,7 +991,7 @@ script = ExtResource("6_4p43j")
 start_menu = NodePath("../UI/StartMenu")
 hp_bar = NodePath("../UI/InGame")
 start_world = 1
-start_stage = 4
+start_stage = 8
 
 [node name="Level_01" type="Node2D" parent="LevelManager" unique_id=581685276]
 

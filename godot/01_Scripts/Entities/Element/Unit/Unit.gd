@@ -73,7 +73,8 @@ func action2(dir: Position, spd: int, tick: int) -> void:
 
 	# 이동한 만큼 공격력 소모
 	var remain_atk: int = atk_pow - res["moved"]
-	if res["blocked"] and remain_atk > 0:
+	#if res["blocked"] and remain_atk > 0: - blocked 조건 삭제
+	if remain_atk > 0:
 		attack(remain_atk, res["dir"], tick, res["pos"])
 		tick += 1
 
