@@ -1,7 +1,7 @@
 {
 	"world": 1,
 	"stage": 6,
-	"map_name": "2로 이동.",
+	"map_name": "already",
 	"tile_size_x": 256,
 	"tile_size_y": 256,
 	"map_width": 7,

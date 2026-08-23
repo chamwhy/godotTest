@@ -1,0 +1,73 @@
+{
+	"world": 1,
+	"stage": 8,
+	"map_name": "heal",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 6,
+	"map_height": 6,
+	"zoom": 0.6,
+	"padding": 2,
+	"tile_map": [
+		[1, 1, 1, 1, 0, 0],
+		[0, 1, 1, 0, 0, 0],
+		[1, 1, 0, 1, 1, 1],
+		[0, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+	],
+	"entities": [
+		{
+			"x": 0,
+			"y": 4,
+			"obj_type": "player",
+			"mh": 6,
+			"ch": 6
+		},
+		{
+			"x": 0,
+			"y": 4,
+			"obj_type": "trap",
+			"atk": 3
+		},
+		{
+			"x": 1,
+			"y": 1,
+			"obj_type": "trap",
+			"atk": 3
+		},
+		{
+			"x": 1,
+			"y": 4,
+			"obj_type": "wall"
+		},
+		{
+			"x": 3,
+			"y": 4,
+			"obj_type": "wall"
+		},
+		{
+			"x": 4,
+			"y": 3,
+			"obj_type": "wall"
+		},
+		{
+			"x": 3,
+			"y": 3,
+			"obj_type": "wall",
+			"ma": 1
+		},
+		{
+			"x": 4,
+			"y": 2,
+			"obj_type": "healItem"
+		},
+		{
+			"x": 2,
+			"y": 1,
+			"obj_type": "clear",
+			"to_w": 1,
+			"to_s": 0
+		}
+	]
+}

@@ -1,167 +1,84 @@
 {
 	"world": 1,
 	"stage": 4,
-	"map_name": "2로 이동.",
+	"map_name": "state change",
 	"tile_size_x": 256,
 	"tile_size_y": 256,
-	"map_width": 8,
-	"map_height": 8,
-	"zoom": 0.4,
+	"map_width": 5,
+	"map_height": 4,
+	"zoom": 0.6,
 	"padding": 2,
 	"tile_map": [
-		[0, 0, 0, 0, 0, 1, 1, 1],
-		[1, 1, 1, 1, 1, 1, 1, 1],
-		[1, 1, 1, 1, 1, 0, 1, 1],
-		[1, 1, 1, 1, 1, 0, 1, 1],
-		[1, 1, 1, 1, 0, 1, 1, 1],
-		[1, 1, 1, 0, 1, 1, 1, 0],
-		[1, 1, 1, 1, 1, 1, 1, 0],
-		[1, 1, 1, 1, 1, 1, 1, 0],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 0],
 	],
 	"entities": [
 		{
-			"x": 0,
+			"x": 2,
 			"y": 2,
 			"obj_type": "player",
 			"mh": 6,
-			"ch": 6
+			"ch": 6,
 		},
 		{
 			"x": 1,
-			"y": 2,
-			"obj_type": "trap",
-			"atk": 1,
-			"once": true
-		},
-		{
-			"x": 2,
-			"y": 2,
-			"obj_type": "trap",
-			"atk": 1,
-			"once": true
-		},
-		{
-			"x": 3,
-			"y": 2,
-			"obj_type": "trap",
-			"atk": 3,
-		},
-		{
-			"x": 4,
-			"y": 6,
-			"obj_type": "moveBox",
-		},
-		{
-			"x": 3,
-			"y": 4,
+			"y": 0,
 			"obj_type": "wall",
 			"ma": 1
 		},
 		{
-			"x": 5,
-			"y": 0,
-			"obj_type": "wall",
-		},
-		{
-			"x": 6,
-			"y": 0,
-			"obj_type": "wall",
-		},
-		{
-			"x": 7,
-			"y": 0,
-			"obj_type": "wall",
-		},
-		{
-			"x": 5,
+			"x": 1,
 			"y": 1,
 			"obj_type": "wall",
 		},
 		{
-			"x": 7,
-			"y": 1,
-			"obj_type": "wall",
-		},
-		{
-			"x": 7,
+			"x": 1,
 			"y": 2,
 			"obj_type": "wall",
 		},
 		{
-			"x": 7,
-			"y": 3,
-			"obj_type": "wall",
-		},
-		{
-			"x": 7,
-			"y": 4,
-			"obj_type": "wall",
-		},
-		{
 			"x": 1,
 			"y": 3,
 			"obj_type": "wall",
 		},
 		{
-			"x": 2,
+			"x": 0,
+			"y": 2,
+			"obj_type": "trap",
+			"atk": 2
+		},
+		{
+			"x": 0,
 			"y": 3,
-			"obj_type": "wall",
+			"obj_type": "trap",
+			"atk": 2
 		},
 		{
 			"x": 3,
-			"y": 3,
+			"y": 0,
 			"obj_type": "wall",
+			"ma": 2
+		},
+		{
+			"x": 3,
+			"y": 1,
+			"obj_type": "wall",
+			"ma": 2
 		},
 		{
 			"x": 4,
-			"y": 3,
+			"y": 1,
 			"obj_type": "wall",
-		},
-		{
-			"x": 0,
-			"y": 4,
-			"obj_type": "wall",
-		},
-		{
-			"x": 0,
-			"y": 5,
-			"obj_type": "wall",
-		},
-		{
-			"x": 0,
-			"y": 6,
-			"obj_type": "wall",
-		},
-		{
-			"x": 0,
-			"y": 7,
-			"obj_type": "wall",
-		},
-		{
-			"x": 1,
-			"y": 5,
-			"obj_type": "wall",
-		},
-		{
-			"x": 2,
-			"y": 5,
-			"obj_type": "wall",
+			"ma": 2
 		},
 		{
 			"x": 4,
-			"y": 5,
-			"obj_type": "wall",
-		},
-		{
-			"x": 1,
-			"y": 4,
+			"y": 0,
 			"obj_type": "clear",
 			"to_w": 1,
-			"to_s": 0
-		}
-		
-		
-		
-		
+			"to_s": 0,
+		},
 	]
 }

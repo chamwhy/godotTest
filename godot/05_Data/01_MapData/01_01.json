@@ -1,7 +1,7 @@
 {
 	"world": 1,
 	"stage": 1,
-	"map_name": "첫 번째 스테이지",
+	"map_name": "moving",
 	"tile_size_x": 256,
 	"tile_size_y": 256,
 	"map_width": 5,
