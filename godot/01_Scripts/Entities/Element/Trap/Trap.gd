@@ -43,6 +43,7 @@ func update_sprite() -> void:
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:
 	if not traped and pos.equals(cur_position):
+		print("trap check pos", pos.to_str(), elm, tick)
 		attack(elm, tick)
 		if is_once:
 			destroy_trap(tick)

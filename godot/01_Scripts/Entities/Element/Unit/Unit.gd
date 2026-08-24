@@ -282,11 +282,13 @@ func when_player_actioned() -> void:
 	pass
 
 func apply_data(data: Dictionary):
-	super.apply_data(data)
 	max_hp = data.get("mh", Config.DEFALT_UNIT_MAX_HP)
 	# 의도적으로 맵 시작부터 체력이 깎여있는 경우. 만약 지정을 안했다면 max_hp로 자동지정.
 	# 따라서 reset 하면 안됨.
 	cur_hp = data.get("ch", max_hp)
+	
+	# super.apply_data 안에 위치 배치에 따른 상호작용이 포함되어있으니, 체력먼저 설정
+	super.apply_data(data)
 
 
 
