@@ -207,65 +207,6 @@ mouse_default_cursor_shape = 2
 texture = ExtResource("27_nrxsk")
 expand_mode = 1
 
-[node name="StartMenu" type="Control" parent="UI" unique_id=1049836382]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("23_qmqrj")
-
-[node name="Bg" type="TextureButton" parent="UI/StartMenu" unique_id=536865476]
-modulate = Color(0.9098039, 0.9098039, 0.9098039, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("2_6r57t")
-
-[node name="Title" type="TextureRect" parent="UI/StartMenu" unique_id=943426003]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -704.0
-offset_top = 400.0
-offset_right = 704.0
-offset_bottom = 1040.0
-grow_horizontal = 2
-scale = Vector2(0.8, 0.8)
-pivot_offset_ratio = Vector2(0.5, 0)
-size_flags_horizontal = 4
-size_flags_vertical = 0
-mouse_filter = 2
-texture = ExtResource("2_4p43j")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("3_6grqo")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
-[node name="TextureRect" type="TextureRect" parent="UI/StartMenu" unique_id=1350448957]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -128.0
-offset_top = -420.0
-offset_right = 128.0
-offset_bottom = -292.0
-grow_horizontal = 2
-grow_vertical = 0
-pivot_offset_ratio = Vector2(0.5, 1)
-mouse_filter = 2
-texture = ExtResource("2_xfwcn")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("5_epy18")
-metadata/_custom_type_script = "uid://byxsyi0li4ryo"
-
 [node name="Tip" type="Control" parent="UI" unique_id=447444347 node_paths=PackedStringArray("tips")]
 layout_mode = 3
 anchors_preset = 15
@@ -280,6 +221,7 @@ tips = {
 }
 
 [node name="Move" type="ColorRect" parent="UI/Tip" unique_id=67812621]
+visible = false
 modulate = Color(1, 1, 1, 0)
 self_modulate = Color(0.29586652, 0.2958665, 0.2958665, 0.43529412)
 layout_mode = 1
@@ -332,6 +274,7 @@ texture_normal = ExtResource("32_8vkdd")
 stretch_mode = 0
 
 [node name="Character" type="ColorRect" parent="UI/Tip" unique_id=115336263]
+visible = false
 modulate = Color(1, 1, 1, 0)
 self_modulate = Color(0.29586652, 0.2958665, 0.2958665, 0.43529412)
 layout_mode = 1
@@ -1023,6 +966,66 @@ grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("32_8vkdd")
 
+[node name="StartMenu" type="Control" parent="UI" unique_id=1049836382]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("23_qmqrj")
+
+[node name="Bg" type="TextureButton" parent="UI/StartMenu" unique_id=536865476]
+modulate = Color(0.9098039, 0.9098039, 0.9098039, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("2_6r57t")
+stretch_mode = 0
+
+[node name="Title" type="TextureRect" parent="UI/StartMenu" unique_id=943426003]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -704.0
+offset_top = 400.0
+offset_right = 704.0
+offset_bottom = 1040.0
+grow_horizontal = 2
+scale = Vector2(0.8, 0.8)
+pivot_offset_ratio = Vector2(0.5, 0)
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+texture = ExtResource("2_4p43j")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("3_6grqo")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="TextureRect" type="TextureRect" parent="UI/StartMenu" unique_id=1350448957]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -420.0
+offset_right = 128.0
+offset_bottom = -292.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 1)
+mouse_filter = 2
+texture = ExtResource("2_xfwcn")
+script = ExtResource("3_ibv6u")
+sprite_frames = ExtResource("5_epy18")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
 [node name="UIManager" type="Control" parent="." unique_id=2072504385]
 layout_mode = 3
 anchors_preset = 0
@@ -1054,6 +1057,6 @@ scale = Vector2(8.96, 8.95)
 texture = SubResource("CompressedTexture2D_epy18")
 script = ExtResource("6_xfwcn")
 
-[connection signal="pressed" from="UI/StartMenu/Bg" to="UI/StartMenu" method="_on_bg_pressed"]
 [connection signal="pressed" from="UI/Tip/Move/exitBtn" to="UI/Tip" method="_on_tip_pressed"]
 [connection signal="pressed" from="UI/Tip/Character/exitBtn" to="UI/Tip" method="_on_tip_pressed"]
+[connection signal="pressed" from="UI/StartMenu/Bg" to="UI/StartMenu" method="_on_bg_pressed"]

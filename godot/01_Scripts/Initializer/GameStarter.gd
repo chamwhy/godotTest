@@ -16,5 +16,8 @@ func _start_game() -> void:
 	AudioManager.play_sfx("game started")
 	var tween = create_tween()
 	tween.tween_property(start_menu, "modulate", Color(1, 1, 1, 0), tween_dur)
+	tween.finished.connect(func():
+		start_menu.visible = false
+	)
 	var tween2 = create_tween()
 	tween2.tween_property(hp_bar, "modulate", Color(1, 1, 1, 1), tween_dur)
