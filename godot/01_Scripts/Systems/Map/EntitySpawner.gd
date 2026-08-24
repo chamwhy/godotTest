@@ -8,9 +8,9 @@ extends RefCounted
 
 
 static func spawn_all(data: MapData, parent: Node2D) -> void:
+	print("spawn all")
 	_spawn_tiles(data, parent)
-	_spawn_entities(data, parent, false)  # Unit이 아닌 것 먼저
-	_spawn_entities(data, parent, true)   # Unit 나중 (기존 순서 유지)
+	_spawn_entities(data, parent)
 
 
 # ─────────────────────────────────────────────
@@ -59,33 +59,26 @@ static func _surround_of(rows: Array, y: int, x: int) -> Array:
 # ─────────────────────────────────────────────
 # 엔티티
 # ─────────────────────────────────────────────
-static func _spawn_entities(data: MapData, parent: Node2D, want_unit: bool) -> void:
+const RANK := {"trap": 0, "wall": 1, "healItem": 2, "worldPortal": 3, "clear": 4, "moveBox": 5, "player": 6}
+
+static func _spawn_entities(data: MapData, parent: Node2D) -> void:
+	
+	# object_type에 따른 순서 배열.
+	# 순서를 지킴으로 object register의 중요도를 선별하기 위함.
+	# 예) 무조건 unit은 trap 다음으로 해야 초기 밟음을 구현가능.
+	data.entities.sort_custom(func(a, b):
+		return RANK.get(a.get("obj_type", ""), 99) < RANK.get(b.get("obj_type", ""), 99)
+	)
+	
 	for entity_data: Dictionary in data.entities:
 		var type_name: String = entity_data.get("obj_type", "")
 		var scene: PackedScene = Config.EXP_RES.entityScenes.get(type_name)
 		if scene == null:
 			push_warning("EntitySpawner: 알 수 없는 타입 → %s" % type_name)
 			continue
-
-		# 인스턴스화 전에 타입 판별 (기존: 만들고 버림 → 낭비 + _ready 부작용)
-		var is_unit_scene := _is_unit_type(scene)
-		if is_unit_scene != want_unit:
-			continue
+		print("entitySpawn: ",data.get("stage"), type_name)
 
 		var obj: Node2D = scene.instantiate()
 		parent.add_child(obj)
 		if obj.has_method("apply_data"):
 			obj.apply_data(entity_data)
-
-
-# PackedScene의 루트 스크립트로 Unit 여부 판별 (인스턴스화 없이)
-static func _is_unit_type(scene: PackedScene) -> bool:
-	var state := scene.get_state()
-	for i in range(state.get_node_property_count(0)):
-		if state.get_node_property_name(0, i) == "script":
-			var script: Script = state.get_node_property_value(0, i)
-			while script:
-				if script.get_global_name() == "Unit":
-					return true
-				script = script.get_base_script()
-	return false

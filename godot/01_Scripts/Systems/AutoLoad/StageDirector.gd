@@ -45,7 +45,7 @@ func load_stage(world: int, stage: int) -> bool:
 
 	# ⑤ 스폰
 	EntitySpawner.spawn_all(mapData, _entity_parent)
-
+	
 	# ⑥ 새 판이니 undo 히스토리 초기화
 	UndoManager.clear_history()
 	AudioManager.set_dead(false)

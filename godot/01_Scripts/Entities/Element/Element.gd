@@ -27,7 +27,7 @@ func apply_data(data: Dictionary):
 	super.apply_data(data)
 	print("unit apply")
 	z_index = ZIndexer.calc(cur_position.y, ZIndexer.ZID_ELEMENT)
-	GridManager.register_element(cur_position, self)
+	GridManager.enter_element(self, cur_position, 0)
 
 
 #region Anim
