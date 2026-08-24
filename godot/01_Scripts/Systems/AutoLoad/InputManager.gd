@@ -82,6 +82,17 @@ func check_input(event: InputEvent) -> void:
 		GameManager.GameState.GAME_OVER:
 			pass
 
+#region 외부입력
+
+func start_menu_pressed() -> void:
+	if GameManager.cur_state == GameManager.GameState.MAIN_MENU:
+		_begin_game()
+
+func tip_pressed() -> void:
+	if GameManager.cur_state == GameManager.GameState.TIP:
+		_close_tip()
+#endregion
+
 
 ## 아무 입력이나 받아 넘어가는 화면(메인 메뉴, 팁) 공통 처리
 func _handle_confirm_screen(event: InputEvent, on_confirm: Callable) -> void:

@@ -29,12 +29,14 @@
 [ext_resource type="SpriteFrames" uid="uid://dk0updubttb0d" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_5.tres" id="17_ij0ij"]
 [ext_resource type="Texture2D" uid="uid://d1w50s3xvlrta" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-6_1.png" id="18_ijhma"]
 [ext_resource type="SpriteFrames" uid="uid://dt6qaucu2h74a" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_6.tres" id="19_nrxsk"]
+[ext_resource type="Script" uid="uid://860hjkhaepwm" path="res://01_Scripts/UI/StartMenu.gd" id="23_qmqrj"]
 [ext_resource type="Script" uid="uid://d20y0vonc0vnw" path="res://01_Scripts/Systems/Tip/TipContent.gd" id="27_ij0ij"]
 [ext_resource type="Texture2D" uid="uid://r0t5ty0gmba4" path="res://03_Resources/UI/Menu/ui_menuBtn.png" id="27_nrxsk"]
 [ext_resource type="Texture2D" uid="uid://dq8ecwvbwbvb2" path="res://03_Resources/UI/Tip/tip_move.png" id="27_o67ku"]
 [ext_resource type="Script" uid="uid://beed035a7w1ca" path="res://01_Scripts/Systems/Tip/TipShower.gd" id="29_ijhma"]
 [ext_resource type="Texture2D" uid="uid://b55g4sfqgneug" path="res://03_Resources/UI/Menu/ui_panel.png" id="29_pd2t5"]
 [ext_resource type="Texture2D" uid="uid://crhn3ugcjqtmw" path="res://03_Resources/UI/Tip/ui_duringIcon.png" id="31_mk76m"]
+[ext_resource type="Texture2D" uid="uid://dx3owcf2glfsv" path="res://03_Resources/UI/Menu/ui_exitBtn.png" id="32_8vkdd"]
 [ext_resource type="Texture2D" uid="uid://bgyknmq70ds3n" path="res://03_Resources/UI/Tip/ui_equal.png" id="32_qmqrj"]
 [ext_resource type="Texture2D" uid="uid://bnh4uvm8juf0m" path="res://03_Resources/Element/Unit/Player/player-1_1.png" id="33_8vkdd"]
 [ext_resource type="SpriteFrames" uid="uid://d30qcw8ut5gdv" path="res://06_Animation/SpriteFrames/Player/playerFrames-1.tres" id="34_8qqp8"]
@@ -81,6 +83,7 @@ grow_vertical = 0
 scale = Vector2(0.7, 0.7)
 pivot_offset_ratio = Vector2(0.5, 1)
 size_flags_vertical = 8
+mouse_filter = 2
 script = ExtResource("4_rbyvi")
 heart_icons = [NodePath("HBoxContainer/hp1"), NodePath("HBoxContainer/hp2"), NodePath("HBoxContainer/hp3"), NodePath("HBoxContainer/hp4"), NodePath("HBoxContainer/hp5"), NodePath("HBoxContainer/hp6")]
 profile = NodePath("Profile")
@@ -96,6 +99,7 @@ offset_top = -110.0
 offset_right = 134.0
 offset_bottom = 146.0
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("8_fq4bp")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("9_6r57t")
@@ -114,6 +118,7 @@ offset_right = 52.5
 offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("8_6c0kf")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("9_entge")
@@ -129,11 +134,13 @@ offset_top = -64.0
 offset_right = 861.0
 offset_bottom = 64.0
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 1
 
 [node name="hp1" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=867415720]
 modulate = Color(1, 0.15134397, 0.10833255, 1)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("8_5vhlw")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("9_j7lds")
@@ -142,6 +149,7 @@ metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 [node name="hp2" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=1711114427]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("10_6c0kf")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("11_entge")
@@ -150,6 +158,7 @@ metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 [node name="hp3" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=829211099]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("12_fq4bp")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("13_6r57t")
@@ -157,6 +166,7 @@ metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp4" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=1589783154]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("14_4134g")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("15_c17ro")
@@ -164,6 +174,7 @@ metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp5" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=805341900]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("16_o67ku")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("17_ij0ij")
@@ -171,6 +182,7 @@ metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp6" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=1159319867]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("18_ijhma")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("19_nrxsk")
@@ -190,6 +202,8 @@ anchor_right = 1.0
 offset_left = -120.0
 offset_bottom = 120.0
 grow_horizontal = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
 texture = ExtResource("27_nrxsk")
 expand_mode = 1
 
@@ -200,8 +214,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("23_qmqrj")
 
-[node name="Bg" type="TextureRect" parent="UI/StartMenu" unique_id=1870461431]
+[node name="Bg" type="TextureButton" parent="UI/StartMenu" unique_id=536865476]
 modulate = Color(0.9098039, 0.9098039, 0.9098039, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -209,7 +224,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_6r57t")
+texture_normal = ExtResource("2_6r57t")
 
 [node name="Title" type="TextureRect" parent="UI/StartMenu" unique_id=943426003]
 layout_mode = 1
@@ -225,6 +240,7 @@ scale = Vector2(0.8, 0.8)
 pivot_offset_ratio = Vector2(0.5, 0)
 size_flags_horizontal = 4
 size_flags_vertical = 0
+mouse_filter = 2
 texture = ExtResource("2_4p43j")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("3_6grqo")
@@ -244,6 +260,7 @@ offset_bottom = -292.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset_ratio = Vector2(0.5, 1)
+mouse_filter = 2
 texture = ExtResource("2_xfwcn")
 script = ExtResource("3_ibv6u")
 sprite_frames = ExtResource("5_epy18")
@@ -285,6 +302,7 @@ offset_right = 295.25
 offset_bottom = 391.75
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 texture = ExtResource("29_pd2t5")
 expand_mode = 1
 
@@ -296,6 +314,22 @@ offset_right = 800.0
 offset_bottom = 1210.8616
 texture = ExtResource("27_o67ku")
 expand_mode = 1
+
+[node name="exitBtn" type="TextureButton" parent="UI/Tip/Move" unique_id=834692912]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 390.0
+offset_right = 128.0
+offset_bottom = 646.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("32_8vkdd")
+stretch_mode = 0
 
 [node name="Character" type="ColorRect" parent="UI/Tip" unique_id=115336263]
 modulate = Color(1, 1, 1, 0)
@@ -314,10 +348,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -451.0625
-offset_top = -598.48865
-offset_right = 451.0625
-offset_bottom = 598.48865
+offset_left = -451.062
+offset_top = -660.0
+offset_right = 451.063
+offset_bottom = 536.9773
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("29_pd2t5")
@@ -974,6 +1008,21 @@ offset_bottom = 349.0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("40_m1wgg")
 
+[node name="exitBtn" type="TextureButton" parent="UI/Tip/Character" unique_id=666865538]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 540.0
+offset_right = 128.0
+offset_bottom = 796.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("32_8vkdd")
+
 [node name="UIManager" type="Control" parent="." unique_id=2072504385]
 layout_mode = 3
 anchors_preset = 0
@@ -1004,3 +1053,7 @@ position = Vector2(415.00003, 422.49997)
 scale = Vector2(8.96, 8.95)
 texture = SubResource("CompressedTexture2D_epy18")
 script = ExtResource("6_xfwcn")
+
+[connection signal="pressed" from="UI/StartMenu/Bg" to="UI/StartMenu" method="_on_bg_pressed"]
+[connection signal="pressed" from="UI/Tip/Move/exitBtn" to="UI/Tip" method="_on_tip_pressed"]
+[connection signal="pressed" from="UI/Tip/Character/exitBtn" to="UI/Tip" method="_on_tip_pressed"]

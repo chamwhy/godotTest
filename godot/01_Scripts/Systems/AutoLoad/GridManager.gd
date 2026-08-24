@@ -135,6 +135,8 @@ func get_elements(pos: Position) -> Array[Element]:
 func enter_element(elm: Element, pos: Position, tick: int) -> bool:
 	if not map_size_in(pos.x, pos.y): return false
 	register_element(pos, elm)
+	# TODO: detail. 순간순간 emit 하지 말고, queue만들어 두고 ingame play 상황일때 
+	# queue 소진하는 방식으로 하면 피격 효과를 시작할 때 줄 수 있어서 현장감 up.
 	element_entered.emit(elm.cur_position, elm, tick)
 	return true
 

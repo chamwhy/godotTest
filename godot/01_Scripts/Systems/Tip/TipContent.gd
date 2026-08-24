@@ -73,6 +73,7 @@ func _tip_hide(tip: Control) -> void:
 	tween.tween_callback(func(): tip.visible = false)
 	_tweens[tip] = tween
 
+
 func close_all_tips() -> void:
 	for tip in tips.values():
 		_tip_hide(tip)
@@ -82,3 +83,10 @@ func _kill_tween(tip: Control) -> void:
 	if tween != null and tween.is_valid():
 		tween.kill()
 	_tweens.erase(tip)
+
+#region 외부 입력
+
+func _on_tip_pressed() -> void:
+	InputManager.tip_pressed()
+
+#endregion
