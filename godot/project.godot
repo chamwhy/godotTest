@@ -54,6 +54,10 @@ window/stretch/aspect="keep_width"
 
 movie_writer/movie_file="C:/Users/CKIRUser/Documents/godot-test-main/movie/game_play.avi"
 
+[gui]
+
+theme/custom="uid://botpl5sj18bjx"
+
 [input]
 
 test_x={

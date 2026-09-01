@@ -30,8 +30,12 @@
 [ext_resource type="Texture2D" uid="uid://d1w50s3xvlrta" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-6_1.png" id="18_ijhma"]
 [ext_resource type="SpriteFrames" uid="uid://dt6qaucu2h74a" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_6.tres" id="19_nrxsk"]
 [ext_resource type="Script" uid="uid://860hjkhaepwm" path="res://01_Scripts/UI/StartMenu.gd" id="23_qmqrj"]
+[ext_resource type="Script" uid="uid://b0mb8bm8jmmhv" path="res://01_Scripts/UI/SettingsPanel.gd" id="23_slwxv"]
 [ext_resource type="Texture2D" uid="uid://b6coan37236pf" path="res://03_Resources/UI/Tip/ui_tipBg.png" id="24_8qqp8"]
+[ext_resource type="Texture2D" uid="uid://b55g4sfqgneug" path="res://03_Resources/UI/Menu/ui_panel.png" id="24_r5lpe"]
+[ext_resource type="LabelSettings" uid="uid://3wtl7dcfq740" path="res://02_Material/UI_setting/volume_label.tres" id="25_1tqcq"]
 [ext_resource type="Texture2D" uid="uid://daw253bt72xy7" path="res://03_Resources/UI/Tip/ui_tip_control.png" id="25_slwxv"]
+[ext_resource type="Texture2D" uid="uid://c6ka5kq131t67" path="res://03_Resources/UI/Menu/ui_resetBtn.png" id="26_j6cho"]
 [ext_resource type="Script" uid="uid://d20y0vonc0vnw" path="res://01_Scripts/Systems/Tip/TipContent.gd" id="27_ij0ij"]
 [ext_resource type="Texture2D" uid="uid://r0t5ty0gmba4" path="res://03_Resources/UI/Menu/ui_menuBtn.png" id="27_nrxsk"]
 [ext_resource type="Script" uid="uid://beed035a7w1ca" path="res://01_Scripts/Systems/Tip/TipShower.gd" id="29_ijhma"]
@@ -60,7 +64,6 @@ script = ExtResource("1_6grqo")
 [node name="UI" type="CanvasLayer" parent="." unique_id=461768127]
 
 [node name="InGame" type="Control" parent="UI" unique_id=1568238516]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -195,7 +198,7 @@ anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 
-[node name="TextureRect" type="TextureRect" parent="UI/InGame/Btns" unique_id=445473040]
+[node name="MenuBtn" type="TextureButton" parent="UI/InGame/Btns" unique_id=1644817830]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -203,12 +206,196 @@ anchor_right = 1.0
 offset_left = -120.0
 offset_bottom = 120.0
 grow_horizontal = 0
-mouse_filter = 0
 mouse_default_cursor_shape = 2
-texture = ExtResource("27_nrxsk")
+texture_normal = ExtResource("27_nrxsk")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="SettingsPanel" type="Control" parent="UI/InGame" unique_id=1840800452]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("23_slwxv")
+
+[node name="Dim" type="ColorRect" parent="UI/InGame/SettingsPanel" unique_id=300038227]
+self_modulate = Color(0.29411766, 0.29411766, 0.29411766, 0.43529412)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="TextureRect" parent="UI/InGame/SettingsPanel" unique_id=1430565686]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -379.5
+offset_top = -503.53638
+offset_right = 379.5
+offset_bottom = 503.53638
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("24_r5lpe")
 expand_mode = 1
 
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/InGame/SettingsPanel/Bg" unique_id=1685816483]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 123.53638
+offset_bottom = 699.5364
+grow_horizontal = 2
+
+[node name="Master" type="Control" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer" unique_id=461780676]
+custom_minimum_size = Vector2(0, 150)
+clip_contents = true
+layout_mode = 2
+
+[node name="MasterSlider" type="HSlider" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/Master" unique_id=989662339]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -479.0
+offset_top = -35.267998
+offset_right = -61.0
+offset_bottom = 35.26837
+grow_horizontal = 0
+grow_vertical = 2
+value = 80.0
+
+[node name="Label" type="Label" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/Master" unique_id=1832061009]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 60.0
+offset_top = -60.5
+offset_right = 226.0
+offset_bottom = 60.5
+grow_vertical = 2
+text = "Master"
+label_settings = ExtResource("25_1tqcq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BGM" type="Control" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer" unique_id=2073134022]
+custom_minimum_size = Vector2(0, 150)
+clip_contents = true
+layout_mode = 2
+
+[node name="BgmSlider" type="HSlider" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/BGM" unique_id=1351511126]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -479.0
+offset_top = -35.267998
+offset_right = -61.0
+offset_bottom = 35.26837
+grow_horizontal = 0
+grow_vertical = 2
+value = 80.0
+
+[node name="Label" type="Label" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/BGM" unique_id=320763173]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 60.0
+offset_top = -60.5
+offset_right = 226.0
+offset_bottom = 60.5
+grow_vertical = 2
+text = "BGM"
+label_settings = ExtResource("25_1tqcq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SFX" type="Control" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer" unique_id=153118281]
+custom_minimum_size = Vector2(0, 150)
+clip_contents = true
+layout_mode = 2
+
+[node name="SfxSlider" type="HSlider" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/SFX" unique_id=137961712]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -479.0
+offset_top = -35.267998
+offset_right = -61.0
+offset_bottom = 35.26837
+grow_horizontal = 0
+grow_vertical = 2
+value = 80.0
+
+[node name="Label" type="Label" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/SFX" unique_id=1856042339]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 60.0
+offset_top = -60.5
+offset_right = 226.0
+offset_bottom = 60.5
+grow_vertical = 2
+text = "SFX"
+label_settings = ExtResource("25_1tqcq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnContainer" type="HBoxContainer" parent="UI/InGame/SettingsPanel/Bg" unique_id=843213819]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -330.53638
+offset_bottom = -74.53638
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="ResetBtn" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=23100892]
+layout_mode = 2
+texture_normal = ExtResource("26_j6cho")
+
+[node name="HomeBtn" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=901045943]
+layout_mode = 2
+texture_normal = ExtResource("27_nrxsk")
+
+[node name="exitBtn" type="TextureButton" parent="UI/InGame/SettingsPanel" unique_id=17927539]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 511.0
+offset_right = 128.0
+offset_bottom = 767.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("32_8vkdd")
+
 [node name="Tip" type="Control" parent="UI" unique_id=447444347 node_paths=PackedStringArray("tips")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -993,6 +1180,7 @@ grow_vertical = 2
 texture_normal = ExtResource("32_8vkdd")
 
 [node name="StartMenu" type="Control" parent="UI" unique_id=1049836382]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -1083,6 +1271,8 @@ scale = Vector2(8.96, 8.95)
 texture = SubResource("CompressedTexture2D_epy18")
 script = ExtResource("6_xfwcn")
 
+[connection signal="pressed" from="UI/InGame/Btns/MenuBtn" to="UI/InGame/SettingsPanel" method="open"]
+[connection signal="pressed" from="UI/InGame/SettingsPanel/exitBtn" to="UI/InGame/SettingsPanel" method="close"]
 [connection signal="pressed" from="UI/Tip/Move/exitBtn" to="UI/Tip" method="_on_tip_pressed"]
 [connection signal="pressed" from="UI/Tip/Character/exitBtn" to="UI/Tip" method="_on_tip_pressed"]
 [connection signal="pressed" from="UI/StartMenu/Bg" to="UI/StartMenu" method="_on_bg_pressed"]

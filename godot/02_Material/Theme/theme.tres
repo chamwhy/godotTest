@@ -1,0 +1,36 @@
+[gd_resource type="Theme" format=3 uid="uid://botpl5sj18bjx"]
+
+[ext_resource type="FontFile" uid="uid://34fj8m6xl4ca" path="res://fonts/JustMeAgainDownHere-Regular.ttf" id="1_fg4ja"]
+[ext_resource type="Texture2D" uid="uid://bt2r6skdj6u55" path="res://03_Resources/UI/Menu/ui_barBG.png" id="1_jfe0l"]
+[ext_resource type="Texture2D" uid="uid://v8kf07xb2cpi" path="res://03_Resources/UI/Menu/ui_barBtn.png" id="1_rvep8"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b777m"]
+texture = ExtResource("1_jfe0l")
+texture_margin_left = 20.0
+texture_margin_right = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jfe0l"]
+texture = ExtResource("1_jfe0l")
+texture_margin_left = 20.0
+texture_margin_right = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yflmw"]
+content_margin_left = 0.0
+content_margin_top = 20.0
+content_margin_right = 0.0
+content_margin_bottom = 20.0
+texture = ExtResource("1_jfe0l")
+texture_margin_left = 20.0
+texture_margin_right = 20.0
+modulate_color = Color(0.46229059, 0.46229059, 0.46229059, 1)
+
+[resource]
+default_font = ExtResource("1_fg4ja")
+default_font_size = 20
+HSlider/constants/center_grabber = 1
+HSlider/icons/grabber = ExtResource("1_rvep8")
+HSlider/icons/grabber_disabled = ExtResource("1_rvep8")
+HSlider/icons/grabber_highlight = ExtResource("1_rvep8")
+HSlider/styles/grabber_area = SubResource("StyleBoxTexture_b777m")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_jfe0l")
+HSlider/styles/slider = SubResource("StyleBoxTexture_yflmw")
