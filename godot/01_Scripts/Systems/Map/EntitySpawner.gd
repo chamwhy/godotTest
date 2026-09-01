@@ -6,6 +6,8 @@
 class_name EntitySpawner
 extends RefCounted
 
+static var isFixplayerPos := false
+static var fixed_playerPos_key: int = 0
 
 static func spawn_all(data: MapData, parent: Node2D) -> void:
 	print("spawn all")
@@ -72,6 +74,23 @@ static func _spawn_entities(data: MapData, parent: Node2D) -> void:
 	
 	for entity_data: Dictionary in data.entities:
 		var type_name: String = entity_data.get("obj_type", "")
+		if isFixplayerPos:
+			print("isFixplayerPos")
+		
+		# 플레이어 위치 강제 지정 (1회성)
+		if isFixplayerPos and type_name == "player":
+			if StageContext.worldPortals.has(fixed_playerPos_key) \
+				and entity_data.has("x") \
+				and entity_data.has("y"):
+				print("플레이어 위치 강제 지정 (1회성)")
+				var pos: Position = StageContext.worldPortals[fixed_playerPos_key]
+				entity_data = entity_data.duplicate()
+				entity_data["x"] = pos.x
+				entity_data["y"] = pos.y
+				isFixplayerPos = false
+			else:
+				push_warning("EntitySpawner: player entity에 x/y 키 없음 → %s" % entity_data.keys())
+		
 		var scene: PackedScene = Config.EXP_RES.entityScenes.get(type_name)
 		if scene == null:
 			push_warning("EntitySpawner: 알 수 없는 타입 → %s" % type_name)

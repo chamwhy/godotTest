@@ -30,11 +30,11 @@
 [ext_resource type="Texture2D" uid="uid://d1w50s3xvlrta" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-6_1.png" id="18_ijhma"]
 [ext_resource type="SpriteFrames" uid="uid://dt6qaucu2h74a" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_6.tres" id="19_nrxsk"]
 [ext_resource type="Script" uid="uid://860hjkhaepwm" path="res://01_Scripts/UI/StartMenu.gd" id="23_qmqrj"]
+[ext_resource type="Texture2D" uid="uid://b6coan37236pf" path="res://03_Resources/UI/Tip/ui_tipBg.png" id="24_8qqp8"]
+[ext_resource type="Texture2D" uid="uid://daw253bt72xy7" path="res://03_Resources/UI/Tip/ui_tip_control.png" id="25_slwxv"]
 [ext_resource type="Script" uid="uid://d20y0vonc0vnw" path="res://01_Scripts/Systems/Tip/TipContent.gd" id="27_ij0ij"]
 [ext_resource type="Texture2D" uid="uid://r0t5ty0gmba4" path="res://03_Resources/UI/Menu/ui_menuBtn.png" id="27_nrxsk"]
-[ext_resource type="Texture2D" uid="uid://dq8ecwvbwbvb2" path="res://03_Resources/UI/Tip/tip_move.png" id="27_o67ku"]
 [ext_resource type="Script" uid="uid://beed035a7w1ca" path="res://01_Scripts/Systems/Tip/TipShower.gd" id="29_ijhma"]
-[ext_resource type="Texture2D" uid="uid://b55g4sfqgneug" path="res://03_Resources/UI/Menu/ui_panel.png" id="29_pd2t5"]
 [ext_resource type="Texture2D" uid="uid://crhn3ugcjqtmw" path="res://03_Resources/UI/Tip/ui_duringIcon.png" id="31_mk76m"]
 [ext_resource type="Texture2D" uid="uid://dx3owcf2glfsv" path="res://03_Resources/UI/Menu/ui_exitBtn.png" id="32_8vkdd"]
 [ext_resource type="Texture2D" uid="uid://bgyknmq70ds3n" path="res://03_Resources/UI/Tip/ui_equal.png" id="32_qmqrj"]
@@ -44,6 +44,7 @@
 [ext_resource type="Texture2D" uid="uid://cosdguw2nvwsq" path="res://03_Resources/UI/Tip/ui_speed.png" id="36_r5lpe"]
 [ext_resource type="Texture2D" uid="uid://dwm7l6ixpfiwu" path="res://03_Resources/UI/Tip/ui_act_1.png" id="37_1tqcq"]
 [ext_resource type="Texture2D" uid="uid://cpvqpe3y4u1hd" path="res://03_Resources/Element/Unit/Player/player-2_1.png" id="38_j6cho"]
+[ext_resource type="Texture2D" uid="uid://102mrhcuuvnj" path="res://03_Resources/UI/Tip/ui_tip_state.png" id="39_8qqp8"]
 [ext_resource type="SpriteFrames" uid="uid://fqv0up2oiyvu" path="res://06_Animation/SpriteFrames/Player/playerFrames-2.tres" id="39_y4l2s"]
 [ext_resource type="Texture2D" uid="uid://df1e1wr0mnkje" path="res://03_Resources/UI/Tip/ui_act_2.png" id="40_m1wgg"]
 [ext_resource type="Texture2D" uid="uid://bsdietw0v4rvp" path="res://03_Resources/Element/Unit/Player/player-3_1.png" id="41_65uug"]
@@ -238,23 +239,30 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -295.25
-offset_top = -391.75
-offset_right = 295.25
-offset_bottom = 391.75
+offset_left = -342.125
+offset_top = -453.94568
+offset_right = 342.125
+offset_bottom = 453.94568
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-texture = ExtResource("29_pd2t5")
+texture = ExtResource("24_8qqp8")
 expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="UI/Tip/Move" unique_id=1126544351]
-layout_mode = 0
-offset_left = 290.0
-offset_top = 690.0
-offset_right = 800.0
-offset_bottom = 1210.8616
-texture = ExtResource("27_o67ku")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -272.0
+offset_top = -277.79285
+offset_right = 272.0
+offset_bottom = 277.79285
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("25_slwxv")
 expand_mode = 1
 
 [node name="exitBtn" type="TextureButton" parent="UI/Tip/Move" unique_id=834692912]
@@ -265,9 +273,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -128.0
-offset_top = 390.0
+offset_top = 446.0
 offset_right = 128.0
-offset_bottom = 646.0
+offset_bottom = 702.0
 grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("32_8vkdd")
@@ -291,16 +299,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -451.062
-offset_top = -660.0
-offset_right = 451.063
-offset_bottom = 536.9773
+offset_left = -409.531
+offset_top = -543.38293
+offset_right = 409.531
+offset_bottom = 543.38293
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("29_pd2t5")
+texture = ExtResource("24_8qqp8")
 expand_mode = 1
 
 [node name="player1" type="Control" parent="UI/Tip/Character/Bg" unique_id=1853598020]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -546,6 +555,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("37_1tqcq")
 
 [node name="player2" type="Control" parent="UI/Tip/Character/Bg" unique_id=1497614406]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -796,6 +806,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("37_1tqcq")
 
 [node name="player3" type="Control" parent="UI/Tip/Character/Bg" unique_id=1603947630]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -951,6 +962,21 @@ offset_bottom = 349.0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("40_m1wgg")
 
+[node name="TextureRect" type="TextureRect" parent="UI/Tip/Character/Bg" unique_id=878186717]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -302.0005
+offset_top = -405.48865
+offset_right = 356.9995
+offset_bottom = 412.51135
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("39_8qqp8")
+
 [node name="exitBtn" type="TextureButton" parent="UI/Tip/Character" unique_id=666865538]
 layout_mode = 1
 anchors_preset = 8
@@ -1043,7 +1069,7 @@ script = ExtResource("6_4p43j")
 start_menu = NodePath("../UI/StartMenu")
 hp_bar = NodePath("../UI/InGame")
 start_world = 1
-start_stage = 8
+start_stage = 1
 
 [node name="Level_01" type="Node2D" parent="LevelManager" unique_id=581685276]
 

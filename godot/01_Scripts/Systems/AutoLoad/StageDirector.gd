@@ -82,13 +82,12 @@ func flush_pending_map_change() -> void:
 		return
 	var mc: Dictionary = StageContext.take_pending_map_change()
 	print("StageDirector - 맵 전환: ", mc.world, "-", mc.stage)
-
+	
+	if mc.get("out_of", false):
+		EntitySpawner.isFixplayerPos = true
+		EntitySpawner.fixed_playerPos_key = mc.get("out_of_w", 0) * StageContext.WORLD_ID_MULTIPLY \
+			+ mc.get("out_of_s", 0)
+	
 	load_stage(mc.world, mc.stage)
 
-	if mc.get("out_of", false):
-		var key: int = mc.get("out_of_w", 0) * StageContext.WORLD_ID_MULTIPLY \
-			+ mc.get("out_of_s", 0)
-		var player: Player = PlayerRegistry.get_player()
-		if player:
-			var portal: Position = StageContext.worldPortals.get(key, player.cur_position)
-			player.move_to_pos(portal)
+	
