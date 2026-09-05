@@ -137,6 +137,8 @@ func run_undo() -> void:
 		if u.target.is_queued_for_deletion(): continue
 		AnimationQueue.enqueue(u.target, u.undo_action, u.undo_data, max_tick - u.tick)
 
+	AudioManager.play_sfx("undo")
+	
 	# ③ 재생 (정방향과 같은 경로)
 	await AnimationQueue.play_all()
 

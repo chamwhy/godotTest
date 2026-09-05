@@ -1,66 +1,65 @@
-[gd_scene format=3 uid="uid://cr5oiuml1f0up"]
+[gd_scene format=3 uid="uid://cl55cja46skaf"]
 
-[ext_resource type="Script" uid="uid://lpdb7ca0h2ms" path="res://01_Scripts/Systems/MyCamera.gd" id="1_6grqo"]
-[ext_resource type="Texture2D" uid="uid://6jgpuhs6474v" path="res://03_Resources/UI/Logo/ui-logo_1.png" id="2_4p43j"]
-[ext_resource type="Texture2D" uid="uid://b3unrdocfcnen" path="res://03_Resources/Tile/Floor/white.png" id="2_6r57t"]
-[ext_resource type="Texture2D" uid="uid://bh6l1wqw52kia" path="res://03_Resources/UI/Touch/ui-touch_1.png" id="2_xfwcn"]
-[ext_resource type="SpriteFrames" uid="uid://qdmpy0ife218" path="res://06_Animation/SpriteFrames/UI/logo_frames.tres" id="3_6grqo"]
-[ext_resource type="Script" uid="uid://byxsyi0li4ryo" path="res://01_Scripts/UI/AnimatedTextureRect.gd" id="3_ibv6u"]
-[ext_resource type="Script" uid="uid://cb6q0b6vlkvlu" path="res://01_Scripts/UI/PlayerHpBar.gd" id="4_rbyvi"]
-[ext_resource type="SpriteFrames" uid="uid://ch74ax6fpur1r" path="res://06_Animation/SpriteFrames/UI/touch_frames.tres" id="5_epy18"]
-[ext_resource type="Script" uid="uid://cs8uc0j4a6283" path="res://01_Scripts/Initializer/GameStarter.gd" id="6_4p43j"]
-[ext_resource type="Material" uid="uid://bpsj5ontcsxcx" path="res://02_Material/Shader/PixelTransition.tres" id="6_6grqo"]
-[ext_resource type="Script" uid="uid://bknp4kqn5q4sl" path="res://01_Scripts/UI/Dissolver.gd" id="6_xfwcn"]
-[ext_resource type="Texture2D" uid="uid://rwsjd0mxk5bv" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-1_1.png" id="8_5vhlw"]
-[ext_resource type="Texture2D" uid="uid://c8r7gv55wqakr" path="res://03_Resources/UI/HpBar/Bg/ui-hpbarbg_1.png" id="8_6c0kf"]
-[ext_resource type="Texture2D" uid="uid://bxvn0gw10g4gt" path="res://03_Resources/UI/HpBar/Profile/ui-profile-1_1.png" id="8_fq4bp"]
-[ext_resource type="SpriteFrames" uid="uid://chyk3xocw12wj" path="res://06_Animation/SpriteFrames/UI/hpBar/Profile/hpBar-profile_1.tres" id="9_6r57t"]
-[ext_resource type="SpriteFrames" uid="uid://ckbx17g3saf47" path="res://06_Animation/SpriteFrames/UI/hpBar/Profile/hpBar-profile_3.tres" id="9_c17ro"]
-[ext_resource type="SpriteFrames" uid="uid://e4nhmevmt22x" path="res://06_Animation/SpriteFrames/UI/hpBar/hpBar-Bg_frames.tres" id="9_entge"]
-[ext_resource type="SpriteFrames" uid="uid://bg8gn2ujwgw1w" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_1.tres" id="9_j7lds"]
-[ext_resource type="Texture2D" uid="uid://bvkcck4fninwo" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-2_1.png" id="10_6c0kf"]
-[ext_resource type="SpriteFrames" uid="uid://b0t02bsj6igxw" path="res://06_Animation/SpriteFrames/UI/hpBar/Profile/hpBar-profile_2.tres" id="10_o67ku"]
-[ext_resource type="SpriteFrames" uid="uid://boste5sy3imt3" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_2.tres" id="11_entge"]
-[ext_resource type="Texture2D" uid="uid://bwp64idkp2bi8" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-3_1.png" id="12_fq4bp"]
-[ext_resource type="SpriteFrames" uid="uid://dacxvy70o0a7t" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_3.tres" id="13_6r57t"]
-[ext_resource type="Texture2D" uid="uid://nw6kevul2ile" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-4_1.png" id="14_4134g"]
-[ext_resource type="SpriteFrames" uid="uid://gbet4nfspe4e" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_4.tres" id="15_c17ro"]
-[ext_resource type="Texture2D" uid="uid://cc25u3mxx6l7g" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-5_1.png" id="16_o67ku"]
-[ext_resource type="SpriteFrames" uid="uid://dk0updubttb0d" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_5.tres" id="17_ij0ij"]
-[ext_resource type="Texture2D" uid="uid://d1w50s3xvlrta" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-6_1.png" id="18_ijhma"]
-[ext_resource type="SpriteFrames" uid="uid://dt6qaucu2h74a" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_6.tres" id="19_nrxsk"]
-[ext_resource type="Script" uid="uid://860hjkhaepwm" path="res://01_Scripts/UI/StartMenu.gd" id="23_qmqrj"]
-[ext_resource type="Script" uid="uid://b0mb8bm8jmmhv" path="res://01_Scripts/UI/SettingsPanel.gd" id="23_slwxv"]
-[ext_resource type="Texture2D" uid="uid://b6coan37236pf" path="res://03_Resources/UI/Tip/ui_tipBg.png" id="24_8qqp8"]
-[ext_resource type="Texture2D" uid="uid://b55g4sfqgneug" path="res://03_Resources/UI/Menu/ui_panel.png" id="24_r5lpe"]
-[ext_resource type="LabelSettings" uid="uid://3wtl7dcfq740" path="res://02_Material/UI_setting/volume_label.tres" id="25_1tqcq"]
-[ext_resource type="Texture2D" uid="uid://daw253bt72xy7" path="res://03_Resources/UI/Tip/ui_tip_control.png" id="25_slwxv"]
-[ext_resource type="Texture2D" uid="uid://c6ka5kq131t67" path="res://03_Resources/UI/Menu/ui_resetBtn.png" id="26_j6cho"]
-[ext_resource type="Script" uid="uid://d20y0vonc0vnw" path="res://01_Scripts/Systems/Tip/TipContent.gd" id="27_ij0ij"]
-[ext_resource type="Texture2D" uid="uid://r0t5ty0gmba4" path="res://03_Resources/UI/Menu/ui_menuBtn.png" id="27_nrxsk"]
-[ext_resource type="Script" uid="uid://crxxsvuklupr1" path="res://01_Scripts/UI/AlertPanel.gd" id="28_y4l2s"]
-[ext_resource type="Script" uid="uid://beed035a7w1ca" path="res://01_Scripts/Systems/Tip/TipShower.gd" id="29_ijhma"]
-[ext_resource type="Texture2D" uid="uid://crhn3ugcjqtmw" path="res://03_Resources/UI/Tip/ui_duringIcon.png" id="31_mk76m"]
-[ext_resource type="Texture2D" uid="uid://dx3owcf2glfsv" path="res://03_Resources/UI/Menu/ui_exitBtn.png" id="32_8vkdd"]
-[ext_resource type="Texture2D" uid="uid://bgyknmq70ds3n" path="res://03_Resources/UI/Tip/ui_equal.png" id="32_qmqrj"]
-[ext_resource type="Texture2D" uid="uid://bnh4uvm8juf0m" path="res://03_Resources/Element/Unit/Player/player-1_1.png" id="33_8vkdd"]
-[ext_resource type="SpriteFrames" uid="uid://d30qcw8ut5gdv" path="res://06_Animation/SpriteFrames/Player/playerFrames-1.tres" id="34_8qqp8"]
-[ext_resource type="Texture2D" uid="uid://03k5fe7htjki" path="res://03_Resources/UI/Tip/ui_attack_pow.png" id="35_slwxv"]
-[ext_resource type="Texture2D" uid="uid://cosdguw2nvwsq" path="res://03_Resources/UI/Tip/ui_speed.png" id="36_r5lpe"]
-[ext_resource type="Texture2D" uid="uid://dwm7l6ixpfiwu" path="res://03_Resources/UI/Tip/ui_act_1.png" id="37_1tqcq"]
-[ext_resource type="Texture2D" uid="uid://cpvqpe3y4u1hd" path="res://03_Resources/Element/Unit/Player/player-2_1.png" id="38_j6cho"]
-[ext_resource type="Texture2D" uid="uid://102mrhcuuvnj" path="res://03_Resources/UI/Tip/ui_tip_state.png" id="39_8qqp8"]
-[ext_resource type="SpriteFrames" uid="uid://fqv0up2oiyvu" path="res://06_Animation/SpriteFrames/Player/playerFrames-2.tres" id="39_y4l2s"]
-[ext_resource type="Texture2D" uid="uid://df1e1wr0mnkje" path="res://03_Resources/UI/Tip/ui_act_2.png" id="40_m1wgg"]
-[ext_resource type="Texture2D" uid="uid://bsdietw0v4rvp" path="res://03_Resources/Element/Unit/Player/player-3_1.png" id="41_65uug"]
-[ext_resource type="SpriteFrames" uid="uid://bjf4x7qjcw6du" path="res://06_Animation/SpriteFrames/Player/playerFrames-3.tres" id="42_t5f8o"]
+[ext_resource type="Script" uid="uid://lpdb7ca0h2ms" path="res://01_Scripts/Systems/MyCamera.gd" id="1_lnusk"]
+[ext_resource type="Script" uid="uid://cb6q0b6vlkvlu" path="res://01_Scripts/UI/PlayerHpBar.gd" id="2_jboq0"]
+[ext_resource type="SpriteFrames" uid="uid://ckbx17g3saf47" path="res://06_Animation/SpriteFrames/UI/hpBar/Profile/hpBar-profile_3.tres" id="3_p5sm1"]
+[ext_resource type="SpriteFrames" uid="uid://b0t02bsj6igxw" path="res://06_Animation/SpriteFrames/UI/hpBar/Profile/hpBar-profile_2.tres" id="4_bix2x"]
+[ext_resource type="SpriteFrames" uid="uid://chyk3xocw12wj" path="res://06_Animation/SpriteFrames/UI/hpBar/Profile/hpBar-profile_1.tres" id="5_wcy63"]
+[ext_resource type="Texture2D" uid="uid://bxvn0gw10g4gt" path="res://03_Resources/UI/HpBar/Profile/ui-profile-1_1.png" id="6_lih88"]
+[ext_resource type="Script" uid="uid://byxsyi0li4ryo" path="res://01_Scripts/UI/AnimatedTextureRect.gd" id="7_c3478"]
+[ext_resource type="Texture2D" uid="uid://c8r7gv55wqakr" path="res://03_Resources/UI/HpBar/Bg/ui-hpbarbg_1.png" id="8_xmapb"]
+[ext_resource type="SpriteFrames" uid="uid://e4nhmevmt22x" path="res://06_Animation/SpriteFrames/UI/hpBar/hpBar-Bg_frames.tres" id="9_yaayq"]
+[ext_resource type="Texture2D" uid="uid://rwsjd0mxk5bv" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-1_1.png" id="10_1u74x"]
+[ext_resource type="SpriteFrames" uid="uid://bg8gn2ujwgw1w" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_1.tres" id="11_jetlq"]
+[ext_resource type="Texture2D" uid="uid://bvkcck4fninwo" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-2_1.png" id="12_idvtm"]
+[ext_resource type="SpriteFrames" uid="uid://boste5sy3imt3" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_2.tres" id="13_438nx"]
+[ext_resource type="Texture2D" uid="uid://bwp64idkp2bi8" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-3_1.png" id="14_dcn4m"]
+[ext_resource type="SpriteFrames" uid="uid://dacxvy70o0a7t" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_3.tres" id="15_lvq4p"]
+[ext_resource type="Texture2D" uid="uid://nw6kevul2ile" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-4_1.png" id="16_cicmg"]
+[ext_resource type="SpriteFrames" uid="uid://gbet4nfspe4e" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_4.tres" id="17_g0mvm"]
+[ext_resource type="Texture2D" uid="uid://cc25u3mxx6l7g" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-5_1.png" id="18_i56ke"]
+[ext_resource type="SpriteFrames" uid="uid://dk0updubttb0d" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_5.tres" id="19_lbbsb"]
+[ext_resource type="Texture2D" uid="uid://d1w50s3xvlrta" path="res://03_Resources/UI/HpBar/Cnt/ui-hpCnt-6_1.png" id="20_txwdo"]
+[ext_resource type="SpriteFrames" uid="uid://dt6qaucu2h74a" path="res://06_Animation/SpriteFrames/UI/hpBar/Cnt/hpBar-cnt_6.tres" id="21_6fddr"]
+[ext_resource type="Texture2D" uid="uid://r0t5ty0gmba4" path="res://03_Resources/UI/Menu/ui_menuBtn.png" id="22_xu6ka"]
+[ext_resource type="Script" uid="uid://b0mb8bm8jmmhv" path="res://01_Scripts/UI/SettingsPanel.gd" id="23_1q62h"]
+[ext_resource type="Texture2D" uid="uid://b55g4sfqgneug" path="res://03_Resources/UI/Menu/ui_panel.png" id="24_vqfq4"]
+[ext_resource type="LabelSettings" uid="uid://3wtl7dcfq740" path="res://02_Material/UI_setting/volume_label.tres" id="25_vfsxd"]
+[ext_resource type="Texture2D" uid="uid://c6ka5kq131t67" path="res://03_Resources/UI/Menu/ui_resetBtn.png" id="26_ejs1t"]
+[ext_resource type="Texture2D" uid="uid://dx3owcf2glfsv" path="res://03_Resources/UI/Menu/ui_exitBtn.png" id="27_j3qvk"]
+[ext_resource type="Script" uid="uid://d20y0vonc0vnw" path="res://01_Scripts/Systems/Tip/TipContent.gd" id="28_wxat3"]
+[ext_resource type="Texture2D" uid="uid://b6coan37236pf" path="res://03_Resources/UI/Tip/ui_tipBg.png" id="29_diy4f"]
+[ext_resource type="Texture2D" uid="uid://daw253bt72xy7" path="res://03_Resources/UI/Tip/ui_tip_control.png" id="30_6aag1"]
+[ext_resource type="Texture2D" uid="uid://crhn3ugcjqtmw" path="res://03_Resources/UI/Tip/ui_duringIcon.png" id="31_ohg4a"]
+[ext_resource type="Texture2D" uid="uid://bgyknmq70ds3n" path="res://03_Resources/UI/Tip/ui_equal.png" id="32_e57y3"]
+[ext_resource type="Texture2D" uid="uid://bnh4uvm8juf0m" path="res://03_Resources/Element/Unit/Player/player-1_1.png" id="33_a3b0g"]
+[ext_resource type="SpriteFrames" uid="uid://d30qcw8ut5gdv" path="res://06_Animation/SpriteFrames/Player/playerFrames-1.tres" id="34_ny8jq"]
+[ext_resource type="Texture2D" uid="uid://03k5fe7htjki" path="res://03_Resources/UI/Tip/ui_attack_pow.png" id="35_pe8pm"]
+[ext_resource type="Texture2D" uid="uid://cosdguw2nvwsq" path="res://03_Resources/UI/Tip/ui_speed.png" id="36_u3cmy"]
+[ext_resource type="Texture2D" uid="uid://dwm7l6ixpfiwu" path="res://03_Resources/UI/Tip/ui_act_1.png" id="37_ralnh"]
+[ext_resource type="Texture2D" uid="uid://cpvqpe3y4u1hd" path="res://03_Resources/Element/Unit/Player/player-2_1.png" id="38_7hefc"]
+[ext_resource type="SpriteFrames" uid="uid://fqv0up2oiyvu" path="res://06_Animation/SpriteFrames/Player/playerFrames-2.tres" id="39_n3r5n"]
+[ext_resource type="Texture2D" uid="uid://df1e1wr0mnkje" path="res://03_Resources/UI/Tip/ui_act_2.png" id="40_1pxpq"]
+[ext_resource type="Texture2D" uid="uid://bsdietw0v4rvp" path="res://03_Resources/Element/Unit/Player/player-3_1.png" id="41_u4sar"]
+[ext_resource type="SpriteFrames" uid="uid://bjf4x7qjcw6du" path="res://06_Animation/SpriteFrames/Player/playerFrames-3.tres" id="42_6rjqu"]
+[ext_resource type="Texture2D" uid="uid://102mrhcuuvnj" path="res://03_Resources/UI/Tip/ui_tip_state.png" id="43_rr23x"]
+[ext_resource type="Script" uid="uid://860hjkhaepwm" path="res://01_Scripts/UI/StartMenu.gd" id="44_5q566"]
+[ext_resource type="Texture2D" uid="uid://b3unrdocfcnen" path="res://03_Resources/Tile/Floor/white.png" id="45_w8wl7"]
+[ext_resource type="Texture2D" uid="uid://6jgpuhs6474v" path="res://03_Resources/UI/Logo/ui-logo_1.png" id="46_1eh5f"]
+[ext_resource type="SpriteFrames" uid="uid://qdmpy0ife218" path="res://06_Animation/SpriteFrames/UI/logo_frames.tres" id="47_pmmio"]
+[ext_resource type="Texture2D" uid="uid://bh6l1wqw52kia" path="res://03_Resources/UI/Touch/ui-touch_1.png" id="48_4dhgs"]
+[ext_resource type="SpriteFrames" uid="uid://ch74ax6fpur1r" path="res://06_Animation/SpriteFrames/UI/touch_frames.tres" id="49_owjtl"]
+[ext_resource type="Script" uid="uid://beed035a7w1ca" path="res://01_Scripts/Systems/Tip/TipShower.gd" id="50_rkl2s"]
+[ext_resource type="Script" uid="uid://cs8uc0j4a6283" path="res://01_Scripts/Initializer/GameStarter.gd" id="51_sm4h2"]
+[ext_resource type="Material" uid="uid://bpsj5ontcsxcx" path="res://02_Material/Shader/PixelTransition.tres" id="52_lxefr"]
+[ext_resource type="Script" uid="uid://bknp4kqn5q4sl" path="res://01_Scripts/UI/Dissolver.gd" id="53_wq7aa"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_epy18"]
 
 [node name="Main" type="Node" unique_id=1358099324]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=572875809]
-script = ExtResource("1_6grqo")
+script = ExtResource("1_lnusk")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=461768127]
 
@@ -89,10 +88,10 @@ scale = Vector2(0.7, 0.7)
 pivot_offset_ratio = Vector2(0.5, 1)
 size_flags_vertical = 8
 mouse_filter = 2
-script = ExtResource("4_rbyvi")
+script = ExtResource("2_jboq0")
 heart_icons = [NodePath("HBoxContainer/hp1"), NodePath("HBoxContainer/hp2"), NodePath("HBoxContainer/hp3"), NodePath("HBoxContainer/hp4"), NodePath("HBoxContainer/hp5"), NodePath("HBoxContainer/hp6")]
 profile = NodePath("Profile")
-profile_frames = Array[SpriteFrames]([ExtResource("9_c17ro"), ExtResource("10_o67ku"), ExtResource("10_o67ku"), ExtResource("9_6r57t"), ExtResource("9_6r57t"), ExtResource("9_6r57t")])
+profile_frames = Array[SpriteFrames]([ExtResource("3_p5sm1"), ExtResource("4_bix2x"), ExtResource("4_bix2x"), ExtResource("5_wcy63"), ExtResource("5_wcy63"), ExtResource("5_wcy63")])
 
 [node name="Profile" type="TextureRect" parent="UI/InGame/HpBar" unique_id=86039053]
 layout_mode = 1
@@ -105,9 +104,9 @@ offset_right = 134.0
 offset_bottom = 146.0
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("8_fq4bp")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_6r57t")
+texture = ExtResource("6_lih88")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("5_wcy63")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="Background" type="TextureRect" parent="UI/InGame/HpBar" unique_id=1475839048]
@@ -124,9 +123,9 @@ offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("8_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_entge")
+texture = ExtResource("8_xmapb")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("9_yaayq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/InGame/HpBar" unique_id=1533470684]
@@ -146,51 +145,51 @@ theme_override_constants/separation = 1
 modulate = Color(1, 0.15134397, 0.10833255, 1)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("8_5vhlw")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_j7lds")
+texture = ExtResource("10_1u74x")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("11_jetlq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp2" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=1711114427]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("10_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("11_entge")
+texture = ExtResource("12_idvtm")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("13_438nx")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp3" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=829211099]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("12_fq4bp")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("13_6r57t")
+texture = ExtResource("14_dcn4m")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("15_lvq4p")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp4" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=1589783154]
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("14_4134g")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("15_c17ro")
+texture = ExtResource("16_cicmg")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("17_g0mvm")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp5" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=805341900]
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("16_o67ku")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("17_ij0ij")
+texture = ExtResource("18_i56ke")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("19_lbbsb")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp6" type="TextureRect" parent="UI/InGame/HpBar/HBoxContainer" unique_id=1159319867]
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("18_ijhma")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("19_nrxsk")
+texture = ExtResource("20_txwdo")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("21_6fddr")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="Btns" type="Control" parent="UI/InGame" unique_id=564628221]
@@ -208,20 +207,18 @@ offset_left = -120.0
 offset_bottom = 120.0
 grow_horizontal = 0
 mouse_default_cursor_shape = 2
-texture_normal = ExtResource("27_nrxsk")
+texture_normal = ExtResource("22_xu6ka")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="SettingsPanel" type="Control" parent="UI/InGame" unique_id=1840800452 node_paths=PackedStringArray("alert_panel")]
-visible = false
+[node name="SettingsPanel" type="Control" parent="UI/InGame" unique_id=1840800452]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("23_slwxv")
-alert_panel = NodePath("../AlertPanel")
+script = ExtResource("23_1q62h")
 
 [node name="Dim" type="ColorRect" parent="UI/InGame/SettingsPanel" unique_id=300038227]
 self_modulate = Color(0.29411766, 0.29411766, 0.29411766, 0.43529412)
@@ -245,7 +242,7 @@ offset_right = 379.5
 offset_bottom = 503.53638
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("24_r5lpe")
+texture = ExtResource("24_vqfq4")
 expand_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/InGame/SettingsPanel/Bg" unique_id=1685816483]
@@ -262,7 +259,6 @@ clip_contents = true
 layout_mode = 2
 
 [node name="MasterSlider" type="HSlider" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/Master" unique_id=989662339]
-unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -288,7 +284,7 @@ offset_right = 226.0
 offset_bottom = 60.5
 grow_vertical = 2
 text = "Master"
-label_settings = ExtResource("25_1tqcq")
+label_settings = ExtResource("25_vfsxd")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -298,7 +294,6 @@ clip_contents = true
 layout_mode = 2
 
 [node name="BgmSlider" type="HSlider" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/BGM" unique_id=1351511126]
-unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -324,7 +319,7 @@ offset_right = 226.0
 offset_bottom = 60.5
 grow_vertical = 2
 text = "BGM"
-label_settings = ExtResource("25_1tqcq")
+label_settings = ExtResource("25_vfsxd")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -334,7 +329,6 @@ clip_contents = true
 layout_mode = 2
 
 [node name="SfxSlider" type="HSlider" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/SFX" unique_id=137961712]
-unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -360,7 +354,7 @@ offset_right = 226.0
 offset_bottom = 60.5
 grow_vertical = 2
 text = "SFX"
-label_settings = ExtResource("25_1tqcq")
+label_settings = ExtResource("25_vfsxd")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -377,15 +371,13 @@ grow_vertical = 0
 theme_override_constants/separation = 60
 alignment = 1
 
-[node name="ResetButton" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=23100892]
-unique_name_in_owner = true
+[node name="ResetBtn" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=23100892]
 layout_mode = 2
-texture_normal = ExtResource("26_j6cho")
+texture_normal = ExtResource("26_ejs1t")
 
-[node name="HomeButton" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=901045943]
-unique_name_in_owner = true
+[node name="HomeBtn" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=901045943]
 layout_mode = 2
-texture_normal = ExtResource("27_nrxsk")
+texture_normal = ExtResource("22_xu6ka")
 
 [node name="exitBtn" type="TextureButton" parent="UI/InGame/SettingsPanel" unique_id=17927539]
 layout_mode = 1
@@ -400,87 +392,7 @@ offset_right = 128.0
 offset_bottom = 767.0
 grow_horizontal = 2
 grow_vertical = 2
-texture_normal = ExtResource("32_8vkdd")
-
-[node name="AlertPanel" type="Control" parent="UI/InGame" unique_id=1932216256]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("28_y4l2s")
-
-[node name="Dim" type="ColorRect" parent="UI/InGame/AlertPanel" unique_id=636108583]
-self_modulate = Color(0.29411766, 0.29411766, 0.29411766, 0.43529412)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Bg" type="TextureRect" parent="UI/InGame/AlertPanel" unique_id=326615829]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -360.0
-offset_top = -223.0
-offset_right = 360.0
-offset_bottom = 223.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("24_8qqp8")
-expand_mode = 1
-
-[node name="MessageLabel" type="Label" parent="UI/InGame/AlertPanel/Bg" unique_id=1805656207]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -86.5
-offset_top = -143.0
-offset_right = 86.5
-offset_bottom = -22.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Reset?"
-label_settings = ExtResource("25_1tqcq")
-
-[node name="YesButton" type="TextureButton" parent="UI/InGame/AlertPanel/Bg" unique_id=1886479852]
-unique_name_in_owner = true
-self_modulate = Color(1.732707e-06, 0.6921966, 0.6954998, 1)
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 100.0
-offset_top = -256.0
-offset_right = 356.0
-grow_vertical = 0
-texture_normal = ExtResource("32_8vkdd")
-
-[node name="NoButton" type="TextureButton" parent="UI/InGame/AlertPanel/Bg" unique_id=16969724]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -356.0
-offset_top = -256.0
-offset_right = -100.0
-grow_horizontal = 0
-grow_vertical = 0
-texture_normal = ExtResource("32_8vkdd")
+texture_normal = ExtResource("27_j3qvk")
 
 [node name="Tip" type="Control" parent="UI" unique_id=447444347 node_paths=PackedStringArray("tips")]
 visible = false
@@ -490,7 +402,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("27_ij0ij")
+script = ExtResource("28_wxat3")
 tips = {
 "Character": NodePath("Character"),
 "move": NodePath("Move")
@@ -521,7 +433,7 @@ offset_bottom = 453.94568
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-texture = ExtResource("24_8qqp8")
+texture = ExtResource("29_diy4f")
 expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="UI/Tip/Move" unique_id=1126544351]
@@ -537,7 +449,7 @@ offset_right = 272.0
 offset_bottom = 277.79285
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("25_slwxv")
+texture = ExtResource("30_6aag1")
 expand_mode = 1
 
 [node name="exitBtn" type="TextureButton" parent="UI/Tip/Move" unique_id=834692912]
@@ -553,7 +465,7 @@ offset_right = 128.0
 offset_bottom = 702.0
 grow_horizontal = 2
 grow_vertical = 2
-texture_normal = ExtResource("32_8vkdd")
+texture_normal = ExtResource("27_j3qvk")
 stretch_mode = 0
 
 [node name="Character" type="ColorRect" parent="UI/Tip" unique_id=115336263]
@@ -580,7 +492,7 @@ offset_right = 409.531
 offset_bottom = 543.38293
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("24_8qqp8")
+texture = ExtResource("29_diy4f")
 expand_mode = 1
 
 [node name="player1" type="Control" parent="UI/Tip/Character/Bg" unique_id=1853598020]
@@ -616,9 +528,9 @@ offset_right = 448.0
 offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("8_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_entge")
+texture = ExtResource("8_xmapb")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("9_yaayq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Tip/Character/Bg/player1/hpbar1/Background" unique_id=1547570384]
@@ -636,48 +548,48 @@ theme_override_constants/separation = 1
 [node name="hp1" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar1/Background/HBoxContainer" unique_id=1868020245]
 modulate = Color(1, 0.15134397, 0.10833255, 1)
 layout_mode = 2
-texture = ExtResource("8_5vhlw")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_j7lds")
+texture = ExtResource("10_1u74x")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("11_jetlq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp2" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar1/Background/HBoxContainer" unique_id=895999032]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("10_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("11_entge")
+texture = ExtResource("12_idvtm")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("13_438nx")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp3" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar1/Background/HBoxContainer" unique_id=1423220840]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("12_fq4bp")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("13_6r57t")
+texture = ExtResource("14_dcn4m")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("15_lvq4p")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp4" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar1/Background/HBoxContainer" unique_id=1682669635]
 layout_mode = 2
-texture = ExtResource("14_4134g")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("15_c17ro")
+texture = ExtResource("16_cicmg")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("17_g0mvm")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp5" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar1/Background/HBoxContainer" unique_id=305931630]
 visible = false
 layout_mode = 2
-texture = ExtResource("16_o67ku")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("17_ij0ij")
+texture = ExtResource("18_i56ke")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("19_lbbsb")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp6" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar1/Background/HBoxContainer" unique_id=399709216]
 visible = false
 layout_mode = 2
-texture = ExtResource("18_ijhma")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("19_nrxsk")
+texture = ExtResource("20_txwdo")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("21_6fddr")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="duringIcon" type="TextureRect" parent="UI/Tip/Character/Bg/player1" unique_id=540306607]
@@ -687,7 +599,7 @@ offset_top = 55.488647
 offset_right = 378.4995
 offset_bottom = 311.48865
 scale = Vector2(0.415, 0.415)
-texture = ExtResource("31_mk76m")
+texture = ExtResource("31_ohg4a")
 
 [node name="hpbar2" type="Control" parent="UI/Tip/Character/Bg/player1" unique_id=314883203]
 anchors_preset = 0
@@ -710,9 +622,9 @@ offset_right = 448.0
 offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("8_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_entge")
+texture = ExtResource("8_xmapb")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("9_yaayq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Tip/Character/Bg/player1/hpbar2/Background" unique_id=2029632908]
@@ -730,46 +642,46 @@ theme_override_constants/separation = 1
 [node name="hp1" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar2/Background/HBoxContainer" unique_id=257639274]
 modulate = Color(1, 0.15134397, 0.10833255, 1)
 layout_mode = 2
-texture = ExtResource("8_5vhlw")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_j7lds")
+texture = ExtResource("10_1u74x")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("11_jetlq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp2" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar2/Background/HBoxContainer" unique_id=514644060]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("10_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("11_entge")
+texture = ExtResource("12_idvtm")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("13_438nx")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp3" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar2/Background/HBoxContainer" unique_id=1570329449]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("12_fq4bp")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("13_6r57t")
+texture = ExtResource("14_dcn4m")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("15_lvq4p")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp4" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar2/Background/HBoxContainer" unique_id=1805639039]
 layout_mode = 2
-texture = ExtResource("14_4134g")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("15_c17ro")
+texture = ExtResource("16_cicmg")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("17_g0mvm")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp5" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar2/Background/HBoxContainer" unique_id=623168373]
 layout_mode = 2
-texture = ExtResource("16_o67ku")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("17_ij0ij")
+texture = ExtResource("18_i56ke")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("19_lbbsb")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp6" type="TextureRect" parent="UI/Tip/Character/Bg/player1/hpbar2/Background/HBoxContainer" unique_id=1659072770]
 layout_mode = 2
-texture = ExtResource("18_ijhma")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("19_nrxsk")
+texture = ExtResource("20_txwdo")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("21_6fddr")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="equal" type="TextureRect" parent="UI/Tip/Character/Bg/player1" unique_id=627514795]
@@ -779,7 +691,7 @@ offset_top = 35.488644
 offset_right = 629.4995
 offset_bottom = 291.48865
 scale = Vector2(0.55, 0.55)
-texture = ExtResource("32_qmqrj")
+texture = ExtResource("32_e57y3")
 
 [node name="player" type="TextureRect" parent="UI/Tip/Character/Bg/player1" unique_id=803109293]
 layout_mode = 0
@@ -788,9 +700,9 @@ offset_top = 30.488644
 offset_right = 748.4995
 offset_bottom = 286.48865
 scale = Vector2(0.6, 0.6)
-texture = ExtResource("33_8vkdd")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("34_8qqp8")
+texture = ExtResource("33_a3b0g")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("34_ny8jq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="atkIcon" type="TextureRect" parent="UI/Tip/Character/Bg/player1" unique_id=1245000702]
@@ -800,7 +712,7 @@ offset_top = -12.511354
 offset_right = 859.4995
 offset_bottom = 243.48865
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("35_slwxv")
+texture = ExtResource("35_pe8pm")
 
 [node name="speedIcon" type="TextureRect" parent="UI/Tip/Character/Bg/player1" unique_id=2018307161]
 layout_mode = 0
@@ -809,7 +721,7 @@ offset_top = 98.48865
 offset_right = 869.4995
 offset_bottom = 354.48865
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("36_r5lpe")
+texture = ExtResource("36_u3cmy")
 
 [node name="atk_value" type="TextureRect" parent="UI/Tip/Character/Bg/player1" unique_id=1541536585]
 layout_mode = 0
@@ -818,7 +730,7 @@ offset_top = -12.0
 offset_right = 948.0
 offset_bottom = 244.0
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("37_1tqcq")
+texture = ExtResource("37_ralnh")
 
 [node name="speed_value" type="TextureRect" parent="UI/Tip/Character/Bg/player1" unique_id=527424774]
 layout_mode = 0
@@ -827,7 +739,7 @@ offset_top = 93.0
 offset_right = 948.0
 offset_bottom = 349.0
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("37_1tqcq")
+texture = ExtResource("37_ralnh")
 
 [node name="player2" type="Control" parent="UI/Tip/Character/Bg" unique_id=1497614406]
 visible = false
@@ -862,9 +774,9 @@ offset_right = 448.0
 offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("8_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_entge")
+texture = ExtResource("8_xmapb")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("9_yaayq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Tip/Character/Bg/player2/hpbar1/Background" unique_id=1332587973]
@@ -882,50 +794,50 @@ theme_override_constants/separation = 1
 [node name="hp1" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar1/Background/HBoxContainer" unique_id=1341127233]
 modulate = Color(1, 0.15134397, 0.10833255, 1)
 layout_mode = 2
-texture = ExtResource("8_5vhlw")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_j7lds")
+texture = ExtResource("10_1u74x")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("11_jetlq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp2" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar1/Background/HBoxContainer" unique_id=604972614]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("10_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("11_entge")
+texture = ExtResource("12_idvtm")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("13_438nx")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp3" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar1/Background/HBoxContainer" unique_id=244065042]
 visible = false
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("12_fq4bp")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("13_6r57t")
+texture = ExtResource("14_dcn4m")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("15_lvq4p")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp4" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar1/Background/HBoxContainer" unique_id=1061414978]
 visible = false
 layout_mode = 2
-texture = ExtResource("14_4134g")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("15_c17ro")
+texture = ExtResource("16_cicmg")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("17_g0mvm")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp5" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar1/Background/HBoxContainer" unique_id=1059000272]
 visible = false
 layout_mode = 2
-texture = ExtResource("16_o67ku")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("17_ij0ij")
+texture = ExtResource("18_i56ke")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("19_lbbsb")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp6" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar1/Background/HBoxContainer" unique_id=1112025602]
 visible = false
 layout_mode = 2
-texture = ExtResource("18_ijhma")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("19_nrxsk")
+texture = ExtResource("20_txwdo")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("21_6fddr")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="duringIcon" type="TextureRect" parent="UI/Tip/Character/Bg/player2" unique_id=2033155922]
@@ -935,7 +847,7 @@ offset_top = 55.488647
 offset_right = 378.4995
 offset_bottom = 311.48865
 scale = Vector2(0.415, 0.415)
-texture = ExtResource("31_mk76m")
+texture = ExtResource("31_ohg4a")
 
 [node name="hpbar2" type="Control" parent="UI/Tip/Character/Bg/player2" unique_id=1909864672]
 anchors_preset = 0
@@ -958,9 +870,9 @@ offset_right = 448.0
 offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("8_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_entge")
+texture = ExtResource("8_xmapb")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("9_yaayq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Tip/Character/Bg/player2/hpbar2/Background" unique_id=874591856]
@@ -978,49 +890,49 @@ theme_override_constants/separation = 1
 [node name="hp1" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar2/Background/HBoxContainer" unique_id=386566607]
 modulate = Color(1, 0.15134397, 0.10833255, 1)
 layout_mode = 2
-texture = ExtResource("8_5vhlw")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_j7lds")
+texture = ExtResource("10_1u74x")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("11_jetlq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp2" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar2/Background/HBoxContainer" unique_id=526931332]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("10_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("11_entge")
+texture = ExtResource("12_idvtm")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("13_438nx")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp3" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar2/Background/HBoxContainer" unique_id=2119000100]
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("12_fq4bp")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("13_6r57t")
+texture = ExtResource("14_dcn4m")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("15_lvq4p")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp4" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar2/Background/HBoxContainer" unique_id=613015608]
 visible = false
 layout_mode = 2
-texture = ExtResource("14_4134g")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("15_c17ro")
+texture = ExtResource("16_cicmg")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("17_g0mvm")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp5" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar2/Background/HBoxContainer" unique_id=711436811]
 visible = false
 layout_mode = 2
-texture = ExtResource("16_o67ku")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("17_ij0ij")
+texture = ExtResource("18_i56ke")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("19_lbbsb")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp6" type="TextureRect" parent="UI/Tip/Character/Bg/player2/hpbar2/Background/HBoxContainer" unique_id=1785337728]
 visible = false
 layout_mode = 2
-texture = ExtResource("18_ijhma")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("19_nrxsk")
+texture = ExtResource("20_txwdo")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("21_6fddr")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="equal" type="TextureRect" parent="UI/Tip/Character/Bg/player2" unique_id=1512489928]
@@ -1030,7 +942,7 @@ offset_top = 35.488644
 offset_right = 629.4995
 offset_bottom = 291.48865
 scale = Vector2(0.55, 0.55)
-texture = ExtResource("32_qmqrj")
+texture = ExtResource("32_e57y3")
 
 [node name="player" type="TextureRect" parent="UI/Tip/Character/Bg/player2" unique_id=1585242170]
 layout_mode = 0
@@ -1039,9 +951,9 @@ offset_top = 30.488644
 offset_right = 748.4995
 offset_bottom = 286.48865
 scale = Vector2(0.6, 0.6)
-texture = ExtResource("38_j6cho")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("39_y4l2s")
+texture = ExtResource("38_7hefc")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("39_n3r5n")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="atkIcon" type="TextureRect" parent="UI/Tip/Character/Bg/player2" unique_id=335786500]
@@ -1051,7 +963,7 @@ offset_top = -12.511354
 offset_right = 859.4995
 offset_bottom = 243.48865
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("35_slwxv")
+texture = ExtResource("35_pe8pm")
 
 [node name="speedIcon" type="TextureRect" parent="UI/Tip/Character/Bg/player2" unique_id=1063150830]
 layout_mode = 0
@@ -1060,7 +972,7 @@ offset_top = 98.48865
 offset_right = 869.4995
 offset_bottom = 354.48865
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("36_r5lpe")
+texture = ExtResource("36_u3cmy")
 
 [node name="atk_value" type="TextureRect" parent="UI/Tip/Character/Bg/player2" unique_id=1766758646]
 layout_mode = 0
@@ -1069,7 +981,7 @@ offset_top = -12.0
 offset_right = 948.0
 offset_bottom = 244.0
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("40_m1wgg")
+texture = ExtResource("40_1pxpq")
 
 [node name="speed_value" type="TextureRect" parent="UI/Tip/Character/Bg/player2" unique_id=239250552]
 layout_mode = 0
@@ -1078,7 +990,7 @@ offset_top = 93.0
 offset_right = 948.0
 offset_bottom = 349.0
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("37_1tqcq")
+texture = ExtResource("37_ralnh")
 
 [node name="player3" type="Control" parent="UI/Tip/Character/Bg" unique_id=1603947630]
 visible = false
@@ -1113,9 +1025,9 @@ offset_right = 448.0
 offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("8_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_entge")
+texture = ExtResource("8_xmapb")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("9_yaayq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Tip/Character/Bg/player3/hpbar1/Background" unique_id=329788740]
@@ -1133,51 +1045,51 @@ theme_override_constants/separation = 1
 [node name="hp1" type="TextureRect" parent="UI/Tip/Character/Bg/player3/hpbar1/Background/HBoxContainer" unique_id=2126190426]
 modulate = Color(1, 0.15134397, 0.10833255, 1)
 layout_mode = 2
-texture = ExtResource("8_5vhlw")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("9_j7lds")
+texture = ExtResource("10_1u74x")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("11_jetlq")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp2" type="TextureRect" parent="UI/Tip/Character/Bg/player3/hpbar1/Background/HBoxContainer" unique_id=1969696641]
 visible = false
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("10_6c0kf")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("11_entge")
+texture = ExtResource("12_idvtm")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("13_438nx")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp3" type="TextureRect" parent="UI/Tip/Character/Bg/player3/hpbar1/Background/HBoxContainer" unique_id=234925456]
 visible = false
 modulate = Color(0.99999994, 0.48813486, 0.15150574, 1)
 layout_mode = 2
-texture = ExtResource("12_fq4bp")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("13_6r57t")
+texture = ExtResource("14_dcn4m")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("15_lvq4p")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp4" type="TextureRect" parent="UI/Tip/Character/Bg/player3/hpbar1/Background/HBoxContainer" unique_id=2093751038]
 visible = false
 layout_mode = 2
-texture = ExtResource("14_4134g")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("15_c17ro")
+texture = ExtResource("16_cicmg")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("17_g0mvm")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp5" type="TextureRect" parent="UI/Tip/Character/Bg/player3/hpbar1/Background/HBoxContainer" unique_id=639160298]
 visible = false
 layout_mode = 2
-texture = ExtResource("16_o67ku")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("17_ij0ij")
+texture = ExtResource("18_i56ke")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("19_lbbsb")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="hp6" type="TextureRect" parent="UI/Tip/Character/Bg/player3/hpbar1/Background/HBoxContainer" unique_id=1766735518]
 visible = false
 layout_mode = 2
-texture = ExtResource("18_ijhma")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("19_nrxsk")
+texture = ExtResource("20_txwdo")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("21_6fddr")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="equal" type="TextureRect" parent="UI/Tip/Character/Bg/player3" unique_id=1787306874]
@@ -1187,7 +1099,7 @@ offset_top = 35.488644
 offset_right = 629.4995
 offset_bottom = 291.48865
 scale = Vector2(0.55, 0.55)
-texture = ExtResource("32_qmqrj")
+texture = ExtResource("32_e57y3")
 
 [node name="player" type="TextureRect" parent="UI/Tip/Character/Bg/player3" unique_id=1613111363]
 layout_mode = 0
@@ -1196,9 +1108,9 @@ offset_top = 30.488644
 offset_right = 740.0
 offset_bottom = 286.48865
 scale = Vector2(0.6, 0.6)
-texture = ExtResource("41_65uug")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("42_t5f8o")
+texture = ExtResource("41_u4sar")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("42_6rjqu")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="atkIcon" type="TextureRect" parent="UI/Tip/Character/Bg/player3" unique_id=1369710884]
@@ -1208,7 +1120,7 @@ offset_top = -12.511354
 offset_right = 859.4995
 offset_bottom = 243.48865
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("35_slwxv")
+texture = ExtResource("35_pe8pm")
 
 [node name="speedIcon" type="TextureRect" parent="UI/Tip/Character/Bg/player3" unique_id=1604830781]
 layout_mode = 0
@@ -1217,7 +1129,7 @@ offset_top = 98.48865
 offset_right = 869.4995
 offset_bottom = 354.48865
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("36_r5lpe")
+texture = ExtResource("36_u3cmy")
 
 [node name="atk_value" type="TextureRect" parent="UI/Tip/Character/Bg/player3" unique_id=1890132001]
 layout_mode = 0
@@ -1226,7 +1138,7 @@ offset_top = -12.0
 offset_right = 948.0
 offset_bottom = 244.0
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("40_m1wgg")
+texture = ExtResource("40_1pxpq")
 
 [node name="speed_value" type="TextureRect" parent="UI/Tip/Character/Bg/player3" unique_id=1989126498]
 layout_mode = 0
@@ -1235,7 +1147,7 @@ offset_top = 93.0
 offset_right = 948.0
 offset_bottom = 349.0
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("40_m1wgg")
+texture = ExtResource("40_1pxpq")
 
 [node name="TextureRect" type="TextureRect" parent="UI/Tip/Character/Bg" unique_id=878186717]
 layout_mode = 1
@@ -1250,7 +1162,7 @@ offset_right = 356.9995
 offset_bottom = 412.51135
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("39_8qqp8")
+texture = ExtResource("43_rr23x")
 
 [node name="exitBtn" type="TextureButton" parent="UI/Tip/Character" unique_id=666865538]
 layout_mode = 1
@@ -1265,16 +1177,17 @@ offset_right = 128.0
 offset_bottom = 796.0
 grow_horizontal = 2
 grow_vertical = 2
-texture_normal = ExtResource("32_8vkdd")
+texture_normal = ExtResource("27_j3qvk")
 
 [node name="StartMenu" type="Control" parent="UI" unique_id=1049836382]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("23_qmqrj")
+script = ExtResource("44_5q566")
 
 [node name="Bg" type="TextureButton" parent="UI/StartMenu" unique_id=536865476]
 modulate = Color(0.9098039, 0.9098039, 0.9098039, 1)
@@ -1284,7 +1197,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture_normal = ExtResource("2_6r57t")
+texture_normal = ExtResource("45_w8wl7")
 stretch_mode = 0
 
 [node name="Title" type="TextureRect" parent="UI/StartMenu" unique_id=943426003]
@@ -1302,9 +1215,9 @@ pivot_offset_ratio = Vector2(0.5, 0)
 size_flags_horizontal = 4
 size_flags_vertical = 0
 mouse_filter = 2
-texture = ExtResource("2_4p43j")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("3_6grqo")
+texture = ExtResource("46_1eh5f")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("47_pmmio")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="TextureRect" type="TextureRect" parent="UI/StartMenu" unique_id=1350448957]
@@ -1322,9 +1235,9 @@ grow_horizontal = 2
 grow_vertical = 0
 pivot_offset_ratio = Vector2(0.5, 1)
 mouse_filter = 2
-texture = ExtResource("2_xfwcn")
-script = ExtResource("3_ibv6u")
-sprite_frames = ExtResource("5_epy18")
+texture = ExtResource("48_4dhgs")
+script = ExtResource("7_c3478")
+sprite_frames = ExtResource("49_owjtl")
 metadata/_custom_type_script = "uid://byxsyi0li4ryo"
 
 [node name="UIManager" type="Control" parent="." unique_id=2072504385]
@@ -1337,10 +1250,10 @@ offset_bottom = 40.0
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("29_ijhma")
+script = ExtResource("50_rkl2s")
 
 [node name="LevelManager" type="Node" parent="." unique_id=631256379 node_paths=PackedStringArray("start_menu", "hp_bar")]
-script = ExtResource("6_4p43j")
+script = ExtResource("51_sm4h2")
 start_menu = NodePath("../UI/StartMenu")
 hp_bar = NodePath("../UI/InGame")
 start_world = 1
@@ -1352,11 +1265,11 @@ start_stage = 1
 
 [node name="DissolveSprite" type="Sprite2D" parent="." unique_id=1625890105]
 visible = false
-material = ExtResource("6_6grqo")
+material = ExtResource("52_lxefr")
 position = Vector2(415.00003, 422.49997)
 scale = Vector2(8.96, 8.95)
 texture = SubResource("CompressedTexture2D_epy18")
-script = ExtResource("6_xfwcn")
+script = ExtResource("53_wq7aa")
 
 [connection signal="pressed" from="UI/InGame/Btns/MenuBtn" to="UI/InGame/SettingsPanel" method="open"]
 [connection signal="pressed" from="UI/InGame/SettingsPanel/exitBtn" to="UI/InGame/SettingsPanel" method="close"]

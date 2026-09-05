@@ -37,6 +37,11 @@ func destroy_healItem(tick: int) -> void:
 	healed = true
 	hide_for_undo(tick) 
 
+#@override
+func _anim_vanish(tween: Tween, data: Dictionary) -> void:
+	AudioManager.play_sfx("heal")
+	super._anim_vanish(tween, data)
+
 func save_undo_state() -> Dictionary:
 	var dict = super.save_undo_state()
 	dict["healed"] = healed

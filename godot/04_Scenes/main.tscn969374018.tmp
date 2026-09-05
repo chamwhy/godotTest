@@ -38,7 +38,6 @@
 [ext_resource type="Texture2D" uid="uid://c6ka5kq131t67" path="res://03_Resources/UI/Menu/ui_resetBtn.png" id="26_j6cho"]
 [ext_resource type="Script" uid="uid://d20y0vonc0vnw" path="res://01_Scripts/Systems/Tip/TipContent.gd" id="27_ij0ij"]
 [ext_resource type="Texture2D" uid="uid://r0t5ty0gmba4" path="res://03_Resources/UI/Menu/ui_menuBtn.png" id="27_nrxsk"]
-[ext_resource type="Script" uid="uid://crxxsvuklupr1" path="res://01_Scripts/UI/AlertPanel.gd" id="28_y4l2s"]
 [ext_resource type="Script" uid="uid://beed035a7w1ca" path="res://01_Scripts/Systems/Tip/TipShower.gd" id="29_ijhma"]
 [ext_resource type="Texture2D" uid="uid://crhn3ugcjqtmw" path="res://03_Resources/UI/Tip/ui_duringIcon.png" id="31_mk76m"]
 [ext_resource type="Texture2D" uid="uid://dx3owcf2glfsv" path="res://03_Resources/UI/Menu/ui_exitBtn.png" id="32_8vkdd"]
@@ -212,8 +211,7 @@ texture_normal = ExtResource("27_nrxsk")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="SettingsPanel" type="Control" parent="UI/InGame" unique_id=1840800452 node_paths=PackedStringArray("alert_panel")]
-visible = false
+[node name="SettingsPanel" type="Control" parent="UI/InGame" unique_id=1840800452]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -221,7 +219,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("23_slwxv")
-alert_panel = NodePath("../AlertPanel")
 
 [node name="Dim" type="ColorRect" parent="UI/InGame/SettingsPanel" unique_id=300038227]
 self_modulate = Color(0.29411766, 0.29411766, 0.29411766, 0.43529412)
@@ -262,7 +259,6 @@ clip_contents = true
 layout_mode = 2
 
 [node name="MasterSlider" type="HSlider" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/Master" unique_id=989662339]
-unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -298,7 +294,6 @@ clip_contents = true
 layout_mode = 2
 
 [node name="BgmSlider" type="HSlider" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/BGM" unique_id=1351511126]
-unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -334,7 +329,6 @@ clip_contents = true
 layout_mode = 2
 
 [node name="SfxSlider" type="HSlider" parent="UI/InGame/SettingsPanel/Bg/VBoxContainer/SFX" unique_id=137961712]
-unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -377,13 +371,11 @@ grow_vertical = 0
 theme_override_constants/separation = 60
 alignment = 1
 
-[node name="ResetButton" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=23100892]
-unique_name_in_owner = true
+[node name="ResetBtn" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=23100892]
 layout_mode = 2
 texture_normal = ExtResource("26_j6cho")
 
-[node name="HomeButton" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=901045943]
-unique_name_in_owner = true
+[node name="HomeBtn" type="TextureButton" parent="UI/InGame/SettingsPanel/Bg/BtnContainer" unique_id=901045943]
 layout_mode = 2
 texture_normal = ExtResource("27_nrxsk")
 
@@ -402,17 +394,15 @@ grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("32_8vkdd")
 
-[node name="AlertPanel" type="Control" parent="UI/InGame" unique_id=1932216256]
-visible = false
+[node name="AlertPanel" type="Control" parent="UI/InGame" unique_id=1186891945]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("28_y4l2s")
 
-[node name="Dim" type="ColorRect" parent="UI/InGame/AlertPanel" unique_id=636108583]
+[node name="Dim" type="ColorRect" parent="UI/InGame/AlertPanel" unique_id=2037960113]
 self_modulate = Color(0.29411766, 0.29411766, 0.29411766, 0.43529412)
 layout_mode = 1
 anchors_preset = 15
@@ -421,63 +411,60 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Bg" type="TextureRect" parent="UI/InGame/AlertPanel" unique_id=326615829]
+[node name="Bg" type="TextureRect" parent="UI/InGame/AlertPanel" unique_id=415774452]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -360.0
-offset_top = -223.0
-offset_right = 360.0
-offset_bottom = 223.0
+offset_left = -450.0
+offset_top = -207.5
+offset_right = 450.0
+offset_bottom = 207.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("24_8qqp8")
 expand_mode = 1
 
-[node name="MessageLabel" type="Label" parent="UI/InGame/AlertPanel/Bg" unique_id=1805656207]
-unique_name_in_owner = true
+[node name="Label" type="Label" parent="UI/InGame/AlertPanel/Bg" unique_id=21301072]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -86.5
-offset_top = -143.0
-offset_right = 86.5
-offset_bottom = -22.0
+offset_left = -125.0
+offset_top = -107.5
+offset_right = 125.0
+offset_bottom = 2.500061
 grow_horizontal = 2
 grow_vertical = 2
 text = "Reset?"
 label_settings = ExtResource("25_1tqcq")
 
-[node name="YesButton" type="TextureButton" parent="UI/InGame/AlertPanel/Bg" unique_id=1886479852]
-unique_name_in_owner = true
-self_modulate = Color(1.732707e-06, 0.6921966, 0.6954998, 1)
+[node name="YesBtn" type="TextureButton" parent="UI/InGame/AlertPanel/Bg" unique_id=832640223]
+self_modulate = Color(0.35686275, 1, 1, 1)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 100.0
+offset_left = 120.0
 offset_top = -256.0
-offset_right = 356.0
+offset_right = 376.0
 grow_vertical = 0
 texture_normal = ExtResource("32_8vkdd")
 
-[node name="NoButton" type="TextureButton" parent="UI/InGame/AlertPanel/Bg" unique_id=16969724]
-unique_name_in_owner = true
+[node name="NoBtn" type="TextureButton" parent="UI/InGame/AlertPanel/Bg" unique_id=1397519458]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -356.0
+offset_left = -376.0
 offset_top = -256.0
-offset_right = -100.0
+offset_right = -120.0
 grow_horizontal = 0
 grow_vertical = 0
 texture_normal = ExtResource("32_8vkdd")
@@ -1268,6 +1255,7 @@ grow_vertical = 2
 texture_normal = ExtResource("32_8vkdd")
 
 [node name="StartMenu" type="Control" parent="UI" unique_id=1049836382]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

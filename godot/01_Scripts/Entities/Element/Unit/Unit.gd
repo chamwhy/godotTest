@@ -105,8 +105,6 @@ func move_to(dir: Position, spd: int, tick: int) -> Dictionary:
 
 		var pre_look := look_right
 
-		GridManager.step_element(self, to_pos, tick)
-
 		if cur_dir.x != 0:
 			look_right = cur_dir.x > 0
 
@@ -118,6 +116,8 @@ func move_to(dir: Position, spd: int, tick: int) -> Dictionary:
 		moved += 1
 		remain -= 1
 		tick += 1
+		
+		GridManager.step_element(self, to_pos, tick)
 
 		cur_dir = _redirect(cur_dir, to_pos)
 
@@ -344,13 +344,19 @@ func _anim_move_reverse(tween: Tween, data: Dictionary) -> void:
 func _anim_attack(tween: Tween, data: Dictionary) -> void:
 	var pos: Position = data.get("pos", cur_position)
 	var dir: Position = data.get("dir", Position.ZERO())
+	var pow: int = data.get("pow", 1)
+	
 	print("attack anim: pos=", pos.to_str(), ", dir=", dir.to_str())
+	
+	AudioManager.play_sfx("attack-%d" % pow)
+	
 	if not dir.is_zero():
 		EffectUtil.spawn_chop(
 			get_tree(), 
 			pos.add(dir), 
 			dir, 
-			data.get("pow", 1))
+			pow
+			)
 	tween.tween_interval(0.2)
 
 func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
@@ -358,6 +364,7 @@ func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
 	tween.tween_interval(0.0)
 
 func _anim_died(tween: Tween, data: Dictionary) -> void:
+	AudioManager.play_sfx("death")
 	EffectUtil.spawn_ghost(
 			get_tree(), 
 			data.get("pos", cur_position))

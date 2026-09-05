@@ -45,14 +45,17 @@ func _register_animations() -> void:
 
 func _anim_on_damaged(tween: Tween, data: Dictionary) -> void:
 	if hit_effect:
+		AudioManager.play_sfx("hit-1")
 		hit_effect.play_hit()
 	tween.tween_interval(0.0)
 
 func _anim_on_parryed(tween: Tween, data: Dictionary) -> void:
+	AudioManager.play_sfx("parry")
 	hit_effect.play_parry()
 	tween.tween_interval(0.0)
 
 func _anim_falling(tween: Tween, data: Dictionary) -> void:
+	AudioManager.play_sfx("falling")
 	tween.set_parallel(true)
 	tween.tween_property(self, "position:y", position.y + 120, 1) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)

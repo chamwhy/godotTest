@@ -69,10 +69,10 @@ func destroy_trap(tick: int) -> void:
 	traped = true
 	hide_for_undo(tick)   # visible = false 직접 조작 삭제
 
-#func destroy_trap(tick: int) -> void:
-	#InGameManager.exit_element(self, cur_position, tick)
-	#traped = true
-	#visible = false
+#@override
+func _anim_vanish(tween: Tween, data: Dictionary) -> void:
+	AudioManager.play_sfx("eat")
+	super._anim_vanish(tween, data)
 
 
 func save_undo_state() -> Dictionary:

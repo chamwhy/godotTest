@@ -44,6 +44,7 @@ func _connect_check_pos():
 #region animation
 
 func _anim_move_map(tween: Tween, data: Dictionary) -> void:
+	AudioManager.play_sfx("enter_stage")
 	tween.tween_interval(0.0)
 	# 실제 동작이 아닌 액션적인 무빙만 보여주는 섹션. 말그대로 애니메이션
 

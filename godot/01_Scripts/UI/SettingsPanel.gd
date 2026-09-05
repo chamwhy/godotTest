@@ -5,16 +5,20 @@ extends Control
 ##   %SfxSlider    : HSlider
 ##   %HomeButton   : Button   (홈으로)
 ##   %ResetButton  : Button   (리셋)
-##   %AlertPanel   : AlertPanel  (확인 창, 슬라이더보다 위에 배치)
 ##   %CloseButton  : Button   (선택)
 ##   %MasterValue  : Label    (선택, "80%" 표시용)
 ##   %BgmValue     : Label    (선택)
 ##   %SfxValue     : Label    (선택)
 ##
+## AlertPanel은 이 패널 밖에 있으므로 인스펙터의 Alert Panel 슬롯에 직접 지정할 것.
+##
 ## 여는 쪽:  $SettingsPanel.open()
 ## 우측 상단 버튼의 pressed 시그널에 연결하면 된다.
 
 signal closed()
+
+## 확인 창. 같은 씬에서 드래그해 지정하거나, 부모가 코드로 넣어준다.
+@export var alert_panel: AlertPanel
 
 ## 설정을 여는 동안 게임을 멈출지
 @export var pause_game := true
@@ -28,9 +32,8 @@ signal closed()
 @onready var _master: HSlider = %MasterSlider
 @onready var _bgm: HSlider = %BgmSlider
 @onready var _sfx: HSlider = %SfxSlider
-@onready var _home_button: Button = %HomeBtn
-@onready var _reset_button: Button = %ResetBtn
-@onready var _alert: AlertPanel = %AlertPanel
+@onready var _home_button: BaseButton = %HomeButton
+@onready var _reset_button: BaseButton = %ResetButton
 
 var _syncing := false
 var _animating := false
@@ -102,8 +105,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not visible or _animating:
 		return
 
-	if _alert.visible:
-		return   # 확인 창이 떠 있으면 그쪽이 처리한다
+	# 확인 창이 떠 있으면 그쪽이 처리한다
+	if alert_panel != null and alert_panel.visible:
+		return
 
 	if event.is_action_pressed("ui_cancel"):
 		close()
@@ -171,13 +175,22 @@ func _on_sfx_drag_ended(value_changed: bool) -> void:
 #region 홈 / 리셋
 
 func _on_home_pressed() -> void:
-	if await _alert.ask("홈으로 돌아가시겠습니까?"):
+	if await _confirm("Return to home?"):
 		_go_home()
 
 
 func _on_reset_pressed() -> void:
-	if await _alert.ask("리셋 하시겠습니까?"):
+	if await _confirm("Reset?"):
 		_reset()
+
+
+## AlertPanel이 없으면 실행하지 않는다. 파괴적 동작이므로 통과시키면 안 된다.
+func _confirm(message: String) -> bool:
+	if alert_panel == null:
+		push_error("SettingsPanel: alert_panel이 지정되지 않았습니다.")
+		return false
+
+	return await alert_panel.ask(message)
 
 
 func _go_home() -> void:

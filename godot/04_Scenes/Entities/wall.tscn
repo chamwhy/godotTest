@@ -12,6 +12,7 @@
 script = ExtResource("1_2f07e")
 random_wall_frames = Array[SpriteFrames]([ExtResource("8_16s1b"), ExtResource("3_pyone")])
 destroyable_wall_frames = Array[SpriteFrames]([ExtResource("4_16s1b"), ExtResource("5_ah1pj")])
+destroy_audio = Array[String](["broken_jar", "broken_pillar"])
 is_block = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1655593114]

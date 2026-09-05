@@ -12,6 +12,7 @@ var min_atk := 0
 
 @export var random_wall_frames: Array[SpriteFrames]
 @export var destroyable_wall_frames: Array[SpriteFrames]
+@export var destroy_audio: Array[String]
 
 #endregion
 
@@ -38,7 +39,6 @@ func on_hit(atk_data: AtkData) -> bool:
 	if not destroyable or min_atk > atk_data.dmg: 
 		ActionManager.record_new(self, atk_data.tick, "on_parryed")
 		return false
-	ActionManager.record_new(self, atk_data.tick, "on_damaged")
 	destroy_wall(atk_data.tick)
 	return true
 
@@ -63,3 +63,12 @@ func save_undo_state() -> Dictionary:
 		"min_atk":     min_atk,
 	})
 	return state
+
+#@override
+func _anim_vanish(tween: Tween, data: Dictionary) -> void:
+	AudioManager.play_sfx(destroy_audio[min_atk-1])
+	tween.tween_property(self, "modulate:a", 0.0, 0.15)
+	tween.tween_callback(func():
+		hide()
+		modulate.a = 1.0   # 알파는 원복해두고 visible로만 제어
+	)

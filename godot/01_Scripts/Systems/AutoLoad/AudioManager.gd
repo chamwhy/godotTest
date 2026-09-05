@@ -308,7 +308,7 @@ func report_health_tier(tier: int, source: Source = Source.IMMEDIATE) -> void:
 
 	_undo_timer.stop()
 	_undo_pending_tier = 0
-	_apply_tier(tier, source)
+	#_apply_tier(tier, source)
 
 
 ## 사망 / 부활. 사망 시 BGM은 그냥 꺼진다.
