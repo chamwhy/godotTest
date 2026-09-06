@@ -2,14 +2,32 @@ extends Node
 
 @export var start_menu: Control
 @export var hp_bar: Control
+@export var develop := true
 @export var start_world := 0
 @export var start_stage := 0
 const tween_dur: float = 0.3
+const SAVE_SECTION := "start"
+
+var _first := true
+var wipe := true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if wipe:
+		SaveManager.wipe()
+	
+	_first = SaveManager.get_value(SAVE_SECTION, "first_game", true)
+	SaveManager.set_value(SAVE_SECTION, "first_game", false)
+	
 	AudioManager.play_bgm()
-	StageDirector.load_stage(start_world,start_stage)
+	if develop:
+		StageDirector.load_stage(start_world,start_stage)
+	else:
+		if _first:
+			StageDirector.load_stage(1,1)
+		else:
+			StageDirector.load_stage(0,0)
+	
 	InputManager.start_game.connect(_start_game)
 
 func _start_game() -> void:

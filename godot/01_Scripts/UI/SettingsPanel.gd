@@ -196,11 +196,17 @@ func _confirm(message: String) -> bool:
 func _go_home() -> void:
 	# TODO: 홈 이동 로직
 	# 주의: 지금 paused=true 상태이므로, 씬 전환 전에 get_tree().paused = false 를 꼭 풀 것.
+	close()
+	# TODO: home sfx
+	StageDirector.load_stage(0, 0)
 	pass
 
 
 func _reset() -> void:
 	# TODO: 리셋 로직
+	close()
+	# TODO: reset sfx
+	StageDirector.reload_stage()
 	pass
 
 #endregion

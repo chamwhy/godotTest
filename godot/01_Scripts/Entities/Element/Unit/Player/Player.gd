@@ -96,20 +96,20 @@ func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
 	super._undo_anim_attack(tween, data)
 
 func _anim_falling(tween: Tween, data: Dictionary) -> void:
-	AudioManager.set_dead(true)
+	AudioManager.set_bgm_paused(true)
 	super._anim_falling(tween, data)
 
 func _undo_anim_falling(tween: Tween, data: Dictionary) -> void:
 	# TODO: 떨어지지 않았어도 죽은 상황이 존재할 수 있음.
-	AudioManager.set_dead(false)
+	AudioManager.set_bgm_paused(false)
 	super._anim_falling(tween, data)
 
 func _anim_died(tween: Tween, data: Dictionary) -> void:
-	AudioManager.set_dead(true)
+	AudioManager.set_bgm_paused(true)
 	super._anim_died(tween, data)
 
 func _undo_anim_died(tween: Tween, data: Dictionary) -> void:
 	# TODO: 죽지 않았어도 떨어진 상태가 존재할 수 있음.
-	AudioManager.set_dead(false)
+	AudioManager.set_bgm_paused(false)
 	super._undo_anim_died(tween, data)
 #endregion

@@ -54,6 +54,8 @@ func load_stage(world: int, stage: int) -> bool:
 	print("StageDirector: '%s' 로드 완료" % mapData.map_name)
 	return true
 
+func reload_stage() -> void:
+	load_stage(mapData.world, mapData.stage)
 
 func unload_stage() -> void:
 	if _find_entity_parent() == null:
