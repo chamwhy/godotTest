@@ -8,7 +8,7 @@ const tween_dur: float = 0.3
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	AudioManager.report_health_tier(1, AudioManager.Source.SPAWN)
+	AudioManager.play_bgm()
 	StageDirector.load_stage(start_world,start_stage)
 	InputManager.start_game.connect(_start_game)
 

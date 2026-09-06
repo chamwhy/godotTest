@@ -48,8 +48,8 @@ func load_stage(world: int, stage: int) -> bool:
 	
 	# ⑥ 새 판이니 undo 히스토리 초기화
 	UndoManager.clear_history()
-	AudioManager.set_dead(false)
-	AudioManager.report_health_tier(PlayerRegistry.get_player().cur_emotion + 1, AudioManager.Source.SPAWN)
+	AudioManager.set_bgm_paused(false)
+	AudioManager.play_bgm()
 
 	print("StageDirector: '%s' 로드 완료" % mapData.map_name)
 	return true
