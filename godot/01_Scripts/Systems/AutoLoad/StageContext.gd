@@ -20,11 +20,11 @@ var worldPortals: Dictionary[int, Position] = {}
 # 턴 종료 후 처리할 맵 전환 예약 (비어있으면 없음)
 var _pending_map_change: Dictionary = {}
 
-
 func reset() -> void:
 	worldPortals = {}
 	_pending_map_change = {}
-	_cocoons = []      # ← 추가
+	_cocoons = []
+	_clear_portal = null
 
 
 func complete_stage() -> void:
@@ -52,27 +52,39 @@ func take_pending_map_change() -> Dictionary:
 
 #region cocoon
 # ─── 클리어 조건: 누에고치 전멸 ──────────────────
-signal cocoons_cleared(tick: int)
+# 스폰 순서 보장: 누에고치 전부 → ClearPortal.
+# 따라서 포탈이 apply_data에서 is_gated()를 물으면 이미 누에고치 등록이 끝나 있다.
 
-var _cocoons: Array = []   # Array[Cocoon]. 맵 로드시 등록, reset()에서 비움
+var _cocoons: Array = []       # Array[Cocoon]
+var _clear_portal = null       # ClearPortal 단일 참조 (스테이지당 하나)
 
 func register_cocoon(c) -> void:
 	if c not in _cocoons:
 		_cocoons.append(c)
 
-## 누에고치 하나가 파괴된 "직후" 호출. 전멸이면 시그널.
-func notify_cocoon_destroyed(tick: int) -> void:
-	if _all_cocoons_cleared():
-		cocoons_cleared.emit(tick)
+func register_clear_portal(p) -> void:
+	_clear_portal = p
 
-## 등록된 누에고치가 있고, 맵에 남은 게 하나도 없으면 true.
-## in_map을 스캔 → undo 스냅샷과 자동 동기화(별도 카운터 불필요).
-func _all_cocoons_cleared() -> bool:
-	var had := false
+## 이 스테이지가 누에고치로 잠겨있는가.
+## 누에고치가 하나도 없으면 false → 포탈은 처음부터 활성.
+func is_gated() -> bool:
 	for c in _cocoons:
-		if not is_instance_valid(c): continue
-		had = true
-		if c.in_map:
+		if is_instance_valid(c):
+			return true
+	return false
+
+## 누에고치 하나가 파괴된 직후(hide_for_undo 이후) 호출.
+func notify_cocoon_destroyed(tick: int) -> void:
+	if not _all_cocoons_cleared():
+		return
+	if not is_instance_valid(_clear_portal) or _clear_portal.active:
+		return
+	_clear_portal.activate(tick)
+
+## in_map 스캔 → undo 스냅샷과 자동 동기화(별도 카운터 없음).
+func _all_cocoons_cleared() -> bool:
+	for c in _cocoons:
+		if is_instance_valid(c) and c.in_map:
 			return false
-	return had   # 누에고치 0마리면 false (게이트 조건 미성립)
+	return true
 #endregion

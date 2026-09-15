@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://c748tgx7636md"]
+
+[ext_resource type="Texture2D" uid="uid://b6eke120x557r" path="res://03_Resources/Element/Cocoon/cocoon.png" id="1_gn5l4"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gn5l4")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

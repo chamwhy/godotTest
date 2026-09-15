@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://cfkm523b57bu1"]
+
+[ext_resource type="Script" uid="uid://2avipylmrpr2" path="res://01_Scripts/Entities/Element/Cocoon/Cocoon.gd" id="1_2co5e"]
+[ext_resource type="Texture2D" uid="uid://b6eke120x557r" path="res://03_Resources/Element/Cocoon/cocoon.png" id="2_208r1"]
+[ext_resource type="Script" uid="uid://byxsyi0li4ryo" path="res://01_Scripts/UI/AnimatedTextureRect.gd" id="3_7uhwe"]
+[ext_resource type="SpriteFrames" uid="uid://c748tgx7636md" path="res://06_Animation/SpriteFrames/Cocoon/cocoon_frames.tres" id="4_m1jsu"]
+[ext_resource type="Script" uid="uid://dg87ive2nxwm2" path="res://01_Scripts/Animation/Effect/HitEffect.gd" id="5_sn8lq"]
+
+[node name="Cocoon" type="Node2D" unique_id=1467039307]
+script = ExtResource("1_2co5e")
+is_block = true
+
+[node name="AnimatedTextureRect" type="TextureRect" parent="." unique_id=560677338]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_208r1")
+script = ExtResource("3_7uhwe")
+sprite_frames = ExtResource("4_m1jsu")
+metadata/_custom_type_script = "uid://byxsyi0li4ryo"
+
+[node name="HitEffect" type="Node" parent="AnimatedTextureRect" unique_id=1590457599]
+script = ExtResource("5_sn8lq")

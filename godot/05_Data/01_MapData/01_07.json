@@ -24,6 +24,11 @@
 		},
 		{
 			"x": 2,
+			"y": 0,
+			"obj_type": "cocoon"
+		},
+		{
+			"x": 2,
 			"y": 3,
 			"obj_type": "trap",
 			"atk": 3

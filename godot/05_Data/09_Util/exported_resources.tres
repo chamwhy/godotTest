@@ -9,11 +9,13 @@
 [ext_resource type="PackedScene" uid="uid://bi71to4ae5eo7" path="res://04_Scenes/Entities/move_box.tscn" id="6_dpfcg"]
 [ext_resource type="PackedScene" uid="uid://bxs31ycpbamfa" path="res://04_Scenes/Entities/world_portal.tscn" id="7_dpfcg"]
 [ext_resource type="PackedScene" uid="uid://bk8u1y1oy40g1" path="res://04_Scenes/Entities/clear_portal.tscn" id="7_k3ru8"]
+[ext_resource type="PackedScene" uid="uid://cfkm523b57bu1" path="res://04_Scenes/Entities/cocoon.tscn" id="9_h1e2h"]
 
 [resource]
 script = ExtResource("1_8ssbv")
 entityScenes = Dictionary[String, PackedScene]({
 "clear": ExtResource("7_k3ru8"),
+"cocoon": ExtResource("9_h1e2h"),
 "healItem": ExtResource("5_k3ru8"),
 "moveBox": ExtResource("6_dpfcg"),
 "player": ExtResource("2_77qpq"),
