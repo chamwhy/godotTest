@@ -81,12 +81,12 @@ func _anim_vanish(tween: Tween, data: Dictionary) -> void:
 	tween.tween_property(self, "modulate:a", 0.0, 0.15)
 	tween.tween_callback(func():
 		hide()
-		modulate.a = 1.0   # 알파는 원복해두고 visible로만 제어
+		modulate.a = base_alpha   # 알파는 원복해두고 visible로만 제어
 	)
 
 func _anim_respawn(tween: Tween, data: Dictionary) -> void:
 	show()
-	tween.tween_property(self, "modulate:a", 1.0, 0.15).from(0.0)
+	tween.tween_property(self, "modulate:a", base_alpha, 0.15).from(0.0)
 	# TODO: "펑" 재생성 파티클은 여기서 재생
 
 

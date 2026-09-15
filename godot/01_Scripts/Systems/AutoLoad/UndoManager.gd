@@ -89,6 +89,6 @@ func sync_visuals(record: TurnRecord) -> void:
 		if not is_instance_valid(elm): continue
 		var st: Dictionary = record.state_before[elm]
 		elm.visible = st.get("visible", true)
-		elm.modulate.a = 1.0
+		elm.modulate.a = elm.base_alpha
 		elm.position = Position.position_to_world(elm.cur_position)
 		elm.z_index = ZIndexer.calc(elm.cur_position.y, ZIndexer.ZID_ELEMENT)

@@ -11,6 +11,10 @@ var cur_position: Position = Position.ZERO()  # 현재 위치
 
 var size = 100
 
+## 이 개체의 "정상 상태" 알파. 연출 중엔 modulate.a가 일시적으로 달라지지만,
+## sync_visuals는 항상 이 값으로 되돌린다.
+var base_alpha := 1.0
+
 ## --- Initialization ---
 #func _ready():
 	# 모든 엔티티는 준비될 때 씬 트리에 따라 자신의 격자 위치를 시각적 위치로 설정합니다.
