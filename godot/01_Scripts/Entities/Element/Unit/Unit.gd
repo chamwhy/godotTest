@@ -366,7 +366,7 @@ func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
 
 
 func _anim_died(tween: Tween, data: Dictionary) -> void:
-	AudioManager.set_dead(true)
+	AudioManager.set_bgm_paused(true)
 	AudioManager.play_sfx("death")
 	EffectUtil.spawn_ghost(
 			get_tree(), 
@@ -374,7 +374,7 @@ func _anim_died(tween: Tween, data: Dictionary) -> void:
 	tween.tween_interval(0.0)
 
 func _undo_anim_died(tween: Tween, data: Dictionary) -> void:
-	AudioManager.set_dead(false)
+	AudioManager.set_bgm_paused(false)
 	tween.tween_interval(0.0)
 	
 #endregion
