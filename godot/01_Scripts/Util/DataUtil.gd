@@ -35,3 +35,7 @@ static func _make_row(width: int, fill_value) -> Array:
 	row.resize(width)
 	row.fill(fill_value)
 	return row
+
+
+static func array_to_vector2(arr: Array) -> Vector2:
+	return Vector2(arr[0], arr[1])

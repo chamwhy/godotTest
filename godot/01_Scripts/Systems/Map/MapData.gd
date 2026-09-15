@@ -14,6 +14,7 @@ var padding: int
 var map_width: int      # padding 포함된 최종 크기
 var map_height: int
 var zoom: float
+var offset: Vector2
 
 var tile_rows: Array = []      # 원본 2차원 타일 배열 (padding 미포함 좌표계)
 var entities: Array = []       # 엔티티 Dictionary 목록 (x/y는 padding 보정 완료)

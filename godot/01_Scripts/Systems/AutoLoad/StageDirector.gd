@@ -41,7 +41,7 @@ func load_stage(world: int, stage: int) -> bool:
 	# ④ 카메라
 	MyCamera.instance.setup_map(
 		mapData.tile_size_x, mapData.tile_size_y,
-		mapData.map_width, mapData.map_height, mapData.zoom)
+		mapData.map_width, mapData.map_height, mapData.zoom, mapData.offset)
 
 	# ⑤ 스폰
 	EntitySpawner.spawn_all(mapData, _entity_parent)

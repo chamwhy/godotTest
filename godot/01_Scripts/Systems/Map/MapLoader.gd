@@ -27,6 +27,7 @@ static func load_map(world: int, stage: int) -> MapData:
 	data.map_width   = raw.get("map_width", 10)  + data.padding * 2
 	data.map_height  = raw.get("map_height", 10) + data.padding * 2
 	data.zoom        = raw.get("zoom", 0)
+	data.offset      = DataUtil.array_to_vector2(raw.get("offset", [0, 0]))
 	data.tile_rows   = raw.get("tile_map", [])
 
 	# 엔티티 좌표를 여기서 padding 보정 (spawner는 보정을 몰라도 됨)
