@@ -24,6 +24,7 @@ var _pending_map_change: Dictionary = {}
 func reset() -> void:
 	worldPortals = {}
 	_pending_map_change = {}
+	_cocoons = []      # ← 추가
 
 
 func complete_stage() -> void:
@@ -47,3 +48,31 @@ func take_pending_map_change() -> Dictionary:
 	var mc := _pending_map_change
 	_pending_map_change = {}
 	return mc
+
+
+#region cocoon
+# ─── 클리어 조건: 누에고치 전멸 ──────────────────
+signal cocoons_cleared(tick: int)
+
+var _cocoons: Array = []   # Array[Cocoon]. 맵 로드시 등록, reset()에서 비움
+
+func register_cocoon(c) -> void:
+	if c not in _cocoons:
+		_cocoons.append(c)
+
+## 누에고치 하나가 파괴된 "직후" 호출. 전멸이면 시그널.
+func notify_cocoon_destroyed(tick: int) -> void:
+	if _all_cocoons_cleared():
+		cocoons_cleared.emit(tick)
+
+## 등록된 누에고치가 있고, 맵에 남은 게 하나도 없으면 true.
+## in_map을 스캔 → undo 스냅샷과 자동 동기화(별도 카운터 불필요).
+func _all_cocoons_cleared() -> bool:
+	var had := false
+	for c in _cocoons:
+		if not is_instance_valid(c): continue
+		had = true
+		if c.in_map:
+			return false
+	return had   # 누에고치 0마리면 false (게이트 조건 미성립)
+#endregion
