@@ -70,17 +70,26 @@ func record_new(
 # 입력 핸들러
 # ─────────────────────────────────────────────
 func _on_action_input(dir: Position) -> void:
-	InputBuffer.lock()
+	if not _can_start_turn(): return
 	var player = PlayerRegistry.get_player()
-	if is_turn_running or AnimationQueue.is_playing: return
 	if player == null or player.is_dead or player.is_fallen: return
-	await run_turn(player, dir)
-	InputBuffer.unlock()
+	await _run_locked(run_turn.bind(player, dir))
 
 
 func _on_back_input() -> void:
-	if is_turn_running or AnimationQueue.is_playing: return
-	await run_undo()
+	if not _can_start_turn(): return
+	await _run_locked(run_undo)
+
+
+func _can_start_turn() -> bool:
+	return not is_turn_running and not AnimationQueue.is_playing
+
+
+## lock ~ unlock 사이에 return 경로가 존재하지 않도록 강제하는 유일한 통로
+func _run_locked(job: Callable) -> void:
+	InputBuffer.lock()
+	await job.call()
+	InputBuffer.unlock()
 
 
 # ─────────────────────────────────────────────
