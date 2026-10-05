@@ -1,0 +1,24 @@
+{
+	"world": 2,
+	"stage": 2,
+	"map_name": "box",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 5,
+	"map_height": 3,
+	"zoom": 0.8,
+	"padding": 2,
+	"tile_map": [
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+	],
+	"entities": [
+		{"x": 2, "y": 0, "obj_type": "wall"},
+		{"x": 4, "y": 0, "obj_type": "clear", "to_w": 2, "to_s": 0},
+		{"x": 0, "y": 1, "obj_type": "player", "mh": 6, "ch": 6},
+		{"x": 2, "y": 1, "obj_type": "moveBox"},
+		{"x": 2, "y": 2, "obj_type": "wall"},
+		{"x": 4, "y": 2, "obj_type": "wall"},
+	]
+}

@@ -17,3 +17,22 @@ clear
 moveBox
 healItem
 	- heal <int>: 힐 양(기본 1)
+
+cocoon (누에고치)
+	- (추가 속성 없음)
+	- is_block = true. 벽처럼 막는다.
+	- 1 이상의 피해를 받으면 즉시 파괴된다. (0이면 튕김)
+	- 스테이지 내 모든 cocoon을 파괴해야 clear 포탈이 활성화된다.
+	  하나라도 남아 있으면 포탈은 반투명(알파 0.5)이고 밟아도 발동하지 않는다.
+	- cocoon이 하나도 없는 스테이지는 clear 포탈이 처음부터 활성이다.
+
+# 참고: 스폰 순서 (EntitySpawner.RANK)
+#   trap 0 -> wall 1 -> healItem 2 -> cocoon 3 -> worldPortal 10
+#   -> clear 11 -> moveBox 20 -> player 90
+#   player가 마지막이라, 시작 칸에 trap/healItem이 있으면 그 효과가 적용된다.
+#   cocoon이 clear보다 먼저라, 포탈이 생성 시점에 게이트 여부를 알 수 있다.
+
+# 참고: worldPortal의 num
+#   number_textures[0] == null 이므로 num이 0이면 숫자가 표시되지 않는다.
+#   num 미지정 시 to_s를 쓰므로, to_s: 0인 포탈(= 월드 허브로 가는 포탈)은
+#   자동으로 숫자 없는 포탈이 된다. 월드 출구 표시로 활용 가능.

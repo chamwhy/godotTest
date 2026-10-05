@@ -101,6 +101,15 @@
 		
 		
 		{
+			"x": 6,
+			"y": 2,
+			"obj_type": "worldPortal",
+			"to_w": 2,
+			"to_s": 0
+		},
+		
+		
+		{
 			"x": 0,
 			"y": 6,
 			"obj_type": "trap",
