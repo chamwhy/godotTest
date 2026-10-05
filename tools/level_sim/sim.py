@@ -165,6 +165,19 @@ class Ctx:
                     self.hp = min(self.g.max_hp, self.hp + e.d.get("heal", 1))
                 self.removed.add(e.id)
 
+    # ── ClearPortal.activate -> _check_occupant
+    # 포탈은 settled로만 발동하므로, 플레이어가 포탈 위에 선 채로 마지막 고치를
+    # 부수면 settled가 다시 오지 않는다. 활성화 시점에 점유자를 한 번 검사한다.
+    def _notify_cocoon_destroyed(self):
+        if not self.portal_active():
+            return
+        if self.dead or self.fallen:
+            return
+        for e in self.g.ents:
+            if e.type == "clear" and (e.x, e.y) == (self.px, self.py):
+                self.cleared = True
+                self.cleared_by = "player"
+
     # ── element_settled (포탈)
     def on_settle(self, who, x, y):
         for e in self.ents_at(x, y, who[0]):
@@ -223,6 +236,7 @@ class Ctx:
                 if power >= 1:
                     self.removed.add(e.id)
                     self.kills.append((e.id, who[0]))
+                    self._notify_cocoon_destroyed()
             elif e.type == "trap":
                 if e.d.get("once", False):
                     self.removed.add(e.id)
