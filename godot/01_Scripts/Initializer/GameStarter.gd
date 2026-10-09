@@ -2,14 +2,14 @@ extends Node
 
 @export var start_menu: Control
 @export var hp_bar: Control
-@export var develop := true
+@export var develop := false
 @export var start_world := 0
 @export var start_stage := 0
 const tween_dur: float = 0.3
 const SAVE_SECTION := "start"
 
 var _first := true
-var wipe := true
+var wipe := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,7 +31,7 @@ func _ready() -> void:
 	InputManager.start_game.connect(_start_game)
 
 func _start_game() -> void:
-	AudioManager.play_sfx("game started")
+	AudioManager.play_sfx("enter_stage")
 	var tween = create_tween()
 	tween.tween_property(start_menu, "modulate", Color(1, 1, 1, 0), tween_dur)
 	tween.finished.connect(func():

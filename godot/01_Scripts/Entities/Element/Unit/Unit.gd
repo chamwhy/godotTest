@@ -142,9 +142,17 @@ func _redirect(cur_dir: Position, _at_pos: Position) -> Position:
 func attack(atk_power: int, dir: Position, tick: int, from_pos = null) -> void:
 	var origin: Position = from_pos if from_pos != null else cur_position
 	var targets: Array[Element] = GridManager.get_elements(origin.add(dir))
+	var hit_any := false
 	for target in targets:
-		if target:
+		if target and is_instance_valid(target) and target.hitable:
+			hit_any = true
 			apply_on_hit(target, atk_power, tick)
+
+	# 때릴 대상이 없으면 아무 일도 일어나지 않은 것이다.
+	# 기록을 남기면 빈 칸/맵 밖에 공격 연출과 효과음이 나가고,
+	# 아무것도 바뀌지 않은 턴이 undo 히스토리에 쌓인다.
+	if not hit_any:
+		return
 
 	var pre_look := look_right
 	ActionManager.record_new(self, tick,

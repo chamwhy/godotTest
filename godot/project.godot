@@ -15,6 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="bsk"
+config/version="0.1.0"
 run/main_scene="uid://cr5oiuml1f0up"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
@@ -49,6 +50,7 @@ window/size/viewport_height=1920
 window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_width"
+window/handheld/orientation=1
 
 [editor]
 

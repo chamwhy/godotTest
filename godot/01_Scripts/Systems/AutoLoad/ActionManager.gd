@@ -57,6 +57,17 @@ func record(unit: ActionUnit) -> void:
 	_turn_actions.append(unit)
 
 
+## 스폰 중(턴 밖)에 발생한 상호작용 정리.
+## Element.apply_data의 enter_element가 record_new를 호출하지만 그때는
+## AnimationQueue가 돌지 않아 연출이 유실된다. 논리는 이미 적용됐으니
+## 기록은 버리고, 맵에서 빠진 개체(발동한 일회성 고추 등)만 즉시 숨긴다.
+func settle_spawn_actions() -> void:
+	for elm in GridManager.all_elements:
+		if is_instance_valid(elm):
+			elm.visible = elm.in_map
+	_turn_actions.clear()
+
+
 # 편의 함수 (호출부 간결화)
 func record_new(
 	target: Node2D, tick: int,

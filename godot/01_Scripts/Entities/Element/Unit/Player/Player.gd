@@ -99,10 +99,10 @@ func _anim_falling(tween: Tween, data: Dictionary) -> void:
 	AudioManager.set_bgm_paused(true)
 	super._anim_falling(tween, data)
 
-func _undo_anim_falling(tween: Tween, data: Dictionary) -> void:
+func _anim_undo_falling(tween: Tween, data: Dictionary) -> void:
 	# TODO: 떨어지지 않았어도 죽은 상황이 존재할 수 있음.
 	AudioManager.set_bgm_paused(false)
-	super._anim_falling(tween, data)
+	super._anim_undo_falling(tween, data)
 
 func _anim_died(tween: Tween, data: Dictionary) -> void:
 	AudioManager.set_bgm_paused(true)
