@@ -11,6 +11,10 @@
 # ─────────────────────────────────────────────────────────────
 extends Node
 
+## 정방향 턴과 되돌리기 턴이 모두 끝난 뒤 발생한다.
+## 턴 결과(사망·낙하 등)를 보고 UI를 갱신하는 쪽이 구독한다.
+signal turn_finished()
+
 
 # ─────────────────────────────────────────────
 # ActionUnit: 턴 중 발생한 개별 사건
@@ -130,6 +134,7 @@ func run_turn(player: Player, dir: Position) -> void:
 	StageDirector.flush_pending_map_change()
 
 	is_turn_running = false
+	turn_finished.emit()
 
 
 # ─────────────────────────────────────────────
@@ -166,4 +171,5 @@ func run_undo() -> void:
 	UndoManager.sync_visuals(turn_record)
 
 	is_turn_running = false
+	turn_finished.emit()
 	print("ActionManager: Undo 완료")

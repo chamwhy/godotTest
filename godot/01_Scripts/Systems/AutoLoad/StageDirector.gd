@@ -10,6 +10,9 @@
 # ─────────────────────────────────────────────────────────────
 extends Node
 
+## 스테이지 로드가 끝난 뒤 발생한다. 리셋·홈·월드 이동이 모두 이 경로를 지난다.
+signal stage_loaded()
+
 @export var entity_parent_name := "EntityParent"
 
 var mapData: MapData
@@ -55,6 +58,7 @@ func load_stage(world: int, stage: int) -> bool:
 	AudioManager.play_bgm()
 
 	print("StageDirector: '%s' 로드 완료" % mapData.map_name)
+	stage_loaded.emit()
 	return true
 
 func reload_stage() -> void:

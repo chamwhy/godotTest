@@ -54,6 +54,7 @@
 [ext_resource type="Texture2D" uid="uid://df1e1wr0mnkje" path="res://03_Resources/UI/Tip/ui_act_2.png" id="40_m1wgg"]
 [ext_resource type="Texture2D" uid="uid://bsdietw0v4rvp" path="res://03_Resources/Element/Unit/Player/player-3_1.png" id="41_65uug"]
 [ext_resource type="SpriteFrames" uid="uid://bjf4x7qjcw6du" path="res://06_Animation/SpriteFrames/Player/playerFrames-3.tres" id="42_t5f8o"]
+[ext_resource type="Script" uid="uid://b2kqhn8dxrvt4" path="res://01_Scripts/UI/DeathHint.gd" id="43_dhint"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_epy18"]
 
@@ -212,6 +213,25 @@ mouse_default_cursor_shape = 2
 texture_normal = ExtResource("27_nrxsk")
 ignore_texture_size = true
 stretch_mode = 0
+
+[node name="DeathHint" type="Label" parent="UI/InGame" unique_id=1744920311]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 150.0
+offset_bottom = 232.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 52
+text = "double tap to undo"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("43_dhint")
 
 [node name="SettingsPanel" type="Control" parent="UI/InGame" unique_id=1840800452 node_paths=PackedStringArray("alert_panel")]
 visible = false

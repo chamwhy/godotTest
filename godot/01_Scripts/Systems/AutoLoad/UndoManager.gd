@@ -29,6 +29,11 @@ func clear_history() -> void:
 	print("UndoManager: 히스토리 초기화")
 
 
+## 되돌릴 수 있는 턴이 남아 있는가. UI가 "되돌리기" 안내를 띄울지 판단할 때 쓴다.
+func has_history() -> bool:
+	return not _history.is_empty()
+
+
 # ─────────────────────────────────────────────
 # 턴 시작: 모든 Element의 state 스냅샷
 # ─────────────────────────────────────────────

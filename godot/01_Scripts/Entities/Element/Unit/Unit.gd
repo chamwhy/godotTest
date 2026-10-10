@@ -42,7 +42,8 @@ var look_right := true
 
 func died(tick: int) -> void:
 	is_dead = true
-	ActionManager.record_new(self, tick, "died")
+	# undo_action을 빼면 _undo_anim_died가 호출되지 않아 BGM이 영구히 멈춘다.
+	ActionManager.record_new(self, tick, "died", {}, "undo_died", {})
 	print("dead 등록...")
 
 func blocking() -> bool:
