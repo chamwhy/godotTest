@@ -76,6 +76,19 @@ func play_all() -> void:
 		
 		while pending[0] > 0:
 			await get_tree().process_frame
+			# 안전밸브.
+			# 트윈의 소유 노드가 해제되면 트윈도 kill되고 finished가 영원히 오지
+			# 않는다. 그러면 pending이 0이 되지 못해 이 루프에서 못 빠져나오고,
+			# is_playing이 true로 굳어 게임 전체가 입력을 받지 않는다.
+			# (애니메이션 재생 중 리셋·홈을 누르면 닿는 경로다)
+			#
+			# is_running()이 아니라 is_valid()로 판정한다.
+			# 설정창은 get_tree().paused = true로 트리를 멈추는데, 멈춘 트윈은
+			# 'running이 아니지만 valid'다. is_running()을 보면 메뉴를 여는
+			# 순간 연출을 끊어버려 논리와 화면이 어긋난다.
+			if not _any_tween_alive(tweens):
+				print("AnimQ: 트윈 소유 노드가 모두 해제됨 → %d틱 대기 중단" % tick)
+				break
 		
 		await get_tree().process_frame
 		tick += 1
@@ -83,3 +96,13 @@ func play_all() -> void:
 	_reset()
 	is_playing = false
 	print("AnimQ: 재생 완료")
+
+
+## 아직 살아 있는(= 씬 트리에 속한) 트윈이 하나라도 있는가.
+## 정상 종료한 트윈도 invalid가 되므로, 전부 invalid라는 것은
+## "모두 끝났거나 모두 kill됐다" 즉 더 기다릴 이유가 없다는 뜻이다.
+func _any_tween_alive(tweens: Array[Tween]) -> bool:
+	for tw in tweens:
+		if tw.is_valid():
+			return true
+	return false
