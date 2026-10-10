@@ -1,0 +1,30 @@
+{
+	"world": 2,
+	"stage": 4,
+	"map_name": "contact",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 3,
+	"map_height": 5,
+	"zoom": 0.9,
+	"padding": 2,
+	"tile_map": [
+		[1, 1, 1],
+		[1, 1, 1],
+		[1, 1, 1],
+		[1, 1, 1],
+		[1, 1, 1],
+	],
+	"entities": [
+		{"x": 0, "y": 0, "obj_type": "wall"},
+		{"x": 1, "y": 0, "obj_type": "cocoon"},
+		{"x": 2, "y": 0, "obj_type": "wall"},
+		{"x": 0, "y": 1, "obj_type": "wall"},
+		{"x": 2, "y": 1, "obj_type": "wall"},
+		{"x": 0, "y": 2, "obj_type": "wall"},
+		{"x": 1, "y": 2, "obj_type": "moveBox"},
+		{"x": 2, "y": 2, "obj_type": "wall"},
+		{"x": 0, "y": 4, "obj_type": "player", "mh": 6, "ch": 6},
+		{"x": 2, "y": 4, "obj_type": "clear", "to_w": 2, "to_s": 0},
+	]
+}
