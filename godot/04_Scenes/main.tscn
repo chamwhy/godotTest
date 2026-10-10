@@ -65,6 +65,7 @@ script = ExtResource("1_6grqo")
 [node name="UI" type="CanvasLayer" parent="." unique_id=461768127]
 
 [node name="InGame" type="Control" parent="UI" unique_id=1568238516]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -199,7 +200,7 @@ anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 
-[node name="MenuBtn" type="TextureButton" parent="UI/InGame/Btns" unique_id=1644817830]
+[node name="MenuBtn" type="TextureButton" parent="UI/InGame/Btns" unique_id=1644817830 groups=["ui_blocker"]]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -1344,7 +1345,7 @@ script = ExtResource("6_4p43j")
 start_menu = NodePath("../UI/StartMenu")
 hp_bar = NodePath("../UI/InGame")
 start_world = 1
-start_stage = 7
+start_stage = 1
 
 [node name="Level_01" type="Node2D" parent="LevelManager" unique_id=581685276]
 

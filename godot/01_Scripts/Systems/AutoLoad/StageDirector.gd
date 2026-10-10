@@ -45,6 +45,9 @@ func load_stage(world: int, stage: int) -> bool:
 
 	# ⑤ 스폰
 	EntitySpawner.spawn_all(mapData, _entity_parent)
+
+	# 스폰 중 발동한 상호작용(시작 칸 고추 등)의 시각 상태를 맞춘다
+	ActionManager.settle_spawn_actions()
 	
 	# ⑥ 새 판이니 undo 히스토리 초기화
 	UndoManager.clear_history()
@@ -65,9 +68,7 @@ func unload_stage() -> void:
 		n.queue_free()
 	GridManager.clear()
 	PlayerRegistry.clear()
-	StageContext.reset()
-	# worldPortals는 유지 — 맵을 넘나들며 쌓이는 월드 데이터
-	# 생각해보면 리셋해야 됨. 일단 TODO
+	StageContext.reset()   # worldPortals까지 함께 비운다
 
 
 func _find_entity_parent() -> Node2D:

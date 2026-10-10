@@ -14,7 +14,7 @@ func _ready() -> void:
 func update_health_ui(current_hp: int):
 	# 0부터 5까지 반복하며 체력 체크
 	print("update_health_ui", current_hp)
-	profile.sprite_frames = profile_frames[current_hp - 1]
+	profile.sprite_frames = profile_frames[clampi(current_hp - 1, 0, profile_frames.size() - 1)]
 	profile.animation = "default"
 	profile.play()
 	for i in range(heart_icons.size()):
