@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3 uid="uid://bn4xtg9ps6e1v"]
+
+[ext_resource type="Script" uid="uid://cq7wn3lf5xa2d" path="res://01_Scripts/UI/EndingDirector.gd" id="1_endir"]
+
+[node name="Ending" type="CanvasLayer" node_paths=PackedStringArray("clear_movie", "credits_root", "scroller", "credits_label", "coming_soon")]
+layer = 50
+visible = false
+script = ExtResource("1_endir")
+clear_movie = NodePath("ClearMovie")
+credits_root = NodePath("Credits")
+scroller = NodePath("Credits/Scroller")
+credits_label = NodePath("Credits/Scroller/CreditsText")
+coming_soon = NodePath("Credits/Scroller/ComingSoon")
+
+[node name="Bg" type="ColorRect" parent="."]
+color = Color(0.054901961, 0.050980393, 0.07058824, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ClearMovie" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Placeholder" type="Label" parent="ClearMovie"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 0.9, 0.85, 1)
+theme_override_font_sizes/font_size = 72
+text = "CLEAR"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Credits" type="Control" parent="."]
+visible = false
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Scroller" type="VBoxContainer" parent="Credits"]
+offset_right = 1080.0
+offset_bottom = 2400.0
+mouse_filter = 2
+theme_override_constants/separation = 36
+
+[node name="CreditsText" type="Label" parent="Credits/Scroller"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 0.9, 0.85, 1)
+theme_override_constants/line_spacing = 18
+theme_override_font_sizes/font_size = 48
+text = "MINOTAUR CAN THINK"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Credits/Scroller"]
+custom_minimum_size = Vector2(0, 560)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ComingSoon" type="Label" parent="Credits/Scroller"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 0.9, 0.85, 1)
+theme_override_font_sizes/font_size = 56
+text = "comming soon..."
+horizontal_alignment = 1

@@ -56,6 +56,9 @@ func load_stage(world: int, stage: int) -> bool:
 	UndoManager.clear_history()
 	AudioManager.set_bgm_paused(false)
 	AudioManager.play_bgm()
+	# 리셋·홈·월드 이동도 전부 "맵에 들어서는" 순간이다.
+	# 예전엔 GameStarter의 게임 시작 시점에만 울렸다.
+	AudioManager.play_sfx("enter_stage")
 
 	print("StageDirector: '%s' 로드 완료" % mapData.map_name)
 	stage_loaded.emit()
@@ -67,12 +70,23 @@ func reload_stage() -> void:
 func unload_stage() -> void:
 	if _find_entity_parent() == null:
 		return
-	for n in _entity_parent.get_children():
-		_entity_parent.remove_child(n)
-		n.queue_free()
+
+	# 레지스트리를 먼저 비운다. 아래에서 노드를 즉시 해제하므로
+	# 해제된 개체를 들고 있는 곳이 남으면 안 된다.
 	GridManager.clear()
 	PlayerRegistry.clear()
 	StageContext.reset()   # worldPortals까지 함께 비운다
+
+	for n in _entity_parent.get_children():
+		_entity_parent.remove_child(n)
+		# queue_free()가 아니라 free()다.
+		# Trap/HealItem/Portal은 apply_data에서 GridManager의 시그널
+		# (element_entered/settled)에 자신을 연결한다. 그 연결은 노드가
+		# "트리에서 빠질 때"가 아니라 "해제될 때" 끊긴다. queue_free는 프레임
+		# 끝에 해제되므로, 같은 프레임에 새 스테이지를 스폰하면 새 플레이어의
+		# enter_element를 옛 스테이지의 고추도 함께 받는다.
+		# 시작 칸에 고추가 있는 1-7/1-8에서 피해가 두 번 들어가 즉사했다.
+		n.free()
 
 
 func _find_entity_parent() -> Node2D:

@@ -15,7 +15,6 @@ var cleared := false
 func apply_data(data: Dictionary) -> void:
 	super.apply_data(data)
 	num = data.get("num", to_stage)
-	print("world-portal", number_textures[1])
 	StageContext.register_worldPortal_position(
 		to_world * StageContext.WORLD_ID_MULTIPLY + to_stage,
 		cur_position
@@ -44,7 +43,7 @@ func _connect_check_pos():
 #region animation
 
 func _anim_move_map(tween: Tween, data: Dictionary) -> void:
-	AudioManager.play_sfx("enter_stage")
+	# enter_stage는 StageDirector.load_stage가 울린다. 여기서 또 울리면 두 번 난다.
 	tween.tween_interval(0.0)
 	# 실제 동작이 아닌 액션적인 무빙만 보여주는 섹션. 말그대로 애니메이션
 

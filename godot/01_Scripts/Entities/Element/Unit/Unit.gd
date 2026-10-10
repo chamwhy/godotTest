@@ -149,16 +149,18 @@ func attack(atk_power: int, dir: Position, tick: int, from_pos = null) -> void:
 			hit_any = true
 			apply_on_hit(target, atk_power, tick)
 
-	# 때릴 대상이 없으면 아무 일도 일어나지 않은 것이다.
-	# 기록을 남기면 빈 칸/맵 밖에 공격 연출과 효과음이 나가고,
-	# 아무것도 바뀌지 않은 턴이 undo 히스토리에 쌓인다.
-	if not hit_any:
-		return
-
 	var pre_look := look_right
-	ActionManager.record_new(self, tick,
-		"attack", {"pos": origin.copy(), "dir": dir.copy(), "pow": atk_power},
-		"undo_attack", {"pre_look": pre_look, "pos": origin.copy(), "dir": dir.copy()})
+	var fwd := {"pos": origin.copy(), "dir": dir.copy(), "pow": atk_power}
+	var bwd := {"pre_look": pre_look, "pos": origin.copy(), "dir": dir.copy()}
+
+	# 때릴 대상이 없어도 공격 연출은 남긴다.
+	# "공격력 = 원래 공격력 - 이동한 칸수"라는 규칙을 플레이어가 눈으로 배우는
+	# 신호가 이 헛스윙이기 때문이다. 다만 바뀐 상태가 없으므로 되돌리기
+	# 히스토리에는 쌓지 않는다 (되돌렸는데 화면이 그대로면 고장으로 보인다).
+	if hit_any:
+		ActionManager.record_new(self, tick, "attack", fwd, "undo_attack", bwd)
+	else:
+		ActionManager.record_presentation(self, tick, "attack", fwd, "undo_attack", bwd)
 
 	if dir.x != 0:
 		look_right = dir.x > 0

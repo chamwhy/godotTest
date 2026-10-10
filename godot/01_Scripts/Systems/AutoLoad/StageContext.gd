@@ -9,6 +9,10 @@
 # ─────────────────────────────────────────────────────────────
 extends Node
 
+## 스테이지를 깬 순간. StageManager.stage_cleared는 "처음 깼을 때"만 발생하므로
+## 재도전 때도 반응해야 하는 연출(엔딩 등)은 이쪽을 구독한다.
+signal stage_completed(world_id: int, stage_id: int)
+
 const WORLD_ID_MULTIPLY := 100
 
 var world := 0
@@ -29,6 +33,7 @@ func reset() -> void:
 
 func complete_stage() -> void:
 	StageManager.clear_stage(world, stage)
+	stage_completed.emit(world, stage)
 
 
 func register_worldPortal_position(stageID: int, pos: Position) -> void:

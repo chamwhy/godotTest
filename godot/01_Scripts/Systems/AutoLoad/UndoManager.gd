@@ -49,13 +49,22 @@ func pre_action() -> TurnRecord:
 # 턴 종료: 히스토리 적재
 # ─────────────────────────────────────────────
 func commit_turn(record: TurnRecord) -> void:
-	if record.actions.is_empty():
-		print("UndoManager: 액션 없음, 저장 건너뜀")
+	if not _has_state_change(record):
+		print("UndoManager: 상태 변화 없음, 저장 건너뜀")
 		return
 	_history.push_back(record)
 	if _history.size() > MAX_HISTORY:
 		_history.pop_front()
 	print("UndoManager: 턴 기록 완료 (총 %d개)" % _history.size())
+
+
+## 연출만 있는 턴(헛스윙 등)은 되돌려도 화면이 그대로여서
+## 되돌리기가 고장난 것처럼 보인다. 그래서 쌓지 않는다.
+func _has_state_change(record: TurnRecord) -> bool:
+	for u in record.actions:
+		if not u.presentation_only:
+			return true
+	return false
 
 
 func pop_record() -> TurnRecord:

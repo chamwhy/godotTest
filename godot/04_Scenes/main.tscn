@@ -55,6 +55,8 @@
 [ext_resource type="Texture2D" uid="uid://bsdietw0v4rvp" path="res://03_Resources/Element/Unit/Player/player-3_1.png" id="41_65uug"]
 [ext_resource type="SpriteFrames" uid="uid://bjf4x7qjcw6du" path="res://06_Animation/SpriteFrames/Player/playerFrames-3.tres" id="42_t5f8o"]
 [ext_resource type="Script" uid="uid://b2kqhn8dxrvt4" path="res://01_Scripts/UI/DeathHint.gd" id="43_dhint"]
+[ext_resource type="Script" uid="uid://ck8vm2qr7bnae" path="res://01_Scripts/UI/EmotionTint.gd" id="44_emtnt"]
+[ext_resource type="PackedScene" uid="uid://bn4xtg9ps6e1v" path="res://04_Scenes/ending.tscn" id="45_endng"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_epy18"]
 
@@ -1378,6 +1380,11 @@ position = Vector2(415.00003, 422.49997)
 scale = Vector2(8.96, 8.95)
 texture = SubResource("CompressedTexture2D_epy18")
 script = ExtResource("6_xfwcn")
+
+[node name="EmotionTint" type="Node" parent="." unique_id=1930551744]
+script = ExtResource("44_emtnt")
+
+[node name="Ending" parent="." instance=ExtResource("45_endng")]
 
 [connection signal="pressed" from="UI/InGame/Btns/MenuBtn" to="UI/InGame/SettingsPanel" method="open"]
 [connection signal="pressed" from="UI/InGame/SettingsPanel/exitBtn" to="UI/InGame/SettingsPanel" method="close"]

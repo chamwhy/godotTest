@@ -27,6 +27,10 @@ class ActionUnit:
 	var undo_data: Dictionary
 	var tick: int
 
+	## 연출만 있고 게임 상태는 바꾸지 않은 사건인가.
+	## 이런 사건만으로 끝난 턴은 되돌리기 히스토리에 쌓이지 않는다.
+	var presentation_only := false
+
 	func _init(
 		_target: Node2D,
 		_tick: int,
@@ -70,6 +74,20 @@ func settle_spawn_actions() -> void:
 		if is_instance_valid(elm):
 			elm.visible = elm.in_map
 	_turn_actions.clear()
+
+
+## 연출만 남기고 상태는 바꾸지 않은 사건.
+## 예) 때릴 대상이 없는 공격 — "공격력 = 원래 공격력 - 이동한 칸수"를
+## 플레이어가 눈으로 배우려면 헛스윙도 보여야 한다. 하지만 바뀐 상태가
+## 없으므로 되돌리기 히스토리에 쌓이면 "되돌렸는데 화면이 그대로"가 된다.
+func record_presentation(
+	target: Node2D, tick: int,
+	action: String, data: Dictionary = {},
+	undo_action: String = "", undo_data: Dictionary = {}
+) -> void:
+	var unit := ActionUnit.new(target, tick, action, data, undo_action, undo_data)
+	unit.presentation_only = true
+	record(unit)
 
 
 # 편의 함수 (호출부 간결화)
