@@ -16,10 +16,13 @@
 	"entities": [
 		{"x": 2, "y": 2, "obj_type": "player", "mh": 6, "ch": 6},
 
-		{"x": 1, "y": 0, "obj_type": "worldPortal", "to_w": 1, "to_s": 0, "num": 1},
-		{"x": 3, "y": 0, "obj_type": "worldPortal", "to_w": 2, "to_s": 0, "num": 2},
+		{"x": 0, "y": 0, "obj_type": "worldPortal", "to_w": 1, "to_s": 0, "num": 1},
+		{"x": 2, "y": 0, "obj_type": "worldPortal", "to_w": 2, "to_s": 0, "num": 2},
+		{"x": 4, "y": 0, "obj_type": "worldPortal", "to_w": 3, "to_s": 0, "num": 3},
 
-		{"x": 2, "y": 0, "obj_type": "wall"},
-		{"x": 2, "y": 1, "obj_type": "wall"},
+		{"x": 1, "y": 0, "obj_type": "wall"},
+		{"x": 1, "y": 1, "obj_type": "wall"},
+		{"x": 3, "y": 0, "obj_type": "wall"},
+		{"x": 3, "y": 1, "obj_type": "wall"}
 	]
 }

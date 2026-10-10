@@ -61,7 +61,7 @@ static func _surround_of(rows: Array, y: int, x: int) -> Array:
 # ─────────────────────────────────────────────
 # 엔티티
 # ─────────────────────────────────────────────
-const RANK := {"trap": 0, "wall": 1, "healItem": 2, "cocoon": 3, "worldPortal": 10, "clear": 11, "moveBox": 20, "player": 90}
+const RANK := {"trap": 0, "wall": 1, "healItem": 2, "cocoon": 3, "worldPortal": 10, "clear": 11, "moveBox": 20, "goblin": 50, "player": 90}
 
 static func _spawn_entities(data: MapData, parent: Node2D) -> void:
 	

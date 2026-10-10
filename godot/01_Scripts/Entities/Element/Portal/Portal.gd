@@ -25,7 +25,10 @@ func _connect_check_pos():
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:
 	if not in_map: return   # 맵에서 빠진(해제 대기 중인) 개체는 반응하지 않는다
-	# 일단은 elm 상관없이 발동. 나중에 player 넣거나 아니면 몬스터가 밟는 거 자체를 기믹으로 할 수도?
+	# 포탈은 플레이어만 발동시킨다.
+	# 예전엔 종류를 가리지 않아 상자가 목표 포탈에 멈춰도 클리어됐다.
+	# 배치로 피해 왔지만 3월드의 고블린은 매 턴 저절로 움직이므로 피할 수 없다.
+	if not (elm is Player): return
 	if pos.equals(cur_position):
 		print("portal 발동.", cur_position.to_str(), pos.to_str())
 		move_map(tick)

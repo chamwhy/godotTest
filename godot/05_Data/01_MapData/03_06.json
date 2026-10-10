@@ -1,0 +1,33 @@
+{
+	"world": 3,
+	"stage": 6,
+	"map_name": "tour",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 6,
+	"map_height": 5,
+	"zoom": 0.65,
+	"padding": 2,
+	"tile_map": [
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1],
+	],
+	"entities": [
+		{"x": 0, "y": 0, "obj_type": "player", "mh": 6, "ch": 6},
+		{"x": 3, "y": 0, "obj_type": "cocoon"},
+		{"x": 5, "y": 0, "obj_type": "clear", "to_w": 3, "to_s": 0},
+		{"x": 1, "y": 1, "obj_type": "wall"},
+		{"x": 3, "y": 1, "obj_type": "wall"},
+		{"x": 5, "y": 1, "obj_type": "wall"},
+		{"x": 1, "y": 2, "obj_type": "goblin", "move": "patrol", "dir": "R"},
+		{"x": 5, "y": 2, "obj_type": "wall"},
+		{"x": 1, "y": 3, "obj_type": "wall"},
+		{"x": 3, "y": 3, "obj_type": "wall"},
+		{"x": 5, "y": 3, "obj_type": "wall"},
+		{"x": 0, "y": 4, "obj_type": "cocoon"},
+		{"x": 5, "y": 4, "obj_type": "wall"},
+	]
+}

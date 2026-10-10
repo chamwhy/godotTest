@@ -6,7 +6,8 @@
 
 이식 대상: `Unit.action_dir/action2/move_to/attack`, `Player._set_hp`,
 `Trap/HealItem/Wall/Cocoon/MoveBox.on_hit`, `GridManager.can_pass/has_tile/enter/step/settle`,
-`StageContext.is_gated`, `ClearPortal.active`, `EntitySpawner.RANK`.
+`StageContext.is_gated`, `ClearPortal.active`, `EntitySpawner.RANK`,
+`Goblin.take_turn`(순찰 반전 / 추적 축 우선순위 / 낙하 / 함정 사망).
 
 ## 사용법
 
@@ -47,6 +48,8 @@ W  벽(불괴)      w  벽 ma=1       V  벽 ma=2
 C  누에고치      B  상자
 P  플레이어      E  클리어 포탈   H  회복(+1)
 1-6 상시 고추(atk=숫자)           a-f 일회성 고추(atk=1~6)
+^ v < >  고블린(순찰) — 글자가 바라보는 방향이 초기 진행 방향
+X  고블린(추적) — 매 턴 플레이어 쪽으로 1칸
 ```
 
 겹침 배치는 `extra: x,y type k=v` 줄로 쓴다. 허브 맵(월드 포탈)은 직접 JSON으로 쓴다.

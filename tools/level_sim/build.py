@@ -20,6 +20,8 @@
     C  누에고치      B  상자
     P  플레이어      E  클리어 포탈   H  회복(+1)
     1-6 상시 고추(atk=숫자)           a-f 일회성 고추(atk=1~6)
+    ^ v < >  고블린(순찰) — 글자가 바라보는 방향이 초기 진행 방향
+    X  고블린(추적) — 매 턴 플레이어 쪽으로 1칸
 """
 import json, sys, os
 
@@ -29,6 +31,11 @@ SYM = {
     "W": ("wall", {}), "w": ("wall", {"ma": 1}), "V": ("wall", {"ma": 2}),
     "C": ("cocoon", {}), "B": ("moveBox", {}),
     "P": ("player", {}), "E": ("clear", {}), "H": ("healItem", {}),
+    "^": ("goblin", {"move": "patrol", "dir": "U"}),
+    "v": ("goblin", {"move": "patrol", "dir": "D"}),
+    "<": ("goblin", {"move": "patrol", "dir": "L"}),
+    ">": ("goblin", {"move": "patrol", "dir": "R"}),
+    "X": ("goblin", {"move": "chase"}),
 }
 for d in "123456":
     SYM[d] = ("trap", {"atk": int(d)})

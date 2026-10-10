@@ -22,8 +22,12 @@ from collections import deque
 DIRS = {"U": (0, -1), "D": (0, 1), "L": (-1, 0), "R": (1, 0)}
 # EntitySpawner.RANK
 RANK = {"trap": 0, "wall": 1, "healItem": 2, "cocoon": 3,
-        "worldPortal": 10, "clear": 11, "moveBox": 20, "player": 90}
-BLOCKING = {"wall", "cocoon", "moveBox"}
+        "worldPortal": 10, "clear": 11, "moveBox": 20, "goblin": 50, "player": 90}
+BLOCKING = {"wall", "cocoon", "moveBox", "goblin"}
+
+# 고블린 순찰 방향 (JSON의 dir 문자 -> 인덱스). 방향은 상태의 일부다.
+GOB_DIRS = ["U", "D", "L", "R"]
+GOB_REVERSE = {0: 1, 1: 0, 2: 3, 3: 2}
 
 
 def load(path):
@@ -62,16 +66,20 @@ class Game:
         self.max_hp = self.player.d.get("mh", 1)
         self.cocoon_ids = [e.id for e in self.ents if e.type == "cocoon"]
         self.has_clear = any(e.type == "clear" for e in self.ents)
+        self.goblin_ids = [e.id for e in self.ents if e.type == "goblin"]
 
     def has_tile(self, x, y):
         return 0 <= x < self.w and 0 <= y < self.h and self.tiles[y][x] != 0
 
     def initial(self):
         """스폰을 실제로 실행해서 초기 상태를 만든다 (스폰 시점 entered 포함)."""
-        ctx = Ctx(self, set(), {}, None, None, self.player.d.get("ch", self.max_hp))
+        ctx = Ctx(self, set(), {}, None, None, self.player.d.get("ch", self.max_hp), {})
         for e in self.ents:
             if e.type == "moveBox":
                 ctx.boxes[e.id] = (e.x, e.y)
+            elif e.type == "goblin":
+                di = GOB_DIRS.index(e.d.get("dir", "R"))
+                ctx.gobs[e.id] = (e.x, e.y, di)
             elif e.type == "player":
                 ctx.px, ctx.py = e.x, e.y
             ctx.on_enter(("player",) if e.type == "player"
@@ -80,28 +88,31 @@ class Game:
         return ctx.snapshot()
 
     def step(self, state, key):
-        px, py, hp, dead, fallen, cleared, removed, boxes = state
+        px, py, hp, dead, fallen, cleared, removed, boxes, gobs = state
         if dead or fallen or cleared:
             return None
-        ctx = Ctx(self, set(removed), {b[0]: (b[1], b[2]) for b in boxes}, px, py, hp)
+        ctx = Ctx(self, set(removed), {b[0]: (b[1], b[2]) for b in boxes}, px, py, hp,
+                  {gg[0]: (gg[1], gg[2], gg[3]) for gg in gobs})
         ctx.player_action(DIRS[key])
         ns = ctx.snapshot()
         return None if ns == state else ns
 
     def step_ex(self, state, key):
         """step과 동일하지만 (새 상태, 이번 턴에 죽은 누에고치 목록)을 반환"""
-        px, py, hp, dead, fallen, cleared, removed, boxes = state
+        px, py, hp, dead, fallen, cleared, removed, boxes, gobs = state
         if dead or fallen or cleared:
             return None, []
-        ctx = Ctx(self, set(removed), {b[0]: (b[1], b[2]) for b in boxes}, px, py, hp)
+        ctx = Ctx(self, set(removed), {b[0]: (b[1], b[2]) for b in boxes}, px, py, hp,
+                  {gg[0]: (gg[1], gg[2], gg[3]) for gg in gobs})
         ctx.player_action(DIRS[key])
         ns = ctx.snapshot()
         return (None if ns == state else ns), ctx.kills, ctx.cleared_by
 
 
 class Ctx:
-    def __init__(self, g, removed, boxes, px, py, hp):
+    def __init__(self, g, removed, boxes, px, py, hp, gobs=None):
         self.g, self.removed, self.boxes = g, removed, boxes
+        self.gobs = gobs if gobs is not None else {}
         self.px, self.py, self.hp = px, py, hp
         self.dead = self.fallen = self.cleared = False
         self.kills = []          # (cocoon_id, 가해자) — 검증용
@@ -109,8 +120,9 @@ class Ctx:
 
     def snapshot(self):
         boxes = tuple(sorted((i, p[0], p[1]) for i, p in self.boxes.items()))
+        gobs = tuple(sorted((i, v[0], v[1], v[2]) for i, v in self.gobs.items()))
         return (self.px, self.py, self.hp, self.dead, self.fallen,
-                self.cleared, frozenset(self.removed), boxes)
+                self.cleared, frozenset(self.removed), boxes, gobs)
 
     # ── 감정 (Player._set_hp)
     def atk_pow(self):
@@ -125,7 +137,12 @@ class Ctx:
 
     # ── 셀 조회
     def pos_of(self, e):
-        return self.boxes.get(e.id) if e.type == "moveBox" else (e.x, e.y)
+        if e.type == "moveBox":
+            return self.boxes.get(e.id)
+        if e.type == "goblin":
+            gv = self.gobs.get(e.id)
+            return None if gv is None else (gv[0], gv[1])
+        return (e.x, e.y)
 
     def ents_at(self, x, y, mover):
         out = []
@@ -157,6 +174,10 @@ class Ctx:
             if e.type == "trap":
                 if who[0] == "player":
                     self.damage_player(e.d.get("atk", 0))
+                elif who[0] == "gob" and e.d.get("atk", 0) >= 1:
+                    # 고블린도 hitable이므로 함정에 맞는다. 체력 1이라 즉사.
+                    self.removed.add(who[1])
+                    self.gobs.pop(who[1], None)
                 # 박스/기타: on_hit → dir=0 → 이동 없음. 함정만 소모됨
                 if e.d.get("once", False):
                     self.removed.add(e.id)
@@ -180,6 +201,9 @@ class Ctx:
 
     # ── element_settled (포탈)
     def on_settle(self, who, x, y):
+        # Portal._check_pos는 플레이어만 발동시킨다 (상자/고블린은 밟아도 무반응)
+        if who[0] != "player":
+            return
         for e in self.ents_at(x, y, who[0]):
             if e == "PLAYER":
                 continue
@@ -237,6 +261,12 @@ class Ctx:
                     self.removed.add(e.id)
                     self.kills.append((e.id, who[0]))
                     self._notify_cocoon_destroyed()
+            elif e.type == "goblin":
+                # 체력 1. 1 이상 맞으면 죽는다. 상자에 치여도 같다.
+                if power >= 1:
+                    self.removed.add(e.id)
+                    self.gobs.pop(e.id, None)
+                    self.kills.append((e.id, who[0]))
             elif e.type == "trap":
                 if e.d.get("once", False):
                     self.removed.add(e.id)
@@ -263,6 +293,63 @@ class Ctx:
 
     def player_action(self, d):
         self.act(("player",), d, self.move_speed(), self.atk_pow())
+        self.goblin_turn()
+
+    # ── 고블린 턴 (플레이어 1행동 = 고블린 1행동)
+    # 판 전체가 끝났으면 움직이지 않는다.
+    def goblin_turn(self):
+        if self.dead or self.fallen or self.cleared:
+            return
+        for gid in self.g.goblin_ids:          # id 순 = 결정적
+            if gid not in self.gobs:
+                continue
+            self._gob_step(gid)
+            if self.dead or self.cleared:
+                return
+
+    def _gob_step(self, gid):
+        gx, gy, di = self.gobs[gid]
+        kind = self.g.by_id[gid].d.get("move", "patrol")
+        cand = self._gob_chase_dirs(gx, gy) if kind == "chase" else [GOB_DIRS[di]]
+
+        for key in cand:
+            dx, dy = DIRS[key]
+            tx, ty = gx + dx, gy + dy
+            # 플레이어가 그 칸에 있으면 때리고 제자리에 선다
+            if (self.px, self.py) == (tx, ty) and not self.dead and not self.fallen:
+                self.damage_player(self.g.by_id[gid].d.get("atk", 1))
+                return
+            if self.blocked(tx, ty, "gob"):
+                continue
+            # 이동 확정
+            self.gobs[gid] = (tx, ty, di)
+            self.on_enter(("gob", gid), tx, ty)
+            if gid not in self.gobs:
+                return                          # 함정 등으로 죽었다
+            # 구멍 위에 멈추면 낙하 (상자/플레이어와 같은 규칙)
+            if not self.g.has_tile(tx, ty):
+                self.removed.add(gid)
+                self.gobs.pop(gid, None)
+                return
+            self.on_settle(("gob", gid), tx, ty)
+            return
+
+        # 한 칸도 못 갔다
+        if kind != "chase":
+            # 순찰형은 방향을 뒤집고 그 턴은 쉰다 (읽기 쉽게)
+            self.gobs[gid] = (gx, gy, GOB_REVERSE[di])
+
+    ## 추적형의 방향 우선순위. 거리가 먼 축을 먼저, 동률이면 가로 먼저.
+    ## 완전히 결정적이어야 플레이어가 예측할 수 있다.
+    def _gob_chase_dirs(self, gx, gy):
+        ddx, ddy = self.px - gx, self.py - gy
+        hor = ("R" if ddx > 0 else "L") if ddx != 0 else None
+        ver = ("D" if ddy > 0 else "U") if ddy != 0 else None
+        if abs(ddx) >= abs(ddy):
+            order = [hor, ver]
+        else:
+            order = [ver, hor]
+        return [k for k in order if k]
 
 
 # ─────────────────────────────── 탐색
