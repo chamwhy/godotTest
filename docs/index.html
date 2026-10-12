@@ -3,22 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>bsk 레벨 뷰어</title>
-<meta name="description" content="bsk(감정 퍼즐) 1월드부터 2월드까지 모든 레벨의 지도·해답 재생·난이도·메커니즘과 오브젝트별 리소스를 한 페이지에서 본다.">
+<title>bsk 레벨 디자인 시트</title>
+<meta name="description" content="bsk 1월드부터 2월드까지 모든 맵의 타일·오브젝트 배치를 실제 게임 그림으로 한 페이지에 모아 본다. 맵을 누르면 설명과 난이도 지표.">
 <link rel="stylesheet" href="viewer/style.css">
 </head>
 <body>
 <a class="skip" href="#main">본문으로</a>
 <header class="site-head">
   <div class="wrap">
-    <h1>bsk 레벨 뷰어</h1>
-    <p class="lede">1월드부터 2월드까지 모든 맵을 실제 게임 그림으로 그리고, 최단 해답을 한 수씩 재생한다.
-      맵마다 옆에 설계 의도·맹점·난이도 지표를 붙였다.</p>
+    <h1>bsk 레벨 디자인 시트</h1>
+    <p class="lede">모든 맵의 타일·오브젝트 배치를 실제 게임 그림으로, 같은 축척으로 한 페이지에 모았다.
+      맵을 누르면 크게 보면서 설계 의도·난이도 지표를 옆에서 확인할 수 있다.</p>
     <p class="meta" id="meta"></p>
   </div>
 </header>
-<nav class="site-nav" aria-label="섹션">
-  <div class="wrap"><ul id="nav"></ul></div>
+<nav class="site-nav" aria-label="섹션과 보기 설정">
+  <div class="wrap nav-row">
+    <ul id="nav"></ul>
+    <div class="tools" id="tools"></div>
+  </div>
 </nav>
 <main id="main">
   <div class="wrap" id="app">
@@ -26,9 +29,10 @@
     <p class="loading" id="loading">불러오는 중…</p>
   </div>
 </main>
+<dialog id="detail" aria-labelledby="dlg-title"></dialog>
 <footer class="site-foot">
   <div class="wrap">
-    <p>지도와 수치는 <code>godot/05_Data/01_MapData</code>의 맵 JSON과 <code>tools/level_sim</code> 시뮬레이터에서 자동 생성된다.
+    <p>배치는 <code>godot/05_Data/01_MapData</code>의 맵 JSON 그대로, 지표는 <code>tools/level_sim</code> 시뮬레이터로 자동 생성된다.
       맵을 고친 뒤 <code>python3 tools/level_viewer/build.py</code>를 다시 돌리면 갱신된다.</p>
     <p>설계 문서: <a href="https://github.com/chamwhy/godotTest/tree/claude/world2-cocoon-design/docs">docs/</a></p>
   </div>

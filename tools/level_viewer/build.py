@@ -1,11 +1,11 @@
-"""레벨 뷰어 데이터 생성기.
+"""레벨 디자인 시트 데이터 생성기.
 
     python3 tools/level_viewer/build.py
 
 하는 일
   1. 엔티티 씬(.tscn) → SpriteFrames(.tres) → PNG 를 추적해 '오브젝트별 리소스' 목록을 만든다.
   2. 쓰이는 PNG 를 docs/viewer/res/ 로 복사한다 (03_Resources 아래 경로 그대로).
-  3. 맵 JSON 을 읽고 tools/level_sim 으로 최단 해답·재생 프레임·난이도 지표를 계산한다.
+  3. 맵 JSON 을 읽고 tools/level_sim 으로 최단 해답·난이도 지표를 계산한다.
   4. docs/viewer/data.js (window.LEVEL_DATA) 를 쓴다.
 
 맵을 고치거나 리소스를 바꾸면 이 스크립트를 다시 돌리면 된다. 게임 코드는 읽기만 한다.
@@ -340,13 +340,6 @@ def quiet(fn, *a, **kw):
     return r, buf.getvalue()
 
 
-def frame_of(s, key=None):
-    px, py, hp, dead, fallen, cleared, removed, boxes = s
-    return {"k": key, "p": [px, py], "hp": hp, "rm": sorted(removed),
-            "bx": {str(b[0]): [b[1], b[2]] for b in boxes},
-            "d": dead, "f": fallen, "c": cleared}
-
-
 def build_level(key):
     path = level_path(key)
     raw = sim.load(path)
@@ -366,6 +359,7 @@ def build_level(key):
     }
     is_hub = any(e["obj_type"] == "worldPortal" for e in raw["entities"])
     lv["hub"] = is_hub
+    lv["startHp"] = sim.Game(raw).initial()[2]   # 시작 칸의 가시/회복이 스폰 때 적용된 값
     if is_hub:
         _, text = quiet(hub.analyze, path)
         lv["hubText"] = text.strip().replace(ROOT + os.sep, "")
@@ -378,14 +372,7 @@ def build_level(key):
         lv["missing"] = missing
         return lv
     keys, _ = quiet(sim.solve, path, verbose=False)
-    g = sim.Game(raw)
-    s = g.initial()
-    frames = [frame_of(s)]
-    for k in keys or []:
-        s = g.step(s, k)
-        frames.append(frame_of(s, k))
     lv["solution"] = "".join(keys or [])
-    lv["frames"] = frames
     a, _ = quiet(analyze.analyze, path, quiet=True)
     (locks, alive), _ = quiet(deadend.analyze, path)
     killers, _ = quiet(verify.check, path, quiet=True)
