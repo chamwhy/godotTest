@@ -7,6 +7,8 @@ LEGEND = {
     "clear":    ("🚩",  "목표 포탈 — **멈춰야** 발동. 누에고치가 남아 있으면 비활성"),
     "portal":   ("🔵",  "월드 포탈 (숫자 = 가는 스테이지, 숫자 없음 = 월드 출구)"),
     "box":      ("📦",  "상자 — 내 공격력만큼 날아가고, 날아간 거리만큼 힘이 줄어든다"),
+    "gobP":     ("👺",  "고블린(순찰) — 막는다. 매 턴 바라보는 방향으로 1칸, 막히면 방향만 뒤집고 쉼. 1 맞으면 죽음"),
+    "gobC":     ("😈",  "고블린(추적) — 막는다. 매 턴 플레이어 쪽으로 1칸(먼 축 우선, 동률이면 가로). 1 맞으면 죽음"),
     "cocoon":   ("🟣",  "누에고치 — 막는다. 1 이상 맞으면 파괴. **전부 부수면 목표 활성화**"),
     "heal":     ("💚",  "회복 — 체력 +n. 지나가기만 해도 발동"),
     "trap":     ("🔴",  "고추 (상시) — 숫자 = 피해량. 몇 번이든 다시 밟힌다"),
@@ -28,6 +30,11 @@ def cell_for(ents, is_floor):
     if (e := find("worldPortal")):
         n = e.get("num", e.get("to_s", ""))
         return LEGEND["portal"][0] + (str(n) if n else ""), "portal"
+    if (e := find("goblin")):
+        if e.get("move") == "chase":
+            return LEGEND["gobC"][0], "gobC"
+        arrow = {"U": "↑", "D": "↓", "L": "←", "R": "→"}.get(e.get("dir", "R"), "")
+        return LEGEND["gobP"][0] + arrow, "gobP"
     if find("moveBox"):
         return LEGEND["box"][0], "box"
     if find("cocoon"):

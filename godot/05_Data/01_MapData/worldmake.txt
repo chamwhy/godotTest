@@ -36,3 +36,15 @@ cocoon (누에고치)
 #   number_textures[0] == null 이므로 num이 0이면 숫자가 표시되지 않는다.
 #   num 미지정 시 to_s를 쓰므로, to_s: 0인 포탈(= 월드 허브로 가는 포탈)은
 #   자동으로 숫자 없는 포탈이 된다. 월드 출구 표시로 활용 가능.
+
+# 고블린 (3월드) — 플레이어가 한 번 행동하면 한 칸 움직인다
+# 체력 1(1 이상 맞으면 죽음), 막음, 구멍에 빠지면 죽음, 고추/상자로도 죽음
+# 포탈을 잠그지는 않는다 (목표가 아니라 장애물이자 도구)
+{"x": 3, "y": 0, "obj_type": "goblin", "move": "patrol", "dir": "L", "atk": 1}
+#   move : "patrol"(기본) = dir 방향으로 1칸, 막히면 방향만 뒤집고 그 턴은 쉰다
+#          "chase"        = 플레이어 쪽으로 1칸. 먼 축 우선, 동률이면 가로
+#   dir  : "U"/"D"/"L"/"R" — patrol 전용 초기 방향 (기본 "R")
+#   atk  : 플레이어를 때릴 때의 피해량 (기본 1)
+#
+# 스폰 순서(EntitySpawner.RANK): trap 0 < wall 1 < healItem 2 < cocoon 3
+#   < worldPortal 10 < clear 11 < moveBox 20 < goblin 50 < player 90

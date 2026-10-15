@@ -20,6 +20,7 @@ func apply_data(data: Dictionary) -> void:
 	# TODO: 상태에 따른 이미지 업데이트
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:
+	if not in_map: return   # 맵에서 빠진(해제 대기 중인) 개체는 반응하지 않는다
 	if not healed and pos.equals(cur_position):
 		heal(elm, tick)
 		destroy_healItem(tick)

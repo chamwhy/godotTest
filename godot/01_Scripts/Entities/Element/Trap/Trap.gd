@@ -42,6 +42,7 @@ func update_sprite() -> void:
 
 
 func _check_pos(pos: Position, elm: Element, tick: int) -> void:
+	if not in_map: return   # 맵에서 빠진(해제 대기 중인) 개체는 반응하지 않는다
 	if not traped and pos.equals(cur_position):
 		print("trap check pos", pos.to_str(), elm, tick)
 		attack(elm, tick)

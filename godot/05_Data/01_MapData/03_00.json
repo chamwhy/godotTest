@@ -1,0 +1,43 @@
+{
+	"world": 3,
+	"stage": 0,
+	"map_name": "3스테 메인 월드",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 4,
+	"map_height": 5,
+	"zoom": 0.75,
+	"padding": 2,
+	"tile_map": [
+		[1, 1, 1, 1],
+		[1, 1, 1, 1],
+		[1, 1, 1, 1],
+		[1, 1, 1, 1],
+		[1, 1, 1, 1],
+	],
+	"entities": [
+		{"x": 0, "y": 0, "obj_type": "player", "mh": 6, "ch": 6},
+
+		{"x": 1, "y": 0, "obj_type": "worldPortal", "to_w": 3, "to_s": 1},
+		{"x": 2, "y": 0, "obj_type": "worldPortal", "to_w": 3, "to_s": 2},
+		{"x": 3, "y": 0, "obj_type": "worldPortal", "to_w": 3, "to_s": 3},
+		{"x": 3, "y": 1, "obj_type": "worldPortal", "to_w": 3, "to_s": 4},
+		{"x": 3, "y": 2, "obj_type": "worldPortal", "to_w": 3, "to_s": 5},
+		{"x": 2, "y": 2, "obj_type": "worldPortal", "to_w": 3, "to_s": 6},
+		{"x": 1, "y": 2, "obj_type": "worldPortal", "to_w": 3, "to_s": 7},
+		{"x": 0, "y": 2, "obj_type": "worldPortal", "to_w": 3, "to_s": 8},
+		{"x": 0, "y": 3, "obj_type": "worldPortal", "to_w": 3, "to_s": 9},
+		{"x": 0, "y": 4, "obj_type": "worldPortal", "to_w": 3, "to_s": 10},
+
+		{"x": 1, "y": 4, "obj_type": "worldPortal", "to_w": 0, "to_s": 0},
+
+		{"x": 0, "y": 1, "obj_type": "wall"},
+		{"x": 1, "y": 1, "obj_type": "wall"},
+		{"x": 2, "y": 1, "obj_type": "wall"},
+		{"x": 1, "y": 3, "obj_type": "wall"},
+		{"x": 2, "y": 3, "obj_type": "wall"},
+		{"x": 3, "y": 3, "obj_type": "wall"},
+		{"x": 2, "y": 4, "obj_type": "wall"},
+		{"x": 3, "y": 4, "obj_type": "wall"}
+	]
+}
