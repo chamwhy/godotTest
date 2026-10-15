@@ -32,7 +32,6 @@ sys.path.insert(0, HERE)
 import sim            # noqa: E402
 import analyze        # noqa: E402
 import deadend        # noqa: E402
-import verify         # noqa: E402
 import hub            # noqa: E402
 from descriptions import DESC, WORLDS  # noqa: E402
 
@@ -166,14 +165,26 @@ OBJECT_INFO = {
                     "frames": [("sprite_frames", "포탈 배경 — 3프레임 (안 깬 곳 #8dc977, 깬 곳 #a5b3a1 틴트)"),
                                ("number_textures", "숫자 n_1~n_15 (num 0 = 숫자 없음 → 월드 출구 표시)")],
                     "code": "WorldPortal.update_sprite"},
+    "goblin": {"name": "고블린 (3월드 · 움직이는 적)", "art": "임시 — 누에고치 그림에 색만 입힘 (순찰 연두 / 추적 붉은색)",
+               "frames": [("sprite_frames", "누에고치 프레임 재사용 (플레이스홀더) — modulate 로 종류 구분")],
+               "code": "Goblin._apply_kind_look — patrol 이면 순찰 색, chase 면 추적 색. 플레이어 1행동마다 1칸",
+               "warn": "전용 스프라이트가 없다. 순찰형은 바라보는 방향이 보여야 주기를 셀 수 있다(12 문서 5절). "
+                       "이 뷰어의 화살표는 dir 값을 보여 주는 표시일 뿐 게임 화면에는 없다."},
     "tile": {"name": "바닥 타일", "art": "흰 물결 바닥 — 128×128 조각 4개를 주변 8칸에 맞춰 조립",
              "frames": [("ul_frames", "좌상 조각 (상·좌상·좌 3비트)"), ("ur_frames", "우상 조각"),
                         ("dl_frames", "좌하 조각"), ("dr_frames", "우하 조각"), ("dust_texture", "먼지 장식 (50% 확률)")],
              "code": "Tile.update_tile_sprites — 시계방향 3비트 코드로 8종 중 선택"},
 }
-OBJECT_ORDER = ["tile", "player", "trap", "healItem", "wall", "cocoon", "moveBox", "clear", "worldPortal"]
+OBJECT_ORDER = ["tile", "player", "trap", "healItem", "wall", "cocoon", "moveBox", "goblin", "clear", "worldPortal"]
 
 COMMON_SFX_NOTE = "모든 개체 공통(Element): 맞을 때 hit-1 · 막힐 때 parry · 떨어질 때 falling"
+
+
+def goblin_tints():
+    """Goblin._apply_kind_look 의 modulate 색 (순찰, 추적). 못 찾으면 None"""
+    t = open(os.path.join(GODOT, "01_Scripts/Entities/Element/Goblin/Goblin.gd"), encoding="utf-8").read()
+    m = re.search(r'modulate = Color\("(#[0-9a-fA-F]+)"\) if move_kind == KIND_PATROL else Color\("(#[0-9a-fA-F]+)"\)', t)
+    return {"patrol": m.group(1), "chase": m.group(2)} if m else None
 
 
 def entity_scenes():
@@ -247,7 +258,7 @@ def build_objects():
                         sfx_own.append(k)
         if typ == "wall":
             sfx_own += ["broken_jar (항아리 파괴)", "broken_pillar (기둥 파괴)"]
-        if typ == "moveBox":                      # Unit 의 사망 연출은 상자에 도달 불가 (체력 없음)
+        if typ in ("moveBox", "goblin"):          # Unit.died 의 사망음은 도달 불가 (상자는 체력 없음, 고블린은 Goblin._die 로 사라짐)
             sfx_own = [k for k in sfx_own if k != "death"]
         objects.append({
             "type": typ, "name": info["name"], "art": info["art"], "scene": scene,
@@ -269,12 +280,15 @@ def build_objects():
         "trap": fs("trap", "trap_frames"), "trapOnce": fs("trap", "once_trap_frames"),
         "wallRandom": fs("wall", "random_wall_frames"), "wallBreakable": fs("wall", "destroyable_wall_frames"),
         "cocoon": fs("cocoon", "sprite_frames"), "moveBox": fs("moveBox", "sprite_frames"),
+        "goblin": fs("goblin", "sprite_frames"), "goblinTint": goblin_tints(),
         "healItem": fs("healItem", "sprite_frames"), "clear": fs("clear", "sprite_frames"),
         "worldPortal": fs("worldPortal", "sprite_frames"), "numbers": fs("worldPortal", "number_textures"),
         "tile": {q: fs("tile", q + "_frames") for q in ("ul", "ur", "dl", "dr")},
         "dust": [x[0] for x in fs("tile", "dust_texture")],
     }
-    for v in draw.values():
+    for k, v in draw.items():
+        if k == "goblinTint":
+            continue
         for p in _flatten(v):
             used_png.add(p)
     return objects, draw, used_png
@@ -340,13 +354,39 @@ def quiet(fn, *a, **kw):
     return r, buf.getvalue()
 
 
+def cocoon_killers(path):
+    """verify.check 과 같은 전수조사. 단 고블린 처치(kills 에 고블린 id 가 섞임)는 건너뛴다.
+    verify.check 은 고블린 맵에서 KeyError 로 멈춘다 (tools/level_sim 은 다른 작업 소관이라 손대지 않음)."""
+    from collections import deque
+    g = sim.Game(sim.load(path))
+    start = g.initial()
+    seen, q = {start}, deque([start])
+    killers = {cid: set() for cid in g.cocoon_ids}
+    while q:
+        s = q.popleft()
+        if s[5] or s[3] or s[4]:
+            continue
+        for k in "UDLR":
+            ns, kills, _ = g.step_ex(s, k)
+            # 낙하/사망으로 끝난 전이의 파괴는 해답에 기여할 수 없으므로 제외 (verify.check 과 동일)
+            if ns is not None and not (ns[3] or ns[4]):
+                for cid, who in kills:
+                    if cid in killers:
+                        killers[cid].add(who)
+            if ns is None or ns in seen:
+                continue
+            seen.add(ns)
+            q.append(ns)
+    return killers
+
+
 def build_level(key):
     path = level_path(key)
     raw = sim.load(path)
     ents = []
     for i, e in enumerate(raw["entities"]):
         d = {"id": i, "t": e["obj_type"], "x": e.get("x", 0), "y": e.get("y", 0)}
-        for k in ("atk", "once", "ma", "heal", "to_w", "to_s", "num", "mh", "ch"):
+        for k in ("atk", "once", "ma", "heal", "to_w", "to_s", "num", "mh", "ch", "move", "dir"):
             if k in e:
                 d[k] = e[k]
         ents.append(d)
@@ -375,7 +415,7 @@ def build_level(key):
     lv["solution"] = "".join(keys or [])
     a, _ = quiet(analyze.analyze, path, quiet=True)
     (locks, alive), _ = quiet(deadend.analyze, path)
-    killers, _ = quiet(verify.check, path, quiet=True)
+    killers = cocoon_killers(path)
     verdict = []
     for cid, ks in killers.items():
         e = raw["entities"][cid]
@@ -385,6 +425,7 @@ def build_level(key):
         "shortest": a["shortest"], "states": a["states"], "dead": a["dead"], "fallen": a["fallen"],
         "alive": alive, "locks": locks, "required": a["required_tiers"], "clearTiers": a["clear_tiers"],
         "cocoons": a["cocoons"], "boxes": a["boxes"], "cocoonKillers": verdict,
+        "goblins": sum(1 for e in raw["entities"] if e["obj_type"] == "goblin"),
     }
     return lv
 

@@ -1,4 +1,4 @@
-/* bsk 레벨 디자인 시트 — data.js(window.LEVEL_DATA)를 읽어 모든 맵의 타일·오브젝트 배치를 한 페이지에 그린다.
+/* minotaur can think 레벨 디자인 시트 — data.js(window.LEVEL_DATA)를 읽어 모든 맵의 타일·오브젝트 배치를 한 페이지에 그린다.
    플레이/재생 기능은 없다. 맵을 누르면 큰 지도와 설명을 나란히 보여 준다. */
 (() => {
   "use strict";
@@ -10,7 +10,8 @@
   const T = 256;                         // 원본 타일 픽셀
   const PAD = 0.1;                       // 맵 둘레 여백 (타일 단위)
   const SIZES = [["작게", 18], ["보통", 30], ["크게", 46]];
-  const RANK = { trap: 0, wall: 1, healItem: 2, cocoon: 3, worldPortal: 10, clear: 11, moveBox: 20, player: 90 };
+  const RANK = { trap: 0, wall: 1, healItem: 2, cocoon: 3, worldPortal: 10, clear: 11, moveBox: 20, goblin: 50, player: 90 };
+  const GOB_TINT = Object.assign({ patrol: "#c0e080", chase: "#e08080" }, D.draw.goblinTint || {});   // Goblin._apply_kind_look
   const EMO = ["평온", "화남", "격노"];
   const emoOf = (hp) => (hp >= 4 ? 0 : hp >= 2 ? 1 : 2);
   const ARROW = { U: "↑", D: "↓", L: "←", R: "→" };
@@ -61,6 +62,25 @@
     return (TINT[key] = c);
   }
 
+  // 고블린 표시 — 게임 화면에는 없는 뷰어 전용 표식. 순찰 = 바라보는 방향 화살표, 추적 = 과녁
+  function goblinMark(ctx, e, X, Y) {
+    const chase = e.move === "chase";
+    const [dx, dy] = chase ? [0, 0] : ({ U: [0, -1], D: [0, 1], L: [-1, 0], R: [1, 0] }[e.dir || "R"] || [1, 0]);
+    const cx = X + T / 2 + dx * T * 0.34, cy = Y + T / 2 + dy * T * 0.34 + (chase ? T * 0.3 : 0);
+    ctx.save();
+    ctx.fillStyle = "rgba(40,40,40,.85)";
+    ctx.beginPath(); ctx.arc(cx, cy, 40, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = ctx.fillStyle = "#fff"; ctx.lineWidth = 10; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    if (chase) {
+      ctx.beginPath(); ctx.arc(cx, cy, 22, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx, cy, 7, 0, Math.PI * 2); ctx.fill();
+    } else {
+      ctx.translate(cx, cy); ctx.rotate(Math.atan2(dy, dx));
+      ctx.beginPath(); ctx.moveTo(-20, 0); ctx.lineTo(20, 0); ctx.moveTo(4, -16); ctx.lineTo(20, 0); ctx.lineTo(4, 16); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
   // ─────────────────────────────────────── 맵 그리기 (JSON 배치 그대로)
   function drawMap(canvas, lv, cellPx, grid) {
     const cols = lv.w + PAD * 2, rows = lv.h + PAD * 2;
@@ -105,6 +125,12 @@
         case "healItem": img = first(D.draw.healItem); break;
         case "cocoon": img = first(D.draw.cocoon); break;
         case "moveBox": img = first(D.draw.moveBox); break;
+        case "goblin": {
+          const g = first(D.draw.goblin);
+          if (g) ctx.drawImage(tinted(g, GOB_TINT[e.move === "chase" ? "chase" : "patrol"]), X, Y, T, T);
+          goblinMark(ctx, e, X, Y);
+          break;
+        }
         case "clear": img = first(D.draw.clear); if (gated) ctx.globalAlpha = 0.5; break;
         case "worldPortal": {
           const bg = first(D.draw.worldPortal);
@@ -211,7 +237,8 @@
         stat("소프트락", `${pct}% (${m.locks}/${m.alive})`, "살아 있지만 이미 클리어가 불가능한 상태 비율"),
         stat("사망 · 낙하", `${m.dead} · ${m.fallen}`),
         stat("필수 감정", m.required.join(" · ") || "없음", "이 감정을 금지하면 클리어 불가"),
-        stat("고치 · 상자", `${m.cocoons} · ${m.boxes}`)));
+        m.goblins ? stat("고치 · 상자 · 고블린", `${m.cocoons} · ${m.boxes} · ${m.goblins}`)
+                  : stat("고치 · 상자", `${m.cocoons} · ${m.boxes}`)));
     }
     const rows = [];
     const add = (cls, k, v) => { if (v) rows.push(h("dt", { class: cls }, k), h("dd", null, v)); };
@@ -302,18 +329,35 @@
   // ─────────────────────────────────────── 범례
   function legend() {
     const it = (img, label) => h("span", { class: "lg" }, img ? h("img", { src: url(img), alt: "" }) : h("i", { class: "hole" }), label);
+    const pic = (paint, label) => {   // 틴트가 필요한 그림은 시트와 같은 방식으로 작은 캔버스에
+      const c = h("canvas", { width: T, height: T, "aria-hidden": "true" });
+      paint(c.getContext("2d"));
+      return h("span", { class: "lg" }, c, label);
+    };
+    const gob = (e, label) => pic((x) => {
+      const g = first(D.draw.goblin);
+      if (g) x.drawImage(tinted(g, GOB_TINT[e.move]), 0, 0, T, T);
+      goblinMark(x, e, 0, 0);
+    }, label);
+    const portal = (label) => pic((x) => {
+      const bg = first(D.draw.worldPortal), num = first(D.draw.numbers[1]);
+      if (bg) x.drawImage(tinted(bg, "#8dc977"), 0, 0, T, T);
+      if (num) x.drawImage(IMG[num], 0, 0, T, T);
+    }, label);
     return h("div", { class: "legend", "aria-label": "범례" },
       it(first(D.draw.player[0]), "플레이어 (감정별 그림)"),
       it(first(D.draw.clear), "실타래 = 목표 (반투명 = 고치가 남아 꺼짐)"),
       it(first(D.draw.cocoon), "누에고치"),
       it(first(D.draw.moveBox), "상자"),
+      D.draw.goblin ? gob({ move: "patrol", dir: "R" }, "고블린 순찰 (화살표 = 바라보는 방향)") : null,
+      D.draw.goblin ? gob({ move: "chase" }, "고블린 추적 (과녁)") : null,
       it(first(D.draw.trap[2]), "가시 1·2·3 (상시)"),
       it(first(D.draw.trapOnce[0]), "고추 (일회성)"),
       it(first(D.draw.healItem), "쿠키 = 회복"),
       it(first(D.draw.wallRandom[0]), "바위 = 벽"),
       it(first(D.draw.wallBreakable[0]), "항아리 (공격 1로 파괴)"),
       it(first(D.draw.wallBreakable[1]), "기둥 (공격 2로 파괴)"),
-      it(first(D.draw.worldPortal), "월드 포탈 (허브)"),
+      portal("월드 포탈 (허브, 숫자 = 스테이지)"),
       it(null, "회색 = 구멍"));
   }
 
