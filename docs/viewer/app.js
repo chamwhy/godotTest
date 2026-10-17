@@ -192,7 +192,7 @@
       type: "button", class: "map-card" + (lv.legacy ? " legacy" : ""), id: "lv-" + lv.key,
       "aria-label": `${lv.key} ${lv.name} ${sub} — 자세히 보기`, onclick: () => openDetail(lv.key),
     },
-      h("span", { class: "mc-head" }, h("span", { class: "mc-key" }, lv.key.replace("v1_", "v1·")), h("span", { class: "mc-name" }, lv.name)),
+      h("span", { class: "mc-head" }, h("span", { class: "mc-key" }, lv.key.replace(/^v(\d)_/, "v$1·")), h("span", { class: "mc-name" }, lv.name)),
       h("span", { class: "mc-map" }, canvas),
       sub ? h("span", { class: "mc-sub" }, sub) : null,
       h("span", { class: "mc-stat" }, summary(lv)));
@@ -263,7 +263,7 @@
     dlgBody.replaceChildren(
       h("div", { class: "dlg-head" },
         h("div", null,
-          h("div", { class: "mc-key" }, lv.key.replace("v1_", "v1 · ") + " · " + lv.name),
+          h("div", { class: "mc-key" }, lv.key.replace(/^v(\d)_/, "v$1 · ") + " · " + lv.name),
           h("h2", { id: "dlg-title" }, d.title || lv.name),
           h("div", { class: "badges" }, badges)),
         h("div", { class: "dlg-nav" },
