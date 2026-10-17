@@ -7,20 +7,36 @@
 <meta name="description" content="minotaur can think 1월드부터 3월드까지 모든 맵의 타일·오브젝트 배치를 실제 게임 그림으로 한 페이지에 모아 본다. 맵을 누르면 설명과 난이도 지표.">
 <link rel="stylesheet" href="viewer/style.css">
 <style>
-  /* 레벨 에디터로 가는 링크. viewer/style.css를 건드리지 않으려고 여기 둔다. */
-  .to-editor{
-    flex:0 0 auto; display:inline-flex; align-items:center; gap:6px;
-    background:var(--accent,#2f7d4f); color:var(--accent-ink,#fff);
-    border-radius:999px; padding:5px 13px; font-size:13.5px; font-weight:600;
-    text-decoration:none; white-space:nowrap;
-  }
-  .to-editor:hover{filter:brightness(1.08)}
-  .to-editor:focus-visible{outline:2px solid var(--ink,#1d1c1a); outline-offset:2px}
-  .site-nav a.to-editor[aria-current="true"]{background:var(--accent,#2f7d4f)}
+/* 사이트 탭 — index.html(전체 스테이지)과 editor.html(레벨 에디터)을 오간다.
+   두 페이지가 서로 다른 색 토큰을 쓰므로, 글자색만 토큰에서 받고
+   활성 표시(밑줄)는 고정색으로 둬서 어느 쪽에서도 같은 모양이 되게 했다. */
+.sitetabs{border-bottom:1px solid var(--line,#e2e0da); background:var(--bg,#f4f3ef)}
+.sitetabs-in{
+  max-width:1280px; margin:0 auto; display:flex; gap:2px; align-items:stretch;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.sitetabs a{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:11px 16px 9px; text-decoration:none;
+  color:var(--ink-2,var(--muted,#55534e));
+  font-size:14px; font-weight:600; white-space:nowrap;
+  border-bottom:2px solid transparent;
+}
+.sitetabs a:hover{color:var(--ink,var(--fg,#1d1c1a))}
+.sitetabs a[aria-current="page"]{color:var(--ink,var(--fg,#1d1c1a)); border-bottom-color:#2f7d4f}
+.sitetabs a:focus-visible{outline:2px solid #2f7d4f; outline-offset:-3px; border-radius:3px}
+.sitetabs .mark{font-size:15px; line-height:1}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">본문으로</a>
+<nav class="sitetabs" aria-label="페이지 선택">
+  <div class="sitetabs-in">
+    <a href="index.html" aria-current="page"><span class="mark" aria-hidden="true">▦</span>전체 스테이지</a>
+    <a href="editor.html"><span class="mark" aria-hidden="true">✎</span>레벨 에디터</a>
+  </div>
+</nav>
 <header class="site-head">
   <div class="wrap">
     <h1>minotaur can think 레벨 디자인 시트</h1>
@@ -32,7 +48,6 @@
 <nav class="site-nav" aria-label="섹션과 보기 설정">
   <div class="wrap nav-row">
     <ul id="nav"></ul>
-    <a class="to-editor" href="15_레벨에디터.html">✎ 레벨 에디터</a>
     <div class="tools" id="tools"></div>
   </div>
 </nav>
@@ -48,7 +63,7 @@
     <p>배치는 <code>godot/05_Data/01_MapData</code>의 맵 JSON 그대로, 지표는 <code>tools/level_sim</code> 시뮬레이터로 자동 생성된다.
       맵을 고친 뒤 <code>python3 tools/level_viewer/build.py</code>를 다시 돌리면 갱신된다.</p>
     <p>설계 문서: <a href="https://github.com/chamwhy/godotTest/tree/main/docs">docs/</a>
-      · 맵을 새로 그리거나 고치려면 <a href="15_레벨에디터.html">레벨 에디터</a>에서 JSON을 뽑는다.</p>
+      · 맵을 새로 그리거나 고치려면 <a href="editor.html">레벨 에디터</a>에서 JSON을 뽑는다.</p>
   </div>
 </footer>
 <script src="viewer/data.js"></script>
