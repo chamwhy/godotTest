@@ -6,6 +6,18 @@
 <title>minotaur can think 레벨 디자인 시트</title>
 <meta name="description" content="minotaur can think 1월드부터 3월드까지 모든 맵의 타일·오브젝트 배치를 실제 게임 그림으로 한 페이지에 모아 본다. 맵을 누르면 설명과 난이도 지표.">
 <link rel="stylesheet" href="viewer/style.css">
+<style>
+  /* 레벨 에디터로 가는 링크. viewer/style.css를 건드리지 않으려고 여기 둔다. */
+  .to-editor{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:6px;
+    background:var(--accent,#2f7d4f); color:var(--accent-ink,#fff);
+    border-radius:999px; padding:5px 13px; font-size:13.5px; font-weight:600;
+    text-decoration:none; white-space:nowrap;
+  }
+  .to-editor:hover{filter:brightness(1.08)}
+  .to-editor:focus-visible{outline:2px solid var(--ink,#1d1c1a); outline-offset:2px}
+  .site-nav a.to-editor[aria-current="true"]{background:var(--accent,#2f7d4f)}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">본문으로</a>
@@ -20,6 +32,7 @@
 <nav class="site-nav" aria-label="섹션과 보기 설정">
   <div class="wrap nav-row">
     <ul id="nav"></ul>
+    <a class="to-editor" href="15_레벨에디터.html">✎ 레벨 에디터</a>
     <div class="tools" id="tools"></div>
   </div>
 </nav>
@@ -34,7 +47,8 @@
   <div class="wrap">
     <p>배치는 <code>godot/05_Data/01_MapData</code>의 맵 JSON 그대로, 지표는 <code>tools/level_sim</code> 시뮬레이터로 자동 생성된다.
       맵을 고친 뒤 <code>python3 tools/level_viewer/build.py</code>를 다시 돌리면 갱신된다.</p>
-    <p>설계 문서: <a href="https://github.com/chamwhy/godotTest/tree/claude/world2-cocoon-design/docs">docs/</a></p>
+    <p>설계 문서: <a href="https://github.com/chamwhy/godotTest/tree/main/docs">docs/</a>
+      · 맵을 새로 그리거나 고치려면 <a href="15_레벨에디터.html">레벨 에디터</a>에서 JSON을 뽑는다.</p>
   </div>
 </footer>
 <script src="viewer/data.js"></script>
