@@ -7,7 +7,10 @@ class_name Element
 @export var is_block: bool = false  # 막힘 판정 여부
 @export var hitable: bool = true
 
-@onready var hit_effect: HitEffect = $AnimatedSprite2D/HitEffect
+@onready var hit_effect: HitEffect = get_node_or_null("AnimatedSprite2D/HitEffect")
+
+## 낙하 연출 길이. 실패-되돌리기가 핵심 루프라 짧아야 한다.
+const FALL_DUR := 0.4
 
 var in_map := false   # 맵에 존재하는지 여부 (GridManager가 관리)
 
@@ -51,15 +54,16 @@ func _anim_on_damaged(tween: Tween, data: Dictionary) -> void:
 
 func _anim_on_parryed(tween: Tween, data: Dictionary) -> void:
 	AudioManager.play_sfx("parry")
-	hit_effect.play_parry()
+	if hit_effect:
+		hit_effect.play_parry()
 	tween.tween_interval(0.0)
 
 func _anim_falling(tween: Tween, data: Dictionary) -> void:
 	AudioManager.play_sfx("falling")
 	tween.set_parallel(true)
-	tween.tween_property(self, "position:y", position.y + 120, 1) \
+	tween.tween_property(self, "position:y", position.y + 120, FALL_DUR) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	tween.tween_property(self, "modulate:a", 0.0, 1) \
+	tween.tween_property(self, "modulate:a", 0.0, FALL_DUR) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tween.set_parallel(false)  # ← 이후 추가되는 스텝은 다시 순차 실행
 	tween.tween_callback(func():
@@ -71,9 +75,9 @@ func _anim_undo_falling(tween: Tween, data: Dictionary) -> void:
 	modulate.a = 0.0	# 기존에 알파 원복 후 hide로 숨겨놔서 show하기 전, 다시 알파 0으로
 	show()
 	tween.set_parallel(true)
-	tween.tween_property(self, "position:y", position.y - 120, 1) \
+	tween.tween_property(self, "position:y", position.y - 120, FALL_DUR) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "modulate:a", 1.0, 1) \
+	tween.tween_property(self, "modulate:a", 1.0, FALL_DUR) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 

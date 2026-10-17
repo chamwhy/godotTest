@@ -66,7 +66,7 @@ func save_undo_state() -> Dictionary:
 
 #@override
 func _anim_vanish(tween: Tween, data: Dictionary) -> void:
-	AudioManager.play_sfx(destroy_audio[min_atk-1])
+	AudioManager.play_sfx(destroy_audio[min(min_atk - 1, destroy_audio.size() - 1)])
 	tween.tween_property(self, "modulate:a", 0.0, 0.15)
 	tween.tween_callback(func():
 		hide()

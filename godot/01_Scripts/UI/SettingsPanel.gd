@@ -24,7 +24,8 @@ signal closed()
 @export var pause_game := true
 
 ## 슬라이더를 놓을 때 미리듣기 SFX를 재생할지
-@export var preview_sfx_key := "menu_select"
+## TODO: 전용 UI 효과음으로 교체. 지금은 존재하는 짧은 타격음을 임시로 쓴다.
+@export var preview_sfx_key := "hit-1"
 
 ## 나타나기/사라지기 애니메이션 시간(초)
 @export var fade_duration := 0.18
@@ -194,20 +195,18 @@ func _confirm(message: String) -> bool:
 
 
 func _go_home() -> void:
-	# TODO: 홈 이동 로직
-	# 주의: 지금 paused=true 상태이므로, 씬 전환 전에 get_tree().paused = false 를 꼭 풀 것.
-	close()
+	# close()를 먼저 끝내야 paused가 풀린다. await 없이 로드하면 일시정지 상태로 스폰된다.
+	await close()
 	# TODO: home sfx
-	StageDirector.load_stage(0, 0)
-	pass
+	# 메인 허브(0-0)가 아니라 지금 플레이 중인 월드의 허브로 돌아간다.
+	StageDirector.load_stage(StageContext.world, 0)
 
 
 func _reset() -> void:
-	# TODO: 리셋 로직
-	close()
+	# close()를 먼저 끝내야 paused가 풀린다.
+	await close()
 	# TODO: reset sfx
 	StageDirector.reload_stage()
-	pass
 
 #endregion
 

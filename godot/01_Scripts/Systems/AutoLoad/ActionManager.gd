@@ -11,6 +11,10 @@
 # ─────────────────────────────────────────────────────────────
 extends Node
 
+## 정방향 턴과 되돌리기 턴이 모두 끝난 뒤 발생한다.
+## 턴 결과(사망·낙하 등)를 보고 UI를 갱신하는 쪽이 구독한다.
+signal turn_finished()
+
 
 # ─────────────────────────────────────────────
 # ActionUnit: 턴 중 발생한 개별 사건
@@ -22,6 +26,10 @@ class ActionUnit:
 	var undo_action: String   # "" 이면 undo 시 애니메이션 없음
 	var undo_data: Dictionary
 	var tick: int
+
+	## 연출만 있고 게임 상태는 바꾸지 않은 사건인가.
+	## 이런 사건만으로 끝난 턴은 되돌리기 히스토리에 쌓이지 않는다.
+	var presentation_only := false
 
 	func _init(
 		_target: Node2D,
@@ -55,6 +63,31 @@ func _ready() -> void:
 # ─────────────────────────────────────────────
 func record(unit: ActionUnit) -> void:
 	_turn_actions.append(unit)
+
+
+## 스폰 중(턴 밖)에 발생한 상호작용 정리.
+## Element.apply_data의 enter_element가 record_new를 호출하지만 그때는
+## AnimationQueue가 돌지 않아 연출이 유실된다. 논리는 이미 적용됐으니
+## 기록은 버리고, 맵에서 빠진 개체(발동한 일회성 고추 등)만 즉시 숨긴다.
+func settle_spawn_actions() -> void:
+	for elm in GridManager.all_elements:
+		if is_instance_valid(elm):
+			elm.visible = elm.in_map
+	_turn_actions.clear()
+
+
+## 연출만 남기고 상태는 바꾸지 않은 사건.
+## 예) 때릴 대상이 없는 공격 — "공격력 = 원래 공격력 - 이동한 칸수"를
+## 플레이어가 눈으로 배우려면 헛스윙도 보여야 한다. 하지만 바뀐 상태가
+## 없으므로 되돌리기 히스토리에 쌓이면 "되돌렸는데 화면이 그대로"가 된다.
+func record_presentation(
+	target: Node2D, tick: int,
+	action: String, data: Dictionary = {},
+	undo_action: String = "", undo_data: Dictionary = {}
+) -> void:
+	var unit := ActionUnit.new(target, tick, action, data, undo_action, undo_data)
+	unit.presentation_only = true
+	record(unit)
 
 
 # 편의 함수 (호출부 간결화)
@@ -105,6 +138,9 @@ func run_turn(player: Player, dir: Position) -> void:
 	# ② 게임 로직 실행 → record()로 ActionUnit들이 쌓임
 	player.action_dir(dir, 0)
 
+	# ②-b 고블린 턴. 플레이어 1행동 = 고블린 1행동.
+	_run_goblin_turn()
+
 	# ③ 액션 → 애니메이션 변환 등록 후 재생
 	for u in _turn_actions:
 		AnimationQueue.enqueue(u.target, u.action, u.data, u.tick)
@@ -119,6 +155,43 @@ func run_turn(player: Player, dir: Position) -> void:
 	StageDirector.flush_pending_map_change()
 
 	is_turn_running = false
+	turn_finished.emit()
+
+
+## 고블린은 플레이어가 행동한 뒤에 한 번씩 움직인다.
+##
+## 순서는 GridManager.all_elements 순서 = 스폰 순서 = EntitySpawner.RANK 순이다.
+## 이게 고정이어야 플레이어가 다음 턴을 예측할 수 있다. 난수는 쓰지 않는다.
+##
+## tick을 플레이어 행동 뒤로 이어 붙여서, 연출이 "내가 움직인 다음 적이 움직인다"
+## 순서로 재생되게 한다.
+func _run_goblin_turn() -> void:
+	var player: Player = PlayerRegistry.get_player()
+	if player == null or player.is_dead or player.is_fallen:
+		return
+	# 이미 클리어된 판에서는 움직이지 않는다 (맵 전환이 예약된 상태)
+	if StageContext.has_pending_map_change():
+		return
+
+	var tick := _next_tick()
+	for elm in GridManager.all_elements.duplicate():
+		if not is_instance_valid(elm):
+			continue
+		var gob := elm as Goblin
+		if gob == null:
+			continue
+		tick = gob.take_turn(tick)
+		# 고블린이 플레이어를 죽였으면 남은 고블린은 움직이지 않는다
+		if player.is_dead or player.is_fallen:
+			return
+
+
+## 이번 턴에 기록된 가장 늦은 tick 다음 값.
+func _next_tick() -> int:
+	var t := -1
+	for u in _turn_actions:
+		t = maxi(t, u.tick)
+	return t + 1
 
 
 # ─────────────────────────────────────────────
@@ -155,4 +228,5 @@ func run_undo() -> void:
 	UndoManager.sync_visuals(turn_record)
 
 	is_turn_running = false
+	turn_finished.emit()
 	print("ActionManager: Undo 완료")

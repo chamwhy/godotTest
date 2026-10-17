@@ -79,8 +79,6 @@ func check_input(event: InputEvent) -> void:
 			_handle_confirm_screen(event, _close_tip)
 		GameManager.GameState.MAIN_MENU:
 			_handle_confirm_screen(event, _begin_game)
-		GameManager.GameState.GAME_OVER:
-			pass
 
 #region 외부입력
 

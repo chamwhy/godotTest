@@ -23,8 +23,7 @@ func _ready() -> void:
 		tip.visible = false
 		_shown[tip] = false
 	
-	_cleared = []
-	SaveManager.set_value(SAVE_SECTION, "cleared_tipList", _cleared)
+	# 읽기가 먼저여야 한다. 저장을 먼저 하면 진행도가 매 실행 지워진다.
 	_cleared.assign(SaveManager.get_value(SAVE_SECTION, "cleared_tipList", []))
 
 

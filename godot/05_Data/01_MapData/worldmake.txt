@@ -17,3 +17,34 @@ clear
 moveBox
 healItem
 	- heal <int>: 힐 양(기본 1)
+
+cocoon (누에고치)
+	- (추가 속성 없음)
+	- is_block = true. 벽처럼 막는다.
+	- 1 이상의 피해를 받으면 즉시 파괴된다. (0이면 튕김)
+	- 스테이지 내 모든 cocoon을 파괴해야 clear 포탈이 활성화된다.
+	  하나라도 남아 있으면 포탈은 반투명(알파 0.5)이고 밟아도 발동하지 않는다.
+	- cocoon이 하나도 없는 스테이지는 clear 포탈이 처음부터 활성이다.
+
+# 참고: 스폰 순서 (EntitySpawner.RANK)
+#   trap 0 -> wall 1 -> healItem 2 -> cocoon 3 -> worldPortal 10
+#   -> clear 11 -> moveBox 20 -> player 90
+#   player가 마지막이라, 시작 칸에 trap/healItem이 있으면 그 효과가 적용된다.
+#   cocoon이 clear보다 먼저라, 포탈이 생성 시점에 게이트 여부를 알 수 있다.
+
+# 참고: worldPortal의 num
+#   number_textures[0] == null 이므로 num이 0이면 숫자가 표시되지 않는다.
+#   num 미지정 시 to_s를 쓰므로, to_s: 0인 포탈(= 월드 허브로 가는 포탈)은
+#   자동으로 숫자 없는 포탈이 된다. 월드 출구 표시로 활용 가능.
+
+# 고블린 (3월드) — 플레이어가 한 번 행동하면 한 칸 움직인다
+# 체력 1(1 이상 맞으면 죽음), 막음, 구멍에 빠지면 죽음, 고추/상자로도 죽음
+# 포탈을 잠그지는 않는다 (목표가 아니라 장애물이자 도구)
+{"x": 3, "y": 0, "obj_type": "goblin", "move": "patrol", "dir": "L", "atk": 1}
+#   move : "patrol"(기본) = dir 방향으로 1칸, 막히면 방향만 뒤집고 그 턴은 쉰다
+#          "chase"        = 플레이어 쪽으로 1칸. 먼 축 우선, 동률이면 가로
+#   dir  : "U"/"D"/"L"/"R" — patrol 전용 초기 방향 (기본 "R")
+#   atk  : 플레이어를 때릴 때의 피해량 (기본 1)
+#
+# 스폰 순서(EntitySpawner.RANK): trap 0 < wall 1 < healItem 2 < cocoon 3
+#   < worldPortal 10 < clear 11 < moveBox 20 < goblin 50 < player 90

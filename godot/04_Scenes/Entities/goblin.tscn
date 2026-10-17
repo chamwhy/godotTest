@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bq5x7mhrv3e2n"]
+
+[ext_resource type="Script" uid="uid://dp3kw8vxm2q7r" path="res://01_Scripts/Entities/Element/Goblin/Goblin.gd" id="1_gobln"]
+[ext_resource type="SpriteFrames" uid="uid://c748tgx7636md" path="res://06_Animation/SpriteFrames/Cocoon/cocoon_frames.tres" id="2_gobfr"]
+[ext_resource type="Script" uid="uid://dg87ive2nxwm2" path="res://01_Scripts/Animation/Effect/HitEffect.gd" id="3_gobhe"]
+
+[node name="Goblin" type="Node2D" unique_id=1288304471]
+script = ExtResource("1_gobln")
+is_block = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1288304472]
+sprite_frames = ExtResource("2_gobfr")
+autoplay = "default"
+
+[node name="HitEffect" type="Node" parent="AnimatedSprite2D" unique_id=1288304473]
+script = ExtResource("3_gobhe")

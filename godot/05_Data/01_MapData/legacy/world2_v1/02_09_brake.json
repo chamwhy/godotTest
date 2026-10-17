@@ -1,0 +1,24 @@
+{
+	"world": 2,
+	"stage": 9,
+	"map_name": "brake",
+	"tile_size_x": 256,
+	"tile_size_y": 256,
+	"map_width": 8,
+	"map_height": 2,
+	"zoom": 0.5,
+	"padding": 2,
+	"tile_map": [
+		[0, 1, 0, 0, 0, 1, 0, 0],
+		[1, 1, 1, 0, 1, 1, 1, 1],
+	],
+	"entities": [
+		{"x": 1, "y": 0, "obj_type": "cocoon"},
+		{"x": 5, "y": 0, "obj_type": "cocoon"},
+		{"x": 0, "y": 1, "obj_type": "player", "mh": 6, "ch": 6},
+		{"x": 1, "y": 1, "obj_type": "trap", "atk": 3},
+		{"x": 2, "y": 1, "obj_type": "trap", "atk": 2},
+		{"x": 5, "y": 1, "obj_type": "clear", "to_w": 2, "to_s": 0},
+		{"x": 6, "y": 1, "obj_type": "moveBox"},
+	]
+}

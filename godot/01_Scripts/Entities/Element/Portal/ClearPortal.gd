@@ -17,9 +17,24 @@ func apply_data(data: Dictionary) -> void:
 	modulate.a = base_alpha
 
 ## 활성화: 데이터(active) + 시각(record)을 함께 처리한다.
+## 활성화 직후 "이미 포탈 위에 서 있는" 대상을 한 번 검사한다.
 func activate(tick: int) -> void:
 	active = true
 	ActionManager.record_new(self, tick, "activate", {}, "deactivate", {})
+	_check_occupant(tick)
+
+## 포탈은 element_settled(이동이 끝난 순간)로만 발동한다.
+## 그래서 플레이어가 포탈 위에 선 채로 마지막 누에고치를 부수면
+## 활성화는 되지만 settled가 다시 오지 않아 영원히 발동하지 않는다.
+## (제자리 타격은 이동 0칸이라 settled가 없다)
+## 활성화 시점에 점유자를 한 번 검사해서 그 구멍을 막는다.
+func _check_occupant(tick: int) -> void:
+	var player: Player = PlayerRegistry.get_player()
+	if player == null: return
+	if player.is_dead or player.is_fallen: return
+	if not player.in_map: return
+	if player.cur_position.equals(cur_position):
+		move_map(tick)
 
 func move_map(tick: int) -> void:
 	if not active: return
