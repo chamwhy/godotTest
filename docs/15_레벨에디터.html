@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>미노타우로스 레벨 에디터</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 도구 레일 / 격자 작업대 / 속성 패널 3단. 좁아지면 한 줄로 쌓인다. */
+:root{
+  --bg:#eeeae8; --surface:#f9f7f6; --surface-2:#e5dfdc; --line:#d6cdc9;
+  --fg:#241f1d; --muted:#6d625d; --accent:#c2402f; --accent-soft:#f4dbd6;
+  --ok:#2f7d55; --warn:#9a6a10; --bad:#b5342a;
+  --c-player:#2f6fb0; --c-clear:#2f8f62; --c-portal:#4a86c4; --c-wall:#7b6f69;
+  --c-trap:#c2402f; --c-heal:#3f9a66; --c-cocoon:#8257ab; --c-box:#a87a2c; --c-goblin:#6a8f3c;
+  --tile-floor:#fbfaf9; --tile-hole:#2a2422; --tile-hole-fg:#8d827c;
+  --font-ui:'IBM Plex Sans KR',system-ui,-apple-system,'Malgun Gothic',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --cell:clamp(30px,7.4vw,46px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#191615; --surface:#232020; --surface-2:#2e2928; --line:#3c3533;
+  --fg:#ece7e4; --muted:#9b908b; --accent:#e4674f; --accent-soft:#3e241e;
+  --ok:#5bbd87; --warn:#d7a344; --bad:#e8695c;
+  --c-player:#6aa8e0; --c-clear:#5cc295; --c-portal:#7cb2e8; --c-wall:#a2958e;
+  --c-trap:#e4674f; --c-heal:#63c48c; --c-cocoon:#b088d8; --c-box:#d2a44f; --c-goblin:#9bc264;
+  --tile-floor:#2c2827; --tile-hole:#0d0b0b; --tile-hole-fg:#564e4b;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#191615; --surface:#232020; --surface-2:#2e2928; --line:#3c3533;
+  --fg:#ece7e4; --muted:#9b908b; --accent:#e4674f; --accent-soft:#3e241e;
+  --ok:#5bbd87; --warn:#d7a344; --bad:#e8695c;
+  --c-player:#6aa8e0; --c-clear:#5cc295; --c-portal:#7cb2e8; --c-wall:#a2958e;
+  --c-trap:#e4674f; --c-heal:#63c48c; --c-cocoon:#b088d8; --c-box:#d2a44f; --c-goblin:#9bc264;
+  --tile-floor:#2c2827; --tile-hole:#0d0b0b; --tile-hole-fg:#564e4b;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--fg);
+  font-family:var(--font-ui); font-size:14px; line-height:1.5;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:1280px; margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 48px;
+}
+h1,h2,h3{text-wrap:balance; margin:0}
+button,input,select,textarea{font:inherit; color:inherit}
+
+/* ── 헤더 ─────────────────────────────────────── */
+header{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:20;
+  background:var(--bg); border-bottom:1px solid var(--line);
+  padding-block:14px 12px; margin-bottom:20px;
+}
+.hrow{display:flex; flex-wrap:wrap; gap:12px 16px; align-items:baseline}
+h1{font-size:19px; font-weight:700; letter-spacing:-.01em}
+.sub{color:var(--muted); font-size:12.5px}
+.hcontrols{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; align-items:center}
+
+/* ── 공통 컨트롤 ──────────────────────────────── */
+.btn{
+  background:var(--surface); border:1px solid var(--line); border-radius:7px;
+  padding:7px 12px; cursor:pointer; font-size:13px; font-weight:500;
+  transition:border-color .12s, background .12s;
+}
+.btn:hover{border-color:var(--muted)}
+.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
+.btn.primary:hover{filter:brightness(1.07)}
+select,input[type=text],input[type=number]{
+  background:var(--surface); border:1px solid var(--line); border-radius:7px;
+  padding:6px 9px; font-size:13px; min-width:0;
+}
+select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+.lbl{font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--muted)}
+
+/* ── 3단 레이아웃 ─────────────────────────────── */
+.board{display:grid; grid-template-columns:200px minmax(0,1fr) 270px; gap:18px; align-items:start}
+@media (max-width:1000px){ .board{grid-template-columns:1fr} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:11px; padding:14px}
+.panel + .panel{margin-top:14px}
+.panel h2{font-size:12px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); margin-bottom:10px}
+
+/* ── 도구 레일 ────────────────────────────────── */
+.tools{display:flex; flex-direction:column; gap:5px}
+@media (max-width:1000px){ .tools{flex-direction:row; flex-wrap:wrap} }
+.tool{
+  display:flex; align-items:center; gap:9px; width:100%;
+  background:transparent; border:1px solid transparent; border-radius:7px;
+  padding:5px 7px; cursor:pointer; text-align:left; font-size:13px;
+}
+@media (max-width:1000px){ .tool{width:auto} }
+.tool:hover{background:var(--surface-2)}
+.tool[aria-pressed="true"]{background:var(--accent-soft); border-color:var(--accent)}
+.tool:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+.chip{
+  width:24px; height:24px; flex:none; border-radius:5px;
+  display:grid; place-items:center; font-family:var(--font-mono);
+  font-size:12px; font-weight:600; color:#fff; line-height:1;
+}
+.chip.t-floor{background:var(--tile-floor); color:var(--muted); border:1px solid var(--line)}
+.chip.t-hole{background:var(--tile-hole); color:var(--tile-hole-fg)}
+.chip.t-erase{background:var(--surface-2); color:var(--muted); border:1px dashed var(--line)}
+.chip.t-select{background:var(--surface-2); color:var(--fg); border:1px solid var(--line)}
+.chip.e-player{background:var(--c-player)} .chip.e-clear{background:var(--c-clear)}
+.chip.e-worldPortal{background:var(--c-portal)} .chip.e-wall{background:var(--c-wall)}
+.chip.e-trap{background:var(--c-trap)} .chip.e-healItem{background:var(--c-heal)}
+.chip.e-cocoon{background:var(--c-cocoon)} .chip.e-moveBox{background:var(--c-box)}
+.chip.e-goblin{background:var(--c-goblin)}
+.tool .nm{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.tool .kb{margin-left:auto; font-family:var(--font-mono); font-size:10.5px; color:var(--muted)}
+@media (max-width:1000px){ .tool .kb{display:none} }
+
+/* ── 격자 ────────────────────────────────────── */
+.gridwrap{overflow-x:auto; padding-bottom:4px}
+.grid{display:grid; gap:2px; width:max-content; margin-inline:auto; touch-action:manipulation}
+.cell{
+  width:var(--cell); height:var(--cell); position:relative;
+  background:var(--tile-floor); border:1px solid var(--line); border-radius:4px;
+  padding:0; cursor:crosshair; display:flex; flex-wrap:wrap; gap:1px;
+  align-content:center; justify-content:center;
+}
+.cell.hole{background:var(--tile-hole); border-color:#000}
+.cell.sel{outline:2px solid var(--accent); outline-offset:1px; z-index:2}
+.cell.dragover{outline:2px dashed var(--accent); outline-offset:1px; z-index:2}
+.cell:focus-visible{outline:2px solid var(--accent); outline-offset:1px; z-index:2}
+.ent{
+  min-width:16px; height:16px; padding:0 2px; border-radius:4px;
+  display:grid; place-items:center; font-family:var(--font-mono);
+  font-size:10px; font-weight:600; color:#fff; line-height:1; cursor:grab;
+}
+.cell[data-count="1"] .ent{min-width:22px; height:22px; font-size:12px}
+.ent.e-player{background:var(--c-player)} .ent.e-clear{background:var(--c-clear)}
+.ent.e-worldPortal{background:var(--c-portal)} .ent.e-wall{background:var(--c-wall)}
+.ent.e-trap{background:var(--c-trap)} .ent.e-healItem{background:var(--c-heal)}
+.ent.e-cocoon{background:var(--c-cocoon)} .ent.e-moveBox{background:var(--c-box)}
+.ent.e-goblin{background:var(--c-goblin)}
+.ent.pick{box-shadow:0 0 0 2px var(--fg)}
+/* 실제 게임 스프라이트를 쓸 때는 색 칩 대신 그림을 보여준다 */
+.ent.art,.chip.art{background:transparent!important;border:0;position:relative;overflow:visible}
+.ent.art img,.chip.art img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;display:block}
+.cell[data-count="1"] .ent.art{min-width:100%;height:100%;padding:0}
+.ent.art .badge,.chip.art .badge{
+  position:absolute; right:-3px; bottom:-3px; min-width:12px; height:12px; padding:0 2px;
+  border-radius:4px; background:var(--fg); color:var(--bg);
+  font-family:var(--font-mono); font-size:9px; font-weight:600; line-height:12px; text-align:center;
+}
+.ent.art .tint,.chip.art .tint{position:absolute; inset:0; border-radius:4px; opacity:.45; pointer-events:none}
+.gated{opacity:.55}
+.coords{display:flex; justify-content:space-between; color:var(--muted); font-family:var(--font-mono); font-size:11px; margin-top:8px}
+
+/* ── 격자 크기 조절 ───────────────────────────── */
+.sizer{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px; font-size:12.5px; color:var(--muted)}
+.stepper{display:flex; align-items:center; gap:4px}
+.stepper button{
+  width:26px; height:26px; border-radius:6px; border:1px solid var(--line);
+  background:var(--surface); cursor:pointer; font-family:var(--font-mono); line-height:1;
+}
+.stepper button:hover{border-color:var(--muted)}
+.stepper .val{font-family:var(--font-mono); font-variant-numeric:tabular-nums; min-width:20px; text-align:center; color:var(--fg)}
+
+/* ── 속성 폼 ──────────────────────────────────── */
+.form{display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px 10px; align-items:center}
+.form label{font-size:12.5px; color:var(--muted); white-space:nowrap}
+.form input,.form select{width:100%}
+.hint{font-size:12px; color:var(--muted); margin-top:9px}
+.empty{font-size:12.5px; color:var(--muted); padding:6px 0}
+.selhead{display:flex; align-items:center; gap:8px; margin-bottom:10px}
+.selhead .nm{font-weight:600; font-size:13.5px}
+.cellents{display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px}
+.cellents button{
+  display:flex; align-items:center; gap:5px; background:var(--surface-2);
+  border:1px solid var(--line); border-radius:6px; padding:3px 7px 3px 4px;
+  font-size:12px; cursor:pointer;
+}
+.cellents button[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-soft)}
+
+/* ── 검사 결과 ────────────────────────────────── */
+.checks{display:flex; flex-direction:column; gap:7px}
+.check{display:flex; gap:8px; align-items:flex-start; font-size:12.5px}
+.dot{width:7px; height:7px; border-radius:50%; flex:none; margin-top:6px}
+.dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.bad{background:var(--bad)}
+.check .msg{min-width:0}
+.gauge{height:5px; border-radius:3px; background:var(--surface-2); overflow:hidden; margin-top:5px}
+.gauge i{display:block; height:100%; background:var(--ok)}
+.gauge i.warn{background:var(--warn)} .gauge i.bad{background:var(--bad)}
+
+/* ── 내보내기 ─────────────────────────────────── */
+.out{margin-top:20px}
+.outhead{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:10px}
+.fname{font-family:var(--font-mono); font-size:13px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:3px 8px}
+textarea{
+  width:100%; min-height:200px; resize:vertical;
+  background:var(--surface); border:1px solid var(--line); border-radius:9px;
+  padding:12px; font-family:var(--font-mono); font-size:12px; line-height:1.55;
+  white-space:pre; overflow-wrap:normal; overflow-x:auto;
+}
+.tabs{display:flex; gap:4px; margin-bottom:10px; flex-wrap:wrap}
+.tabs button{
+  background:transparent; border:1px solid transparent; border-radius:7px;
+  padding:5px 11px; cursor:pointer; font-size:12.5px; font-weight:500; color:var(--muted);
+}
+.tabs button[aria-pressed="true"]{background:var(--surface); border-color:var(--line); color:var(--fg)}
+.toast{
+  position:fixed; left:50%; translate:-50% 0;
+  bottom:calc(20px + env(safe-area-inset-bottom,0px)); z-index:50;
+  background:var(--fg); color:var(--bg); padding:9px 16px; border-radius:8px;
+  font-size:13px; font-weight:500; box-shadow:0 6px 24px rgba(0,0,0,.22);
+}
+@media (prefers-reduced-motion:no-preference){
+  .toast{animation:pop .18s ease-out}
+  @keyframes pop{from{opacity:0; translate:-50% 6px}}
+}
+.legend{display:flex; flex-wrap:wrap; gap:4px 12px; margin-top:12px; font-size:11.5px; color:var(--muted)}
+.legend span{display:flex; align-items:center; gap:5px}
+.legend i{width:11px; height:11px; border-radius:3px; display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="hrow">
+    <h1>미노타우로스 레벨 에디터</h1>
+    <span class="sub">타일을 칠하고 오브젝트를 놓으면 <code>WW_SS.json</code>이 나온다. 모든 스테이지를 프리셋으로 불러와 고칠 수 있다.</span>
+  </div>
+  <div class="hcontrols">
+    <label class="lbl" for="preset">프리셋</label>
+    <select id="preset" style="min-width:190px"></select>
+    <button class="btn" id="load">불러오기</button>
+    <button class="btn" id="blank">빈 맵</button>
+    <span class="sub" id="dataInfo" style="font-family:var(--font-mono);font-size:11.5px"></span>
+    <span style="flex:1"></span>
+    <a class="btn" href="index.html" style="text-decoration:none">← 레벨 디자인 시트</a>
+    <button class="btn" id="theme" title="밝게/어둡게">◐ 테마</button>
+  </div>
+</header>
+
+<div class="board">
+
+  <!-- 도구 레일 -->
+  <div>
+    <div class="panel">
+      <h2>타일</h2>
+      <div class="tools" id="tileTools"></div>
+    </div>
+    <div class="panel">
+      <h2>오브젝트</h2>
+      <div class="tools" id="objTools"></div>
+      <p class="hint">칸을 클릭해 놓거나, 도구를 격자로 끌어다 놓는다. 놓인 것을 끌면 옮겨진다.</p>
+    </div>
+  </div>
+
+  <!-- 격자 -->
+  <div>
+    <div class="panel">
+      <h2>격자 <span id="gridInfo" style="float:right;font-family:var(--font-mono);text-transform:none;letter-spacing:0"></span></h2>
+      <div class="gridwrap"><div class="grid" id="grid"></div></div>
+      <div class="coords"><span>커서 <b id="hover" style="font-weight:600">—</b></span><span id="cellinfo"></span></div>
+      <div class="sizer">
+        <span>가로</span>
+        <span class="stepper"><button type="button" data-d="-1" data-ax="w">−</button><span class="val" id="vw">0</span><button type="button" data-d="1" data-ax="w">+</button></span>
+        <span>세로</span>
+        <span class="stepper"><button type="button" data-d="-1" data-ax="h">−</button><span class="val" id="vh">0</span><button type="button" data-d="1" data-ax="h">+</button></span>
+        <button class="btn" id="fillFloor" style="margin-left:auto">전부 바닥</button>
+        <button class="btn" id="clearEnts">오브젝트 비우기</button>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </div>
+
+  <!-- 속성 -->
+  <div>
+    <div class="panel">
+      <h2>스테이지 정보</h2>
+      <div class="form" id="metaForm"></div>
+    </div>
+    <div class="panel">
+      <h2>선택한 오브젝트</h2>
+      <div id="inspector"><p class="empty">격자에서 오브젝트를 클릭하면 여기에서 고칠 수 있다.</p></div>
+    </div>
+    <div class="panel">
+      <h2>검사</h2>
+      <div class="checks" id="checks"></div>
+    </div>
+  </div>
+</div>
+
+<div class="out panel">
+  <div class="outhead">
+    <div class="tabs">
+      <button type="button" data-tab="json" aria-pressed="true">맵 JSON</button>
+      <button type="button" data-tab="spec" aria-pressed="false">build.py 스펙</button>
+    </div>
+    <span style="flex:1"></span>
+    <span class="fname" id="fname">00_00.json</span>
+    <button class="btn" id="copy">복사</button>
+    <button class="btn primary" id="download">파일로 저장</button>
+  </div>
+  <textarea id="out" spellcheck="false" readonly></textarea>
+  <p class="hint" id="outhint"></p>
+</div>
+
+<div class="out panel">
+  <h2 style="font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">JSON 붙여넣어 불러오기</h2>
+  <textarea id="in" spellcheck="false" placeholder="맵 JSON을 붙여넣고 아래 버튼을 누른다. 프리셋에 없는 맵이나 다른 사람이 만든 맵을 열 때 쓴다." style="min-height:110px"></textarea>
+  <div style="margin-top:10px"><button class="btn" id="importBtn">이 JSON 불러오기</button></div>
+</div>
+
+</div>
+<script src="viewer/data.js"></script>
+<script>
+// 프리셋은 레벨 디자인 시트와 같은 원본(viewer/data.js)을 읽는다.
+// 임베드 사본을 두면 맵을 고칠 때마다 어긋나므로, tools/level_viewer/build.py가
+// 새로 구운 data.js를 그대로 따라간다.
+const LD = window.LEVEL_DATA || null;
+const DRAW = LD ? LD.draw : null;
+const RES = 'viewer/res/';
+const resUrl = p => RES + String(p).replace(/^03_Resources\//, '');
+
+const PRESETS = (() => {
+  const out = {};
+  if(!LD){ return out; }
+  for(const w of LD.worlds){
+    for(const lv of w.levels){
+      out[lv.key] = {
+        world: lv.world, stage: lv.stage, map_name: lv.name || '',
+        tile_size_x: 256, tile_size_y: 256,
+        map_width: lv.w, map_height: lv.h,
+        zoom: lv.zoom, padding: 2,
+        tile_map: lv.tiles.map(r => r.slice()),
+        entities: lv.ents.map(e => {
+          const o = {x:e.x, y:e.y, obj_type:e.t};
+          for(const [k, v] of Object.entries(e)) if(k !== 'id' && k !== 't' && k !== 'x' && k !== 'y') o[k] = v;
+          return o;
+        }),
+        __label: (w.legacy ? '[구버전] ' : '') + (lv.name || ''),
+      };
+    }
+  }
+  return out;
+})();
+// ─────────────────────────────────────────────────────────────
+// 오브젝트 정의. glyph/색은 UI 표시용, fields는 JSON으로 나가는 속성.
+// def가 null이면 "값이 있을 때만 쓴다"는 뜻이다.
+// RANK는 EntitySpawner.RANK와 같아야 한다 (스폰 순서 = 시작 칸 상호작용 순서).
+// ─────────────────────────────────────────────────────────────
+const RANK = {trap:0, wall:1, healItem:2, cocoon:3, worldPortal:10, clear:11, moveBox:20, goblin:50, player:90};
+
+const SPEC = {
+  player:      {nm:'플레이어', g:'P', key:'1', fields:[
+                  {k:'mh', t:'num', def:6, lb:'최대 체력'},
+                  {k:'ch', t:'num', def:6, lb:'시작 체력'}]},
+  clear:       {nm:'목표 포탈', g:'E', key:'2', fields:[
+                  {k:'to_w', t:'num', def:0, lb:'가는 월드'},
+                  {k:'to_s', t:'num', def:0, lb:'가는 스테이지'}]},
+  worldPortal: {nm:'월드 포탈', g:'◎', key:'3', fields:[
+                  {k:'to_w', t:'num', def:0, lb:'가는 월드'},
+                  {k:'to_s', t:'num', def:0, lb:'가는 스테이지'},
+                  {k:'num',  t:'num', def:null, lb:'표시 숫자',
+                   hint:'비우면 가는 스테이지 번호를 쓴다. to_s가 0이면 숫자 없는 월드 출구가 된다'}]},
+  wall:        {nm:'벽', g:'▦', key:'4', fields:[
+                  {k:'ma', t:'num', def:null, lb:'부수는 공격력', hint:'비우면 파괴 불가'}]},
+  trap:        {nm:'고추', g:'▲', key:'5', fields:[
+                  // atk는 절대 생략하지 않는다. Trap.apply_data가 atk를 0으로
+                  // 기본값 처리하므로, 빼면 피해량 0짜리 고추가 되어 버린다.
+                  {k:'atk',  t:'num',  def:1, lb:'피해량'},
+                  {k:'once', t:'bool', def:false, lb:'일회성'}]},
+  healItem:    {nm:'회복', g:'+', key:'6', fields:[
+                  {k:'heal', t:'num', def:1, omit:1, lb:'회복량'}]},
+  cocoon:      {nm:'누에고치', g:'●', key:'7', fields:[]},
+  moveBox:     {nm:'상자', g:'■', key:'8', fields:[]},
+  goblin:      {nm:'고블린', g:'G', key:'9', fields:[
+                  {k:'move', t:'sel', def:'patrol', opts:['patrol','chase'], lb:'행동',
+                   optLb:{patrol:'순찰', chase:'추적'}},
+                  {k:'dir',  t:'sel', def:'R', opts:['U','D','L','R'], lb:'보는 방향',
+                   optLb:{U:'↑ 위', D:'↓ 아래', L:'← 왼쪽', R:'→ 오른쪽'}, onlyIf:e => e.move !== 'chase'},
+                  {k:'atk',  t:'num', def:1, omit:1, lb:'피해량'}]},
+};
+const ORDER = ['player','clear','worldPortal','wall','trap','healItem','cocoon','moveBox','goblin'];
+
+// ─────────────────────────────────────────────────────────────
+// 실제 게임 스프라이트. 규칙은 viewer/app.js(레벨 디자인 시트)와 같게 둔다.
+// 두 페이지가 같은 맵을 다르게 그리면 어느 쪽을 믿어야 할지 알 수 없다.
+// ─────────────────────────────────────────────────────────────
+const first = x => Array.isArray(x) ? first(x[0]) : x;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const hash32 = (a, b) => { let x = (a * 73856093) ^ (b * 19349663); x = (x ^ (x >>> 13)) * 1274126177; return (x ^ (x >>> 16)) >>> 0; };
+const emoTier = hp => hp >= 4 ? 0 : hp >= 2 ? 1 : 2;
+
+function spriteOf(e){
+  if(!DRAW) return null;
+  try{
+    switch(e.obj_type){
+      case 'player':      return first(DRAW.player[emoTier(e.ch ?? 6)]);
+      case 'trap':        return e.once ? first(DRAW.trapOnce[0])
+                                        : first(DRAW.trap[clamp((e.atk ?? 1) - 1, 0, 2)]);
+      case 'wall':        return e.ma ? first(DRAW.wallBreakable[Math.min(e.ma - 1, 1)])
+                                      : first(DRAW.wallRandom[hash32(e.x, e.y) % DRAW.wallRandom.length]);
+      case 'healItem':    return first(DRAW.healItem);
+      case 'cocoon':      return first(DRAW.cocoon);
+      case 'moveBox':     return first(DRAW.moveBox);
+      case 'goblin':      return first(DRAW.goblin);
+      case 'clear':       return first(DRAW.clear);
+      case 'worldPortal': return first(DRAW.worldPortal);
+    }
+  }catch(_){ }
+  return null;
+}
+
+// 그림만으로는 안 보이는 값(벽 내구도, 고추 피해량, 포탈 번호, 고블린 방향)을 모서리에 붙인다.
+function badgeOf(e){
+  if(e.obj_type === 'wall')        return e.ma ? String(e.ma) : '';
+  if(e.obj_type === 'trap')        return String(e.atk ?? 1);
+  if(e.obj_type === 'worldPortal'){ const n = e.num ?? e.to_s ?? 0; return n ? String(n) : '出'; }
+  if(e.obj_type === 'goblin')      return e.move === 'chase' ? '!' : ({U:'↑',D:'↓',L:'←',R:'→'}[e.dir ?? 'R']);
+  if(e.obj_type === 'player')      return String(e.ch ?? 6);
+  return '';
+}
+
+// 그림 노드를 만든다. 스프라이트가 없으면 예전처럼 글자 칩으로 떨어진다.
+function artNode(e, tag, extraCls){
+  const src = spriteOf(e);
+  const n = el(tag, (extraCls || '') + (src ? ' art' : '') + ' e-' + e.obj_type);
+  if(!src){ n.textContent = glyphOf(e); return n; }
+  const img = document.createElement('img');
+  img.src = resUrl(src); img.alt = SPEC[e.obj_type] ? SPEC[e.obj_type].nm : e.obj_type;
+  img.loading = 'lazy'; img.draggable = false;
+  n.appendChild(img);
+  if(e.obj_type === 'goblin'){
+    const t = el('span', 'tint');
+    const tints = (DRAW && DRAW.goblinTint) || {patrol:'#c0e080', chase:'#e08080'};
+    t.style.background = tints[e.move === 'chase' ? 'chase' : 'patrol'];
+    n.appendChild(t);
+  }
+  const b = badgeOf(e);
+  if(b) n.appendChild(el('span', 'badge', b));
+  return n;
+}
+
+// 격자 안 글리프 (고블린은 방향/종류를 글자로 보여준다)
+function glyphOf(e){
+  if(e.obj_type === 'goblin') return e.move === 'chase' ? 'G!' : ({U:'G↑',D:'G↓',L:'G←',R:'G→'}[e.dir] || 'G→');
+  if(e.obj_type === 'wall')   return e.ma ? 'W' + e.ma : '▦';
+  if(e.obj_type === 'trap')   return (e.once ? '◇' : '') + (e.atk ?? 1);
+  if(e.obj_type === 'worldPortal') return (e.num === null || e.num === undefined) ? '◎' : String(e.num);
+  return SPEC[e.obj_type] ? SPEC[e.obj_type].g : '?';
+}
+
+// ─────────────────────────────────────────────────────────────
+// 상태
+// ─────────────────────────────────────────────────────────────
+let S = null;            // {meta, tiles, ents}
+let tool = {kind:'obj', type:'wall'};
+let sel = -1;            // 선택한 엔티티 인덱스
+let selCell = null;      // 선택한 칸 {x,y}
+let tab = 'json';
+let declared = null;     // 프리셋이 선언했던 map_width/height (불일치 검사용)
+
+const $ = id => document.getElementById(id);
+const el = (t, cls, txt) => { const n = document.createElement(t); if(cls) n.className = cls; if(txt != null) n.textContent = txt; return n; };
+
+function blankMeta(){
+  return {world:0, stage:0, map_name:'', tile_size_x:256, tile_size_y:256,
+          zoom:0.7, padding:2, offset:null};
+}
+function newMap(w, h){
+  S = {meta:blankMeta(), tiles:Array.from({length:h}, () => Array(w).fill(1)), ents:[]};
+  declared = null; sel = -1; selCell = null;
+}
+
+function loadRaw(raw){
+  const tm = raw.tile_map || [[1]];
+  const h = tm.length, w = Math.max(...tm.map(r => r.length));
+  const tiles = Array.from({length:h}, (_, y) => Array.from({length:w}, (_, x) => (tm[y] && tm[y][x]) ? 1 : 0));
+  const meta = blankMeta();
+  for(const k of ['world','stage','map_name','tile_size_x','tile_size_y','zoom','padding']){
+    if(raw[k] !== undefined) meta[k] = raw[k];
+  }
+  meta.offset = Array.isArray(raw.offset) ? raw.offset.slice(0,2) : null;
+  const ents = (raw.entities || []).map(e => Object.assign({}, e));
+  S = {meta, tiles, ents};
+  declared = {w: raw.map_width, h: raw.map_height, aw: w, ah: h};
+  sel = -1; selCell = null;
+}
+
+// ─────────────────────────────────────────────────────────────
+// 그리기
+// ─────────────────────────────────────────────────────────────
+function render(){
+  renderGrid();
+  renderMeta();
+  renderInspector();
+  renderChecks();
+  renderOut();
+}
+
+function renderGrid(){
+  const g = $('grid');
+  const h = S.tiles.length, w = S.tiles[0].length;
+  g.style.gridTemplateColumns = `repeat(${w}, var(--cell))`;
+  g.replaceChildren();
+  $('gridInfo').textContent = `${w} × ${h}`;
+  $('vw').textContent = w; $('vh').textContent = h;
+
+  for(let y = 0; y < h; y++){
+    for(let x = 0; x < w; x++){
+      const c = el('button', 'cell');
+      c.type = 'button';
+      if(!S.tiles[y][x]) c.classList.add('hole');
+      c.dataset.x = x; c.dataset.y = y;
+      c.setAttribute('aria-label', `${x},${y}`);
+      const here = S.ents.map((e, i) => [e, i]).filter(([e]) => e.x === x && e.y === y);
+      c.dataset.count = here.length;
+      for(const [e, i] of here){
+        const n = artNode(e, 'span', 'ent');
+        if(e.obj_type === 'clear' && S.ents.some(o => o.obj_type === 'cocoon')) n.classList.add('gated');
+        n.draggable = true;
+        n.dataset.idx = i;
+        n.title = SPEC[e.obj_type] ? SPEC[e.obj_type].nm : e.obj_type;
+        if(i === sel) n.classList.add('pick');
+        c.appendChild(n);
+      }
+      if(selCell && selCell.x === x && selCell.y === y) c.classList.add('sel');
+      g.appendChild(c);
+    }
+  }
+}
+
+function renderTools(){
+  const tt = $('tileTools'); tt.replaceChildren();
+  const mk = (cls, g, nm, on, pressed, kb) => {
+    const b = el('button', 'tool'); b.type = 'button';
+    b.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    const ch = el('span', 'chip ' + cls, g);
+    b.append(ch, el('span', 'nm', nm));
+    if(kb) b.appendChild(el('span', 'kb', kb));
+    b.addEventListener('click', on);
+    return b;
+  };
+  tt.append(
+    mk('t-floor', '·', '바닥', () => setTool({kind:'tile', v:1}), tool.kind==='tile'&&tool.v===1, 'F'),
+    mk('t-hole', '○', '구멍', () => setTool({kind:'tile', v:0}), tool.kind==='tile'&&tool.v===0, 'H'),
+    mk('t-select', '▸', '선택', () => setTool({kind:'select'}), tool.kind==='select', 'S'),
+    mk('t-erase', '×', '지우개', () => setTool({kind:'erase'}), tool.kind==='erase', 'X'),
+  );
+
+  const ot = $('objTools'); ot.replaceChildren();
+  for(const t of ORDER){
+    const sp = SPEC[t];
+    const b = mk('e-' + t, sp.g, sp.nm, () => setTool({kind:'obj', type:t}),
+                 tool.kind==='obj' && tool.type===t, sp.key);
+    // 팔레트도 격자와 같은 그림을 쓴다. 눈으로 고른 것과 놓이는 것이 같아야 한다.
+    const sample = defaults(t); sample.x = 0; sample.y = 0;
+    const art = artNode(sample, 'span', 'chip');
+    if(art.classList.contains('art')) b.replaceChild(art, b.firstChild);
+    b.draggable = true;
+    b.addEventListener('dragstart', ev => {
+      ev.dataTransfer.setData('text/plain', 'new:' + t);
+      ev.dataTransfer.effectAllowed = 'copy';
+      setTool({kind:'obj', type:t});
+    });
+    ot.appendChild(b);
+  }
+
+  const lg = $('legend'); lg.replaceChildren();
+  for(const t of ORDER){
+    const s = el('span');
+    const sample = defaults(t); sample.x = 0; sample.y = 0;
+    const src = spriteOf(sample);
+    if(src){
+      const im = document.createElement('img');
+      im.src = resUrl(src); im.alt = ''; im.loading = 'lazy';
+      im.style.cssText = 'width:14px;height:14px;object-fit:contain;image-rendering:pixelated';
+      s.appendChild(im);
+    } else {
+      const i = el('i'); i.style.background = `var(--c-${t === 'worldPortal' ? 'portal' : t === 'healItem' ? 'heal' : t === 'moveBox' ? 'box' : t})`;
+      s.appendChild(i);
+    }
+    s.appendChild(document.createTextNode(SPEC[t].nm));
+    lg.appendChild(s);
+  }
+}
+
+function setTool(t){ tool = t; renderTools(); }
+
+function renderMeta(){
+  const f = $('metaForm'); f.replaceChildren();
+  const row = (lb, node) => { const l = el('label', null, lb); l.htmlFor = node.id; f.append(l, node); };
+  const num = (k, lb, step) => {
+    const i = document.createElement('input'); i.type = 'number'; i.id = 'm_' + k;
+    i.value = S.meta[k]; if(step) i.step = step;
+    i.addEventListener('input', () => { S.meta[k] = step ? parseFloat(i.value) : parseInt(i.value, 10); renderChecks(); renderOut(); });
+    row(lb, i);
+  };
+  const txt = document.createElement('input'); txt.type = 'text'; txt.id = 'm_name'; txt.value = S.meta.map_name;
+  txt.addEventListener('input', () => { S.meta.map_name = txt.value; renderOut(); });
+
+  num('world', '월드'); num('stage', '스테이지'); row('이름', txt);
+  num('zoom', '줌', '0.01'); num('padding', '여백');
+  num('tile_size_x', '타일 가로'); num('tile_size_y', '타일 세로');
+}
+
+function renderInspector(){
+  const box = $('inspector'); box.replaceChildren();
+
+  if(selCell){
+    const here = S.ents.map((e, i) => [e, i]).filter(([e]) => e.x === selCell.x && e.y === selCell.y);
+    if(here.length > 1){
+      const row = el('div', 'cellents');
+      for(const [e, i] of here){
+        const b = el('button'); b.type = 'button';
+        b.setAttribute('aria-pressed', i === sel ? 'true' : 'false');
+        b.append(artNode(e, 'span', 'chip'), document.createTextNode(SPEC[e.obj_type].nm));
+        b.querySelector('.chip').style.width = '18px';
+        b.querySelector('.chip').style.height = '18px';
+        b.querySelector('.chip').style.fontSize = '10px';
+        b.addEventListener('click', () => { sel = i; render(); });
+        row.appendChild(b);
+      }
+      box.appendChild(row);
+    }
+  }
+
+  const e = S.ents[sel];
+  if(!e){ box.appendChild(el('p', 'empty', '격자에서 오브젝트를 클릭하면 여기에서 고칠 수 있다.')); return; }
+
+  const head = el('div', 'selhead');
+  head.append(artNode(e, 'span', 'chip'), el('span', 'nm', SPEC[e.obj_type].nm),
+              el('span', 'sub', `(${e.x}, ${e.y})`));
+  box.appendChild(head);
+
+  const f = el('div', 'form');
+  for(const fd of SPEC[e.obj_type].fields){
+    if(fd.onlyIf && !fd.onlyIf(e)) continue;
+    const id = 'f_' + fd.k;
+    const l = el('label', null, fd.lb); l.htmlFor = id;
+    let input;
+    if(fd.t === 'bool'){
+      input = document.createElement('input'); input.type = 'checkbox'; input.id = id;
+      input.checked = !!e[fd.k];
+      input.style.width = 'auto'; input.style.justifySelf = 'start';
+      input.addEventListener('change', () => { e[fd.k] = input.checked; render(); });
+    } else if(fd.t === 'sel'){
+      input = document.createElement('select'); input.id = id;
+      for(const o of fd.opts){
+        const op = document.createElement('option'); op.value = o;
+        op.textContent = (fd.optLb && fd.optLb[o]) ? fd.optLb[o] : o;
+        input.appendChild(op);
+      }
+      input.value = e[fd.k] ?? fd.def;
+      input.addEventListener('change', () => { e[fd.k] = input.value; render(); });
+    } else {
+      input = document.createElement('input'); input.type = 'number'; input.id = id;
+      input.value = (e[fd.k] === undefined || e[fd.k] === null) ? '' : e[fd.k];
+      if(fd.def === null) input.placeholder = '없음';
+      input.addEventListener('input', () => {
+        e[fd.k] = input.value === '' ? null : parseInt(input.value, 10);
+        render();
+      });
+    }
+    f.append(l, input);
+    if(fd.hint){ f.append(el('span'), el('span', 'hint', fd.hint)); }
+  }
+  box.appendChild(f);
+
+  const del = el('button', 'btn', '이 오브젝트 삭제');
+  del.type = 'button'; del.style.marginTop = '12px';
+  del.addEventListener('click', () => { S.ents.splice(sel, 1); sel = -1; render(); });
+  box.appendChild(del);
+}
+
+// ─────────────────────────────────────────────────────────────
+// 검사 — 엔진을 켜지 않고 잡을 수 있는 것만 본다
+// ─────────────────────────────────────────────────────────────
+function renderChecks(){
+  const box = $('checks'); box.replaceChildren();
+  const h = S.tiles.length, w = S.tiles[0].length;
+  const add = (lvl, msg, extra) => {
+    const r = el('div', 'check');
+    r.append(el('span', 'dot ' + lvl));
+    const m = el('span', 'msg', msg);
+    if(extra) m.appendChild(extra);
+    r.appendChild(m);
+    box.appendChild(r);
+  };
+
+  const players = S.ents.filter(e => e.obj_type === 'player');
+  if(players.length === 1) add('ok', '플레이어 1명');
+  else add('bad', players.length === 0 ? '플레이어가 없다' : `플레이어가 ${players.length}명이다`);
+
+  const clears = S.ents.filter(e => e.obj_type === 'clear');
+  const wps = S.ents.filter(e => e.obj_type === 'worldPortal');
+  if(S.meta.stage === 0){
+    if(wps.length) add('ok', `허브 맵 — 월드 포탈 ${wps.length}개`);
+    else add('warn', '스테이지 0(허브)인데 월드 포탈이 없다');
+  } else {
+    if(clears.length === 1) add('ok', '목표 포탈 1개');
+    else add('bad', clears.length === 0 ? '목표 포탈이 없다' : `목표 포탈이 ${clears.length}개다`);
+  }
+
+  const out = S.ents.filter(e => e.x < 0 || e.y < 0 || e.x >= w || e.y >= h);
+  if(out.length) add('bad', `격자 밖 오브젝트 ${out.length}개 — 크기를 줄이면서 남은 것이다`);
+
+  const onHole = S.ents.filter(e => e.x >= 0 && e.y >= 0 && e.x < w && e.y < h && !S.tiles[e.y][e.x]);
+  if(onHole.length) add('warn', `구멍 위 오브젝트 ${onHole.length}개 — 멈추는 순간 떨어진다`);
+
+  const cocoons = S.ents.filter(e => e.obj_type === 'cocoon').length;
+  if(cocoons) add('ok', `누에고치 ${cocoons}개 — 전부 부숴야 목표 포탈이 열린다`);
+
+  if(players.length === 1){
+    const p = players[0];
+    const same = S.ents.filter(e => e !== p && e.x === p.x && e.y === p.y);
+    if(same.length){
+      const names = same.map(e => SPEC[e.obj_type].nm).join(', ');
+      add('warn', `시작 칸에 ${names}이(가) 같이 있다 — 스폰 즉시 발동한다`);
+    }
+  }
+
+  // 카메라 — 세로 1080×1920 안에 들어와야 한다
+  const pxw = w * S.meta.tile_size_x * S.meta.zoom;
+  const pxh = h * S.meta.tile_size_y * S.meta.zoom;
+  const use = Math.max(pxw / 1080, pxh / 1920);
+  const pct = Math.round(use * 100);
+  const lvl = use > 1 ? 'bad' : use > 0.97 ? 'warn' : 'ok';
+  const maxZoom = Math.floor(Math.min(1080 / (w * S.meta.tile_size_x), 1920 / (h * S.meta.tile_size_y)) * 100) / 100;
+  const g = el('div', 'gauge'); const bar = el('i');
+  bar.style.width = Math.min(100, pct) + '%';
+  if(lvl !== 'ok') bar.classList.add(lvl);
+  g.appendChild(bar);
+  add(lvl, use > 1
+        ? `화면을 넘친다 (${pct}%). 줌을 ${maxZoom.toFixed(2)} 이하로`
+        : `화면 사용 ${pct}% — 최대 줌 ${maxZoom.toFixed(2)}`, g);
+
+  if(declared && (declared.w !== declared.aw || declared.h !== declared.ah)){
+    add('warn', `원본이 ${declared.w}×${declared.h}로 적혀 있었지만 tile_map은 ${declared.aw}×${declared.ah}였다. 실제 크기로 내보낸다`);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// 내보내기
+// ─────────────────────────────────────────────────────────────
+function entOut(e){
+  const o = {x:e.x, y:e.y, obj_type:e.obj_type};
+  for(const fd of SPEC[e.obj_type].fields){
+    if(fd.onlyIf && !fd.onlyIf(e)) continue;
+    let v = e[fd.k];
+    if(v === undefined || v === null || v === '') continue;
+    if(fd.t === 'bool' && !v) continue;                 // false는 안 쓴다
+    // 생략은 "엔진 기본값과 같을 때"만 한다 (fd.omit에 그 값을 적어둔다).
+    // 기본값이 다른 필드를 생략하면 맵이 조용히 바뀐다 — trap.atk가 그 예다.
+    if(fd.omit !== undefined && v === fd.omit) continue;
+    o[fd.k] = v;
+  }
+  return o;
+}
+
+function buildJSON(){
+  const h = S.tiles.length, w = S.tiles[0].length;
+  const m = S.meta;
+  const ents = S.ents.slice()
+    .filter(e => e.x >= 0 && e.y >= 0 && e.x < w && e.y < h)
+    .sort((a, b) => (RANK[a.obj_type] - RANK[b.obj_type]) || (a.y - b.y) || (a.x - b.x))
+    .map(entOut);
+
+  const L = [];
+  L.push('{');
+  L.push(`\t"world": ${m.world},`);
+  L.push(`\t"stage": ${m.stage},`);
+  L.push(`\t"map_name": ${JSON.stringify(m.map_name || '')},`);
+  L.push(`\t"tile_size_x": ${m.tile_size_x},`);
+  L.push(`\t"tile_size_y": ${m.tile_size_y},`);
+  L.push(`\t"map_width": ${w},`);
+  L.push(`\t"map_height": ${h},`);
+  L.push(`\t"zoom": ${m.zoom},`);
+  L.push(`\t"padding": ${m.padding},`);
+  if(m.offset) L.push(`\t"offset": [${m.offset[0]}, ${m.offset[1]}],`);
+  L.push('\t"tile_map": [');
+  S.tiles.forEach((row, i) => L.push(`\t\t[${row.join(', ')}]${i < h - 1 ? ',' : ''}`));
+  L.push('\t],');
+  L.push('\t"entities": [');
+  ents.forEach((e, i) => {
+    const parts = Object.entries(e).map(([k, v]) => `"${k}": ${JSON.stringify(v)}`);
+    L.push(`\t\t{${parts.join(', ')}}${i < ents.length - 1 ? ',' : ''}`);
+  });
+  L.push('\t]');
+  L.push('}');
+  return L.join('\n') + '\n';
+}
+
+// build.py가 읽는 ASCII 스펙. 기호로 못 적는 것은 extra 줄로 내린다.
+function buildSpec(){
+  const h = S.tiles.length, w = S.tiles[0].length;
+  const grid = S.tiles.map(r => r.map(v => v ? '.' : '_'));
+  const extras = [];
+  const prio = ['player','clear','cocoon','moveBox','goblin','wall','trap','healItem','worldPortal'];
+  const taken = {};
+
+  const symOf = e => {
+    const t = e.obj_type;
+    if(t === 'player') return 'P';
+    if(t === 'clear')  return 'E';
+    if(t === 'cocoon') return 'C';
+    if(t === 'moveBox') return 'B';
+    if(t === 'goblin'){
+      if((e.atk ?? 1) !== 1) return null;
+      return e.move === 'chase' ? 'X' : ({U:'^',D:'v',L:'<',R:'>'}[e.dir ?? 'R']);
+    }
+    if(t === 'wall'){ const ma = e.ma ?? 0; return ma === 0 ? 'W' : ma === 1 ? 'w' : ma === 2 ? 'V' : null; }
+    if(t === 'trap'){
+      const a = e.atk ?? 1; if(a < 1 || a > 6) return null;
+      return e.once ? 'abcdef'[a - 1] : String(a);
+    }
+    if(t === 'healItem') return (e.heal ?? 1) === 1 ? 'H' : null;
+    return null;
+  };
+
+  const sorted = S.ents.slice()
+    .filter(e => e.x >= 0 && e.y >= 0 && e.x < w && e.y < h)
+    .sort((a, b) => prio.indexOf(a.obj_type) - prio.indexOf(b.obj_type));
+
+  for(const e of sorted){
+    const key = e.x + ',' + e.y;
+    const s = symOf(e);
+    // 구멍 위의 오브젝트는 격자 글자로 못 적는다. 글자를 쓰면 구멍이 바닥이 되어
+    // 버리기 때문이다 (01_08의 "구멍 위 부서지는 벽"이 그 경우다). extra로 내린다.
+    const onHole = !S.tiles[e.y][e.x];
+    if(s && !taken[key] && !onHole){ grid[e.y][e.x] = s; taken[key] = true; continue; }
+    const kv = Object.entries(entOut(e))
+      .filter(([k]) => k !== 'x' && k !== 'y' && k !== 'obj_type')
+      .map(([k, v]) => `${k}=${v}`).join(' ');
+    extras.push(`extra: ${e.x},${e.y} ${e.obj_type}${kv ? ' ' + kv : ''}`);
+  }
+
+  const p = S.ents.find(e => e.obj_type === 'player');
+  const c = S.ents.find(e => e.obj_type === 'clear');
+  const L = [`world: ${S.meta.world}`, `stage: ${S.meta.stage}`, `name: ${S.meta.map_name || ''}`];
+  if(p && (p.ch ?? 6) !== 6) L.push(`hp: ${p.ch}`);
+  if(p && (p.mh ?? 6) !== 6) L.push(`mh: ${p.mh}`);
+  L.push(`zoom: ${S.meta.zoom}`);
+  if(S.meta.padding !== 2) L.push(`padding: ${S.meta.padding}`);
+  if(c) L.push(`to: ${c.to_w ?? 0},${c.to_s ?? 0}`);
+  L.push('grid:');
+  grid.forEach(r => L.push(r.join('')));
+  L.push(...extras);
+  return L.join('\n') + '\n';
+}
+
+function fileName(){
+  const p2 = n => String(Math.max(0, n | 0)).padStart(2, '0');
+  return `${p2(S.meta.world)}_${p2(S.meta.stage)}.json`;
+}
+
+function renderOut(){
+  $('fname').textContent = tab === 'json' ? fileName() : 'spec.txt';
+  $('out').value = tab === 'json' ? buildJSON() : buildSpec();
+  $('outhint').textContent = tab === 'json'
+    ? `godot/05_Data/01_MapData/${fileName()} 에 넣고 python3 tools/level_viewer/build.py 를 돌리면 시트와 프리셋에 반영된다. 엔티티는 스폰 순서(RANK)대로 정렬해서 내보낸다.`
+    : 'tools/level_sim/build.py 가 읽는 형식이다. 시뮬레이터로 풀이·소프트락 검사를 돌릴 때 쓴다.';
+  document.querySelectorAll('.tabs button').forEach(b =>
+    b.setAttribute('aria-pressed', b.dataset.tab === tab ? 'true' : 'false'));
+}
+
+// ─────────────────────────────────────────────────────────────
+// 조작
+// ─────────────────────────────────────────────────────────────
+function defaults(type){
+  const e = {obj_type:type, x:0, y:0};
+  for(const fd of SPEC[type].fields) if(fd.def !== null) e[fd.k] = fd.def;
+  // 팔레트 그림을 만들 때는 아직 맵이 없을 수 있다.
+  if(type === 'clear'){ e.to_w = S ? S.meta.world : 0; e.to_s = 0; }
+  return e;
+}
+
+function placeAt(type, x, y){
+  // 같은 칸 같은 종류는 하나만. 플레이어/목표 포탈은 맵 전체에서 하나만.
+  if(type === 'player' || type === 'clear'){
+    for(let i = S.ents.length - 1; i >= 0; i--) if(S.ents[i].obj_type === type) S.ents.splice(i, 1);
+  }
+  const dup = S.ents.findIndex(e => e.obj_type === type && e.x === x && e.y === y);
+  if(dup >= 0){ sel = dup; selCell = {x, y}; return; }
+  const e = defaults(type); e.x = x; e.y = y;
+  S.ents.push(e);
+  sel = S.ents.length - 1; selCell = {x, y};
+}
+
+function cellOf(ev){
+  const c = ev.target.closest('.cell');
+  return c ? {x:+c.dataset.x, y:+c.dataset.y, node:c} : null;
+}
+
+let painting = null;
+
+function setupGrid(){
+  const g = $('grid');
+
+  g.addEventListener('pointerdown', ev => {
+    const c = cellOf(ev); if(!c) return;
+    if(tool.kind === 'tile'){
+      painting = tool.v;
+      S.tiles[c.y][c.x] = painting;
+      c.node.classList.toggle('hole', !painting);
+      ev.preventDefault();
+    }
+  });
+  g.addEventListener('pointerover', ev => {
+    if(painting === null) return;
+    const c = cellOf(ev); if(!c) return;
+    if(S.tiles[c.y][c.x] !== painting){
+      S.tiles[c.y][c.x] = painting;
+      c.node.classList.toggle('hole', !painting);
+    }
+  });
+  window.addEventListener('pointerup', () => {
+    if(painting !== null){ painting = null; renderChecks(); renderOut(); }
+  });
+
+  g.addEventListener('click', ev => {
+    const c = cellOf(ev); if(!c) return;
+    const entNode = ev.target.closest('.ent');
+    if(tool.kind === 'tile') return;                       // pointerdown에서 이미 처리
+    if(tool.kind === 'erase'){
+      if(entNode) S.ents.splice(+entNode.dataset.idx, 1);
+      else { for(let i = S.ents.length - 1; i >= 0; i--) if(S.ents[i].x === c.x && S.ents[i].y === c.y){ S.ents.splice(i, 1); break; } }
+      sel = -1; selCell = {x:c.x, y:c.y}; render(); return;
+    }
+    if(tool.kind === 'select' || entNode){
+      selCell = {x:c.x, y:c.y};
+      sel = entNode ? +entNode.dataset.idx
+                    : S.ents.findIndex(e => e.x === c.x && e.y === c.y);
+      render(); return;
+    }
+    placeAt(tool.type, c.x, c.y);
+    render();
+  });
+
+  g.addEventListener('dragstart', ev => {
+    const n = ev.target.closest('.ent'); if(!n) return;
+    ev.dataTransfer.setData('text/plain', 'move:' + n.dataset.idx);
+    ev.dataTransfer.effectAllowed = 'move';
+  });
+  g.addEventListener('dragover', ev => {
+    const c = cellOf(ev); if(!c) return;
+    ev.preventDefault();
+    g.querySelectorAll('.dragover').forEach(n => n.classList.remove('dragover'));
+    c.node.classList.add('dragover');
+  });
+  g.addEventListener('dragleave', ev => {
+    const c = cellOf(ev); if(c) c.node.classList.remove('dragover');
+  });
+  g.addEventListener('drop', ev => {
+    const c = cellOf(ev); if(!c) return;
+    ev.preventDefault();
+    const d = ev.dataTransfer.getData('text/plain') || '';
+    if(d.startsWith('new:')) placeAt(d.slice(4), c.x, c.y);
+    else if(d.startsWith('move:')){
+      const i = +d.slice(5);
+      if(S.ents[i]){ S.ents[i].x = c.x; S.ents[i].y = c.y; sel = i; selCell = {x:c.x, y:c.y}; }
+    }
+    render();
+  });
+
+  g.addEventListener('pointermove', ev => {
+    const c = cellOf(ev);
+    $('hover').textContent = c ? `x ${c.x}, y ${c.y}` : '—';
+    if(c){
+      const n = S.ents.filter(e => e.x === c.x && e.y === c.y).length;
+      $('cellinfo').textContent = (S.tiles[c.y][c.x] ? '바닥' : '구멍') + (n ? ` · 오브젝트 ${n}` : '');
+    }
+  });
+  g.addEventListener('pointerleave', () => { $('hover').textContent = '—'; $('cellinfo').textContent = ''; });
+}
+
+function resize(ax, d){
+  const h = S.tiles.length, w = S.tiles[0].length;
+  if(ax === 'w'){
+    const nw = Math.max(1, Math.min(24, w + d));
+    S.tiles = S.tiles.map(r => { const c = r.slice(0, nw); while(c.length < nw) c.push(1); return c; });
+  } else {
+    const nh = Math.max(1, Math.min(24, h + d));
+    while(S.tiles.length > nh) S.tiles.pop();
+    while(S.tiles.length < nh) S.tiles.push(Array(w).fill(1));
+  }
+  declared = null;
+  render();
+}
+
+function toast(msg){
+  const t = el('div', 'toast', msg);
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 1700);
+}
+
+// ─────────────────────────────────────────────────────────────
+// 초기화
+// ─────────────────────────────────────────────────────────────
+function fillPresets(){
+  const s = $('preset');
+  const keys = Object.keys(PRESETS).sort();
+  if(!keys.length){
+    const o = document.createElement('option');
+    o.textContent = 'viewer/data.js 를 못 읽었다';
+    s.appendChild(o); s.disabled = true;
+    return false;
+  }
+  for(const k of keys){
+    const p = PRESETS[k];
+    const o = document.createElement('option');
+    o.value = k;
+    const tm = p.tile_map || [[]];
+    o.textContent = `${k}  ${p.__label || p.map_name || ''}  (${Math.max(...tm.map(r => r.length))}×${tm.length})`;
+    s.appendChild(o);
+  }
+  s.value = PRESETS['03_10'] ? '03_10' : keys[0];
+  return true;
+}
+
+function loadPreset(k){
+  const p = PRESETS[k];
+  if(!p){ toast('그런 프리셋이 없다'); return; }
+  loadRaw(JSON.parse(JSON.stringify(p)));
+  render();
+  toast(k + ' 불러옴');
+}
+
+function setupUI(){
+  $('load').addEventListener('click', () => loadPreset($('preset').value));
+  $('preset').addEventListener('change', () => loadPreset($('preset').value));
+
+  $('blank').addEventListener('click', () => { newMap(6, 5); render(); toast('빈 맵 6×5'); });
+
+  $('fillFloor').addEventListener('click', () => {
+    S.tiles = S.tiles.map(r => r.map(() => 1)); render();
+  });
+  $('clearEnts').addEventListener('click', () => {
+    S.ents = []; sel = -1; render();
+  });
+
+  document.querySelectorAll('.stepper button').forEach(b =>
+    b.addEventListener('click', () => resize(b.dataset.ax, +b.dataset.d)));
+
+  document.querySelectorAll('.tabs button').forEach(b =>
+    b.addEventListener('click', () => { tab = b.dataset.tab; renderOut(); }));
+
+  $('copy').addEventListener('click', async () => {
+    const txt = $('out').value;
+    try{ await navigator.clipboard.writeText(txt); toast('복사했다'); }
+    catch(_){ $('out').select(); toast('직접 Ctrl+C 로 복사'); }
+  });
+
+  $('download').addEventListener('click', () => {
+    const name = tab === 'json' ? fileName() : 'spec.txt';
+    const blob = new Blob([$('out').value], {type:'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast(name + ' 저장');
+  });
+
+  $('importBtn').addEventListener('click', () => {
+    const raw = $('in').value.trim();
+    if(!raw){ toast('붙여넣은 JSON이 없다'); return; }
+    try{
+      // 맵 파일은 줄 끝 쉼표와 // 주석을 허용한다. 같은 관용을 여기서도 받아준다.
+      const clean = raw.replace(/\/\/[^\n]*/g, '').replace(/,(\s*[}\]])/g, '$1');
+      const obj = JSON.parse(clean);
+      if(!obj.tile_map) throw new Error('tile_map이 없다');
+      loadRaw(obj); render(); toast('불러왔다');
+    }catch(err){ toast('읽지 못했다: ' + err.message); }
+  });
+
+  $('theme').addEventListener('click', () => {
+    const r = document.documentElement;
+    const now = r.getAttribute('data-theme');
+    const sysDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    const next = now ? (now === 'dark' ? 'light' : 'dark') : (sysDark ? 'light' : 'dark');
+    r.setAttribute('data-theme', next);
+    try{ localStorage.setItem('bsk-ed-theme', next); }catch(_){}
+  });
+  try{
+    const t = localStorage.getItem('bsk-ed-theme');
+    if(t) document.documentElement.setAttribute('data-theme', t);
+  }catch(_){}
+
+  // 단축키 — 팔레트의 숫자/글자와 같다
+  addEventListener('keydown', ev => {
+    if(/^(INPUT|TEXTAREA|SELECT)$/.test(ev.target.tagName)) return;
+    if(ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    const k = ev.key.toLowerCase();
+    if(k === 'f') setTool({kind:'tile', v:1});
+    else if(k === 'h') setTool({kind:'tile', v:0});
+    else if(k === 's') setTool({kind:'select'});
+    else if(k === 'x') setTool({kind:'erase'});
+    else if(k === 'delete' || k === 'backspace'){
+      if(sel >= 0){ S.ents.splice(sel, 1); sel = -1; render(); ev.preventDefault(); }
+    } else {
+      const t = ORDER.find(t => SPEC[t].key === ev.key);
+      if(t) setTool({kind:'obj', type:t});
+    }
+  });
+}
+
+// 프리셋이 언제 구워진 것인지 보여준다. 맵을 고쳤는데 여기가 그대로면
+// tools/level_viewer/build.py 를 다시 돌려야 한다는 뜻이다.
+if(LD) $('dataInfo').textContent = `프리셋 ${Object.keys(PRESETS).length}개 · ${LD.generated} · ${LD.commit}`;
+
+const hasData = fillPresets();
+setupGrid();
+setupUI();
+if(hasData){
+  loadPreset($('preset').value);
+} else {
+  // data.js 없이도 새 맵은 그릴 수 있게 해둔다 (이 파일만 따로 열었을 때)
+  newMap(6, 5); render();
+  toast('viewer/data.js 를 못 읽어 프리셋 없이 연다');
+}
+renderTools();
+</script>
+</body>
+</html>
