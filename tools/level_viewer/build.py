@@ -24,7 +24,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 GODOT = os.path.join(ROOT, "godot")
 MAPS = os.path.join(GODOT, "05_Data", "01_MapData")
-LEGACY = os.path.join(MAPS, "legacy", "world2_v1")
+LEGACY = {"v1_": os.path.join(MAPS, "legacy", "world2_v1"),
+          "v2_": os.path.join(MAPS, "legacy", "world2_v2")}
 OUT = os.path.join(ROOT, "docs", "viewer")
 
 sys.path.insert(0, os.path.join(ROOT, "tools", "level_sim"))
@@ -338,11 +339,11 @@ def copy_pngs(pngs):
 
 # ─────────────────────────────────────────── 레벨
 def level_path(key):
-    if key.startswith("v1_"):
-        k = key[3:]
-        for f in os.listdir(LEGACY):
-            if f.startswith(k):
-                return os.path.join(LEGACY, f)
+    if key[:3] in LEGACY:
+        k, d = key[3:], LEGACY[key[:3]]
+        for f in sorted(os.listdir(d)):
+            if f.startswith(k + "_"):
+                return os.path.join(d, f)
         raise FileNotFoundError(key)
     return os.path.join(MAPS, key + ".json")
 
@@ -395,7 +396,7 @@ def build_level(key):
         "key": key, "file": os.path.relpath(path, ROOT), "world": raw.get("world"), "stage": raw.get("stage"),
         "name": raw.get("map_name", ""), "w": w, "h": h, "zoom": raw.get("zoom"),
         "tiles": raw["tile_map"], "ents": ents, "desc": DESC.get(key, {}),
-        "legacy": key.startswith("v1_"),
+        "legacy": key[:3] in LEGACY,
     }
     is_hub = any(e["obj_type"] == "worldPortal" for e in raw["entities"])
     lv["hub"] = is_hub
