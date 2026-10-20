@@ -41,10 +41,11 @@ func load_stage(world: int, stage: int) -> bool:
 	StageContext.stage    = mapData.stage
 	StageContext.map_name = mapData.map_name
 
-	# ④ 카메라
+	# ④ 카메라 (이후 화면 크기가 바뀌면 카메라가 알아서 다시 맞춘다)
 	MyCamera.instance.setup_map(
 		mapData.tile_size_x, mapData.tile_size_y,
-		mapData.map_width, mapData.map_height, mapData.zoom, mapData.offset)
+		mapData.map_width, mapData.map_height, mapData.zoom, mapData.offset,
+		mapData.padding)
 
 	# ⑤ 스폰
 	EntitySpawner.spawn_all(mapData, _entity_parent)

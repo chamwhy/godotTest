@@ -53,8 +53,10 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Scroller" type="VBoxContainer" parent="Credits"]
-offset_right = 1080.0
+anchors_preset = 10
+anchor_right = 1.0
 offset_bottom = 2400.0
+grow_horizontal = 2
 mouse_filter = 2
 theme_override_constants/separation = 36
 
