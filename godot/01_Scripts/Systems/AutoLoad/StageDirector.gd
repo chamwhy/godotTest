@@ -17,15 +17,29 @@ signal stage_loaded()
 
 var mapData: MapData
 var _entity_parent: Node2D = null
+var _error_overlay: MapErrorOverlay
+
+
+func _ready() -> void:
+	_error_overlay = MapErrorOverlay.new()
+	add_child(_error_overlay)
 
 
 # ─────────────────────────────────────────────
 # 스테이지 로드 (기존 MapDrawer.draw_map 대체)
 # ─────────────────────────────────────────────
 func load_stage(world: int, stage: int) -> bool:
+	# 개발용: 일단 빨갛게 칠하고 끝까지 가야 지운다 (중간에 끊겨도 빨갛게 남는다)
+	var stage_name := "%d-%d" % [world, stage]
+	_error_overlay.begin(stage_name)
+
 	# ① 파싱 (실패 시 기존 스테이지 유지한 채 중단)
 	mapData = MapLoader.load_map(world, stage)
-	if mapData == null or not mapData.is_valid():
+	if mapData == null:
+		_error_overlay.fail("맵 파일 읽기 실패 (%s)\n%s" % [stage_name, MapLoader.last_error])
+		return false
+	if not mapData.is_valid():
+		_error_overlay.fail("맵 크기가 0 (%s)" % stage_name)
 		return false
 
 	# ② 기존 스테이지 해체
@@ -33,6 +47,7 @@ func load_stage(world: int, stage: int) -> bool:
 
 	if _find_entity_parent() == null:
 		push_error("StageDirector: '%s' 노드를 찾을 수 없음" % entity_parent_name)
+		_error_overlay.fail("'%s' 노드 없음 (%s)" % [entity_parent_name, stage_name])
 		return false
 
 	# ③ 매니저 초기화
@@ -61,6 +76,13 @@ func load_stage(world: int, stage: int) -> bool:
 	# 예전엔 GameStarter의 게임 시작 시점에만 울렸다.
 	AudioManager.play_sfx("enter_stage")
 
+	# 개발용: 보드가 실제로 깔렸는지 확인
+	var problem := _check_spawned()
+	if problem != "":
+		_error_overlay.fail("맵 생성 이상 (%s): %s" % [stage_name, problem])
+	else:
+		_error_overlay.succeed()
+
 	print("StageDirector: '%s' 로드 완료" % mapData.map_name)
 	stage_loaded.emit()
 	return true
@@ -88,6 +110,27 @@ func unload_stage() -> void:
 		# enter_element를 옛 스테이지의 고추도 함께 받는다.
 		# 시작 칸에 고추가 있는 1-7/1-8에서 피해가 두 번 들어가 즉사했다.
 		n.free()
+
+
+## 깔려야 할 타일 수와 실제로 생긴 수, 플레이어 유무를 비교한다. 문제없으면 빈 문자열.
+func _check_spawned() -> String:
+	var expected := 0
+	for row: Array in mapData.tile_rows:
+		for id in row:
+			if id != 0:
+				expected += 1
+	var tiles := 0
+	for n in _entity_parent.get_children():
+		# EntitySpawner와 같은 기준으로 타일을 알아본다 (Tile 타입을 직접 참조하지 않는다)
+		if n.has_method("set_surround"):
+			tiles += 1
+
+	var problems := PackedStringArray()
+	if tiles != expected:
+		problems.append("타일 %d/%d개" % [tiles, expected])
+	if PlayerRegistry.get_player() == null:
+		problems.append("플레이어 없음")
+	return ", ".join(problems)
 
 
 func _find_entity_parent() -> Node2D:
