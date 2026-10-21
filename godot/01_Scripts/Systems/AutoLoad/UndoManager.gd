@@ -26,7 +26,7 @@ var _history: Array[TurnRecord] = []
 
 func clear_history() -> void:
 	_history.clear()
-	print("UndoManager: 히스토리 초기화")
+	LogUtil.write("UndoManager: 히스토리 초기화")
 
 
 ## 되돌릴 수 있는 턴이 남아 있는가. UI가 "되돌리기" 안내를 띄울지 판단할 때 쓴다.
@@ -50,12 +50,12 @@ func pre_action() -> TurnRecord:
 # ─────────────────────────────────────────────
 func commit_turn(record: TurnRecord) -> void:
 	if not _has_state_change(record):
-		print("UndoManager: 상태 변화 없음, 저장 건너뜀")
+		LogUtil.write("UndoManager: 상태 변화 없음, 저장 건너뜀")
 		return
 	_history.push_back(record)
 	if _history.size() > MAX_HISTORY:
 		_history.pop_front()
-	print("UndoManager: 턴 기록 완료 (총 %d개)" % _history.size())
+	LogUtil.write("UndoManager: 턴 기록 완료 (총 %d개)" % _history.size())
 
 
 ## 연출만 있는 턴(헛스윙 등)은 되돌려도 화면이 그대로여서

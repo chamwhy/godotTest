@@ -30,7 +30,7 @@ func _ready() -> void:
 func show_tip(tip_name: String) -> void:
 	if not tips.has(tip_name): return
 	if _cleared.has(tip_name): 
-		print(tip_name, ": 이미 본 tip임.")
+		LogUtil.write(tip_name, ": 이미 본 tip임.")
 		return
 	else:
 		_cleared.append(tip_name)
@@ -51,7 +51,7 @@ func _tip_show(tip: Control) -> void:
 
 	tip.visible = true
 	
-	print("show tip: ", tip)
+	LogUtil.write("show tip: ", tip)
 
 	var tween := create_tween()
 	tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)

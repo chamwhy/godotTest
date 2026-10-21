@@ -14,7 +14,7 @@ signal state_changed(state: GameState)
 
 
 func set_state(new_state: GameState) -> void:
-	print("GameState changed: %s -> %s" % [GameState.keys()[cur_state], GameState.keys()[new_state]])
+	LogUtil.write("GameState changed: %s -> %s" % [GameState.keys()[cur_state], GameState.keys()[new_state]])
 	if cur_state != new_state:
 		cur_state = new_state
 		state_changed.emit(cur_state)

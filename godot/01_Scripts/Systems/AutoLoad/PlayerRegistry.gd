@@ -18,7 +18,7 @@ func get_player() -> Player:
 
 func register_player(player_node: Player) -> void:
 	_player = player_node
-	print("플레이어 등록")
+	LogUtil.write("플레이어 등록")
 	for callback in _pending_callbacks:
 		callback.call(_player)
 	player_registered.emit(player_node)

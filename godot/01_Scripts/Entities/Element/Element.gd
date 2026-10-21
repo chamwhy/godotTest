@@ -28,7 +28,7 @@ func on_hit(atk_data: AtkData) -> bool:
 
 func apply_data(data: Dictionary):
 	super.apply_data(data)
-	print("unit apply")
+	LogUtil.write("unit apply")
 	z_index = ZIndexer.calc(cur_position.y, ZIndexer.ZID_ELEMENT)
 	GridManager.enter_element(self, cur_position, 0)
 

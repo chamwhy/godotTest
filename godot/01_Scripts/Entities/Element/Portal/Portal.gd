@@ -30,7 +30,7 @@ func _check_pos(pos: Position, elm: Element, tick: int) -> void:
 	# 배치로 피해 왔지만 3월드의 고블린은 매 턴 저절로 움직이므로 피할 수 없다.
 	if not (elm is Player): return
 	if pos.equals(cur_position):
-		print("portal 발동.", cur_position.to_str(), pos.to_str())
+		LogUtil.write("portal 발동.", cur_position.to_str(), pos.to_str())
 		move_map(tick)
 
 func move_map(tick: int) -> void:

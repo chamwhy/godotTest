@@ -83,7 +83,7 @@ func load_stage(world: int, stage: int) -> bool:
 	else:
 		_error_overlay.succeed()
 
-	print("StageDirector: '%s' 로드 완료" % mapData.map_name)
+	LogUtil.write("StageDirector: '%s' 로드 완료" % mapData.map_name)
 	stage_loaded.emit()
 	return true
 
@@ -146,7 +146,7 @@ func flush_pending_map_change() -> void:
 	if not StageContext.has_pending_map_change():
 		return
 	var mc: Dictionary = StageContext.take_pending_map_change()
-	print("StageDirector - 맵 전환: ", mc.world, "-", mc.stage)
+	LogUtil.write("StageDirector - 맵 전환: ", mc.world, "-", mc.stage)
 	
 	if mc.get("out_of", false):
 		EntitySpawner.isFixplayerPos = true
