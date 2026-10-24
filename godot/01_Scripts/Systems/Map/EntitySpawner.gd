@@ -10,7 +10,7 @@ static var isFixplayerPos := false
 static var fixed_playerPos_key: int = 0
 
 static func spawn_all(data: MapData, parent: Node2D) -> void:
-	print("spawn all")
+	LogUtil.write("spawn all")
 	_spawn_tiles(data, parent)
 	_spawn_entities(data, parent)
 
@@ -75,14 +75,14 @@ static func _spawn_entities(data: MapData, parent: Node2D) -> void:
 	for entity_data: Dictionary in data.entities:
 		var type_name: String = entity_data.get("obj_type", "")
 		if isFixplayerPos:
-			print("isFixplayerPos")
+			LogUtil.write("isFixplayerPos")
 		
 		# 플레이어 위치 강제 지정 (1회성)
 		if isFixplayerPos and type_name == "player":
 			if StageContext.worldPortals.has(fixed_playerPos_key) \
 				and entity_data.has("x") \
 				and entity_data.has("y"):
-				print("플레이어 위치 강제 지정 (1회성)")
+				LogUtil.write("플레이어 위치 강제 지정 (1회성)")
 				var pos: Position = StageContext.worldPortals[fixed_playerPos_key]
 				entity_data = entity_data.duplicate()
 				entity_data["x"] = pos.x
@@ -95,7 +95,7 @@ static func _spawn_entities(data: MapData, parent: Node2D) -> void:
 		if scene == null:
 			push_warning("EntitySpawner: 알 수 없는 타입 → %s" % type_name)
 			continue
-		print("entitySpawn: ",data.get("stage"), type_name)
+		LogUtil.write("entitySpawn: ",data.get("stage"), type_name)
 
 		var obj: Node2D = scene.instantiate()
 		parent.add_child(obj)

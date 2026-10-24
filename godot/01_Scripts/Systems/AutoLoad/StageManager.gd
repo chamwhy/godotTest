@@ -107,5 +107,5 @@ func _import_legacy_json() -> void:
 
 	SaveManager.flush()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(LEGACY_PATH))
-	print("[StageManager] 구버전 stages.json 임포트 완료")
+	LogUtil.write("[StageManager] 구버전 stages.json 임포트 완료")
 #endregion

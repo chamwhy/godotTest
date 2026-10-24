@@ -9,11 +9,16 @@ extends RefCounted
 
 const MAP_DATA_HEADER := "res://05_Data/01_MapData/"
 
+## 마지막 load_map이 null을 돌려준 이유. 성공하면 빈 문자열.
+static var last_error := ""
+
 
 static func load_map(world: int, stage: int) -> MapData:
+	last_error = ""
 	var json_path := MAP_DATA_HEADER + "%02d_%02d.json" % [world, stage]
 	var raw: Dictionary = JsonParser.load_json_data(json_path)
 	if raw.is_empty():
+		last_error = "%s\n%s" % [json_path, JsonParser.last_error if JsonParser.last_error != "" else "내용이 비어 있음"]
 		push_error("MapLoader: 로드 실패 → %s" % json_path)
 		return null
 

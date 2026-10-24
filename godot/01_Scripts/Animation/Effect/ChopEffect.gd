@@ -20,7 +20,7 @@ func play(power: int) -> void:
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("test_x"):
-		print("test x")
+		LogUtil.write("test x")
 		sprite.play("chop")
 
 func _on_animated_sprite_2d_animation_finished() -> void:

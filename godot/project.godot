@@ -26,6 +26,7 @@ buses/default_bus_layout="uid://cbgxpkp5acyng"
 
 [autoload]
 
+LogOverlay="*res://01_Scripts/UI/LogOverlay.gd"
 Config="*res://01_Scripts/Systems/AutoLoad/Config.gd"
 GameManager="*res://01_Scripts/Systems/AutoLoad/GameManager.gd"
 SaveManager="*res://01_Scripts/Systems/AutoLoad/SaveManager.gd"

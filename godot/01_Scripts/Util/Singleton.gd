@@ -18,7 +18,7 @@ func _ready():
 
 	# 2. 현재 객체를 싱글톤 인스턴스로 설정
 	Singleton.instance = self
-	print("%s: Singleton 인스턴스 설정 완료." % name)
+	LogUtil.write("%s: Singleton 인스턴스 설정 완료." % name)
 	
 	# 3. 자식 클래스에서 초기화 로직을 실행하도록 가상 함수 호출
 	_on_singleton_ready()

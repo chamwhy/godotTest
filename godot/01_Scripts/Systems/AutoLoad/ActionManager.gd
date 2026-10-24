@@ -200,7 +200,7 @@ func _next_tick() -> int:
 func run_undo() -> void:
 	var turn_record = UndoManager.pop_record()
 	if turn_record == null:
-		print("ActionManager: 되돌릴 기록이 없습니다.")
+		LogUtil.write("ActionManager: 되돌릴 기록이 없습니다.")
 		return
 
 	is_turn_running = true
@@ -229,4 +229,4 @@ func run_undo() -> void:
 
 	is_turn_running = false
 	turn_finished.emit()
-	print("ActionManager: Undo 완료")
+	LogUtil.write("ActionManager: Undo 완료")

@@ -106,7 +106,7 @@ func _refit() -> void:
 	zoom = Vector2(zoom_factor, zoom_factor)
 	position = center
 
-	print("cam setting - pos: ", position, ", zoom: ", zoom_factor, " (design: ", _design_zoom,
+	LogUtil.write("cam setting - pos: ", position, ", zoom: ", zoom_factor, " (design: ", _design_zoom,
 		"), offset: ", _offset_px, ", screen: ", screen.size, ", usable: ", usable)
 
 

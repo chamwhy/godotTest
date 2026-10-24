@@ -44,7 +44,7 @@ func died(tick: int) -> void:
 	is_dead = true
 	# undo_action을 빼면 _undo_anim_died가 호출되지 않아 BGM이 영구히 멈춘다.
 	ActionManager.record_new(self, tick, "died", {}, "undo_died", {})
-	print("dead 등록...")
+	LogUtil.write("dead 등록...")
 
 func blocking() -> bool:
 	return is_block and not is_dead and not is_fallen
@@ -213,7 +213,7 @@ func attack(atk_power: int, dir: Position, tick: int, from_pos = null) -> void:
 		#attack(remain_atk, dir, tick)
 	#
 	#if not GridManager.has_tile(cur_position.x, cur_position.y):
-		#print("구멍에 빠짐")
+		#LogUtil.write("구멍에 빠짐")
 		#is_fallen = true
 		#ActionManager.record_new(self, tick, "falling", {}, "undo_falling", {})
 #
@@ -232,15 +232,15 @@ func attack(atk_power: int, dir: Position, tick: int, from_pos = null) -> void:
 	#var from: Position = cur_position.copy()
 	#
 	#
-	#print("이동: ", from.to_str(), " -> ", goal.to_str())
+	#LogUtil.write("이동: ", from.to_str(), " -> ", goal.to_str())
 	#var re = GridManager.exit_element(self, cur_position, tick)
-	#if self != re: print("오류임. 절대 무조건 같아야 함")
+	#if self != re: LogUtil.write("오류임. 절대 무조건 같아야 함")
  #
 	#while true:
 		#if chk_pos.equals(goal): break
 		#GridManager.pass_element(self, chk_pos, tick)
 		#chk_pos = chk_pos.add(dir)
-		#print("====inside", from.to_str(), chk_pos.to_str(), spd)
+		#LogUtil.write("====inside", from.to_str(), chk_pos.to_str(), spd)
 		##ActionManager.record_new(self, tick,
 			##"move",         {"from": from.copy(), "to": chk_pos.copy(), "spd": spd},
 			##"move_reverse", {"pre_look": look_right, "from": chk_pos.copy(), "to": from.copy()})
@@ -248,7 +248,7 @@ func attack(atk_power: int, dir: Position, tick: int, from_pos = null) -> void:
 			#look_right = dir.x > 0
 		#from = chk_pos.copy()
 		#tick += 1
-	#print("====outside", from.to_str(), chk_pos.to_str(), spd)
+	#LogUtil.write("====outside", from.to_str(), chk_pos.to_str(), spd)
 	#ActionManager.record_new(self, tick,
 			#"move",         {"from": from.copy(), "to": chk_pos.copy(), "spd": spd},
 			#"move_reverse", {"pre_look": look_right, "from": chk_pos.copy(), "to": from.copy()})
@@ -262,7 +262,7 @@ func attack(atk_power: int, dir: Position, tick: int, from_pos = null) -> void:
 #
 #
 #func attack(atk_power: int, dir: Position, tick: int) -> void:
-	#print("공격: ", cur_position.to_str(), " > ", dir.to_str())
+	#LogUtil.write("공격: ", cur_position.to_str(), " > ", dir.to_str())
 	#var targets: Array[Element] = GridManager.get_elements(cur_position.add(dir))
 	#for target in targets:
 		#if target:
@@ -357,7 +357,7 @@ func _anim_attack(tween: Tween, data: Dictionary) -> void:
 	var dir: Position = data.get("dir", Position.ZERO())
 	var pow: int = data.get("pow", 1)
 	
-	print("attack anim: pos=", pos.to_str(), ", dir=", dir.to_str())
+	LogUtil.write("attack anim: pos=", pos.to_str(), ", dir=", dir.to_str())
 	
 	AudioManager.play_sfx("attack-%d" % pow)
 	
@@ -371,7 +371,7 @@ func _anim_attack(tween: Tween, data: Dictionary) -> void:
 	tween.tween_interval(0.2)
 
 func _undo_anim_attack(tween: Tween, data: Dictionary) -> void:
-	print("_undo_anim_attack")
+	LogUtil.write("_undo_anim_attack")
 	tween.tween_interval(0.0)
 
 

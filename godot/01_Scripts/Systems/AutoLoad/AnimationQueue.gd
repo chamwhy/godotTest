@@ -55,7 +55,7 @@ func play_all() -> void:
 			tick += 1
 			continue
 
-		print("AnimQ: %d틱 - %d개" % [tick, batch.size()])
+		LogUtil.write("AnimQ: %d틱 - %d개" % [tick, batch.size()])
 		var tweens: Array[Tween] = []
 
 		for item in batch:
@@ -87,7 +87,7 @@ func play_all() -> void:
 			# 'running이 아니지만 valid'다. is_running()을 보면 메뉴를 여는
 			# 순간 연출을 끊어버려 논리와 화면이 어긋난다.
 			if not _any_tween_alive(tweens):
-				print("AnimQ: 트윈 소유 노드가 모두 해제됨 → %d틱 대기 중단" % tick)
+				LogUtil.write("AnimQ: 트윈 소유 노드가 모두 해제됨 → %d틱 대기 중단" % tick)
 				break
 		
 		await get_tree().process_frame
@@ -95,7 +95,7 @@ func play_all() -> void:
 
 	_reset()
 	is_playing = false
-	print("AnimQ: 재생 완료")
+	LogUtil.write("AnimQ: 재생 완료")
 
 
 ## 아직 살아 있는(= 씬 트리에 속한) 트윈이 하나라도 있는가.

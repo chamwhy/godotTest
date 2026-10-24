@@ -75,7 +75,7 @@ func _anim_move(tween: Tween, data: Dictionary) -> void:
 	var vel = to.subtract(from)
 	_set_look(vel)
 	var spd = data.get("spd", 1)
-	print("move!!!!!!!!!!!!")
+	LogUtil.write("move!!!!!!!!!!!!")
 	if spd > 1:
 		AudioManager.play_sfx("move-2")
 	else:
