@@ -75,6 +75,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="HpBar" type="Control" parent="UI/InGame" unique_id=1899198871 node_paths=PackedStringArray("heart_icons", "profile")]
 layout_mode = 1
