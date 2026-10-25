@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bjivw7onrfv6n"]
+
+[ext_resource type="Script" uid="uid://jes0mifti7mq" path="res://01_Scripts/Entities/Element/Plate/Plate.gd" id="1_plate"]
+
+[node name="Plate" type="Node2D"]
+script = ExtResource("1_plate")
+hitable = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

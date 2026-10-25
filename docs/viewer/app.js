@@ -10,7 +10,7 @@
   const T = 256;                         // 원본 타일 픽셀
   const PAD = 0.1;                       // 맵 둘레 여백 (타일 단위)
   const SIZES = [["작게", 18], ["보통", 30], ["크게", 46]];
-  const RANK = { trap: 0, wall: 1, healItem: 2, cocoon: 3, worldPortal: 10, clear: 11, moveBox: 20, goblin: 50, player: 90 };
+  const RANK = { trap: 0, chili: 0, plate: 0, wall: 1, obstacle: 1, cookie: 2, cocoon: 3, worldPortal: 10, clear: 11, stone: 20, goblin: 50, player: 90 };
   const GOB_TINT = Object.assign({ patrol: "#c0e080", chase: "#e08080" }, D.draw.goblinTint || {});   // Goblin._apply_kind_look
   const EMO = ["평온", "화남", "격노"];
   const emoOf = (hp) => (hp >= 4 ? 0 : hp >= 2 ? 1 : 2);
@@ -63,6 +63,15 @@
   }
 
   // 고블린 표시 — 게임 화면에는 없는 뷰어 전용 표식. 순찰 = 바라보는 방향 화살표, 추적 = 과녁
+  // 발판 — 전용 그림이 없어 게임의 임시 그림(Plate._draw)과 같은 사각형을 그린다
+  function plateMark(ctx, X, Y) {
+    const s = T * 150 / 256, r = T * 18 / 256;
+    ctx.save();
+    ctx.lineWidth = T * 6 / 256; ctx.strokeStyle = "#1a1a1a"; ctx.fillStyle = "#dbd6c7";
+    ctx.beginPath(); ctx.roundRect(X + (T - s) / 2, Y + (T - s) / 2, s, s, r); ctx.fill(); ctx.stroke();
+    ctx.restore();
+  }
+
   function goblinMark(ctx, e, X, Y) {
     const chase = e.move === "chase";
     const [dx, dy] = chase ? [0, 0] : ({ U: [0, -1], D: [0, 1], L: [-1, 0], R: [1, 0] }[e.dir || "R"] || [1, 0]);
@@ -112,19 +121,21 @@
     }
 
     // 개체 — y 다음 스폰 순서(EntitySpawner.RANK). 같은 칸에 여럿이면 순서대로 겹친다.
-    const gated = lv.ents.some((e) => e.t === "cocoon");
+    const gated = lv.ents.some((e) => e.t === "cocoon" || e.t === "plate");
     const items = [...lv.ents].sort((p, q) => p.y - q.y || (RANK[p.t] ?? 99) - (RANK[q.t] ?? 99) || p.id - q.id);
     for (const e of items) {
       const X = e.x * T, Y = e.y * T;
       let img = null;
       ctx.save();
       switch (e.t) {
-        case "trap": img = e.once ? first(D.draw.trapOnce[0]) : first(D.draw.trap[Math.min(Math.max((e.atk || 1) - 1, 0), 2)]); break;
-        case "wall": img = e.ma ? first(D.draw.wallBreakable[Math.min(e.ma - 1, 1)])
-                                : first(D.draw.wallRandom[hash(e.x, e.y, strHash(lv.key)) % D.draw.wallRandom.length]); break;
-        case "healItem": img = first(D.draw.healItem); break;
+        case "trap": img = first(D.draw.trap[Math.min(Math.max((e.atk || 1) - 1, 0), 2)]); break;
+        case "chili": img = first(D.draw.chili); break;
+        case "wall": img = first(D.draw.wall[hash(e.x, e.y, strHash(lv.key)) % D.draw.wall.length]); break;
+        case "obstacle": img = first(D.draw.obstacle[Math.min(Math.max((e.ma || 1) - 1, 0), 1)]); break;
+        case "cookie": img = first(D.draw.cookie); break;
+        case "plate": plateMark(ctx, X, Y); break;
         case "cocoon": img = first(D.draw.cocoon); break;
-        case "moveBox": img = first(D.draw.moveBox); break;
+        case "stone": img = first(D.draw.stone); break;
         case "goblin": {
           const g = first(D.draw.goblin);
           if (g) ctx.drawImage(tinted(g, GOB_TINT[e.move === "chase" ? "chase" : "patrol"]), X, Y, T, T);
@@ -237,8 +248,8 @@
         stat("소프트락", `${pct}% (${m.locks}/${m.alive})`, "살아 있지만 이미 클리어가 불가능한 상태 비율"),
         stat("사망 · 낙하", `${m.dead} · ${m.fallen}`),
         stat("필수 감정", m.required.join(" · ") || "없음", "이 감정을 금지하면 클리어 불가"),
-        m.goblins ? stat("고치 · 상자 · 고블린", `${m.cocoons} · ${m.boxes} · ${m.goblins}`)
-                  : stat("고치 · 상자", `${m.cocoons} · ${m.boxes}`)));
+        m.goblins ? stat("고치 · 돌 · 고블린", `${m.cocoons} · ${m.boxes} · ${m.goblins}`)
+                  : stat("고치 · 돌", `${m.cocoons} · ${m.boxes}`)));
     }
     const rows = [];
     const add = (cls, k, v) => { if (v) rows.push(h("dt", { class: cls }, k), h("dd", null, v)); };
@@ -272,7 +283,7 @@
           h("button", { type: "button", "aria-label": "닫기", title: "닫기 (Esc)", onclick: () => dlg.close() }, "✕"))),
       h("div", { class: "dlg-grid" }, mapBox, info));
     if (!dlg.open) dlg.showModal();
-    // 큰 지도: 상자 너비에 맞춰 축척 (한 칸 최대 96px)
+    // 큰 지도: 돌 너비에 맞춰 축척 (한 칸 최대 96px)
     const avail = mapBox.clientWidth || 320;
     const c = Math.max(24, Math.min(96, avail / (lv.w + PAD * 2), (window.innerHeight * 0.62) / (lv.h + PAD * 2)));
     drawMap(big, lv, c, showGrid);
@@ -346,17 +357,18 @@
     }, label);
     return h("div", { class: "legend", "aria-label": "범례" },
       it(first(D.draw.player[0]), "플레이어 (감정별 그림)"),
-      it(first(D.draw.clear), "실타래 = 목표 (반투명 = 고치가 남아 꺼짐)"),
+      it(first(D.draw.clear), "실타래 = 목표 (반투명 = 고치가 남았거나 발판이 안 눌려 꺼짐)"),
       it(first(D.draw.cocoon), "누에고치"),
-      it(first(D.draw.moveBox), "상자"),
+      it(first(D.draw.stone), "돌"),
       D.draw.goblin ? gob({ move: "patrol", dir: "R" }, "고블린 순찰 (화살표 = 바라보는 방향)") : null,
       D.draw.goblin ? gob({ move: "chase" }, "고블린 추적 (과녁)") : null,
       it(first(D.draw.trap[2]), "가시 1·2·3 (상시)"),
-      it(first(D.draw.trapOnce[0]), "고추 (일회성)"),
-      it(first(D.draw.healItem), "쿠키 = 회복"),
-      it(first(D.draw.wallRandom[0]), "바위 = 벽"),
-      it(first(D.draw.wallBreakable[0]), "항아리 (공격 1로 파괴)"),
-      it(first(D.draw.wallBreakable[1]), "기둥 (공격 2로 파괴)"),
+      it(first(D.draw.chili), "칠리 (일회성, 항상 -1)"),
+      it(first(D.draw.cookie), "쿠키 = 회복"),
+      it(first(D.draw.wall[0]), "바위 = 벽 (파괴 불가)"),
+      it(first(D.draw.obstacle[0]), "장애물: 항아리 (공격 1로 파괴)"),
+      it(first(D.draw.obstacle[1]), "장애물: 기둥 (공격 2로 파괴)"),
+      pic((x) => plateMark(x, 0, 0), "발판 (전부 눌려야 목표가 켜짐)"),
       portal("월드 포탈 (허브, 숫자 = 스테이지)"),
       it(null, "회색 = 구멍"));
   }

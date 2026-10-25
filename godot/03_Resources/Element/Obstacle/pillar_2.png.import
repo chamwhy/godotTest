@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsa22hbfi77es"
-path="res://.godot/imported/pillar_1.png-235581efedba3bb96462a85c632b79e7.ctex"
+uid="uid://dj1r1am4vavuw"
+path="res://.godot/imported/pillar_2.png-2aa77f3e5f86978d73457b800a153f65.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://03_Resources/Element/Wall/destroyable/pillar_1.png"
-dest_files=["res://.godot/imported/pillar_1.png-235581efedba3bb96462a85c632b79e7.ctex"]
+source_file="res://03_Resources/Element/Obstacle/pillar_2.png"
+dest_files=["res://.godot/imported/pillar_2.png-2aa77f3e5f86978d73457b800a153f65.ctex"]
 
 [params]
 

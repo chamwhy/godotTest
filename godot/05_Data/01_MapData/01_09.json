@@ -88,31 +88,27 @@
 		{
 			"x": 1,
 			"y": 2,
-			"obj_type": "trap",
-			"atk": 1,
-			"once": true
+			"obj_type": "chili"
 		},
 		{
 			"x": 2,
 			"y": 3,
-			"obj_type": "trap",
-			"atk": 1,
-			"once": true
+			"obj_type": "chili"
 		},
 		{
 			"x": 2,
 			"y": 2,
-			"obj_type": "healItem"
+			"obj_type": "cookie"
 		},
 		{
 			"x": 6,
 			"y": 1,
-			"obj_type": "healItem"
+			"obj_type": "cookie"
 		},
 		{
 			"x": 1,
 			"y": 8,
-			"obj_type": "healItem"
+			"obj_type": "cookie"
 		},
 		{
 			"x": 7,

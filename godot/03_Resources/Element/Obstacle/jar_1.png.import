@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdxvckvofru8a"
-path="res://.godot/imported/jar_3.png-383f441ffc54e78fad49d46d7984132c.ctex"
+uid="uid://d3f6lwpyx881e"
+path="res://.godot/imported/jar_1.png-170ebfeab45f84b2a3ee0b599056c54f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://03_Resources/Element/Wall/destroyable/jar_3.png"
-dest_files=["res://.godot/imported/jar_3.png-383f441ffc54e78fad49d46d7984132c.ctex"]
+source_file="res://03_Resources/Element/Obstacle/jar_1.png"
+dest_files=["res://.godot/imported/jar_1.png-170ebfeab45f84b2a3ee0b599056c54f.ctex"]
 
 [params]
 

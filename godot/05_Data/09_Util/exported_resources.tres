@@ -5,22 +5,28 @@
 [ext_resource type="PackedScene" uid="uid://bdvhogbuwr7u4" path="res://04_Scenes/Entities/player.tscn" id="2_77qpq"]
 [ext_resource type="PackedScene" uid="uid://d2cywxk6y7dsc" path="res://04_Scenes/Entities/tile.tscn" id="3_2mgts"]
 [ext_resource type="PackedScene" uid="uid://b635aa1kx37m0" path="res://04_Scenes/Entities/trap.tscn" id="4_bgbi1"]
-[ext_resource type="PackedScene" uid="uid://tqdeqigdhtn" path="res://04_Scenes/Entities/heal_item.tscn" id="5_k3ru8"]
-[ext_resource type="PackedScene" uid="uid://bi71to4ae5eo7" path="res://04_Scenes/Entities/move_box.tscn" id="6_dpfcg"]
+[ext_resource type="PackedScene" uid="uid://tqdeqigdhtn" path="res://04_Scenes/Entities/cookie.tscn" id="5_k3ru8"]
+[ext_resource type="PackedScene" uid="uid://bi71to4ae5eo7" path="res://04_Scenes/Entities/stone.tscn" id="6_dpfcg"]
 [ext_resource type="PackedScene" uid="uid://bxs31ycpbamfa" path="res://04_Scenes/Entities/world_portal.tscn" id="7_dpfcg"]
 [ext_resource type="PackedScene" uid="uid://bk8u1y1oy40g1" path="res://04_Scenes/Entities/clear_portal.tscn" id="7_k3ru8"]
 [ext_resource type="PackedScene" uid="uid://cfkm523b57bu1" path="res://04_Scenes/Entities/cocoon.tscn" id="9_h1e2h"]
 [ext_resource type="PackedScene" uid="uid://bq5x7mhrv3e2n" path="res://04_Scenes/Entities/goblin.tscn" id="10_gobln"]
+[ext_resource type="PackedScene" uid="uid://bvaussy657i4r" path="res://04_Scenes/Entities/obstacle.tscn" id="11_obstc"]
+[ext_resource type="PackedScene" uid="uid://bsrgrsrdh6kkt" path="res://04_Scenes/Entities/chili.tscn" id="12_chili"]
+[ext_resource type="PackedScene" uid="uid://bjivw7onrfv6n" path="res://04_Scenes/Entities/plate.tscn" id="13_plate"]
 
 [resource]
 script = ExtResource("1_8ssbv")
 entityScenes = Dictionary[String, PackedScene]({
+"chili": ExtResource("12_chili"),
 "clear": ExtResource("7_k3ru8"),
 "cocoon": ExtResource("9_h1e2h"),
+"cookie": ExtResource("5_k3ru8"),
 "goblin": ExtResource("10_gobln"),
-"healItem": ExtResource("5_k3ru8"),
-"moveBox": ExtResource("6_dpfcg"),
+"obstacle": ExtResource("11_obstc"),
+"plate": ExtResource("13_plate"),
 "player": ExtResource("2_77qpq"),
+"stone": ExtResource("6_dpfcg"),
 "tile": ExtResource("3_2mgts"),
 "trap": ExtResource("4_bgbi1"),
 "wall": ExtResource("1_lhdmw"),

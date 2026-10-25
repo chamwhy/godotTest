@@ -14,7 +14,8 @@
   --fg:#241f1d; --muted:#6d625d; --accent:#c2402f; --accent-soft:#f4dbd6;
   --ok:#2f7d55; --warn:#9a6a10; --bad:#b5342a;
   --c-player:#2f6fb0; --c-clear:#2f8f62; --c-portal:#4a86c4; --c-wall:#7b6f69;
-  --c-trap:#c2402f; --c-heal:#3f9a66; --c-cocoon:#8257ab; --c-box:#a87a2c; --c-goblin:#6a8f3c;
+  --c-trap:#c2402f; --c-cookie:#3f9a66; --c-cocoon:#8257ab; --c-stone:#a87a2c; --c-goblin:#6a8f3c;
+  --c-obstacle:#a0663a; --c-chili:#d4561f; --c-plate:#7d776b;
   --tile-floor:#fbfaf9; --tile-hole:#2a2422; --tile-hole-fg:#8d827c;
   --font-ui:'IBM Plex Sans KR',system-ui,-apple-system,'Malgun Gothic',sans-serif;
   --font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -26,7 +27,8 @@
   --fg:#ece7e4; --muted:#9b908b; --accent:#e4674f; --accent-soft:#3e241e;
   --ok:#5bbd87; --warn:#d7a344; --bad:#e8695c;
   --c-player:#6aa8e0; --c-clear:#5cc295; --c-portal:#7cb2e8; --c-wall:#a2958e;
-  --c-trap:#e4674f; --c-heal:#63c48c; --c-cocoon:#b088d8; --c-box:#d2a44f; --c-goblin:#9bc264;
+  --c-trap:#e4674f; --c-cookie:#63c48c; --c-cocoon:#b088d8; --c-stone:#d2a44f; --c-goblin:#9bc264;
+  --c-obstacle:#cf9466; --c-chili:#f07c45; --c-plate:#b3ac9e;
   --tile-floor:#2c2827; --tile-hole:#0d0b0b; --tile-hole-fg:#564e4b;
   color-scheme:dark;
 }}
@@ -35,7 +37,8 @@
   --fg:#ece7e4; --muted:#9b908b; --accent:#e4674f; --accent-soft:#3e241e;
   --ok:#5bbd87; --warn:#d7a344; --bad:#e8695c;
   --c-player:#6aa8e0; --c-clear:#5cc295; --c-portal:#7cb2e8; --c-wall:#a2958e;
-  --c-trap:#e4674f; --c-heal:#63c48c; --c-cocoon:#b088d8; --c-box:#d2a44f; --c-goblin:#9bc264;
+  --c-trap:#e4674f; --c-cookie:#63c48c; --c-cocoon:#b088d8; --c-stone:#d2a44f; --c-goblin:#9bc264;
+  --c-obstacle:#cf9466; --c-chili:#f07c45; --c-plate:#b3ac9e;
   --tile-floor:#2c2827; --tile-hole:#0d0b0b; --tile-hole-fg:#564e4b;
   color-scheme:dark;
 }
@@ -114,8 +117,10 @@ select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .chip.t-select{background:var(--surface-2); color:var(--fg); border:1px solid var(--line)}
 .chip.e-player{background:var(--c-player)} .chip.e-clear{background:var(--c-clear)}
 .chip.e-worldPortal{background:var(--c-portal)} .chip.e-wall{background:var(--c-wall)}
-.chip.e-trap{background:var(--c-trap)} .chip.e-healItem{background:var(--c-heal)}
-.chip.e-cocoon{background:var(--c-cocoon)} .chip.e-moveBox{background:var(--c-box)}
+.chip.e-trap{background:var(--c-trap)} .chip.e-cookie{background:var(--c-cookie)}
+.chip.e-obstacle{background:var(--c-obstacle)} .chip.e-chili{background:var(--c-chili)}
+.chip.e-plate{background:var(--c-plate)}
+.chip.e-cocoon{background:var(--c-cocoon)} .chip.e-stone{background:var(--c-stone)}
 .chip.e-goblin{background:var(--c-goblin)}
 .tool .nm{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .tool .kb{margin-left:auto; font-family:var(--font-mono); font-size:10.5px; color:var(--muted)}
@@ -142,8 +147,10 @@ select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .cell[data-count="1"] .ent{min-width:22px; height:22px; font-size:12px}
 .ent.e-player{background:var(--c-player)} .ent.e-clear{background:var(--c-clear)}
 .ent.e-worldPortal{background:var(--c-portal)} .ent.e-wall{background:var(--c-wall)}
-.ent.e-trap{background:var(--c-trap)} .ent.e-healItem{background:var(--c-heal)}
-.ent.e-cocoon{background:var(--c-cocoon)} .ent.e-moveBox{background:var(--c-box)}
+.ent.e-trap{background:var(--c-trap)} .ent.e-cookie{background:var(--c-cookie)}
+.ent.e-obstacle{background:var(--c-obstacle)} .ent.e-chili{background:var(--c-chili)}
+.ent.e-plate{background:var(--c-plate)}
+.ent.e-cocoon{background:var(--c-cocoon)} .ent.e-stone{background:var(--c-stone)}
 .ent.e-goblin{background:var(--c-goblin)}
 .ent.pick{box-shadow:0 0 0 2px var(--fg)}
 /* 실제 게임 스프라이트를 쓸 때는 색 칩 대신 그림을 보여준다 */
@@ -380,7 +387,7 @@ const PRESETS = (() => {
 // def가 null이면 "값이 있을 때만 쓴다"는 뜻이다.
 // RANK는 EntitySpawner.RANK와 같아야 한다 (스폰 순서 = 시작 칸 상호작용 순서).
 // ─────────────────────────────────────────────────────────────
-const RANK = {trap:0, wall:1, healItem:2, cocoon:3, worldPortal:10, clear:11, moveBox:20, goblin:50, player:90};
+const RANK = {trap:0, chili:0, plate:0, wall:1, obstacle:1, cookie:2, cocoon:3, worldPortal:10, clear:11, stone:20, goblin:50, player:90};
 
 const SPEC = {
   player:      {nm:'플레이어', g:'P', key:'1', fields:[
@@ -394,25 +401,43 @@ const SPEC = {
                   {k:'to_s', t:'num', def:0, lb:'가는 스테이지'},
                   {k:'num',  t:'num', def:null, lb:'표시 숫자',
                    hint:'비우면 가는 스테이지 번호를 쓴다. to_s가 0이면 숫자 없는 월드 출구가 된다'}]},
-  wall:        {nm:'벽', g:'▦', key:'4', fields:[
-                  {k:'ma', t:'num', def:null, lb:'부수는 공격력', hint:'비우면 파괴 불가'}]},
-  trap:        {nm:'고추', g:'▲', key:'5', fields:[
+  wall:        {nm:'벽', g:'▦', key:'4', fields:[]},
+  obstacle:    {nm:'장애물', g:'▣', key:'5', fields:[
+                  {k:'ma', t:'num', def:1, lb:'부수는 공격력', hint:'1 = 항아리, 2 = 기둥'}]},
+  trap:        {nm:'가시', g:'▲', key:'6', fields:[
                   // atk는 절대 생략하지 않는다. Trap.apply_data가 atk를 0으로
-                  // 기본값 처리하므로, 빼면 피해량 0짜리 고추가 되어 버린다.
-                  {k:'atk',  t:'num',  def:1, lb:'피해량'},
-                  {k:'once', t:'bool', def:false, lb:'일회성'}]},
-  healItem:    {nm:'회복', g:'+', key:'6', fields:[
+                  // 기본값 처리하므로, 빼면 피해량 0짜리 가시가 되어 버린다.
+                  {k:'atk',  t:'num',  def:1, lb:'피해량'}]},
+  chili:       {nm:'칠리', g:'◇', key:'7', fields:[]},
+  cookie:      {nm:'쿠키', g:'+', key:'8', fields:[
                   {k:'heal', t:'num', def:1, omit:1, lb:'회복량'}]},
-  cocoon:      {nm:'누에고치', g:'●', key:'7', fields:[]},
-  moveBox:     {nm:'상자', g:'■', key:'8', fields:[]},
-  goblin:      {nm:'고블린', g:'G', key:'9', fields:[
+  cocoon:      {nm:'누에고치', g:'●', key:'9', fields:[]},
+  stone:       {nm:'돌', g:'■', key:'0', fields:[]},
+  plate:       {nm:'발판', g:'◫', key:'p', fields:[]},
+  goblin:      {nm:'고블린', g:'G', key:'g', fields:[
                   {k:'move', t:'sel', def:'patrol', opts:['patrol','chase'], lb:'행동',
                    optLb:{patrol:'순찰', chase:'추적'}},
                   {k:'dir',  t:'sel', def:'R', opts:['U','D','L','R'], lb:'보는 방향',
                    optLb:{U:'↑ 위', D:'↓ 아래', L:'← 왼쪽', R:'→ 오른쪽'}, onlyIf:e => e.move !== 'chase'},
                   {k:'atk',  t:'num', def:1, omit:1, lb:'피해량'}]},
 };
-const ORDER = ['player','clear','worldPortal','wall','trap','healItem','cocoon','moveBox','goblin'];
+const ORDER = ['player','clear','worldPortal','wall','obstacle','trap','chili','cookie','cocoon','stone','plate','goblin'];
+
+// 예전 형식(벽 ma / 일회성 함정 / healItem / moveBox)을 지금 형식으로 바꾼다.
+// 붙여넣은 옛 맵이나 옛 프리셋을 그대로 열어도 되게 한다.
+function migrateEnt(e){
+  const o = Object.assign({}, e);
+  if(o.obj_type === 'wall' && o.ma !== undefined){
+    if(o.ma >= 1) o.obj_type = 'obstacle'; else delete o.ma;
+  }
+  if(o.obj_type === 'trap' && o.once !== undefined){
+    if(o.once){ o.obj_type = 'chili'; delete o.atk; }
+    delete o.once;
+  }
+  if(o.obj_type === 'healItem') o.obj_type = 'cookie';
+  if(o.obj_type === 'moveBox') o.obj_type = 'stone';
+  return o;
+}
 
 // ─────────────────────────────────────────────────────────────
 // 실제 게임 스프라이트. 규칙은 viewer/app.js(레벨 디자인 시트)와 같게 둔다.
@@ -428,13 +453,13 @@ function spriteOf(e){
   try{
     switch(e.obj_type){
       case 'player':      return first(DRAW.player[emoTier(e.ch ?? 6)]);
-      case 'trap':        return e.once ? first(DRAW.trapOnce[0])
-                                        : first(DRAW.trap[clamp((e.atk ?? 1) - 1, 0, 2)]);
-      case 'wall':        return e.ma ? first(DRAW.wallBreakable[Math.min(e.ma - 1, 1)])
-                                      : first(DRAW.wallRandom[hash32(e.x, e.y) % DRAW.wallRandom.length]);
-      case 'healItem':    return first(DRAW.healItem);
+      case 'trap':        return first(DRAW.trap[clamp((e.atk ?? 1) - 1, 0, 2)]);
+      case 'chili':       return first(DRAW.chili);
+      case 'wall':        return first(DRAW.wall[hash32(e.x, e.y) % DRAW.wall.length]);
+      case 'obstacle':    return first(DRAW.obstacle[clamp((e.ma ?? 1) - 1, 0, 1)]);
+      case 'cookie':      return first(DRAW.cookie);
       case 'cocoon':      return first(DRAW.cocoon);
-      case 'moveBox':     return first(DRAW.moveBox);
+      case 'stone':       return first(DRAW.stone);
       case 'goblin':      return first(DRAW.goblin);
       case 'clear':       return first(DRAW.clear);
       case 'worldPortal': return first(DRAW.worldPortal);
@@ -443,9 +468,9 @@ function spriteOf(e){
   return null;
 }
 
-// 그림만으로는 안 보이는 값(벽 내구도, 고추 피해량, 포탈 번호, 고블린 방향)을 모서리에 붙인다.
+// 그림만으로는 안 보이는 값(장애물 내구도, 가시 피해량, 포탈 번호, 고블린 방향)을 모서리에 붙인다.
 function badgeOf(e){
-  if(e.obj_type === 'wall')        return e.ma ? String(e.ma) : '';
+  if(e.obj_type === 'obstacle')    return String(e.ma ?? 1);
   if(e.obj_type === 'trap')        return String(e.atk ?? 1);
   if(e.obj_type === 'worldPortal'){ const n = e.num ?? e.to_s ?? 0; return n ? String(n) : '出'; }
   if(e.obj_type === 'goblin')      return e.move === 'chase' ? '!' : ({U:'↑',D:'↓',L:'←',R:'→'}[e.dir ?? 'R']);
@@ -476,8 +501,8 @@ function artNode(e, tag, extraCls){
 // 격자 안 글리프 (고블린은 방향/종류를 글자로 보여준다)
 function glyphOf(e){
   if(e.obj_type === 'goblin') return e.move === 'chase' ? 'G!' : ({U:'G↑',D:'G↓',L:'G←',R:'G→'}[e.dir] || 'G→');
-  if(e.obj_type === 'wall')   return e.ma ? 'W' + e.ma : '▦';
-  if(e.obj_type === 'trap')   return (e.once ? '◇' : '') + (e.atk ?? 1);
+  if(e.obj_type === 'obstacle') return '▣' + (e.ma ?? 1);
+  if(e.obj_type === 'trap')   return '▲' + (e.atk ?? 1);
   if(e.obj_type === 'worldPortal') return (e.num === null || e.num === undefined) ? '◎' : String(e.num);
   return SPEC[e.obj_type] ? SPEC[e.obj_type].g : '?';
 }
@@ -513,7 +538,7 @@ function loadRaw(raw){
     if(raw[k] !== undefined) meta[k] = raw[k];
   }
   meta.offset = Array.isArray(raw.offset) ? raw.offset.slice(0,2) : null;
-  const ents = (raw.entities || []).map(e => Object.assign({}, e));
+  const ents = (raw.entities || []).map(migrateEnt);
   S = {meta, tiles, ents};
   declared = {w: raw.map_width, h: raw.map_height, aw: w, ah: h};
   sel = -1; selCell = null;
@@ -609,7 +634,7 @@ function renderTools(){
       im.style.cssText = 'width:14px;height:14px;object-fit:contain;image-rendering:pixelated';
       s.appendChild(im);
     } else {
-      const i = el('i'); i.style.background = `var(--c-${t === 'worldPortal' ? 'portal' : t === 'healItem' ? 'heal' : t === 'moveBox' ? 'box' : t})`;
+      const i = el('i'); i.style.background = `var(--c-${t === 'worldPortal' ? 'portal' : t})`;
       s.appendChild(i);
     }
     s.appendChild(document.createTextNode(SPEC[t].nm));
@@ -742,6 +767,13 @@ function renderChecks(){
 
   const cocoons = S.ents.filter(e => e.obj_type === 'cocoon').length;
   if(cocoons) add('ok', `누에고치 ${cocoons}개 — 전부 부숴야 목표 포탈이 열린다`);
+  const plates = S.ents.filter(e => e.obj_type === 'plate').length;
+  if(plates){
+    const weights = S.ents.filter(e => e.obj_type === 'stone').length;
+    add(weights >= plates ? 'ok' : 'warn',
+        `발판 ${plates}개 — 전부 눌려 있어야 목표 포탈이 열린다` +
+        (weights >= plates ? '' : ` (돌 ${weights}개. 고블린·고치로 누르지 않으면 모자란다)`));
+  }
 
   if(players.length === 1){
     const p = players[0];
@@ -828,7 +860,7 @@ function buildSpec(){
   const h = S.tiles.length, w = S.tiles[0].length;
   const grid = S.tiles.map(r => r.map(v => v ? '.' : '_'));
   const extras = [];
-  const prio = ['player','clear','cocoon','moveBox','goblin','wall','trap','healItem','worldPortal'];
+  const prio = ['player','clear','cocoon','stone','goblin','wall','obstacle','trap','chili','cookie','plate','worldPortal'];
   const taken = {};
 
   const symOf = e => {
@@ -836,17 +868,17 @@ function buildSpec(){
     if(t === 'player') return 'P';
     if(t === 'clear')  return 'E';
     if(t === 'cocoon') return 'C';
-    if(t === 'moveBox') return 'B';
+    if(t === 'stone') return 'S';
     if(t === 'goblin'){
       if((e.atk ?? 1) !== 1) return null;
       return e.move === 'chase' ? 'X' : ({U:'^',D:'v',L:'<',R:'>'}[e.dir ?? 'R']);
     }
-    if(t === 'wall'){ const ma = e.ma ?? 0; return ma === 0 ? 'W' : ma === 1 ? 'w' : ma === 2 ? 'V' : null; }
-    if(t === 'trap'){
-      const a = e.atk ?? 1; if(a < 1 || a > 6) return null;
-      return e.once ? 'abcdef'[a - 1] : String(a);
-    }
-    if(t === 'healItem') return (e.heal ?? 1) === 1 ? 'H' : null;
+    if(t === 'wall') return 'W';
+    if(t === 'obstacle'){ const ma = e.ma ?? 1; return ma === 1 ? 'j' : ma === 2 ? 'V' : null; }
+    if(t === 'trap'){ const a = e.atk ?? 1; return (a >= 1 && a <= 3) ? String(a) : null; }
+    if(t === 'chili') return 'c';
+    if(t === 'plate') return 'O';
+    if(t === 'cookie') return (e.heal ?? 1) === 1 ? 'H' : null;
     return null;
   };
 

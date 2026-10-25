@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bvaussy657i4r"]
+
+[ext_resource type="Script" uid="uid://nfguew0yvhq6" path="res://01_Scripts/Entities/Element/Obstacle/Obstacle.gd" id="1_obstc"]
+[ext_resource type="SpriteFrames" uid="uid://bicwc324m05n4" path="res://06_Animation/SpriteFrames/Obstacle/jar_frames.tres" id="2_jar"]
+[ext_resource type="SpriteFrames" uid="uid://2xv1igekwdeu" path="res://06_Animation/SpriteFrames/Obstacle/pillar_frames.tres" id="3_pillr"]
+[ext_resource type="Material" uid="uid://bgrcxgtju86gj" path="res://02_Material/Shader/HitEffect.tres" id="4_hitmt"]
+[ext_resource type="Script" uid="uid://dg87ive2nxwm2" path="res://01_Scripts/Animation/Effect/HitEffect.gd" id="5_hitef"]
+
+[node name="Obstacle" type="Node2D"]
+script = ExtResource("1_obstc")
+obstacle_frames = Array[SpriteFrames]([ExtResource("2_jar"), ExtResource("3_pillr")])
+destroy_audio = Array[String](["broken_jar", "broken_pillar"])
+is_block = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = ExtResource("4_hitmt")
+sprite_frames = ExtResource("2_jar")
+
+[node name="HitEffect" type="Node" parent="AnimatedSprite2D"]
+script = ExtResource("5_hitef")

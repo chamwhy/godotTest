@@ -55,7 +55,7 @@ def analyze(path, show=3):
                 nbx = len(ns[7])
                 causes[(nco, nbx)] = causes.get((nco, nbx), 0) + 1
     if causes:
-        print("   소프트락 진입 전이 (남은 고치, 남은 상자):", dict(sorted(causes.items())))
+        print("   소프트락 진입 전이 (남은 고치, 남은 돌):", dict(sorted(causes.items())))
     return len(locks), len(alive)
 
 

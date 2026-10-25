@@ -2,7 +2,7 @@
 
 절제(ablation) 검증은 '막는 물체'에 쓸 수 없다(없애면 길이 열려 버린다).
 그래서 도달 가능한 모든 전이를 훑어서, 각 누에고치가 실제로
-플레이어의 직접 타격으로 죽을 수 있는지 / 상자를 통해서만 죽는지를 판정한다.
+플레이어의 직접 타격으로 죽을 수 있는지 / 돌을 통해서만 죽는지를 판정한다.
 """
 import sys
 from collections import deque
@@ -40,14 +40,14 @@ def check(path, quiet=False):
             if not ks:
                 verdict = "★ 파괴 불가 — 클리어 불가능!"
             elif ks == {"box"}:
-                verdict = "상자만 파괴 가능 (상자 필수)"
+                verdict = "돌만 파괴 가능 (돌 필수)"
             elif ks == {"player"}:
                 verdict = "플레이어 직접 타격만"
             else:
-                verdict = "플레이어/상자 둘 다 가능"
+                verdict = "플레이어/돌 둘 다 가능"
             print(f"  누에고치({e.x},{e.y}): {verdict}")
         if "box" in clearers:
-            print("  ⚠ 상자가 목표 포탈을 밟아 클리어됨 (Portal 코드 버그 노출) → 배치 수정 필요")
+            print("  ⚠ 돌이 목표 포탈을 밟아 클리어됨 (Portal 코드 버그 노출) → 배치 수정 필요")
     return killers
 
 

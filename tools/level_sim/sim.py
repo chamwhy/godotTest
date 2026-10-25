@@ -4,26 +4,30 @@ bsk 게임 규칙 시뮬레이터 — GDScript 로직 1:1 이식 (origin/main �
 이식 대상:
   Unit.action_dir / action2 / move_to / attack / apply_on_hit
   Player._set_hp (감정 → 이동력/공격력)
-  Trap._check_pos / on_hit, HealItem._check_pos
-  Wall.on_hit, Cocoon.on_hit, MoveBox.on_hit
+  Trap._check_pos, Chili._check_pos / on_hit, Cookie._check_pos
+  Wall.on_hit, Obstacle.on_hit, Cocoon.on_hit, Stone.on_hit
+  Plate (멈춘 무게가 있으면 눌림)
   GridManager.can_pass / has_tile / enter / step / settle
-  StageContext.is_gated / notify_cocoon_destroyed, ClearPortal.active
+  StageContext.is_gated / refresh_gate, ClearPortal.active
   EntitySpawner.RANK (스폰 순서 → 스폰 시점 entered 발동)
 
 핵심 규칙 (2025-10 시점 main):
   · 공격 조건에서 blocked가 삭제됨 → remain_atk > 0 이면 항상 공격한다.
     따라서 화남(이동력1/공격력2)은 "걸어가면서 전방 1칸을 1의 힘으로" 때린다.
   · Element.apply_data가 enter_element를 부르므로 스폰 시점에 entered가 발동한다.
-  · 누에고치가 하나라도 남아 있으면 clear 포탈이 비활성.
+  · 누에고치가 하나라도 남아 있거나 발판이 하나라도 안 눌려 있으면 clear 포탈이 비활성.
+  · 칠리는 피해가 항상 1이다. 벽은 부서지지 않고, 부서지는 것은 장애물(obstacle)이다.
 """
 import json, re, sys
 from collections import deque
 
 DIRS = {"U": (0, -1), "D": (0, 1), "L": (-1, 0), "R": (1, 0)}
 # EntitySpawner.RANK
-RANK = {"trap": 0, "wall": 1, "healItem": 2, "cocoon": 3,
-        "worldPortal": 10, "clear": 11, "moveBox": 20, "goblin": 50, "player": 90}
-BLOCKING = {"wall", "cocoon", "moveBox", "goblin"}
+RANK = {"trap": 0, "chili": 0, "plate": 0, "wall": 1, "obstacle": 1, "cookie": 2, "cocoon": 3,
+        "worldPortal": 10, "clear": 11, "stone": 20, "goblin": 50, "player": 90}
+BLOCKING = {"wall", "obstacle", "cocoon", "stone", "goblin"}
+# 칠리(Chili.DAMAGE)
+CHILI_DAMAGE = 1
 
 # 고블린 순찰 방향 (JSON의 dir 문자 -> 인덱스). 방향은 상태의 일부다.
 GOB_DIRS = ["U", "D", "L", "R"]
@@ -65,6 +69,7 @@ class Game:
         self.player = next(e for e in self.ents if e.type == "player")
         self.max_hp = self.player.d.get("mh", 1)
         self.cocoon_ids = [e.id for e in self.ents if e.type == "cocoon"]
+        self.plates = [(e.x, e.y) for e in self.ents if e.type == "plate"]
         self.has_clear = any(e.type == "clear" for e in self.ents)
         self.goblin_ids = [e.id for e in self.ents if e.type == "goblin"]
 
@@ -75,7 +80,7 @@ class Game:
         """스폰을 실제로 실행해서 초기 상태를 만든다 (스폰 시점 entered 포함)."""
         ctx = Ctx(self, set(), {}, None, None, self.player.d.get("ch", self.max_hp), {})
         for e in self.ents:
-            if e.type == "moveBox":
+            if e.type == "stone":
                 ctx.boxes[e.id] = (e.x, e.y)
             elif e.type == "goblin":
                 di = GOB_DIRS.index(e.d.get("dir", "R"))
@@ -83,7 +88,7 @@ class Game:
             elif e.type == "player":
                 ctx.px, ctx.py = e.x, e.y
             ctx.on_enter(("player",) if e.type == "player"
-                         else (("box", e.id) if e.type == "moveBox" else ("ent", e.id)),
+                         else (("box", e.id) if e.type == "stone" else ("ent", e.id)),
                          e.x, e.y)
         return ctx.snapshot()
 
@@ -131,13 +136,26 @@ class Ctx:
     def move_speed(self):
         return 2 if self.hp <= 1 else 1
 
-    # ── 누에고치 게이트 (StageContext)
+    # ── 클리어 게이트 (StageContext): 누에고치 전멸 + 발판 전부 눌림
     def portal_active(self):
-        return all(cid in self.removed for cid in self.g.cocoon_ids)
+        return all(cid in self.removed for cid in self.g.cocoon_ids) \
+            and all(self.plate_pressed(x, y) for x, y in self.g.plates)
+
+    ## 발판 위에 멈춰 있는 막는 개체가 있는가 (Plate.has_weight).
+    ## 지나가는 중인 개체는 이 검사가 불리는 순간(정착·파괴 직후)엔 이미 다른 칸에 있다.
+    def plate_pressed(self, x, y):
+        if (self.px, self.py) == (x, y) and not self.dead and not self.fallen:
+            return True
+        for e in self.g.ents:
+            if e.id in self.removed or e.type not in BLOCKING:
+                continue
+            if self.pos_of(e) == (x, y):
+                return True
+        return False
 
     # ── 셀 조회
     def pos_of(self, e):
-        if e.type == "moveBox":
+        if e.type == "stone":
             return self.boxes.get(e.id)
         if e.type == "goblin":
             gv = self.gobs.get(e.id)
@@ -171,17 +189,18 @@ class Ctx:
                 continue
             if who[0] == "ent" and e.id == who[1]:
                 continue                       # 자기 자신에게는 발동 안 함
-            if e.type == "trap":
+            if e.type in ("trap", "chili"):
+                dmg = CHILI_DAMAGE if e.type == "chili" else e.d.get("atk", 0)
                 if who[0] == "player":
-                    self.damage_player(e.d.get("atk", 0))
-                elif who[0] == "gob" and e.d.get("atk", 0) >= 1:
-                    # 고블린도 hitable이므로 함정에 맞는다. 체력 1이라 즉사.
+                    self.damage_player(dmg)
+                elif who[0] == "gob" and dmg >= 1:
+                    # 고블린도 hitable이므로 가시·칠리에 맞는다. 체력 1이라 즉사.
                     self.removed.add(who[1])
                     self.gobs.pop(who[1], None)
-                # 박스/기타: on_hit → dir=0 → 이동 없음. 함정만 소모됨
-                if e.d.get("once", False):
+                # 박스/기타: on_hit → dir=0 → 이동 없음. 칠리만 소모됨
+                if e.type == "chili":
                     self.removed.add(e.id)
-            elif e.type == "healItem":
+            elif e.type == "cookie":
                 if who[0] == "player":
                     self.hp = min(self.g.max_hp, self.hp + e.d.get("heal", 1))
                 self.removed.add(e.id)
@@ -190,7 +209,12 @@ class Ctx:
     # 포탈은 settled로만 발동하므로, 플레이어가 포탈 위에 선 채로 마지막 고치를
     # 부수면 settled가 다시 오지 않는다. 활성화 시점에 점유자를 한 번 검사한다.
     def _notify_cocoon_destroyed(self):
-        if not self.portal_active():
+        self._gate_check()
+
+    # ── StageContext.refresh_gate → ClearPortal.activate → _check_occupant
+    # 고치가 깨지거나 발판이 눌린 순간 포탈이 켜지면, 이미 포탈 위에 선 플레이어는 바로 클리어.
+    def _gate_check(self):
+        if self.cleared or not self.portal_active():
             return
         if self.dead or self.fallen:
             return
@@ -201,7 +225,10 @@ class Ctx:
 
     # ── element_settled (포탈)
     def on_settle(self, who, x, y):
-        # Portal._check_pos는 플레이어만 발동시킨다 (상자/고블린은 밟아도 무반응)
+        # 발판 위에 멈췄다 → 게이트가 열렸을 수 있다 (Plate._on_cell_event)
+        if (x, y) in self.g.plates:
+            self._gate_check()
+        # Portal._check_pos는 플레이어만 발동시킨다 (돌/고블린은 밟아도 무반응)
         if who[0] != "player":
             return
         for e in self.ents_at(x, y, who[0]):
@@ -253,8 +280,9 @@ class Ctx:
             if e.id in self.removed:
                 continue
             if e.type == "wall":
-                ma = e.d.get("ma", 0)
-                if ma != 0 and ma <= power:
+                pass                                  # 부서지지 않는다 (튕김)
+            elif e.type == "obstacle":
+                if max(1, e.d.get("ma", 1)) <= power:
                     self.removed.add(e.id)
             elif e.type == "cocoon":
                 if power >= 1:
@@ -262,20 +290,19 @@ class Ctx:
                     self.kills.append((e.id, who[0]))
                     self._notify_cocoon_destroyed()
             elif e.type == "goblin":
-                # 체력 1. 1 이상 맞으면 죽는다. 상자에 치여도 같다.
+                # 체력 1. 1 이상 맞으면 죽는다. 돌에 치여도 같다.
                 if power >= 1:
                     self.removed.add(e.id)
                     self.gobs.pop(e.id, None)
                     self.kills.append((e.id, who[0]))
-            elif e.type == "trap":
-                if e.d.get("once", False):
-                    self.removed.add(e.id)
-            elif e.type == "moveBox":
+            elif e.type == "chili":
+                self.removed.add(e.id)                # 때리면 먹지 않고 부서진다
+            elif e.type == "stone":
                 bx, by = self.boxes[e.id]
                 bd = (sign(bx - from_pos[0]), sign(by - from_pos[1]))
                 if bd != (0, 0) and (bd[0] == 0 or bd[1] == 0):
                     self.act(("box", e.id), bd, power, power)
-            # healItem / clear / worldPortal: hitable = false
+            # trap: 맞아도 무반응 / cookie·plate·clear·worldPortal: hitable = false
 
     # ── Unit.action2  (blocked 조건 없음!)
     def act(self, who, d, spd, atk):
@@ -326,7 +353,7 @@ class Ctx:
             self.on_enter(("gob", gid), tx, ty)
             if gid not in self.gobs:
                 return                          # 함정 등으로 죽었다
-            # 구멍 위에 멈추면 낙하 (상자/플레이어와 같은 규칙)
+            # 구멍 위에 멈추면 낙하 (돌/플레이어와 같은 규칙)
             if not self.g.has_tile(tx, ty):
                 self.removed.add(gid)
                 self.gobs.pop(gid, None)

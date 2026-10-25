@@ -65,8 +65,10 @@ func load_stage(world: int, stage: int) -> bool:
 	# ⑤ 스폰
 	EntitySpawner.spawn_all(mapData, _entity_parent)
 
-	# 스폰 중 발동한 상호작용(시작 칸 고추 등)의 시각 상태를 맞춘다
+	# 스폰 중 발동한 상호작용(시작 칸 칠리 등)의 시각 상태를 맞춘다
 	ActionManager.settle_spawn_actions()
+	# 발판은 그 위에 놓인 돌·고치가 다 스폰된 뒤에야 눌림 여부를 안다
+	StageContext.sync_gate_after_spawn()
 	
 	# ⑥ 새 판이니 undo 히스토리 초기화
 	UndoManager.clear_history()
@@ -103,12 +105,12 @@ func unload_stage() -> void:
 	for n in _entity_parent.get_children():
 		_entity_parent.remove_child(n)
 		# queue_free()가 아니라 free()다.
-		# Trap/HealItem/Portal은 apply_data에서 GridManager의 시그널
+		# Trap/Chili/Cookie/Plate/Portal은 apply_data에서 GridManager의 시그널
 		# (element_entered/settled)에 자신을 연결한다. 그 연결은 노드가
 		# "트리에서 빠질 때"가 아니라 "해제될 때" 끊긴다. queue_free는 프레임
 		# 끝에 해제되므로, 같은 프레임에 새 스테이지를 스폰하면 새 플레이어의
-		# enter_element를 옛 스테이지의 고추도 함께 받는다.
-		# 시작 칸에 고추가 있는 1-7/1-8에서 피해가 두 번 들어가 즉사했다.
+		# enter_element를 옛 스테이지의 칠리도 함께 받는다.
+		# 시작 칸에 칠리가 있는 1-7/1-8에서 피해가 두 번 들어가 즉사했다.
 		n.free()
 
 

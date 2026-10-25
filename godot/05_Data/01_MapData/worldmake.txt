@@ -1,12 +1,16 @@
 player
 	- mh <int>: max hp
 	- ch <int>: cur hp
-wall
-	- ma <int>: min attack power(최소 파괴 공격력)
-		- if 0 => normal wall
-trap
-	- atk <int>: attack power
-	- once <bool>: is it once attack?(일회용 공격 개체 여부) 
+wall (벽)
+	- 추가 속성 없음. 부서지지 않는다. 어떤 힘으로 때려도 튕긴다.
+obstacle (장애물)
+	- ma <int>: 부수는 데 필요한 최소 공격력. 1 = 항아리, 2 = 기둥 (기본 1)
+	- 벽처럼 막지만 ma 이상의 힘으로 맞으면 부서진다.
+trap (가시)
+	- atk <int>: 밟을 때 받는 피해 (1~3, 가시 개수). 사라지지 않는다.
+chili (칠리)
+	- 추가 속성 없음. 밟으면 먹고 체력이 항상 1 깎인 뒤 사라진다(일회용).
+	- 때리면 먹지 않고 부서진다. 돌이 밟아도 먹힌다.
 worldPortal
 	- to_w <int>: 밟을 시 이동할 world값
 	- to_s <int>: 밟을 시 이동할 stage값
@@ -14,23 +18,31 @@ worldPortal
 clear
 	- to_w <int>: 밟을 시 이동할 world값
 	- to_s <int>: 밟을 시 이동할 stage값
-moveBox
-healItem
-	- heal <int>: 힐 양(기본 1)
+stone (돌)
+	- 추가 속성 없음. 맞은 힘만큼 굴러간다. 부서지지 않고, 구멍에 멈추면 떨어진다.
+cookie (쿠키)
+	- heal <int>: 회복량(기본 1). 밟으면 먹고 사라진다(일회용). 돌이 밟아도 사라진다.
+plate (발판)
+	- 추가 속성 없음.
+	- 막는 개체(플레이어·돌·고블린·고치·벽·장애물)가 그 위에서 "멈춰" 있으면 눌린다.
+	  지나가기만 하면 안 눌린다. 무게가 떠나면 바로 떼진다.
+	- 스테이지의 모든 plate가 눌려 있어야(그리고 cocoon이 전부 깨져야) clear 포탈이 활성화된다.
+	  떼지면 포탈은 다시 꺼진다.
 
 cocoon (누에고치)
 	- (추가 속성 없음)
 	- is_block = true. 벽처럼 막는다.
 	- 1 이상의 피해를 받으면 즉시 파괴된다. (0이면 튕김)
-	- 스테이지 내 모든 cocoon을 파괴해야 clear 포탈이 활성화된다.
+	- 스테이지 내 모든 cocoon을 파괴해야(그리고 plate가 전부 눌려야) clear 포탈이 활성화된다.
 	  하나라도 남아 있으면 포탈은 반투명(알파 0.5)이고 밟아도 발동하지 않는다.
-	- cocoon이 하나도 없는 스테이지는 clear 포탈이 처음부터 활성이다.
+	- cocoon도 plate도 없는 스테이지는 clear 포탈이 처음부터 활성이다.
 
 # 참고: 스폰 순서 (EntitySpawner.RANK)
-#   trap 0 -> wall 1 -> healItem 2 -> cocoon 3 -> worldPortal 10
-#   -> clear 11 -> moveBox 20 -> player 90
-#   player가 마지막이라, 시작 칸에 trap/healItem이 있으면 그 효과가 적용된다.
-#   cocoon이 clear보다 먼저라, 포탈이 생성 시점에 게이트 여부를 알 수 있다.
+#   trap·chili·plate 0 -> wall·obstacle 1 -> cookie 2 -> cocoon 3 -> worldPortal 10
+#   -> clear 11 -> stone 20 -> goblin 50 -> player 90
+#   player가 마지막이라, 시작 칸에 trap/chili/cookie가 있으면 그 효과가 적용된다.
+#   cocoon·plate가 clear보다 먼저라, 포탈이 생성 시점에 게이트 여부를 알 수 있다.
+#   (plate의 눌림은 그 위의 돌 등이 다 스폰된 뒤에 맞춘다)
 
 # 참고: worldPortal의 num
 #   number_textures[0] == null 이므로 num이 0이면 숫자가 표시되지 않는다.
@@ -38,7 +50,7 @@ cocoon (누에고치)
 #   자동으로 숫자 없는 포탈이 된다. 월드 출구 표시로 활용 가능.
 
 # 고블린 (3월드) — 플레이어가 한 번 행동하면 한 칸 움직인다
-# 체력 1(1 이상 맞으면 죽음), 막음, 구멍에 빠지면 죽음, 고추/상자로도 죽음
+# 체력 1(1 이상 맞으면 죽음), 막음, 구멍에 빠지면 죽음, 가시/칠리/돌로도 죽음
 # 포탈을 잠그지는 않는다 (목표가 아니라 장애물이자 도구)
 {"x": 3, "y": 0, "obj_type": "goblin", "move": "patrol", "dir": "L", "atk": 1}
 #   move : "patrol"(기본) = dir 방향으로 1칸, 막히면 방향만 뒤집고 그 턴은 쉰다
@@ -46,5 +58,5 @@ cocoon (누에고치)
 #   dir  : "U"/"D"/"L"/"R" — patrol 전용 초기 방향 (기본 "R")
 #   atk  : 플레이어를 때릴 때의 피해량 (기본 1)
 #
-# 스폰 순서(EntitySpawner.RANK): trap 0 < wall 1 < healItem 2 < cocoon 3
-#   < worldPortal 10 < clear 11 < moveBox 20 < goblin 50 < player 90
+# 스폰 순서(EntitySpawner.RANK): trap·chili·plate 0 < wall·obstacle 1 < cookie 2
+#   < cocoon 3 < worldPortal 10 < clear 11 < stone 20 < goblin 50 < player 90

@@ -23,7 +23,7 @@
 		{"x": 0, "y": 2, "obj_type": "wall"},
 		{"x": 2, "y": 2, "obj_type": "wall"},
 		{"x": 4, "y": 2, "obj_type": "wall"},
-		{"x": 0, "y": 3, "obj_type": "wall", "ma": 2},
+		{"x": 0, "y": 3, "obj_type": "obstacle", "ma": 2},
 		{"x": 2, "y": 3, "obj_type": "goblin", "move": "chase"},
 		{"x": 0, "y": 4, "obj_type": "clear", "to_w": 3, "to_s": 0},
 		{"x": 1, "y": 4, "obj_type": "wall"},

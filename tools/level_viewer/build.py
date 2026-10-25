@@ -138,29 +138,34 @@ OBJECT_INFO = {
                           ("frame2", "화남 (체력 2~3) · 이동 1 / 공격 2"),
                           ("frame3", "격노 (체력 1) · 이동 2 / 공격 2")],
                "code": "PlayerAnimator._on_emotion_changed — 감정이 바뀔 때 frame1/2/3 교체"},
-    "trap": {"name": "함정 — 가시(상시) / 고추(일회성)", "art": "상시 = 가시(개수 = 피해량), 일회성 = 고추",
-             "frames": [("trap_frames[0]", "가시 1 (atk 1, 상시)"),
-                        ("trap_frames[1]", "가시 2 (atk 2, 상시)"),
-                        ("trap_frames[2]", "가시 3 (atk ≥ 3, 상시) — 4 이상도 이 그림"),
-                        ("once_trap_frames[0]", "고추 (once: true, 피해량 무관 한 그림)")],
-             "code": "Trap.update_sprite — trap_frames[min(atk-1, 2)], once 면 once_trap_frames[0]",
-             "warn": "문서들(01 규칙 문서 등)이 상시 함정을 '고추'로 불렀지만 실제 그림은 가시다. 고추 그림은 일회성 전용."},
-    "wall": {"name": "벽 — 바위 / 항아리 / 기둥", "art": "ma 0 = 바위(2종 무작위), ma 1 = 항아리, ma 2+ = 기둥",
-             "frames": [("random_wall_frames[0]", "바위 A (ma 0, 파괴 불가 — 무작위)"),
-                        ("random_wall_frames[1]", "바위 B (ma 0, 파괴 불가 — 무작위)"),
-                        ("destroyable_wall_frames[0]", "항아리 (ma 1 — 공격력 1로 파괴)"),
-                        ("destroyable_wall_frames[1]", "기둥 (ma ≥ 2 — 공격력 2로 파괴)")],
-             "code": "Wall.update_sprite — ma 0 이면 무작위, 아니면 destroyable_wall_frames[min(ma-1, 1)]"},
+    "trap": {"name": "가시", "art": "가시 개수 = 피해량",
+             "frames": [("trap_frames[0]", "가시 1 (atk 1)"),
+                        ("trap_frames[1]", "가시 2 (atk 2)"),
+                        ("trap_frames[2]", "가시 3 (atk ≥ 3) — 4 이상도 이 그림")],
+             "code": "Trap.update_sprite — trap_frames[min(atk-1, 2)]. 사라지지 않는다"},
+    "chili": {"name": "칠리", "art": "고추 그림(Chili)", "frames": [("sprite_frames", "칠리 — 3프레임")],
+              "code": "Chili — 밟으면 체력 -1(항상 1) 후 사라짐. 때리면 먹지 않고 부서짐. 돌이 밟아도 먹힘"},
+    "wall": {"name": "벽 (부서지지 않음)", "art": "바위 2종 무작위",
+             "frames": [("random_wall_frames[0]", "바위 A (무작위)"),
+                        ("random_wall_frames[1]", "바위 B (무작위)")],
+             "code": "Wall — 어떤 힘으로 때려도 튕김"},
+    "obstacle": {"name": "장애물 — 항아리 / 기둥", "art": "ma 1 = 항아리, ma 2 = 기둥",
+                 "frames": [("obstacle_frames[0]", "항아리 (ma 1 — 공격력 1로 파괴)"),
+                            ("obstacle_frames[1]", "기둥 (ma 2 — 공격력 2로 파괴)")],
+                 "code": "Obstacle.update_sprite — obstacle_frames[min(ma-1, 1)]. ma 이상으로 맞으면 파괴"},
     "cocoon": {"name": "누에고치", "art": "초록 줄무늬 고치",
                "frames": [("texture", "기본 텍스처 (TextureRect)"), ("sprite_frames", "AnimatedTextureRect 프레임")],
                "code": "Cocoon — 1 이상 맞으면 파괴, 전부 깨면 실타래 활성",
                "warn": "파괴음은 항아리 소리(broken_jar)를 임시로 쓴다 — 전용 음원 필요(QA R-1)."},
-    "moveBox": {"name": "상자", "art": "돌 그림(Stone)", "frames": [("sprite_frames", "상자(돌) — 3프레임")],
-                "code": "MoveBox.on_hit — 맞은 힘만큼 날아가고, 날아간 거리만큼 힘이 준다"},
-    "healItem": {"name": "회복", "art": "쿠키 그림(Cookie)", "frames": [("sprite_frames", "쿠키 — 3프레임")],
-                 "code": "HealItem — 들어온 개체가 무엇이든 소멸 (효과는 on_heal 이 있을 때만)"},
+    "stone": {"name": "돌", "art": "돌 그림(Stone)", "frames": [("sprite_frames", "돌 — 3프레임")],
+                "code": "Stone.on_hit — 맞은 힘만큼 날아가고, 날아간 거리만큼 힘이 준다"},
+    "cookie": {"name": "쿠키", "art": "쿠키 그림(Cookie)", "frames": [("sprite_frames", "쿠키 — 3프레임")],
+               "code": "Cookie — 체력 +heal. 들어온 개체가 무엇이든 소멸 (효과는 on_heal 이 있을 때만)"},
+    "plate": {"name": "발판", "art": "임시 — 코드로 그린 사각형 (눌리면 어둡게 가라앉음)", "frames": [],
+              "code": "Plate — 막는 개체가 멈춰 있으면 눌림. 전부 눌려야(고치도 전멸해야) 목표 포탈이 켜짐",
+              "warn": "전용 그림이 없다. Plate._draw 의 임시 사각형을 쓴다."},
     "clear": {"name": "목표 포탈 (실타래)", "art": "초록 실타래(wool)", "frames": [("sprite_frames", "실타래 — 3프레임")],
-              "code": "ClearPortal — 누에고치가 남아 있으면 알파 0.5(꺼짐), 전부 깨지면 1.0",
+              "code": "ClearPortal — 누에고치가 남았거나 발판이 안 눌렸으면 알파 0.5(꺼짐), 조건이 맞으면 1.0",
               "warn": "활성화 효과음이 없다(QA R-2)."},
     "worldPortal": {"name": "월드 포탈 (허브)", "art": "초록 원형 배경 + 숫자",
                     "frames": [("sprite_frames", "포탈 배경 — 3프레임 (안 깬 곳 #8dc977, 깬 곳 #a5b3a1 틴트)"),
@@ -176,7 +181,8 @@ OBJECT_INFO = {
                         ("dl_frames", "좌하 조각"), ("dr_frames", "우하 조각"), ("dust_texture", "먼지 장식 (50% 확률)")],
              "code": "Tile.update_tile_sprites — 시계방향 3비트 코드로 8종 중 선택"},
 }
-OBJECT_ORDER = ["tile", "player", "trap", "healItem", "wall", "cocoon", "moveBox", "goblin", "clear", "worldPortal"]
+OBJECT_ORDER = ["tile", "player", "trap", "chili", "cookie", "wall", "obstacle", "cocoon", "stone", "plate", "goblin",
+                "clear", "worldPortal"]
 
 COMMON_SFX_NOTE = "모든 개체 공통(Element): 맞을 때 hit-1 · 막힐 때 parry · 떨어질 때 falling"
 
@@ -257,9 +263,9 @@ def build_objects():
                 for k in sfx_in(sc):
                     if k not in sfx_own:
                         sfx_own.append(k)
-        if typ == "wall":
+        if typ == "obstacle":
             sfx_own += ["broken_jar (항아리 파괴)", "broken_pillar (기둥 파괴)"]
-        if typ in ("moveBox", "goblin"):          # Unit.died 의 사망음은 도달 불가 (상자는 체력 없음, 고블린은 Goblin._die 로 사라짐)
+        if typ in ("stone", "goblin"):          # Unit.died 의 사망음은 도달 불가 (돌은 체력 없음, 고블린은 Goblin._die 로 사라짐)
             sfx_own = [k for k in sfx_own if k != "death"]
         objects.append({
             "type": typ, "name": info["name"], "art": info["art"], "scene": scene,
@@ -278,11 +284,11 @@ def build_objects():
         return None
     draw = {
         "player": fs("player", "frame1") and [fs("player", "frame1"), fs("player", "frame2"), fs("player", "frame3")],
-        "trap": fs("trap", "trap_frames"), "trapOnce": fs("trap", "once_trap_frames"),
-        "wallRandom": fs("wall", "random_wall_frames"), "wallBreakable": fs("wall", "destroyable_wall_frames"),
-        "cocoon": fs("cocoon", "sprite_frames"), "moveBox": fs("moveBox", "sprite_frames"),
+        "trap": fs("trap", "trap_frames"), "chili": fs("chili", "sprite_frames"),
+        "wall": fs("wall", "random_wall_frames"), "obstacle": fs("obstacle", "obstacle_frames"),
+        "cocoon": fs("cocoon", "sprite_frames"), "stone": fs("stone", "sprite_frames"),
         "goblin": fs("goblin", "sprite_frames"), "goblinTint": goblin_tints(),
-        "healItem": fs("healItem", "sprite_frames"), "clear": fs("clear", "sprite_frames"),
+        "cookie": fs("cookie", "sprite_frames"), "clear": fs("clear", "sprite_frames"),
         "worldPortal": fs("worldPortal", "sprite_frames"), "numbers": fs("worldPortal", "number_textures"),
         "tile": {q: fs("tile", q + "_frames") for q in ("ul", "ur", "dl", "dr")},
         "dust": [x[0] for x in fs("tile", "dust_texture")],
@@ -387,7 +393,7 @@ def build_level(key):
     ents = []
     for i, e in enumerate(raw["entities"]):
         d = {"id": i, "t": e["obj_type"], "x": e.get("x", 0), "y": e.get("y", 0)}
-        for k in ("atk", "once", "ma", "heal", "to_w", "to_s", "num", "mh", "ch", "move", "dir"):
+        for k in ("atk", "ma", "heal", "to_w", "to_s", "num", "mh", "ch", "move", "dir"):
             if k in e:
                 d[k] = e[k]
         ents.append(d)
@@ -400,7 +406,7 @@ def build_level(key):
     }
     is_hub = any(e["obj_type"] == "worldPortal" for e in raw["entities"])
     lv["hub"] = is_hub
-    lv["startHp"] = sim.Game(raw).initial()[2]   # 시작 칸의 가시/회복이 스폰 때 적용된 값
+    lv["startHp"] = sim.Game(raw).initial()[2]   # 시작 칸의 가시/칠리/쿠키가 스폰 때 적용된 값
     if is_hub:
         _, text = quiet(hub.analyze, path)
         lv["hubText"] = text.strip().replace(ROOT + os.sep, "")
@@ -420,7 +426,7 @@ def build_level(key):
     verdict = []
     for cid, ks in killers.items():
         e = raw["entities"][cid]
-        v = ("파괴 불가" if not ks else "상자만" if ks == {"box"} else "플레이어만" if ks == {"player"} else "플레이어/상자")
+        v = ("파괴 불가" if not ks else "돌만" if ks == {"box"} else "플레이어만" if ks == {"player"} else "플레이어/돌")
         verdict.append({"x": e["x"], "y": e["y"], "by": v})
     lv["metrics"] = {
         "shortest": a["shortest"], "states": a["states"], "dead": a["dead"], "fallen": a["fallen"],
