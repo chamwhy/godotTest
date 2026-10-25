@@ -60,7 +60,7 @@ func take_pending_map_change() -> Dictionary:
 # ─── 클리어 조건: 누에고치 전멸 + 발판 전부 눌림 ──────────────────
 # 스폰 순서 보장: 누에고치·발판 전부 → ClearPortal.
 # 따라서 포탈이 apply_data에서 is_gated()를 물으면 이미 등록이 끝나 있다.
-# 발판을 누를 상자·플레이어는 포탈보다 늦게 스폰되므로, 스폰이 다 끝난 뒤
+# 발판을 누를 돌·플레이어는 포탈보다 늦게 스폰되므로, 스폰이 다 끝난 뒤
 # sync_gate_after_spawn()으로 한 번 더 맞춘다.
 
 var _cocoons: Array = []       # Array[Cocoon]

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d2cywxk6y7dsc" path="res://04_Scenes/Entities/tile.tscn" id="3_2mgts"]
 [ext_resource type="PackedScene" uid="uid://b635aa1kx37m0" path="res://04_Scenes/Entities/trap.tscn" id="4_bgbi1"]
 [ext_resource type="PackedScene" uid="uid://tqdeqigdhtn" path="res://04_Scenes/Entities/cookie.tscn" id="5_k3ru8"]
-[ext_resource type="PackedScene" uid="uid://bi71to4ae5eo7" path="res://04_Scenes/Entities/move_box.tscn" id="6_dpfcg"]
+[ext_resource type="PackedScene" uid="uid://bi71to4ae5eo7" path="res://04_Scenes/Entities/stone.tscn" id="6_dpfcg"]
 [ext_resource type="PackedScene" uid="uid://bxs31ycpbamfa" path="res://04_Scenes/Entities/world_portal.tscn" id="7_dpfcg"]
 [ext_resource type="PackedScene" uid="uid://bk8u1y1oy40g1" path="res://04_Scenes/Entities/clear_portal.tscn" id="7_k3ru8"]
 [ext_resource type="PackedScene" uid="uid://cfkm523b57bu1" path="res://04_Scenes/Entities/cocoon.tscn" id="9_h1e2h"]
@@ -23,10 +23,10 @@ entityScenes = Dictionary[String, PackedScene]({
 "cocoon": ExtResource("9_h1e2h"),
 "cookie": ExtResource("5_k3ru8"),
 "goblin": ExtResource("10_gobln"),
-"moveBox": ExtResource("6_dpfcg"),
 "obstacle": ExtResource("11_obstc"),
 "plate": ExtResource("13_plate"),
 "player": ExtResource("2_77qpq"),
+"stone": ExtResource("6_dpfcg"),
 "tile": ExtResource("3_2mgts"),
 "trap": ExtResource("4_bgbi1"),
 "wall": ExtResource("1_lhdmw"),

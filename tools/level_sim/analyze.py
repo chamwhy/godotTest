@@ -61,14 +61,14 @@ def analyze(path, quiet=False):
         "clear_tiers": tiers_at_clear,
         "required_tiers": required,
         "cocoons": len(g.cocoon_ids),
-        "boxes": sum(1 for e in g.ents if e.type == "moveBox"),
+        "boxes": sum(1 for e in g.ents if e.type == "stone"),
     }
     if not quiet:
         print(f"[{out['stage']}] {out['name']}  {out['size']}")
         print(f"  최단 {out['shortest']}수 / 상태 {out['states']} / 사망 {out['dead']} / 낙하 {out['fallen']}")
         print(f"  클리어 감정: {out['clear_tiers']} (hp {out['clear_hp']})")
         print(f"  필수 감정 관문: {out['required_tiers'] or '없음'}")
-        if out["cocoons"]: print(f"  누에고치 {out['cocoons']}개 / 상자 {out['boxes']}개")
+        if out["cocoons"]: print(f"  누에고치 {out['cocoons']}개 / 돌 {out['boxes']}개")
     return out
 
 

@@ -1,5 +1,7 @@
 extends Unit
-class_name MoveBox
+class_name Stone
+## 돌. 맞은 힘만큼 굴러가고(이동력 = 공격력 = 맞은 힘), 굴러간 칸수만큼 힘이 준다.
+## 플레이어와 똑같은 이동·공격 규칙으로 움직인다. 체력이 없어 부서지지 않고, 구멍에 멈추면 떨어진다.
 
 #region element 별 특성
 #@export var is_block: bool = false  # 막힘 판정 여부
@@ -20,12 +22,12 @@ func apply_data(data: Dictionary) -> void:
 	is_block = true
 	hitable = true
 	# TODO: 상태에 따른 이미지 업데이트
-	
+
 
 func on_hit(atk_data: AtkData) -> bool:
 	move_speed = atk_data.dmg
 	atk_pow = atk_data.dmg
-	
+
 	var dir: Position = cur_position.subtract(atk_data.from).normalized()
 	if not dir.is_zero() and dir.is_straight():
 		action_dir(dir, atk_data.tick)

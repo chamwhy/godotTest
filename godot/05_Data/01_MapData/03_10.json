@@ -32,7 +32,7 @@
 		{"x": 4, "y": 3, "obj_type": "wall"},
 		{"x": 5, "y": 3, "obj_type": "wall"},
 		{"x": 0, "y": 4, "obj_type": "cocoon"},
-		{"x": 3, "y": 4, "obj_type": "moveBox"},
+		{"x": 3, "y": 4, "obj_type": "stone"},
 		{"x": 6, "y": 4, "obj_type": "cocoon"},
 	]
 }

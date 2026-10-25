@@ -113,7 +113,7 @@ func _step_to(d: Position, target: Position, tick: int) -> int:
 	if is_dead or not in_map:
 		return tick + 2
 
-	# 구멍 위에 멈추면 낙하 (상자·플레이어와 같은 규칙)
+	# 구멍 위에 멈추면 낙하 (돌·플레이어와 같은 규칙)
 	if not GridManager.has_tile(cur_position.x, cur_position.y):
 		is_fallen = true
 		ActionManager.record_new(self, tick + 1, "falling", {}, "undo_falling", {})

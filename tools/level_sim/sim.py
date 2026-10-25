@@ -5,7 +5,7 @@ bsk 게임 규칙 시뮬레이터 — GDScript 로직 1:1 이식 (origin/main �
   Unit.action_dir / action2 / move_to / attack / apply_on_hit
   Player._set_hp (감정 → 이동력/공격력)
   Trap._check_pos, Chili._check_pos / on_hit, Cookie._check_pos
-  Wall.on_hit, Obstacle.on_hit, Cocoon.on_hit, MoveBox.on_hit
+  Wall.on_hit, Obstacle.on_hit, Cocoon.on_hit, Stone.on_hit
   Plate (멈춘 무게가 있으면 눌림)
   GridManager.can_pass / has_tile / enter / step / settle
   StageContext.is_gated / refresh_gate, ClearPortal.active
@@ -24,8 +24,8 @@ from collections import deque
 DIRS = {"U": (0, -1), "D": (0, 1), "L": (-1, 0), "R": (1, 0)}
 # EntitySpawner.RANK
 RANK = {"trap": 0, "chili": 0, "plate": 0, "wall": 1, "obstacle": 1, "cookie": 2, "cocoon": 3,
-        "worldPortal": 10, "clear": 11, "moveBox": 20, "goblin": 50, "player": 90}
-BLOCKING = {"wall", "obstacle", "cocoon", "moveBox", "goblin"}
+        "worldPortal": 10, "clear": 11, "stone": 20, "goblin": 50, "player": 90}
+BLOCKING = {"wall", "obstacle", "cocoon", "stone", "goblin"}
 # 칠리(Chili.DAMAGE)
 CHILI_DAMAGE = 1
 
@@ -80,7 +80,7 @@ class Game:
         """스폰을 실제로 실행해서 초기 상태를 만든다 (스폰 시점 entered 포함)."""
         ctx = Ctx(self, set(), {}, None, None, self.player.d.get("ch", self.max_hp), {})
         for e in self.ents:
-            if e.type == "moveBox":
+            if e.type == "stone":
                 ctx.boxes[e.id] = (e.x, e.y)
             elif e.type == "goblin":
                 di = GOB_DIRS.index(e.d.get("dir", "R"))
@@ -88,7 +88,7 @@ class Game:
             elif e.type == "player":
                 ctx.px, ctx.py = e.x, e.y
             ctx.on_enter(("player",) if e.type == "player"
-                         else (("box", e.id) if e.type == "moveBox" else ("ent", e.id)),
+                         else (("box", e.id) if e.type == "stone" else ("ent", e.id)),
                          e.x, e.y)
         return ctx.snapshot()
 
@@ -155,7 +155,7 @@ class Ctx:
 
     # ── 셀 조회
     def pos_of(self, e):
-        if e.type == "moveBox":
+        if e.type == "stone":
             return self.boxes.get(e.id)
         if e.type == "goblin":
             gv = self.gobs.get(e.id)
@@ -228,7 +228,7 @@ class Ctx:
         # 발판 위에 멈췄다 → 게이트가 열렸을 수 있다 (Plate._on_cell_event)
         if (x, y) in self.g.plates:
             self._gate_check()
-        # Portal._check_pos는 플레이어만 발동시킨다 (상자/고블린은 밟아도 무반응)
+        # Portal._check_pos는 플레이어만 발동시킨다 (돌/고블린은 밟아도 무반응)
         if who[0] != "player":
             return
         for e in self.ents_at(x, y, who[0]):
@@ -290,14 +290,14 @@ class Ctx:
                     self.kills.append((e.id, who[0]))
                     self._notify_cocoon_destroyed()
             elif e.type == "goblin":
-                # 체력 1. 1 이상 맞으면 죽는다. 상자에 치여도 같다.
+                # 체력 1. 1 이상 맞으면 죽는다. 돌에 치여도 같다.
                 if power >= 1:
                     self.removed.add(e.id)
                     self.gobs.pop(e.id, None)
                     self.kills.append((e.id, who[0]))
             elif e.type == "chili":
                 self.removed.add(e.id)                # 때리면 먹지 않고 부서진다
-            elif e.type == "moveBox":
+            elif e.type == "stone":
                 bx, by = self.boxes[e.id]
                 bd = (sign(bx - from_pos[0]), sign(by - from_pos[1]))
                 if bd != (0, 0) and (bd[0] == 0 or bd[1] == 0):
@@ -353,7 +353,7 @@ class Ctx:
             self.on_enter(("gob", gid), tx, ty)
             if gid not in self.gobs:
                 return                          # 함정 등으로 죽었다
-            # 구멍 위에 멈추면 낙하 (상자/플레이어와 같은 규칙)
+            # 구멍 위에 멈추면 낙하 (돌/플레이어와 같은 규칙)
             if not self.g.has_tile(tx, ty):
                 self.removed.add(gid)
                 self.gobs.pop(gid, None)

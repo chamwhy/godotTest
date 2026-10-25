@@ -17,7 +17,7 @@
 기호:
     .  바닥          _  구멍
     W  벽(불괴)      j  장애물 항아리(ma=1)   V  장애물 기둥(ma=2)
-    C  누에고치      B  상자          O  발판
+    C  누에고치      S  돌          O  발판
     P  플레이어      E  클리어 포탈   H  쿠키(+1)
     1-3 가시(atk=숫자)                c  칠리(항상 -1)
     ^ v < >  고블린(순찰) — 글자가 바라보는 방향이 초기 진행 방향
@@ -28,7 +28,7 @@ import json, sys, os
 SYM = {
     ".": None, "_": "HOLE",
     "W": ("wall", {}), "j": ("obstacle", {"ma": 1}), "V": ("obstacle", {"ma": 2}),
-    "C": ("cocoon", {}), "B": ("moveBox", {}), "O": ("plate", {}),
+    "C": ("cocoon", {}), "S": ("stone", {}), "O": ("plate", {}),
     "P": ("player", {}), "E": ("clear", {}), "H": ("cookie", {}),
     "c": ("chili", {}),
     "^": ("goblin", {"move": "patrol", "dir": "U"}),

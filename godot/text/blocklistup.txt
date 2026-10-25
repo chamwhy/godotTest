@@ -7,7 +7,7 @@
 [o] - trap (가시) - int
 [o] - chili (일회용, 항상 1)
 [o] - cookie
-[o] - movebox
+[o] - stone (돌)
 [o] - plate
 
 
@@ -36,5 +36,5 @@ cookie
 plate
 - 없음. 전부 눌려 있어야 클리어 포탈이 켜짐
 
-moveBox
-- 없음.
+stone
+- 없음. 맞은 힘만큼 굴러감

@@ -21,7 +21,7 @@
 		{"x": 7, "y": 0, "obj_type": "clear", "to_w": 2, "to_s": 0},
 		{"x": 0, "y": 2, "obj_type": "cocoon"},
 		{"x": 7, "y": 4, "obj_type": "cocoon"},
-		{"x": 5, "y": 4, "obj_type": "moveBox"},
+		{"x": 5, "y": 4, "obj_type": "stone"},
 		{"x": 2, "y": 0, "obj_type": "trap", "atk": 2},
 		{"x": 5, "y": 0, "obj_type": "trap", "atk": 1},
 		{"x": 2, "y": 1, "obj_type": "trap", "atk": 2},

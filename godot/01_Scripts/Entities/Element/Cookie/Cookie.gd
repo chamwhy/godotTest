@@ -1,7 +1,7 @@
 extends Element
 class_name Cookie
 ## 쿠키. 밟으면 먹고 체력이 heal만큼 회복된 뒤 사라진다. 일회용.
-## 무엇이 밟든 사라진다 (회복 효과는 on_heal이 있는 개체만 받는다) → 상자로 쿠키를 치울 수 있다.
+## 무엇이 밟든 사라진다 (회복 효과는 on_heal이 있는 개체만 받는다) → 돌로 쿠키를 치울 수 있다.
 
 #region element 별 특성
 #@export var is_block: bool = false  # 막힘 판정 여부

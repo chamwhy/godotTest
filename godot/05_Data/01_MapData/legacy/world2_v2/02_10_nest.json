@@ -16,7 +16,7 @@
 		[1, 0, 0, 1, 0],
 	],
 	"entities": [
-		{"x": 1, "y": 0, "obj_type": "moveBox"},
+		{"x": 1, "y": 0, "obj_type": "stone"},
 		{"x": 2, "y": 0, "obj_type": "trap", "atk": 3},
 		{"x": 3, "y": 0, "obj_type": "player", "mh": 6, "ch": 4},
 		{"x": 3, "y": 3, "obj_type": "clear", "to_w": 2, "to_s": 0},

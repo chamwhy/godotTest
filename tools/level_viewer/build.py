@@ -144,7 +144,7 @@ OBJECT_INFO = {
                         ("trap_frames[2]", "가시 3 (atk ≥ 3) — 4 이상도 이 그림")],
              "code": "Trap.update_sprite — trap_frames[min(atk-1, 2)]. 사라지지 않는다"},
     "chili": {"name": "칠리", "art": "고추 그림(Chili)", "frames": [("sprite_frames", "칠리 — 3프레임")],
-              "code": "Chili — 밟으면 체력 -1(항상 1) 후 사라짐. 때리면 먹지 않고 부서짐. 상자가 밟아도 먹힘"},
+              "code": "Chili — 밟으면 체력 -1(항상 1) 후 사라짐. 때리면 먹지 않고 부서짐. 돌이 밟아도 먹힘"},
     "wall": {"name": "벽 (부서지지 않음)", "art": "바위 2종 무작위",
              "frames": [("random_wall_frames[0]", "바위 A (무작위)"),
                         ("random_wall_frames[1]", "바위 B (무작위)")],
@@ -157,8 +157,8 @@ OBJECT_INFO = {
                "frames": [("texture", "기본 텍스처 (TextureRect)"), ("sprite_frames", "AnimatedTextureRect 프레임")],
                "code": "Cocoon — 1 이상 맞으면 파괴, 전부 깨면 실타래 활성",
                "warn": "파괴음은 항아리 소리(broken_jar)를 임시로 쓴다 — 전용 음원 필요(QA R-1)."},
-    "moveBox": {"name": "상자", "art": "돌 그림(Stone)", "frames": [("sprite_frames", "상자(돌) — 3프레임")],
-                "code": "MoveBox.on_hit — 맞은 힘만큼 날아가고, 날아간 거리만큼 힘이 준다"},
+    "stone": {"name": "돌", "art": "돌 그림(Stone)", "frames": [("sprite_frames", "돌 — 3프레임")],
+                "code": "Stone.on_hit — 맞은 힘만큼 날아가고, 날아간 거리만큼 힘이 준다"},
     "cookie": {"name": "쿠키", "art": "쿠키 그림(Cookie)", "frames": [("sprite_frames", "쿠키 — 3프레임")],
                "code": "Cookie — 체력 +heal. 들어온 개체가 무엇이든 소멸 (효과는 on_heal 이 있을 때만)"},
     "plate": {"name": "발판", "art": "임시 — 코드로 그린 사각형 (눌리면 어둡게 가라앉음)", "frames": [],
@@ -181,7 +181,7 @@ OBJECT_INFO = {
                         ("dl_frames", "좌하 조각"), ("dr_frames", "우하 조각"), ("dust_texture", "먼지 장식 (50% 확률)")],
              "code": "Tile.update_tile_sprites — 시계방향 3비트 코드로 8종 중 선택"},
 }
-OBJECT_ORDER = ["tile", "player", "trap", "chili", "cookie", "wall", "obstacle", "cocoon", "moveBox", "plate", "goblin",
+OBJECT_ORDER = ["tile", "player", "trap", "chili", "cookie", "wall", "obstacle", "cocoon", "stone", "plate", "goblin",
                 "clear", "worldPortal"]
 
 COMMON_SFX_NOTE = "모든 개체 공통(Element): 맞을 때 hit-1 · 막힐 때 parry · 떨어질 때 falling"
@@ -265,7 +265,7 @@ def build_objects():
                         sfx_own.append(k)
         if typ == "obstacle":
             sfx_own += ["broken_jar (항아리 파괴)", "broken_pillar (기둥 파괴)"]
-        if typ in ("moveBox", "goblin"):          # Unit.died 의 사망음은 도달 불가 (상자는 체력 없음, 고블린은 Goblin._die 로 사라짐)
+        if typ in ("stone", "goblin"):          # Unit.died 의 사망음은 도달 불가 (돌은 체력 없음, 고블린은 Goblin._die 로 사라짐)
             sfx_own = [k for k in sfx_own if k != "death"]
         objects.append({
             "type": typ, "name": info["name"], "art": info["art"], "scene": scene,
@@ -286,7 +286,7 @@ def build_objects():
         "player": fs("player", "frame1") and [fs("player", "frame1"), fs("player", "frame2"), fs("player", "frame3")],
         "trap": fs("trap", "trap_frames"), "chili": fs("chili", "sprite_frames"),
         "wall": fs("wall", "random_wall_frames"), "obstacle": fs("obstacle", "obstacle_frames"),
-        "cocoon": fs("cocoon", "sprite_frames"), "moveBox": fs("moveBox", "sprite_frames"),
+        "cocoon": fs("cocoon", "sprite_frames"), "stone": fs("stone", "sprite_frames"),
         "goblin": fs("goblin", "sprite_frames"), "goblinTint": goblin_tints(),
         "cookie": fs("cookie", "sprite_frames"), "clear": fs("clear", "sprite_frames"),
         "worldPortal": fs("worldPortal", "sprite_frames"), "numbers": fs("worldPortal", "number_textures"),
@@ -426,7 +426,7 @@ def build_level(key):
     verdict = []
     for cid, ks in killers.items():
         e = raw["entities"][cid]
-        v = ("파괴 불가" if not ks else "상자만" if ks == {"box"} else "플레이어만" if ks == {"player"} else "플레이어/상자")
+        v = ("파괴 불가" if not ks else "돌만" if ks == {"box"} else "플레이어만" if ks == {"player"} else "플레이어/돌")
         verdict.append({"x": e["x"], "y": e["y"], "by": v})
     lv["metrics"] = {
         "shortest": a["shortest"], "states": a["states"], "dead": a["dead"], "fallen": a["fallen"],

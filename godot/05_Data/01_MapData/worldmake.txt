@@ -10,7 +10,7 @@ trap (가시)
 	- atk <int>: 밟을 때 받는 피해 (1~3, 가시 개수). 사라지지 않는다.
 chili (칠리)
 	- 추가 속성 없음. 밟으면 먹고 체력이 항상 1 깎인 뒤 사라진다(일회용).
-	- 때리면 먹지 않고 부서진다. 상자가 밟아도 먹힌다.
+	- 때리면 먹지 않고 부서진다. 돌이 밟아도 먹힌다.
 worldPortal
 	- to_w <int>: 밟을 시 이동할 world값
 	- to_s <int>: 밟을 시 이동할 stage값
@@ -18,12 +18,13 @@ worldPortal
 clear
 	- to_w <int>: 밟을 시 이동할 world값
 	- to_s <int>: 밟을 시 이동할 stage값
-moveBox
+stone (돌)
+	- 추가 속성 없음. 맞은 힘만큼 굴러간다. 부서지지 않고, 구멍에 멈추면 떨어진다.
 cookie (쿠키)
-	- heal <int>: 회복량(기본 1). 밟으면 먹고 사라진다(일회용). 상자가 밟아도 사라진다.
+	- heal <int>: 회복량(기본 1). 밟으면 먹고 사라진다(일회용). 돌이 밟아도 사라진다.
 plate (발판)
 	- 추가 속성 없음.
-	- 막는 개체(플레이어·상자·고블린·고치·벽·장애물)가 그 위에서 "멈춰" 있으면 눌린다.
+	- 막는 개체(플레이어·돌·고블린·고치·벽·장애물)가 그 위에서 "멈춰" 있으면 눌린다.
 	  지나가기만 하면 안 눌린다. 무게가 떠나면 바로 떼진다.
 	- 스테이지의 모든 plate가 눌려 있어야(그리고 cocoon이 전부 깨져야) clear 포탈이 활성화된다.
 	  떼지면 포탈은 다시 꺼진다.
@@ -38,10 +39,10 @@ cocoon (누에고치)
 
 # 참고: 스폰 순서 (EntitySpawner.RANK)
 #   trap·chili·plate 0 -> wall·obstacle 1 -> cookie 2 -> cocoon 3 -> worldPortal 10
-#   -> clear 11 -> moveBox 20 -> goblin 50 -> player 90
+#   -> clear 11 -> stone 20 -> goblin 50 -> player 90
 #   player가 마지막이라, 시작 칸에 trap/chili/cookie가 있으면 그 효과가 적용된다.
 #   cocoon·plate가 clear보다 먼저라, 포탈이 생성 시점에 게이트 여부를 알 수 있다.
-#   (plate의 눌림은 그 위의 상자 등이 다 스폰된 뒤에 맞춘다)
+#   (plate의 눌림은 그 위의 돌 등이 다 스폰된 뒤에 맞춘다)
 
 # 참고: worldPortal의 num
 #   number_textures[0] == null 이므로 num이 0이면 숫자가 표시되지 않는다.
@@ -49,7 +50,7 @@ cocoon (누에고치)
 #   자동으로 숫자 없는 포탈이 된다. 월드 출구 표시로 활용 가능.
 
 # 고블린 (3월드) — 플레이어가 한 번 행동하면 한 칸 움직인다
-# 체력 1(1 이상 맞으면 죽음), 막음, 구멍에 빠지면 죽음, 가시/칠리/상자로도 죽음
+# 체력 1(1 이상 맞으면 죽음), 막음, 구멍에 빠지면 죽음, 가시/칠리/돌로도 죽음
 # 포탈을 잠그지는 않는다 (목표가 아니라 장애물이자 도구)
 {"x": 3, "y": 0, "obj_type": "goblin", "move": "patrol", "dir": "L", "atk": 1}
 #   move : "patrol"(기본) = dir 방향으로 1칸, 막히면 방향만 뒤집고 그 턴은 쉰다
@@ -58,4 +59,4 @@ cocoon (누에고치)
 #   atk  : 플레이어를 때릴 때의 피해량 (기본 1)
 #
 # 스폰 순서(EntitySpawner.RANK): trap·chili·plate 0 < wall·obstacle 1 < cookie 2
-#   < cocoon 3 < worldPortal 10 < clear 11 < moveBox 20 < goblin 50 < player 90
+#   < cocoon 3 < worldPortal 10 < clear 11 < stone 20 < goblin 50 < player 90

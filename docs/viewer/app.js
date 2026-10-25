@@ -10,7 +10,7 @@
   const T = 256;                         // 원본 타일 픽셀
   const PAD = 0.1;                       // 맵 둘레 여백 (타일 단위)
   const SIZES = [["작게", 18], ["보통", 30], ["크게", 46]];
-  const RANK = { trap: 0, chili: 0, plate: 0, wall: 1, obstacle: 1, cookie: 2, cocoon: 3, worldPortal: 10, clear: 11, moveBox: 20, goblin: 50, player: 90 };
+  const RANK = { trap: 0, chili: 0, plate: 0, wall: 1, obstacle: 1, cookie: 2, cocoon: 3, worldPortal: 10, clear: 11, stone: 20, goblin: 50, player: 90 };
   const GOB_TINT = Object.assign({ patrol: "#c0e080", chase: "#e08080" }, D.draw.goblinTint || {});   // Goblin._apply_kind_look
   const EMO = ["평온", "화남", "격노"];
   const emoOf = (hp) => (hp >= 4 ? 0 : hp >= 2 ? 1 : 2);
@@ -135,7 +135,7 @@
         case "cookie": img = first(D.draw.cookie); break;
         case "plate": plateMark(ctx, X, Y); break;
         case "cocoon": img = first(D.draw.cocoon); break;
-        case "moveBox": img = first(D.draw.moveBox); break;
+        case "stone": img = first(D.draw.stone); break;
         case "goblin": {
           const g = first(D.draw.goblin);
           if (g) ctx.drawImage(tinted(g, GOB_TINT[e.move === "chase" ? "chase" : "patrol"]), X, Y, T, T);
@@ -248,8 +248,8 @@
         stat("소프트락", `${pct}% (${m.locks}/${m.alive})`, "살아 있지만 이미 클리어가 불가능한 상태 비율"),
         stat("사망 · 낙하", `${m.dead} · ${m.fallen}`),
         stat("필수 감정", m.required.join(" · ") || "없음", "이 감정을 금지하면 클리어 불가"),
-        m.goblins ? stat("고치 · 상자 · 고블린", `${m.cocoons} · ${m.boxes} · ${m.goblins}`)
-                  : stat("고치 · 상자", `${m.cocoons} · ${m.boxes}`)));
+        m.goblins ? stat("고치 · 돌 · 고블린", `${m.cocoons} · ${m.boxes} · ${m.goblins}`)
+                  : stat("고치 · 돌", `${m.cocoons} · ${m.boxes}`)));
     }
     const rows = [];
     const add = (cls, k, v) => { if (v) rows.push(h("dt", { class: cls }, k), h("dd", null, v)); };
@@ -283,7 +283,7 @@
           h("button", { type: "button", "aria-label": "닫기", title: "닫기 (Esc)", onclick: () => dlg.close() }, "✕"))),
       h("div", { class: "dlg-grid" }, mapBox, info));
     if (!dlg.open) dlg.showModal();
-    // 큰 지도: 상자 너비에 맞춰 축척 (한 칸 최대 96px)
+    // 큰 지도: 돌 너비에 맞춰 축척 (한 칸 최대 96px)
     const avail = mapBox.clientWidth || 320;
     const c = Math.max(24, Math.min(96, avail / (lv.w + PAD * 2), (window.innerHeight * 0.62) / (lv.h + PAD * 2)));
     drawMap(big, lv, c, showGrid);
@@ -359,7 +359,7 @@
       it(first(D.draw.player[0]), "플레이어 (감정별 그림)"),
       it(first(D.draw.clear), "실타래 = 목표 (반투명 = 고치가 남았거나 발판이 안 눌려 꺼짐)"),
       it(first(D.draw.cocoon), "누에고치"),
-      it(first(D.draw.moveBox), "상자"),
+      it(first(D.draw.stone), "돌"),
       D.draw.goblin ? gob({ move: "patrol", dir: "R" }, "고블린 순찰 (화살표 = 바라보는 방향)") : null,
       D.draw.goblin ? gob({ move: "chase" }, "고블린 추적 (과녁)") : null,
       it(first(D.draw.trap[2]), "가시 1·2·3 (상시)"),

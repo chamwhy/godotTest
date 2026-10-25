@@ -10,7 +10,7 @@ import sys
 from collections import deque
 from sim import load
 
-BLOCKING = {"wall", "obstacle", "cocoon", "moveBox"}
+BLOCKING = {"wall", "obstacle", "cocoon", "stone"}
 
 
 def analyze(path):

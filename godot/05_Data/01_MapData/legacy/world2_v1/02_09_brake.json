@@ -19,6 +19,6 @@
 		{"x": 1, "y": 1, "obj_type": "trap", "atk": 3},
 		{"x": 2, "y": 1, "obj_type": "trap", "atk": 2},
 		{"x": 5, "y": 1, "obj_type": "clear", "to_w": 2, "to_s": 0},
-		{"x": 6, "y": 1, "obj_type": "moveBox"},
+		{"x": 6, "y": 1, "obj_type": "stone"},
 	]
 }

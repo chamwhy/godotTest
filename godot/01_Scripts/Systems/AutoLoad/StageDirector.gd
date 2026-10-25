@@ -67,7 +67,7 @@ func load_stage(world: int, stage: int) -> bool:
 
 	# 스폰 중 발동한 상호작용(시작 칸 칠리 등)의 시각 상태를 맞춘다
 	ActionManager.settle_spawn_actions()
-	# 발판은 그 위에 놓인 상자·고치가 다 스폰된 뒤에야 눌림 여부를 안다
+	# 발판은 그 위에 놓인 돌·고치가 다 스폰된 뒤에야 눌림 여부를 안다
 	StageContext.sync_gate_after_spawn()
 	
 	# ⑥ 새 판이니 undo 히스토리 초기화
