@@ -25,7 +25,8 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 GODOT = os.path.join(ROOT, "godot")
 MAPS = os.path.join(GODOT, "05_Data", "01_MapData")
 LEGACY = {"v1_": os.path.join(MAPS, "legacy", "world2_v1"),
-          "v2_": os.path.join(MAPS, "legacy", "world2_v2")}
+          "v2_": os.path.join(MAPS, "legacy", "world2_v2"),
+          "v3_": os.path.join(MAPS, "legacy", "world2_v3")}
 OUT = os.path.join(ROOT, "docs", "viewer")
 
 sys.path.insert(0, os.path.join(ROOT, "tools", "level_sim"))

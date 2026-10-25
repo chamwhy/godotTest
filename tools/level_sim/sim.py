@@ -7,7 +7,7 @@ bsk 게임 규칙 시뮬레이터 — GDScript 로직 1:1 이식 (origin/main �
   Trap._check_pos, Chili._check_pos / on_hit, Cookie._check_pos
   Wall.on_hit, Obstacle.on_hit, Cocoon.on_hit, Stone.on_hit
   Plate (멈춘 무게가 있으면 눌림)
-  GridManager.can_pass / has_tile / enter / step / settle
+  GridManager.can_pass / has_tile / map_size_in(padding 포함) / enter / step / settle
   StageContext.is_gated / refresh_gate, ClearPortal.active
   EntitySpawner.RANK (스폰 순서 → 스폰 시점 entered 발동)
 
@@ -17,6 +17,7 @@ bsk 게임 규칙 시뮬레이터 — GDScript 로직 1:1 이식 (origin/main �
   · Element.apply_data가 enter_element를 부르므로 스폰 시점에 entered가 발동한다.
   · 누에고치가 하나라도 남아 있거나 발판이 하나라도 안 눌려 있으면 clear 포탈이 비활성.
   · 칠리는 피해가 항상 1이다. 벽은 부서지지 않고, 부서지는 것은 장애물(obstacle)이다.
+  · 맵 가장자리는 벽이 아니다. 둘레의 padding 칸은 타일 없는 빈 칸이라 넘어가면 떨어진다.
 """
 import json, re, sys
 from collections import deque
@@ -62,6 +63,9 @@ class Game:
         self.raw = raw
         self.tiles = raw["tile_map"]
         self.h, self.w = len(self.tiles), len(self.tiles[0])
+        # MapLoader가 맵 둘레에 padding 칸을 덧붙인다. 그 칸들은 타일이 없는 빈 칸이라
+        # 걸어 들어갈 수는 있지만 거기서 멈추면 떨어진다. 막히는 것은 padding 바깥뿐이다.
+        self.pad = raw.get("padding", 0)
         # 스폰 순서 = RANK 순 (안정 정렬: 같은 랭크는 JSON 기재 순)
         ents = [Ent(i, d) for i, d in enumerate(raw["entities"])]
         self.ents = sorted(ents, key=lambda e: RANK.get(e.type, 99))
@@ -75,6 +79,11 @@ class Game:
 
     def has_tile(self, x, y):
         return 0 <= x < self.w and 0 <= y < self.h and self.tiles[y][x] != 0
+
+    def in_grid(self, x, y):
+        """GridManager.map_size_in — padding까지 포함한 격자 안인가"""
+        p = self.pad
+        return -p <= x < self.w + p and -p <= y < self.h + p
 
     def initial(self):
         """스폰을 실제로 실행해서 초기 상태를 만든다 (스폰 시점 entered 포함)."""
@@ -175,7 +184,7 @@ class Ctx:
         return out
 
     def blocked(self, x, y, mover):
-        if not (0 <= x < self.g.w and 0 <= y < self.g.h):
+        if not self.g.in_grid(x, y):
             return True
         for e in self.ents_at(x, y, mover):
             if e == "PLAYER" or e.type in BLOCKING:
