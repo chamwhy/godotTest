@@ -4,23 +4,32 @@ from sim import load
 
 LEGEND = {
     "player":   ("🙂",  "플레이어 시작 위치"),
-    "clear":    ("🚩",  "목표 포탈 — **멈춰야** 발동. 누에고치가 남아 있으면 비활성"),
+    "clear":    ("🚩",  "목표 포탈 — **멈춰야** 발동. 누에고치가 남았거나 발판이 안 눌렸으면 비활성"),
     "portal":   ("🔵",  "월드 포탈 (숫자 = 가는 스테이지, 숫자 없음 = 월드 출구)"),
     "box":      ("📦",  "상자 — 내 공격력만큼 날아가고, 날아간 거리만큼 힘이 줄어든다"),
     "gobP":     ("👺",  "고블린(순찰) — 막는다. 매 턴 바라보는 방향으로 1칸, 막히면 방향만 뒤집고 쉼. 1 맞으면 죽음"),
     "gobC":     ("😈",  "고블린(추적) — 막는다. 매 턴 플레이어 쪽으로 1칸(먼 축 우선, 동률이면 가로). 1 맞으면 죽음"),
     "cocoon":   ("🟣",  "누에고치 — 막는다. 1 이상 맞으면 파괴. **전부 부수면 목표 활성화**"),
-    "heal":     ("💚",  "회복 — 체력 +n. 지나가기만 해도 발동"),
-    "trap":     ("🔴",  "고추 (상시) — 숫자 = 피해량. 몇 번이든 다시 밟힌다"),
-    "trap1":    ("🟡",  "고추 (일회성) — 숫자 = 피해량. 한 번 쓰면 사라진다"),
-    "wallX":    ("🧱",  "벽 — 파괴 불가"),
-    "wallD":    ("🟧",  "벽 — 숫자 = 부수는 데 필요한 공격력 (ma)"),
+    "cookie":   ("🍪",  "쿠키 — 체력 +n. 지나가기만 해도 먹는다. 일회용"),
+    "trap":     ("🔴",  "가시 — 숫자 = 피해량. 몇 번이든 다시 밟힌다"),
+    "chili":    ("🌶️",  "칠리 — 체력 -1 (항상 1). 한 번 먹으면 사라진다. 때리면 부서진다"),
+    "wall":     ("🧱",  "벽 — 파괴 불가"),
+    "obstacle": ("🟧",  "장애물 — 숫자 = 부수는 데 필요한 공격력 (1 항아리, 2 기둥)"),
+    "plate":    ("🔘",  "발판 — 막는 개체가 **멈춰** 있어야 눌림. 전부 눌려야 목표 활성화"),
     "floor":    ("⬜",  "바닥"),
     "hole":     ("⬛",  "구멍 — 그 위에서 멈추면 낙하. 지나가는 것은 가능"),
 }
 
 
 def cell_for(ents, is_floor):
+    """칸 하나의 기호. 발판은 위에 무엇이 있어도 보이도록 뒤에 덧붙인다."""
+    sym, key = _top_symbol(ents, is_floor)
+    if any(e["obj_type"] == "plate" for e in ents):
+        return (LEGEND["plate"][0], "plate") if key in ("floor", "hole") else (sym + LEGEND["plate"][0], key)
+    return sym, key
+
+
+def _top_symbol(ents, is_floor):
     def find(t):
         return next((e for e in ents if e["obj_type"] == t), None)
     if find("player"):
@@ -39,19 +48,18 @@ def cell_for(ents, is_floor):
         return LEGEND["box"][0], "box"
     if find("cocoon"):
         return LEGEND["cocoon"][0], "cocoon"
-    walls = [e for e in ents if e["obj_type"] == "wall"]
-    if walls:
-        if any(w.get("ma", 0) == 0 for w in walls):
-            return LEGEND["wallX"][0], "wallX"
-        return LEGEND["wallD"][0] + str(walls[0]["ma"]), "wallD"
+    if find("wall"):
+        return LEGEND["wall"][0], "wall"
+    if (e := find("obstacle")):
+        return LEGEND["obstacle"][0] + str(e.get("ma", 1)), "obstacle"
     if (e := find("trap")):
-        key = "trap1" if e.get("once", False) else "trap"
-        return LEGEND[key][0] + str(e.get("atk", 0)), key
-    if (e := find("healItem")):
+        return LEGEND["trap"][0] + str(e.get("atk", 0)), "trap"
+    if find("chili"):
+        return LEGEND["chili"][0], "chili"
+    if (e := find("cookie")):
         h = e.get("heal", 1)
-        return LEGEND["heal"][0] + (str(h) if h != 1 else ""), "heal"
+        return LEGEND["cookie"][0] + (str(h) if h != 1 else ""), "cookie"
     return (LEGEND["floor"][0], "floor") if is_floor else (LEGEND["hole"][0], "hole")
-
 
 def render(path):
     raw = load(path)
@@ -64,8 +72,9 @@ def render(path):
         for x in range(w):
             here = [e for e in ents if e.get("x") == x and e.get("y") == y]
             sym, key = cell_for(here, tiles[y][x] != 0)
-            if key not in used:
-                used.append(key)
+            for k in [key] + (["plate"] if any(e["obj_type"] == "plate" for e in here) else []):
+                if k not in used:
+                    used.append(k)
             row.append(sym)
         grid.append(row)
 

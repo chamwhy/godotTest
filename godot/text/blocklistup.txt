@@ -2,11 +2,13 @@
 
 [o] - tile
 [o] - player
-[o] - wall
-[o] - destroyablewall - 1, 2
-[o] - trap - int, singleuse
-[o] - healitem
+[o] - wall (부서지지 않음)
+[o] - obstacle (장애물: 항아리 1, 기둥 2)
+[o] - trap (가시) - int
+[o] - chili (일회용, 항상 1)
+[o] - cookie
 [o] - movebox
+[o] - plate
 
 
 tile
@@ -17,14 +19,22 @@ player
 - ch: cur hp
 
 wall
-- ma: min_atk, 최소로 때려야 파괴되는 공격력 크기. 만약 0이라면 파괴되지 않는 벽
+- 없음. 부서지지 않는 벽
+
+obstacle
+- ma: min_atk, 최소로 때려야 파괴되는 공격력 크기 (1 항아리, 2 기둥)
 
 trap
 - atk: 밟을 시, 공격력
-- once: 일회용 여부
 
-healItem
-- 없음.
+chili
+- 없음. 밟으면 체력 1 감소 후 사라짐
+
+cookie
+- heal: 회복량 (기본 1)
+
+plate
+- 없음. 전부 눌려 있어야 클리어 포탈이 켜짐
 
 moveBox
 - 없음.

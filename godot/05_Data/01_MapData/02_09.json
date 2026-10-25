@@ -29,7 +29,7 @@
 		{"x": 1, "y": 1, "obj_type": "wall"},
 		{"x": 3, "y": 1, "obj_type": "wall"},
 		{"x": 5, "y": 1, "obj_type": "wall"},
-		{"x": 1, "y": 2, "obj_type": "wall", "ma": 2},
+		{"x": 1, "y": 2, "obj_type": "obstacle", "ma": 2},
 		{"x": 0, "y": 3, "obj_type": "wall"},
 		{"x": 5, "y": 3, "obj_type": "wall"},
 		{"x": 0, "y": 4, "obj_type": "wall"},

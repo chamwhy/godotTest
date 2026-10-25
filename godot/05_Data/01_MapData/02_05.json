@@ -27,7 +27,7 @@
 		{"x": 4, "y": 4, "obj_type": "trap", "atk": 3},
 		{"x": 5, "y": 0, "obj_type": "wall"},
 		{"x": 6, "y": 0, "obj_type": "wall"},
-		{"x": 5, "y": 1, "obj_type": "wall", "ma": 2},
+		{"x": 5, "y": 1, "obj_type": "obstacle", "ma": 2},
 		{"x": 5, "y": 2, "obj_type": "wall"},
 		{"x": 6, "y": 2, "obj_type": "wall"},
 		{"x": 0, "y": 3, "obj_type": "wall"},

@@ -16,31 +16,29 @@
 
 기호:
     .  바닥          _  구멍
-    W  벽(불괴)      w  벽 ma=1       V  벽 ma=2
-    C  누에고치      B  상자
-    P  플레이어      E  클리어 포탈   H  회복(+1)
-    1-6 상시 고추(atk=숫자)           a-f 일회성 고추(atk=1~6)
+    W  벽(불괴)      j  장애물 항아리(ma=1)   V  장애물 기둥(ma=2)
+    C  누에고치      B  상자          O  발판
+    P  플레이어      E  클리어 포탈   H  쿠키(+1)
+    1-3 가시(atk=숫자)                c  칠리(항상 -1)
     ^ v < >  고블린(순찰) — 글자가 바라보는 방향이 초기 진행 방향
     X  고블린(추적) — 매 턴 플레이어 쪽으로 1칸
 """
 import json, sys, os
 
-TRAP_ONCE = {c: i + 1 for i, c in enumerate("abcdef")}
 SYM = {
     ".": None, "_": "HOLE",
-    "W": ("wall", {}), "w": ("wall", {"ma": 1}), "V": ("wall", {"ma": 2}),
-    "C": ("cocoon", {}), "B": ("moveBox", {}),
-    "P": ("player", {}), "E": ("clear", {}), "H": ("healItem", {}),
+    "W": ("wall", {}), "j": ("obstacle", {"ma": 1}), "V": ("obstacle", {"ma": 2}),
+    "C": ("cocoon", {}), "B": ("moveBox", {}), "O": ("plate", {}),
+    "P": ("player", {}), "E": ("clear", {}), "H": ("cookie", {}),
+    "c": ("chili", {}),
     "^": ("goblin", {"move": "patrol", "dir": "U"}),
     "v": ("goblin", {"move": "patrol", "dir": "D"}),
     "<": ("goblin", {"move": "patrol", "dir": "L"}),
     ">": ("goblin", {"move": "patrol", "dir": "R"}),
     "X": ("goblin", {"move": "chase"}),
 }
-for d in "123456":
+for d in "123":
     SYM[d] = ("trap", {"atk": int(d)})
-for c, v in TRAP_ONCE.items():
-    SYM[c] = ("trap", {"atk": v, "once": True})
 
 
 def parse_block(text):

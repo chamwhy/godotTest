@@ -54,13 +54,13 @@
 		{
 			"x": 2,
 			"y": 2,
-			"obj_type": "wall",
+			"obj_type": "obstacle",
 			"ma": 1
 		},
 		{
 			"x": 4,
 			"y": 2,
-			"obj_type": "healItem"
+			"obj_type": "cookie"
 		},
 		{
 			"x": 2,

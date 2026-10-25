@@ -10,7 +10,7 @@ import sys
 from collections import deque
 from sim import load
 
-BLOCKING = {"wall", "cocoon", "moveBox"}
+BLOCKING = {"wall", "obstacle", "cocoon", "moveBox"}
 
 
 def analyze(path):
@@ -21,7 +21,7 @@ def analyze(path):
     player = next(e for e in ents if e["obj_type"] == "player")
     portals = {(e["x"], e["y"]): e for e in ents if e["obj_type"] == "worldPortal"}
     blocked = {(e["x"], e["y"]) for e in ents if e["obj_type"] in BLOCKING}
-    traps = {(e["x"], e["y"]): e for e in ents if e["obj_type"] == "trap"}
+    traps = {(e["x"], e["y"]): e for e in ents if e["obj_type"] in ("trap", "chili")}
 
     def floor(p):
         x, y = p
@@ -66,12 +66,12 @@ def analyze(path):
         print(f"   ✓ 전부 도달 가능")
     # 시작 칸 위험물
     if start in traps:
-        print(f"   ⚠ 시작 칸에 고추(atk {traps[start].get('atk')}) — 스폰 즉시 피해")
+        print(f"   ⚠ 시작 칸에 가시/칠리(피해 {traps[start].get('atk', 1)}) — 스폰 즉시 피해")
     # 경로 위 함정
     r = reach(start, set(portals))
     on_path = [t for t in traps if t in r]
     if on_path:
-        print(f"   허브 내 고추 {len(on_path)}개 {on_path} — 허브에서 체력이 깎인 채 스테이지 진입 가능")
+        print(f"   허브 내 가시/칠리 {len(on_path)}개 {on_path} — 허브에서 체력이 깎인 채 스테이지 진입 가능")
     return len(missed) == 0
 
 

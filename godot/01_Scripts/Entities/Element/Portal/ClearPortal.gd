@@ -23,6 +23,16 @@ func activate(tick: int) -> void:
 	ActionManager.record_new(self, tick, "activate", {}, "deactivate", {})
 	_check_occupant(tick)
 
+## 비활성화: 발판에서 무게가 떠나 조건이 다시 깨졌을 때.
+func deactivate(tick: int) -> void:
+	active = false
+	ActionManager.record_new(self, tick, "deactivate", {}, "activate", {})
+
+## 스폰 직후처럼 연출 없이 상태와 모습을 바로 맞출 때.
+func set_active_now(v: bool) -> void:
+	active = v
+	modulate.a = base_alpha
+
 ## 포탈은 element_settled(이동이 끝난 순간)로만 발동한다.
 ## 그래서 플레이어가 포탈 위에 선 채로 마지막 누에고치를 부수면
 ## 활성화는 되지만 settled가 다시 오지 않아 영원히 발동하지 않는다.

@@ -28,6 +28,7 @@ func reset() -> void:
 	worldPortals = {}
 	_pending_map_change = {}
 	_cocoons = []
+	_plates = []
 	_clear_portal = null
 
 
@@ -55,41 +56,66 @@ func take_pending_map_change() -> Dictionary:
 	return mc
 
 
-#region cocoon
-# ─── 클리어 조건: 누에고치 전멸 ──────────────────
-# 스폰 순서 보장: 누에고치 전부 → ClearPortal.
-# 따라서 포탈이 apply_data에서 is_gated()를 물으면 이미 누에고치 등록이 끝나 있다.
+#region gate
+# ─── 클리어 조건: 누에고치 전멸 + 발판 전부 눌림 ──────────────────
+# 스폰 순서 보장: 누에고치·발판 전부 → ClearPortal.
+# 따라서 포탈이 apply_data에서 is_gated()를 물으면 이미 등록이 끝나 있다.
+# 발판을 누를 상자·플레이어는 포탈보다 늦게 스폰되므로, 스폰이 다 끝난 뒤
+# sync_gate_after_spawn()으로 한 번 더 맞춘다.
 
 var _cocoons: Array = []       # Array[Cocoon]
+var _plates: Array = []        # Array[Plate]
 var _clear_portal = null       # ClearPortal 단일 참조 (스테이지당 하나)
 
 func register_cocoon(c) -> void:
 	if c not in _cocoons:
 		_cocoons.append(c)
 
+func register_plate(p) -> void:
+	if p not in _plates:
+		_plates.append(p)
+
 func register_clear_portal(p) -> void:
 	_clear_portal = p
 
-## 이 스테이지가 누에고치로 잠겨있는가.
-## 누에고치가 하나도 없으면 false → 포탈은 처음부터 활성.
+## 이 스테이지가 누에고치·발판으로 잠겨있는가.
+## 둘 다 없으면 false → 포탈은 처음부터 활성.
 func is_gated() -> bool:
-	for c in _cocoons:
-		if is_instance_valid(c):
-			return true
-	return false
+	return not (_all_cocoons_cleared() and _all_plates_pressed())
 
 ## 누에고치 하나가 파괴된 직후(hide_for_undo 이후) 호출.
 func notify_cocoon_destroyed(tick: int) -> void:
-	if not _all_cocoons_cleared():
+	refresh_gate(tick)
+
+## 조건이 바뀌었을 수 있는 순간(고치 파괴, 발판 눌림/떼짐)마다 호출.
+## 포탈을 켜고 끄는 것을 연출과 함께 기록한다. 발판이 떼지면 다시 꺼진다.
+func refresh_gate(tick: int) -> void:
+	if not is_instance_valid(_clear_portal):
 		return
-	if not is_instance_valid(_clear_portal) or _clear_portal.active:
-		return
-	_clear_portal.activate(tick)
+	var open := not is_gated()
+	if open and not _clear_portal.active:
+		_clear_portal.activate(tick)
+	elif not open and _clear_portal.active:
+		_clear_portal.deactivate(tick)
+
+## 스폰이 끝난 뒤 발판·포탈 상태를 놓인 그대로 맞춘다. 연출 없이 즉시.
+func sync_gate_after_spawn() -> void:
+	for p in _plates:
+		if is_instance_valid(p):
+			p.sync_pressed()
+	if is_instance_valid(_clear_portal):
+		_clear_portal.set_active_now(not is_gated())
 
 ## in_map 스캔 → undo 스냅샷과 자동 동기화(별도 카운터 없음).
 func _all_cocoons_cleared() -> bool:
 	for c in _cocoons:
 		if is_instance_valid(c) and c.in_map:
+			return false
+	return true
+
+func _all_plates_pressed() -> bool:
+	for p in _plates:
+		if is_instance_valid(p) and p.in_map and not p.pressed:
 			return false
 	return true
 #endregion

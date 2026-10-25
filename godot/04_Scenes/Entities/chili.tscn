@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bsrgrsrdh6kkt"]
+
+[ext_resource type="Script" uid="uid://dpn50r0bo2v6x" path="res://01_Scripts/Entities/Element/Chili/Chili.gd" id="1_chili"]
+[ext_resource type="SpriteFrames" uid="uid://20uu2qjgbg3e" path="res://06_Animation/SpriteFrames/Chili/chili_frames.tres" id="2_chfrm"]
+
+[node name="Chili" type="Node2D"]
+script = ExtResource("1_chili")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_chfrm")
+autoplay = "default"
