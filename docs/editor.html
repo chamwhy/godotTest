@@ -574,7 +574,7 @@ function renderGrid(){
       c.dataset.count = here.length;
       for(const [e, i] of here){
         const n = artNode(e, 'span', 'ent');
-        if(e.obj_type === 'clear' && S.ents.some(o => o.obj_type === 'cocoon')) n.classList.add('gated');
+        if(e.obj_type === 'clear' && S.ents.some(o => o.obj_type === 'cocoon' || o.obj_type === 'plate')) n.classList.add('gated');
         n.draggable = true;
         n.dataset.idx = i;
         n.title = SPEC[e.obj_type] ? SPEC[e.obj_type].nm : e.obj_type;
@@ -764,6 +764,10 @@ function renderChecks(){
 
   const onHole = S.ents.filter(e => e.x >= 0 && e.y >= 0 && e.x < w && e.y < h && !S.tiles[e.y][e.x]);
   if(onHole.length) add('warn', `구멍 위 오브젝트 ${onHole.length}개 — 멈추는 순간 떨어진다`);
+
+  // MapLoader가 둘레에 padding 칸을 붙이는데 타일이 없다 → 가장자리는 벽이 아니라 낭떠러지
+  if(S.meta.padding > 0) add('ok', `맵 가장자리는 낭떠러지 — 둘레 여백 ${S.meta.padding}칸에 타일이 없어서 밖으로 나가면 떨어진다`);
+  else add('warn', '여백 0 — 이 맵만 가장자리가 벽처럼 막는다(다른 맵은 낭떠러지)');
 
   const cocoons = S.ents.filter(e => e.obj_type === 'cocoon').length;
   if(cocoons) add('ok', `누에고치 ${cocoons}개 — 전부 부숴야 목표 포탈이 열린다`);
