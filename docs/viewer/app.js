@@ -242,14 +242,17 @@
     if (!lv.hub) {
       const m = lv.metrics;
       const pct = m.alive ? Math.round((100 * m.locks) / m.alive) : 0;
+      // 판을 여는 조건(고치·발판)과 움직이는 것(돌·고블린) 중 이 맵에 있는 것만
+      const plates = lv.ents.filter((e) => e.t === "plate").length;
+      const parts = [["고치", m.cocoons], ["발판", plates], ["돌", m.boxes], ["고블린", m.goblins]].filter(([, n]) => n);
       info.append(h("div", { class: "stats" },
         stat("최단 수", m.shortest + "수"),
         stat("탐색 상태", m.states + "개", "도달 가능한 모든 상태 수"),
         stat("소프트락", `${pct}% (${m.locks}/${m.alive})`, "살아 있지만 이미 클리어가 불가능한 상태 비율"),
         stat("사망 · 낙하", `${m.dead} · ${m.fallen}`),
         stat("필수 감정", m.required.join(" · ") || "없음", "이 감정을 금지하면 클리어 불가"),
-        m.goblins ? stat("고치 · 돌 · 고블린", `${m.cocoons} · ${m.boxes} · ${m.goblins}`)
-                  : stat("고치 · 돌", `${m.cocoons} · ${m.boxes}`)));
+        parts.length ? stat(parts.map(([k]) => k).join(" · "), parts.map(([, n]) => n).join(" · "))
+                     : stat("고치 · 돌", "0 · 0")));
     }
     const rows = [];
     const add = (cls, k, v) => { if (v) rows.push(h("dt", { class: cls }, k), h("dd", null, v)); };
