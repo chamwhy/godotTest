@@ -6,7 +6,7 @@
 
 이식 대상: `Unit.action_dir/action2/move_to/attack`, `Player._set_hp`,
 `Trap/Chili/Cookie/Wall/Obstacle/Cocoon/Stone.on_hit`, `Plate`(멈춘 무게로 눌림),
-`GridManager.can_pass/has_tile/enter/step/settle`,
+`GridManager.can_pass/has_tile/map_size_in/enter/step/settle`(맵 둘레 padding 칸 = 타일 없는 빈 칸 → 맵 밖으로 나가면 떨어진다),
 `StageContext.is_gated/refresh_gate`, `ClearPortal.active`, `EntitySpawner.RANK`,
 `Goblin.take_turn`(순찰 반전 / 추적 축 우선순위 / 낙하 / 함정 사망).
 
@@ -25,6 +25,19 @@ python3 $T/render.py 02_10.json           # 기호 표(마크다운)로 지도 �
 python3 $T/build.py spec.txt .            # ASCII 스펙 -> 맵 JSON 생성
 ```
 
+## 엔진 재생 검증 (`engine_replay/`)
+
+시뮬레이터가 낸 최단 해답을 **실제 Godot 엔진**에서 한 수씩 재생해, 매 수 체력·위치가 같고
+마지막 수에 클리어되는지 본다. 시뮬레이터가 엔진과 어긋나는 곳을 잡는 용도다
+(2026-10-25에 이걸로 '맵 가장자리 = 벽' 오해를 찾아 고쳤다 — `docs/16_2월드_v4.md` 3절).
+
+```bash
+GODOT=/path/to/Godot_v4.7 tools/level_sim/engine_replay/run.sh            # 허브 뺀 모든 스테이지
+GODOT=/path/to/Godot_v4.7 tools/level_sim/engine_replay/run.sh 02_01 02_09 # 일부만
+```
+
+게임 프로젝트를 임시 폴더에 복사해 `Replay.gd`를 오토로드로 넣고 헤드리스로 돈다. 원본 프로젝트는 건드리지 않는다.
+
 ## 새 맵 체크리스트
 
 1. `sim.py` — 클리어 가능한가? 최단 수가 의도대로인가?
@@ -33,6 +46,7 @@ python3 $T/build.py spec.txt .            # ASCII 스펙 -> 맵 JSON 생성
 3. `verify.py` — **돌이 필요한 누에고치가 정말 돌 전용인가?**
    그리고 **⚠ 돌이 목표 포탈을 밟아 클리어되는** 배치가 아닌가?
 4. `render.py` — 지도를 눈으로 확인. 문서의 지도는 반드시 이걸로 생성한다.
+5. `engine_replay/run.sh` — 실제 엔진에서도 같은 해답으로 깨지는가?
 
 ## 절제(ablation) 검증의 한계
 
