@@ -17,6 +17,7 @@ bsk 게임 규칙 시뮬레이터 — GDScript 로직 1:1 이식 (origin/main �
   · Element.apply_data가 enter_element를 부르므로 스폰 시점에 entered가 발동한다.
   · 누에고치가 하나라도 남아 있거나 발판이 하나라도 안 눌려 있으면 clear 포탈이 비활성.
   · 칠리는 피해가 항상 1이다. 벽은 부서지지 않고, 부서지는 것은 장애물(obstacle)이다.
+  · 최대 체력 3: 3 평온(이동 1·공격 1) / 2 화남(이동 1·공격 2) / 1 격노(이동 2·공격 2).
   · 맵 가장자리는 벽이 아니다. 둘레의 padding 칸은 타일 없는 빈 칸이라 넘어가면 떨어진다.
 """
 import json, re, sys
@@ -47,7 +48,8 @@ def sign(v):
 
 
 def emo(hp):
-    return "평온" if hp >= 4 else ("화남" if hp >= 2 else "격노")
+    """Player.get_player_emotion — 최대 체력 3: 3 평온 / 2 화남 / 1 격노"""
+    return "평온" if hp >= 3 else ("화남" if hp == 2 else "격노")
 
 
 class Ent:
@@ -87,7 +89,8 @@ class Game:
 
     def initial(self):
         """스폰을 실제로 실행해서 초기 상태를 만든다 (스폰 시점 entered 포함)."""
-        ctx = Ctx(self, set(), {}, None, None, self.player.d.get("ch", self.max_hp), {})
+        # Unit._set_hp가 0..max_hp로 자른다
+        ctx = Ctx(self, set(), {}, None, None, min(self.player.d.get("ch", self.max_hp), self.max_hp), {})
         for e in self.ents:
             if e.type == "stone":
                 ctx.boxes[e.id] = (e.x, e.y)
@@ -140,7 +143,7 @@ class Ctx:
 
     # ── 감정 (Player._set_hp)
     def atk_pow(self):
-        return 1 if self.hp >= 4 else 2
+        return 1 if self.hp >= 3 else 2
 
     def move_speed(self):
         return 2 if self.hp <= 1 else 1

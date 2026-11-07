@@ -13,7 +13,7 @@
   const RANK = { trap: 0, chili: 0, plate: 0, wall: 1, obstacle: 1, cookie: 2, cocoon: 3, worldPortal: 10, clear: 11, stone: 20, goblin: 50, player: 90 };
   const GOB_TINT = Object.assign({ patrol: "#c0e080", chase: "#e08080" }, D.draw.goblinTint || {});   // Goblin._apply_kind_look
   const EMO = ["평온", "화남", "격노"];
-  const emoOf = (hp) => (hp >= 4 ? 0 : hp >= 2 ? 1 : 2);
+  const emoOf = (hp) => (hp >= 3 ? 0 : hp === 2 ? 1 : 2);   // 최대 체력 3: 3 평온 / 2 화남 / 1 격노
   const ARROW = { U: "↑", D: "↓", L: "←", R: "→" };
 
   let cell = window.innerWidth < 600 ? 22 : 30;   // 시트의 한 칸 크기(px) — 모든 맵 동일 축척
@@ -150,7 +150,7 @@
           if (num) ctx.drawImage(IMG[num], X, Y, T, T);
           break;
         }
-        case "player": img = first(D.draw.player[emoOf(lv.startHp ?? e.ch ?? 6)]); break;
+        case "player": img = first(D.draw.player[emoOf(lv.startHp ?? e.ch ?? 3)]); break;
       }
       if (img) ctx.drawImage(IMG[img], X, Y, T, T);
       ctx.restore();

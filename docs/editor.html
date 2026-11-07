@@ -391,8 +391,8 @@ const RANK = {trap:0, chili:0, plate:0, wall:1, obstacle:1, cookie:2, cocoon:3, 
 
 const SPEC = {
   player:      {nm:'플레이어', g:'P', key:'1', fields:[
-                  {k:'mh', t:'num', def:6, lb:'최대 체력'},
-                  {k:'ch', t:'num', def:6, lb:'시작 체력'}]},
+                  {k:'mh', t:'num', def:3, lb:'최대 체력'},
+                  {k:'ch', t:'num', def:3, lb:'시작 체력'}]},
   clear:       {nm:'목표 포탈', g:'E', key:'2', fields:[
                   {k:'to_w', t:'num', def:0, lb:'가는 월드'},
                   {k:'to_s', t:'num', def:0, lb:'가는 스테이지'}]},
@@ -446,13 +446,13 @@ function migrateEnt(e){
 const first = x => Array.isArray(x) ? first(x[0]) : x;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const hash32 = (a, b) => { let x = (a * 73856093) ^ (b * 19349663); x = (x ^ (x >>> 13)) * 1274126177; return (x ^ (x >>> 16)) >>> 0; };
-const emoTier = hp => hp >= 4 ? 0 : hp >= 2 ? 1 : 2;
+const emoTier = hp => hp >= 3 ? 0 : hp === 2 ? 1 : 2;   // 최대 체력 3: 3 평온 / 2 화남 / 1 격노
 
 function spriteOf(e){
   if(!DRAW) return null;
   try{
     switch(e.obj_type){
-      case 'player':      return first(DRAW.player[emoTier(e.ch ?? 6)]);
+      case 'player':      return first(DRAW.player[emoTier(e.ch ?? 3)]);
       case 'trap':        return first(DRAW.trap[clamp((e.atk ?? 1) - 1, 0, 2)]);
       case 'chili':       return first(DRAW.chili);
       case 'wall':        return first(DRAW.wall[hash32(e.x, e.y) % DRAW.wall.length]);
@@ -474,7 +474,7 @@ function badgeOf(e){
   if(e.obj_type === 'trap')        return String(e.atk ?? 1);
   if(e.obj_type === 'worldPortal'){ const n = e.num ?? e.to_s ?? 0; return n ? String(n) : '出'; }
   if(e.obj_type === 'goblin')      return e.move === 'chase' ? '!' : ({U:'↑',D:'↓',L:'←',R:'→'}[e.dir ?? 'R']);
-  if(e.obj_type === 'player')      return String(e.ch ?? 6);
+  if(e.obj_type === 'player')      return String(e.ch ?? 3);
   return '';
 }
 
@@ -906,8 +906,8 @@ function buildSpec(){
   const p = S.ents.find(e => e.obj_type === 'player');
   const c = S.ents.find(e => e.obj_type === 'clear');
   const L = [`world: ${S.meta.world}`, `stage: ${S.meta.stage}`, `name: ${S.meta.map_name || ''}`];
-  if(p && (p.ch ?? 6) !== 6) L.push(`hp: ${p.ch}`);
-  if(p && (p.mh ?? 6) !== 6) L.push(`mh: ${p.mh}`);
+  if(p && (p.ch ?? 3) !== 3) L.push(`hp: ${p.ch}`);
+  if(p && (p.mh ?? 3) !== 3) L.push(`mh: ${p.mh}`);
   L.push(`zoom: ${S.meta.zoom}`);
   if(S.meta.padding !== 2) L.push(`padding: ${S.meta.padding}`);
   if(c) L.push(`to: ${c.to_w ?? 0},${c.to_s ?? 0}`);

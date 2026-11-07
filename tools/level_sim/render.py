@@ -80,7 +80,7 @@ def render(path):
 
     p = next((e for e in ents if e["obj_type"] == "player"), None)
     hp = p.get("ch", p.get("mh", 1)) if p else "?"
-    em = "평온" if hp >= 4 else ("화남" if hp >= 2 else "격노")
+    em = "평온" if hp >= 3 else ("화남" if hp == 2 else "격노")
 
     out = [f"### `{path}` — 「{raw.get('map_name','')}」  ({w}×{h}, 시작 체력 {hp} = {em})\n"]
     out.append("| |" + "|".join(f" x={x} " for x in range(w)) + "|")

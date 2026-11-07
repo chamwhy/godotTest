@@ -12,7 +12,7 @@
 		[1, 1, 1, 1, 1, 1],
 	],
 	"entities": [
-		{"x": 0, "y": 0, "obj_type": "player", "mh": 3, "ch": 6},
+		{"x": 0, "y": 0, "obj_type": "player", "mh": 3, "ch": 3},
 		{"x": 3, "y": 0, "obj_type": "goblin", "move": "patrol", "dir": "L"},
 		{"x": 5, "y": 0, "obj_type": "clear", "to_w": 3, "to_s": 0},
 	]

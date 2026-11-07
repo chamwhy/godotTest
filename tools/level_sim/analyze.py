@@ -3,7 +3,7 @@ import sys, copy
 from collections import deque
 from sim import Game, load, emo
 
-TIER = lambda hp: 1 if hp <= 1 else (2 if hp <= 3 else 3)
+TIER = lambda hp: 1 if hp <= 1 else (2 if hp == 2 else 3)   # 최대 체력 3: 3 평온 / 2 화남 / 1 격노
 TIER_NAME = {1: "격노", 2: "화남", 3: "평온"}
 
 
