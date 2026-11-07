@@ -25,10 +25,11 @@ func set_player_emotion(emotion: PlayerEmotion) -> void:
 		cur_emotion = emotion
 		player_emotion_changed.emit(cur_emotion)
 
+## 최대 체력 3: 3 평온 / 2 화남 / 1 격노
 func get_player_emotion(hp: int) -> PlayerEmotion:
-	if 4 <= hp:
+	if 3 <= hp:
 		return PlayerEmotion.CALM
-	elif 2 <= hp:
+	elif 2 == hp:
 		return PlayerEmotion.ANGRY
 	else:
 		return PlayerEmotion.RAGE

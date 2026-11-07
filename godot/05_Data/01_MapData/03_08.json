@@ -18,7 +18,7 @@
 	"entities": [
 		{"x": 0, "y": 0, "obj_type": "cocoon"},
 		{"x": 2, "y": 0, "obj_type": "wall"},
-		{"x": 4, "y": 0, "obj_type": "player", "mh": 6, "ch": 6},
+		{"x": 4, "y": 0, "obj_type": "player", "mh": 3, "ch": 6},
 		{"x": 2, "y": 1, "obj_type": "goblin", "move": "patrol", "dir": "R"},
 		{"x": 0, "y": 2, "obj_type": "wall"},
 		{"x": 2, "y": 2, "obj_type": "wall"},

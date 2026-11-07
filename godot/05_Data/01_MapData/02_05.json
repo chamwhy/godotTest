@@ -30,7 +30,7 @@
 		{"x": 3, "y": 2, "obj_type": "wall"},
 		{"x": 4, "y": 2, "obj_type": "wall"},
 		{"x": 5, "y": 2, "obj_type": "wall"},
-		{"x": 0, "y": 3, "obj_type": "player", "mh": 6},
+		{"x": 0, "y": 3, "obj_type": "player", "mh": 3},
 		{"x": 3, "y": 3, "obj_type": "trap", "atk": 3},
 		{"x": 0, "y": 4, "obj_type": "wall"},
 		{"x": 2, "y": 4, "obj_type": "wall"},
