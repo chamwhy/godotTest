@@ -45,7 +45,7 @@
 		{"x": 3, "y": 4, "obj_type": "stone"},
 		{"x": 4, "y": 4, "obj_type": "obstacle", "ma": 2},
 		{"x": 5, "y": 4, "obj_type": "plate"},
-		{"x": 0, "y": 5, "obj_type": "player", "mh": 6},
+		{"x": 0, "y": 5, "obj_type": "player", "mh": 3},
 		{"x": 6, "y": 5, "obj_type": "trap", "atk": 2},
 		{"x": 5, "y": 6, "obj_type": "chili"},
 		{"x": 0, "y": 7, "obj_type": "clear", "to_w": 2, "to_s": 0},

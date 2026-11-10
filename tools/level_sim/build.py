@@ -5,7 +5,7 @@
     world: 2
     stage: 1
     name: cocoon
-    hp: 6            # 생략 시 6 (mh는 항상 6)
+    hp: 3            # 생략 시 3 (mh는 항상 3)
     zoom: 0.7
     to: 2,0          # clear 포탈 목적지 (생략 시 world,0)
     grid:
@@ -93,10 +93,10 @@ def build(text):
 
     world = int(meta["world"])
     stage = int(meta["stage"])
-    hp = int(meta.get("hp", 6))
+    hp = int(meta.get("hp", 3))
     for e in entities:
         if e["obj_type"] == "player":
-            e["mh"] = int(meta.get("mh", 6))
+            e["mh"] = int(meta.get("mh", 3))
             e["ch"] = hp
         elif e["obj_type"] == "clear":
             tw, ts = (meta.get("to", f"{world},0")).split(",")

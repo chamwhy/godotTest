@@ -135,8 +135,8 @@ def sfx_in(script):
 # 오브젝트별 사람이 읽는 설명 (변형이 언제 쓰이는지는 코드 근거로 적는다)
 OBJECT_INFO = {
     "player": {"name": "플레이어", "art": "흰 캐릭터 — 감정에 따라 뿔·표정이 바뀐다",
-               "frames": [("frame1", "평온 (체력 4~6) · 이동 1 / 공격 1"),
-                          ("frame2", "화남 (체력 2~3) · 이동 1 / 공격 2"),
+               "frames": [("frame1", "평온 (체력 3) · 이동 1 / 공격 1"),
+                          ("frame2", "화남 (체력 2) · 이동 1 / 공격 2"),
                           ("frame3", "격노 (체력 1) · 이동 2 / 공격 2")],
                "code": "PlayerAnimator._on_emotion_changed — 감정이 바뀔 때 frame1/2/3 교체"},
     "trap": {"name": "가시", "art": "가시 개수 = 피해량",
